@@ -1,0 +1,685 @@
+<resources>
+    <string name="app_name" translatable="false">Faveo Servicedesk Pro</string>
+
+    <string name="title_activity_client_profile" translatable="false">ClientProfile</string>
+    <string name="title_activity_forgot_password" translatable="false">ForgotPassword</string>
+    <string name="title_activity_save" translatable="false">SaveTicket</string>
+    <string name="title_activity_splash" translatable="false">Faveo</string>
+    <string name="title_activity_ticket_detail" translatable="false">TicketDetail</string>
+    <string name="create_ticket_disabled_message" translatable="false">Disabled</string>
+    <string name="static_shortcut_long_label" translatable="false">Create a new ticket</string>
+    <string name="static_shortcut_short_label" translatable="false">Create ticket</string>
+    <string name="drawer_open" translatable="false">Open</string>
+    <string name="drawer_close" translatable="false">Close</string>
+
+    <string name="title_activity_main" translatable="false">Faveo</string>
+    <string name="create_ticket">Create ticket</string>
+    <string name="my_tickets">My tickets</string>
+    <string name="unassigned_tickets">Unassigned tickets</string>
+    <string name="closed_tickets">Closed tickets</string>
+    <string name="client_list">Client list</string>
+    <string name="settings">Settings</string>
+    <string name="about">About</string>
+    <string name="action_search">Search</string>
+    <string name="action_settings" translatable="false">Settings</string>
+    <string name="title_activity_notification">Notifications</string>
+
+    <string name="search_result">Search Result!</string>
+    <string name="search_hint">Search…</string>
+    <string name="menu_search">Search</string>
+    <string name="just_now">Just now</string>
+    <string name="title_activity_create_ticket" translatable="false">CreateTicketActivity</string>
+    <string name="title_activity_search" translatable="false">SearchActivity</string>
+    <string name="section_format" translatable="false">Hello World from section: %1$d</string>
+    <string name="blue_name" translatable="false">blue</string>
+    <string name="internal_note">Internal Notes</string>
+    <string name="dummy_title" translatable="false">Dummy title</string>
+    <string name="dummy_name" translatable="false">Client Name</string>
+    <string name="profile">Profile</string>
+    <string name="dummy_mail_id" translatable="false">example@gmail.com</string>
+    <string name="company" translatable="false">Company</string>
+    <string name="status">Status</string>
+    <string name="email">Requestor/Email id </string>
+    <string name="email1">Email</string>
+    <string name="reset_password">Reset password</string>
+    <string name="helpdesk_url">Servicedesk URL</string>
+    <string name="user_name">User Name</string>
+    <string name="password">Password</string>
+    <string name="sign_in">Sign In</string>
+    <string name="api_key_optional">API Key(Optional)</string>
+    <string name="empty_username">Empty username</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="inbox">Inbox</string>
+    <string name="loading">Loading…</string>
+    <string name="message">Message</string>
+    <string name="create">Create</string>
+    <string name="reply">Reply</string>
+    <string name="cc" translatable="false">Cc</string>
+    <string name="send">Send</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="phone">Phone</string>
+    <string name="add">ADD</string>
+    <string name="aaaa_0001_0000001" translatable="false">#AAAA–0001–0000001</string>
+    <string name="dummy_sub" translatable="false">Subject of the ticket test string abcdefghijklmnopqrstuvwxyz</string>
+    <string name="overdue">Overdue</string>
+    <string name="required">Required</string>
+    <string name="rquiredfields">Please select the show</string>
+    <string name="img_name" translatable="false">img_name</string>
+    <string name="_300_kb" translatable="false">(300 kb)</string>
+    <string name="sla_plans">SLA Plans</string>
+    <string name="helptopic">Helptopic</string>
+    <string name="deparment">Department</string>
+    <string name="priority">Priority</string>
+    <string name="subject">Subject</string>
+    <string name="email_address" translatable="false">Email Address</string>
+    <string name="version_2_0" translatable="false">Version: 2.0</string>
+    <string name="faveo_helpdesk" translatable="false">Faveo HELPDESK</string>
+    <string name="faveo_content">Headquartered in Bangalore, Faveo Helpdesk provides Businesses with an automated Helpdesk system to manage customer support.  The word Faveo comes from Latin which means to be favourable. Which truly highlights vision and the scope as well as the functionality of the product that Faveo is. It is specifically designed to cater the needs of startups and SME’s empowering them with state of art, ticket based support system. In today’s competitive startup scenario customer retention is one of the major challenges. Handling client query diligently is all the difference between retaining or losing a long lasting relationship. The company is driven with passion of providing tools for managing consumer queries for strategic insights and helping companies take those decisive decisions.</string>
+    <string name="website">Website</string>
+    <string name="faveo_url" translatable="false">www.faveohelpdesk.com</string>
+    <string name="submit">Submit</string>
+    <string name="not_available">Not Available</string>
+    <string name="source">Source</string>
+    <string name="due_date">Due Date</string>
+    <string name="created_date">Created Date</string>
+    <string name="last_response_date">Last Response Date</string>
+    <string name="assign_to" translatable="false">Assigned To</string>
+    <string name="assigneeName">Agent Name</string>
+    <string name="save">Save</string>
+    <string name="trash">Trash</string>
+    <string name="logout">Logout</string>
+    <string name="ticket_list"> Show ticket list</string>
+    <string name="no_records">No Records!</string>
+    <string name="no_internet_connection">No internet connection!</string>
+    <string name="send_crash_reports">Send crash reports</string>
+    <string name="crash_reports">CRASH REPORTS</string>
+    <string name="descending">Descending</string>
+    <string name="ascending">Ascending</string>
+    <string name="sort_by">Sort by</string>
+    <string name="due_by_time">Due by time</string>
+    <string name="due_by_date">Due by date</string>
+    <string name="gallery">Gallery</string>
+    <string name="search">Search....</string>
+    <string name="oops_no_internet">Oops! No internet</string>
+    <string name="unexpected_error">Unexpected Error</string>
+    <string name="fetching_tickets">Fetching tickets</string>
+    <string name="sry_not_connected_to_internet">Sorry! Not connected to internet</string>
+    <string name="connected_to_internet">Connected to Internet</string>
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="creating_ticket">Creating ticket</string>
+    <string name="ticket_created_success">Ticket created successfully!</string>
+    <string name="error_creating_ticket">ERROR! Failed to create ticket</string>
+    <string name="fill_all_the_details">Please fill all the required fields</string>
+    <string name="fill_firstname">Fill FirstName</string>
+    <string name="firstname_minimum_char">FirstName should be minimum 3 characters</string>
+    <string name="firstname_maximum_char">FirstName should not exceed 20 characters</string>
+    <string name="fill_lastname">Fill LastName</string>
+    <string name="invalid_email">Please enter valid email id</string>
+    <string name="sub_must_not_be_empty">Subject must not be empty</string>
+    <string name="msg_must_not_be_empty">Message must not be empty</string>
+    <string name="sub_minimum_char">Subject must have atleast 5 characters</string>
+    <string name="msg_minimum_char">Message must have atleast 10 characters</string>
+    <string name="you_hvent_picked_anything">You haven\'t picked anything!</string>
+    <string name="welcome">Welcome!</string>
+    <string name="dummy_date" translatable="false">6th Dec 2016</string>
+    <string name="client_name">Client name</string>
+    <string name="sorting_type">Sorting type</string>
+    <string name="sort">Sort</string>
+    <string name="ex_number" translatable="false">EX:+91 9999999999</string>
+    <string name="dummy_num" translatable="false">Unavailable</string>
+    <string name="all_caught_up">All tickets are loaded!</string>
+    <string name="allClientsLoaded">All clients are loaded</string>
+    <string name="enter_valid_email">Enter a valid Mail ID</string>
+    <string name="updating_ticket">Updating ticket</string>
+    <string name="tickets">Tickets</string>
+    <string name="users">Users</string>
+    <string name="customers">Customers</string>
+    <string name="restart_app">To apply the changes in settings, you must restart the app!</string>
+    <string name="restarting">Restarting…</string>
+    <string name="press_again_exit">Press again to EXIT!</string>
+    <string name="active">ACTIVE</string>
+    <string name="inactive">INACTIVE</string>
+    <string name="no_clients">No Clients!</string>
+    <string name="no_results_found">No Results found!</string>
+    <string name="update_success">Successfully Updated</string>
+    <string name="failed_to_update_ticket">Failed to update ticket</string>
+    <string name="please_fill_field">Please fill the field</string>
+    <string name="fetching_detail">Fetching detail</string>
+    <string name="please_enter_valid_url">Please enter a valid url</string>
+    <string name="invalid_url">Invalid URL</string>
+    <string name="error_verifying_url">Please check your Helpdesk URL</string>
+    <string name="format_error">URL should be in this format \n domainname/foldername \n eg: faveohelpdesk.in/test</string>
+    <string name="access_denied">Access denied!</string>
+    <string name="please_purchase_faveo">Please purchase Faveo PRO edition to use this app.</string>
+    <string name="ok">OK</string>
+    <string name="error_checking_pro">Error, while checking Access to Pro Edition!</string>
+    <string name="signing_in">Signing in…</string>
+    <string name="wrong_credentials">Wrong Credentials</string>
+    <string name="error">Error</string>
+    <string name="verifying_url">Verifying URL</string>
+    <string name="access_checking">Access checking!</string>
+    <string name="restart_app_tittle">Restart App ?</string>
+    <string name="done_loading">Done Loading!</string>
+    <string name="creating_note">Creating note</string>
+    <string name="wrong_user_id">Wrong userID</string>
+    <string name="invalid_cc">Invalid Cc</string>
+    <string name="sending_msg">Sending message</string>
+    <string name="internal_notes_posted">Internal notes posted</string>
+    <string name="posted_reply">Posted your reply</string>
+    <string name="conversation">Conversation</string>
+    <string name="detail">Details</string>
+    <string name="open_ticket">OPEN TICKET</string>
+    <string name="closed_ticket">CLOSED TICKET</string>
+    <string name="ticket_type" translatable="false">Ticket Type </string>
+    <string name="code" translatable="false">Code</string>
+    <string name="mobile" translatable="false">Mobile</string>
+    <string name="name" translatable="false">Name</string>
+    <string name="only_special_characters_not_allowed_here">Only special characters not allowed here</string>
+    <!--<string name="sub_must_not_exceed">Subject must not exceed 100 characters</string>-->
+    <string name="please_select_some_priority">Please select some Priority</string>
+    <string name="select_some_helptopic">Please select some helptopic</string>
+    <string name="select_code">Please select the code</string>
+    <string name="select_source">Please select some Source</string>
+    <string name="due_today">DueToday</string>
+    <string name="status_closed">Status changed to closed.</string>
+    <string name="status_deleted">Moved to trash</string>
+    <string name="status_opened">Status changed to open</string>
+    <string name="status_resolved">Status changed to resolved</string>
+    <string name="statusHalt">Status changed to Halt-SLA</string>
+    <string name="status_request_for_close">Status changed to request for close</string>
+    <string name="please_select_ticket">Please select a ticket to change status</string>
+    <string name="please_select_status">Please select one status</string>
+    <string name="select_both">Please select ticket and status</string>
+    <string name="ticket_already_open">Ticket is already opened</string>
+    <string name="ticket_already_closed">Ticket is already closed</string>
+    <string name="ticket_already_deleted">Ticket is already in trash</string>
+    <string name="ticket_alreday_resolved">Ticket is already resolved</string>
+    <string name="assignedto">Assign to</string>
+    <string name="selectstatus">Please select a status to change</string>
+    <string name="retry">Please try again</string>
+    <string name="permission">Access denied - You do not have permission to perform this action. Please contact your system administrator.</string>
+    <string name="pleasewait">Please wait</string>
+    <string name="noticket">Please press long hold on ticket to select multiple ticket</string>
+    <string name="sortbyasc">Sort by ascending</string>
+    <string name="sortbydesc">Sort by descending</string>
+    <string name="sortbyticketnoasc">Sort by ticket number ascending</string>
+    <string name="sortbyticketnodesc">Sort by ticket number descending</string>
+    <string name="saveticket">Ticket properties</string>
+    <string name="sortbyticketidasc">Sort by ticket id ascending</string>
+    <string name="sortbyticketiddesc">Sort by ticket id descending</string>
+    <string name="sortbypriorityasc">Sort by ticket priority ascending</string>
+    <string name="sortbyprioritydesc">Sort by ticket priority descending</string>
+    <string name="duebyasc">Due by ascending</string>
+    <string name="filterFragment">Filtered Tickets</string>
+    <string name="duebydesc">Due by descending</string>
+    <string name="updatedat">Sort by last update date </string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_ticket_save">TicketSaveActivity</string>
+    <string name="title_activity_ticketsave">Ticketsave</string>
+    <string name="ticketProperties">Ticket Properties</string>
+    <string name="addUser">Add Requestor</string>
+    <string name="filtration">Ticket filtration</string>
+    <string name="firstName">First name</string>
+    <string name="lastName">Last name</string>
+    <string name="companyName">Company name</string>
+    <string name="additionalDetails">Additional details can be filled on the web app.</string>
+    <string name="title_activity_register_user">RegisterUser</string>
+    <string name="fill_Firstname">Please provide first name</string>
+    <string name="fill_Lastname">Please provide last name</string>
+    <string name="registrationsuccesfull">You have succesfully registered on Faveo</string>
+    <string name="SelectAssignee">Select Assignee</string>
+    <string name="SelectHelptopic">Select Helptopic</string>
+    <string name="SelectPriority">Select Priority</string>
+    <string name="fullName">Please enter your first name</string>
+    <string name="collaborator">cc</string>
+    <string name="enteremail">Search for user</string>
+    <string name="searchuser">Show recipients</string>
+    <string name="addcollaborator">Add</string>
+    <string name="deleteuser">Delete collaborator</string>
+    <string name="collaboratorAdd">Collaborator</string>
+    <string name="collaboratoraddedsuccesfully">Successfully added the collaborator</string>
+    <string name="collaboratorNotFound">Sorry! collaborator not found</string>
+    <string name="collaboratorRemove">Successfully deleted the collaborator</string>
+    <string name="collaboratorEmpty">Please add or search for collabortor</string>
+    <string name="userEmpty">Sorry! user not found</string>
+    <string name="alreadysorted">Already sorted by the following criteria</string>
+    <string name="sortbyticketnumber">Ticket number</string>
+    <string name="sortbyticketid">Ticket id</string>
+    <string name="sortbypriority">Priority</string>
+    <string name="dueby">Due date</string>
+    <string name="createdat">Ticket created</string>
+    <string name="lastupdated">last updated</string>
+    <string name="filter">Filter</string>
+    <string name="filterticket">Filter tickets</string>
+    <string name="sortbytitle">Ticket title</string>
+    <string name="department">Department</string>
+    <string name="showsuggestions">Please enter 2 or more characters</string>
+    <string name="show">Show</string>
+    <string name="addcolla">Add collaborator</string>
+    <string name="emptyField">Please fill some fields</string>
+    <string name="assigned">Assigned/Unassigned</string>
+    <string name="customerFilter">Filter Customer</string>
+    <string name="editCustomer">Edit Customer Details</string>
+    <string name="saveCustomer">Save</string>
+    <string name="activeUser">Active Users</string>
+    <string name="inactiveUser">Inactive Users</string>
+    <string name="bannedUser">Banned Users</string>
+    <string name="deactivateUser">Change User Status</string>
+    <string name="roleAgent">Role Agent</string>
+    <string name="roleAdmin">Role Admin</string>
+    <string name="roleUser">Role User</string>
+    <string name="fillUsername">Please fill user name</string>
+    <string name="emailRequired">Please fill the email</string>
+    <string name="editedcustomerdetails">Successfully edited customer details</string>
+    <string name="Unassigned">Unassigned</string>
+    <string name="UserCreating">Registering the user</string>
+    <string name="activateUser">Activate User</string>
+    <string name="deactivateuser">Deactivate User</string>
+    <string name="allClientsLodaded">All clients are loaded</string>
+    <string name="requestornotfound">Requestor not found.Please add or search for new requestor.</string>
+    <string name="collaboratorExisting">Collaborator not found,please search from existing collaborators.</string>
+    <string name="deleteduser">Deactivated User</string>
+    <string name="mergeticket">Merge ticket</string>
+    <string name="title_activity_ticket_merge_acttivity">TicketMergeActtivity</string>
+    <string name="merge_ticket">Merge Tickets</string>
+    <string name="selectParentTicket">Select Parent Ticket</string>
+    <string name="title">Title</string>
+    <string name="reasonForMerging">Reason For Merging</string>
+    <string name="hintsForTitle">Title of the ticket</string>
+    <string name="reasonForMergingHint">Specify the reason for merging</string>
+    <string name="PleaseSelectParentTicket">Please select the parent ticket</string>
+    <string name="selectMultipleTicket">Select two or more tickets to merge</string>
+    <string name="mergingTicket">Merging Ticket</string>
+    <string name="successfullyMerged">Successfully merged the tickets</string>
+    <string name="ticketsFromDifferentUsers">Tickets can not be merged as tickets belong to different users.</string>
+    <string name="unsupportedFileType">Unsupported file type,either image,pdf or mp3 file is supported</string>
+    <string name="permissions_not_granted">Camera Permission Required To Perform This Action</string>
+    <string name="btn_ok">OK</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="closeFab">Exit</string>
+    <string name="showMore">Show More</string>
+    <string name="unassigned">Unassigned</string>
+    <string name="deleteTicket">Delete forever</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="AssignTickets">Assign Tickets</string>
+    <string name="selectAgent">Select Agent to Assign Tickets</string>
+    <string name="assignTicket">Assign Ticket</string>
+    <string name="multiAssign">Select two or more tickets to assign</string>
+    <string name="successfullyAssigned">Successfully assigned those tickets</string>
+    <string name="exit">Exit</string>
+    <string name="helpSection">Help Section</string>
+    <string name="helpsection">Help section</string>
+    <string name="login">Login</string>
+    <string name="logginginto">Logging into the android app</string>
+    <string name="ticket">Tickets</string>
+    <string name="managingTickets">Managing tickets in android app</string>
+    <string name="userDirectory">How to use the user directory</string>
+    <string name="userAndAgent">Users and agents</string>
+    <string name="other">Other features</string>
+    <string name="someOtheroptions">How to use some other features</string>
+    <string name="loggingIn">Logging in and logging out of the android app</string>
+    <string name="settingsAndInAppHelpSection">Settings and Help section</string>
+    <string name="logginginandout">Logging in and logging out of the Android app</string>
+    <string name="LoggingIn">1. Logging in and logging out</string>
+    <string name="logincontent">The Android app for Faveo lest you support your customers anytime from your smartphone or tablet
+        device.This solution will be a step-by-step walkthrough explaining to you everything you can do with the app. </string>
+    <string name="toLogIn">To log in into your app you need to use your helpdesk domain name,your agent email address and password.
+        Your domain name would be just the vanity URL where your helpdesk is present just an example support.yourcompany.com.</string>
+    <string name="toLogOut">To log out from the android app you need to click on the hamburger icon on the top left corner of the
+        main screen and then you have to select the log out option.Once you clicked then you will be logged out successfully
+        from the app.</string>
+    <string name="Ticket">Ticket</string>
+    <string name="dashboard">The Dashboard - Create ticket and ticket summary </string>
+    <string name="ticketGuide">The ticket guide - ticket list,search</string>
+    <string name="viewOfTicket">Ticket view and edit</string>
+    <string name="ticketDashboard">Ticket Dashboard</string>
+    <string name="dashboardContent">The dashboard shows you the summary of all tickets in your support and gives you an easy way to navigate within the app.To
+    see the dashboard you have to click on the hamburger icon on the top left corner of the main screen.The dashboard will give you the count of tickets
+    of different status in your helpdesk.</string>
+    <string name="ticketlist">Ticket list</string>
+    <string name="ticketSearch">Ticket search</string>
+    <string name="ticketview">Ticket view</string>
+    <string name="singleTicketView">Click on a ticket to open the conversation.Here you will be able to see all the conversation between the agent and the customer.
+    Here you will be able to see the status of the ticket and also the assignee to whom the ticket is assigned.If you swipe
+        to the right then you will be able to see all the ticket specific details like ticket subject,priority,type,
+        helptopic etc.</string>
+    <string name="ticketSave">Ticket edit</string>
+    <string name="howToEdit">To edit a ticket just click on the edit icon in the ticket detail page.Then you will get the
+        above screen where you will be able to change
+    the subject,assignee agent,priority,type,helptopic and source of the ticket.After selecting the value you have to press on
+        the save button and all the details will be changed of that ticket.</string>
+    <string name="ViewCustomersAndAgents">How to view and edit customers</string>
+    <string name="customerFilterWithEdit">How to filter customer</string>
+    <string name="customersAndAgents">Customers and agents</string>
+    <string name="viewOfCustomer">Customer view</string>
+    <string name="howToViewCustomer">To view customers in your helpdesk you have to click on the hamburger icon on the top left
+        corner of the main screen and you have to select the client list option to get the view of the customers and agents in
+        your helpdesk.If you click on any customers then it will open a new screen where you will be able to see the details about the customer and also you will be able to see
+    all the tickets related to the customer,all the open tickets will come under open ticket and close ticket will come under close ticket.Once you click on any ticket it will open the
+    ticket detail page.</string>
+    <string name="customerEdit">Customer edit</string>
+    <string name="howToFilterCustomer">How to filter customers and agents</string>
+    <string name="filteringCustomers">Filtering customers</string>
+    <string name="howtoselectmultipleticket">Selecting multiple tickets in android app</string>
+    <string name="changeStatus">How to change status of ticket</string>
+    <string name="assignMultipleTicket">Assigning multiple tickets</string>
+    <string name="mergingmultipleTickets">Merging multiple tickets</string>
+    <string name="someOtherFeatures">Some other features</string>
+    <string name="howToSelectMultipleTicket">To select multiple ticket at a time you have to long press on ticket,it will give you the option to select multiple tickets at a time.
+        Once you select the tickets then you have option to assign those tickets or changing the status of the tickets and you can also merge tickets if the tickets belong to the same user.
+
+    </string>
+    <string name="multipleStatus">To change status of a ticket you can click on that ticket,on the ticket detail page just click on the three dots on the top right corner of the page
+    then you will get the option to change the status like open,closed,resolved,move to trash.In case if you want to change the status of multiple tickets then you need to first select those tickets then you can select the three dots on the
+    main page and you will get the option to change the status.Just click on the status and the status will be change for the ticket or those tickets.</string>
+    <string name="selectingAgent">Select the agent</string>
+    <string name="multipleTicketAssign">To assign multiple tickets first you have to select the tickets and then you have to click on the three
+    dots located on the top right corner of the main screen and you have to select the assign ticket option then you will get the above screen
+    where you can select the agent name to whom you want to assign the tickets.You can just start typing the name of the agent then the suggestion will
+    load and you can select the value which you want.After that you can just click on the tick mark and those tickets will be assigned to the
+    agent.</string>
+    <string name="selectingTheTickets">Selecting the tickets</string>
+    <string name="mergingMultipleTickets">To merge multiple tickets first the selected tickets has to be from same customer only then you
+    will be able to merge tickets.Once you selected the tickets then you can click on the three dots on the top right corner and you can select the merge ticket option.If you
+    click on the merge ticket option you will get the above screen where you can select the ticket which you want to make parent,you can also
+    select the new title and the reason for merging the tickets.</string>
+    <string name="reachOutToUs">Reach Out To Us</string>
+    <string name="shareYourExperiance">Support</string>
+    <string name="supportEmailId">support@ladybirdweb.com</string>
+    <string name="messageandsubject">Please provide the message and subject</string>
+    <string name="submitFeedback">Submitting your feedback</string>
+    <string name="feedbackPosted">Thanks for giving your valuable feedback.Someone from our team will get back to you soon.</string>
+    <string name="selectSubject">Please select the subject</string>
+    <string name="selectMessage">Please select the message</string>
+    <string name="howToGiveFeedback">You can also give feedback or reach out to us at anytime.We do have option for providing feedback about the mobile app.For that
+    first you have to click on the hamburger icon on the top left corner of the main screen then you have to click on the settings
+        and help section link,once you open you will get one option as "Reach Out To Us".If you click then the above page
+        will open where you can provide the feedback or you can ask about any query regarding the app.</string>
+    <string name="chooseATopic">Choose a topic</string>
+    <string name="pleaseChooseATopic">Please select one topic</string>
+    <string name="pleaseSelectRequiredField">Please select all the required field</string>
+    <string name="ticketReply">Ticket Reply</string>
+    <string name="leaveYourMessage">Please leave your message here</string>
+    <string name="attachment">Attachment</string>
+    <string name="userLogIn">Sorry!User can not be able to log in to the app </string>
+    <string name="fill_username">Please provide the user name</string>
+    <string name="mobileCountryCode">For mobile number country code is required</string>
+    <string name="noTicket">No tickets found</string>
+    <string name="noUser">No users found</string>
+    <string name="roleChanged">Role has been changed!user can not use the app.</string>
+    <string name="fileSize">File size should not exceed 6 MB</string>
+    <string name="apiDisabled">Please enable the API from the web application.</string>
+    <string name="successfullyChanged">Successfully changed the status</string>
+    <string name="urlchange">Please check your helpdesk url,username and password!Some credentials may have changed.try to log in again with the new credentials.</string>
+    <string name="apidisabled">API is disabled for the web application</string>
+    <string name="enableApi">Please enable the API from the web application to use the app</string>
+    <string name="errorFaveo">Error in Faveo</string>
+    <string name="firstNameCharacter">First name can not contain only numbers</string>
+    <string name="lastNameCharacter">Last name can not contain only numbers</string>
+    <string name="validMobileNumber">Please provide valid mobile number</string>
+    <string name="registerUser">Registering user</string>
+    <string name="userConfirmation">Are you sure you want create the user?</string>
+    <string name="editUser">Editing user</string>
+    <string name="editConfirmation">Are you sure you want to edit the user?</string>
+    <string name="creatingTicket">Creating ticket</string>
+    <string name="createConfirmation">Are you sure you want to create the ticket?</string>
+    <string name="changingStatus">Changing status</string>
+    <string name="statusConfirmation">Are you sure you want to change the status?</string>
+    <string name="editingticket">Editing ticket</string>
+    <string name="editingConfirmation">Are you sure you want to make the changes?</string>
+    <string name="assigningTickets">Assigning tickets</string>
+    <string name="assigningConfirmation">Are you sure you want to assign these tickets?</string>
+    <string name="userStatus">User status</string>
+    <string name="changedUserStatus">Successfully changed user status</string>
+    <string name="confirmLogOut">Exit the application</string>
+    <string name="confirmMessage">Are you sure you want to exit?</string>
+    <string name="deleteTickets">Deleting tickets</string>
+    <string name="deleteConfirm">Are you sure you want to delete these tickets permanently?</string>
+    <string name="userstatus">Changing user status</string>
+    <string name="userStatusConfirm">Are you sure you want to change the user status?</string>
+    <string name="refreshingPage">Refreshing page</string>
+    <string name="refreshPage">Are you sure you want to refresh this page?</string>
+    <string name="refreshing">Refreshing!Please wait…</string>
+    <string name="makingCall">Making call</string>
+    <string name="makingCallConfirmation">Are you sure you want to make call?</string>
+    <string name="needPermissionToMakeCall">We need permission to make call</string>
+    <string name="searchRequestor">Search requestor</string>
+    <string name="addCollaborator">Add collaborator</string>
+    <string name="enterFirstName">Enter first name</string>
+    <string name="enterLastName">Enter last name</string>
+    <string name="enterPhoneNumber">Enter mobile number</string>
+    <string name="enterMobileNumber">Enter phone number</string>
+    <string name="need_help_with_your_servicedesk_url">Need help with your servicedesk URL?</string>
+    <string name="wondering_what_will_be_your_servicedesk_url">Wondering what will be your servicedesk URL?</string>
+    <string name="this_is_the_url">This is the URL where your service desk is installed.You can reach out to your IT admin to know more.</string>
+    <string name="addingCollaborator">Adding collaborator…</string>
+    <string name="collabConfirmation">"Are you sure you want to add this user as collaborator?"</string>
+    <string name="removingC">Removing collaborator</string>
+    <string name="editing">Editing user</string>
+    <string name="assets">Assets</string>
+    <string name="allAsset">All assets</string>
+    <string name="addAssest">Add asset</string>
+    <string name="for_more_information_please_drop_a_mail_to_support_ladybirdweb_com">For more information please drop a mail to support@ladybirdweb.com</string>
+    <string name="problems">Problems</string>
+    <string name="changes">Changes</string>
+    <string name="release">Release</string>
+    <string name="removingColl">"Removing collaborator…"</string>
+    <string name="removingCollConf">"Are you sure you want to remove this user as collaborator?"</string>
+    <string name="submittingConfirm">Are you sure you want to submit the feedback?</string>
+    <string-array name="CountryCodes">
+
+        <item>93,AF</item>
+        <item>355,AL</item>
+        <item>213,DZ</item>
+        <item>376,AD</item>
+        <item>244,AO</item>
+        <item>672,AQ</item>
+        <item>54,AR</item>
+        <item>374,AM</item>
+        <item>297,AW</item>
+        <item>61,AU</item>
+        <item>43,AT</item>
+        <item>994,AZ</item>
+        <item>973,BH</item>
+        <item>880,BD</item>
+        <item>375,BY</item>
+        <item>32,BE</item>
+        <item>501,BZ</item>
+        <item>229,BJ</item>
+        <item>975,BT</item>
+        <item>591,BO</item>
+        <item>387,BA</item>
+        <item>267,BW</item>
+        <item>55,BR</item>
+        <item>673,BN</item>
+        <item>359,BG</item>
+        <item>226,BF</item>
+        <item>95,MM</item>
+        <item>257,BI</item>
+        <item>855,KH</item>
+        <item>237,CM</item>
+        <item>1,CA</item>
+        <item>238,CV</item>
+        <item>236,CF</item>
+        <item>235,TD</item>
+        <item>56,CL</item>
+        <item>86,CN</item>
+        <item>61,CX</item>
+        <item>61,CC</item>
+        <item>57,CO</item>
+        <item>269,KM</item>
+        <item>242,CG</item>
+        <item>243,CD</item>
+        <item>682,CK</item>
+        <item>506,CR</item>
+        <item>385,HR</item>
+        <item>53,CU</item>
+        <item>357,CY</item>
+        <item>420,CZ</item>
+        <item>45,DK</item>
+        <item>253,DJ</item>
+        <item>670,TL</item>
+        <item>593,EC</item>
+        <item>20,EG</item>
+        <item>503,SV</item>
+        <item>240,GQ</item>
+        <item>291,ER</item>
+        <item>372,EE</item>
+        <item>251,ET</item>
+        <item>500,FK</item>
+        <item>298,FO</item>
+        <item>679,FJ</item>
+        <item>358,FI</item>
+        <item>33,FR</item>
+        <item>689,PF</item>
+        <item>241,GA</item>
+        <item>220,GM</item>
+        <item>995,GE</item>
+        <item>49,DE</item>
+        <item>233,GH</item>
+        <item>350,GI</item>
+        <item>30,GR</item>
+        <item>299,GL</item>
+        <item>502,GT</item>
+        <item>224,GN</item>
+        <item>245,GW</item>
+        <item>592,GY</item>
+        <item>509,HT</item>
+        <item>504,HN</item>
+        <item>852,HK</item>
+        <item>36,HU</item>
+        <item>91,IN</item>
+        <item>62,ID</item>
+        <item>98,IR</item>
+        <item>964,IQ</item>
+        <item>353,IE</item>
+        <item>44,IM</item>
+        <item>972,IL</item>
+        <item>39,IT</item>
+        <item>225,CI</item>
+        <item>81,JP</item>
+        <item>962,JO</item>
+        <item>7,KZ</item>
+        <item>254,KE</item>
+        <item>686,KI</item>
+        <item>965,KW</item>
+        <item>996,KG</item>
+        <item>856,LA</item>
+        <item>371,LV</item>
+        <item>961,LB</item>
+        <item>266,LS</item>
+        <item>231,LR</item>
+        <item>218,LY</item>
+        <item>423,LI</item>
+        <item>370,LT</item>
+        <item>352,LU</item>
+        <item>853,MO</item>
+        <item>389,MK</item>
+        <item>261,MG</item>
+        <item>265,MW</item>
+        <item>60,MY</item>
+        <item>960,MV</item>
+        <item>223,ML</item>
+        <item>356,MT</item>
+        <item>692,MH</item>
+        <item>222,MR</item>
+        <item>230,MU</item>
+        <item>262,YT</item>
+        <item>52,MX</item>
+        <item>691,FM</item>
+        <item>373,MD</item>
+        <item>377,MC</item>
+        <item>976,MN</item>
+        <item>382,ME</item>
+        <item>212,MA</item>
+        <item>258,MZ</item>
+        <item>264,NA</item>
+        <item>674,NR</item>
+        <item>977,NP</item>
+        <item>31,NL</item>
+        <item>599,AN</item>
+        <item>687,NC</item>
+        <item>64,NZ</item>
+        <item>505,NI</item>
+        <item>227,NE</item>
+        <item>234,NG</item>
+        <item>683,NU</item>
+        <item>850,KP</item>
+        <item>47,NO</item>
+        <item>968,OM</item>
+        <item>92,PK</item>
+        <item>680,PW</item>
+        <item>507,PA</item>
+        <item>675,PG</item>
+        <item>595,PY</item>
+        <item>51,PE</item>
+        <item>63,PH</item>
+        <item>870,PN</item>
+        <item>48,PL</item>
+        <item>351,PT</item>
+        <item>1,PR</item>
+        <item>974,QA</item>
+        <item>40,RO</item>
+        <item>7,RU</item>
+        <item>250,RW</item>
+        <item>590,BL</item>
+        <item>685,WS</item>
+        <item>378,SM</item>
+        <item>239,ST</item>
+        <item>966,SA</item>
+        <item>221,SN</item>
+        <item>381,RS</item>
+        <item>248,SC</item>
+        <item>232,SL</item>
+        <item>65,SG</item>
+        <item>421,SK</item>
+        <item>386,SI</item>
+        <item>677,SB</item>
+        <item>252,SO</item>
+        <item>27,ZA</item>
+        <item>82,KR</item>
+        <item>34,ES</item>
+        <item>94,LK</item>
+        <item>290,SH</item>
+        <item>508,PM</item>
+        <item>249,SD</item>
+        <item>597,SR</item>
+        <item>268,SZ</item>
+        <item>46,SE</item>
+        <item>41,CH</item>
+        <item>963,SY</item>
+        <item>886,TW</item>
+        <item>992,TJ</item>
+        <item>255,TZ</item>
+        <item>66,TH</item>
+        <item>228,TG</item>
+        <item>690,TK</item>
+        <item>676,TO</item>
+        <item>216,TN</item>
+        <item>90,TR</item>
+        <item>993,TM</item>
+        <item>688,TV</item>
+        <item>971,AE</item>
+        <item>256,UG</item>
+        <item>44,GB</item>
+        <item>380,UA</item>
+        <item>598,UY</item>
+        <item>1,US</item>
+        <item>998,UZ</item>
+        <item>678,VU</item>
+        <item>39,VA</item>
+        <item>58,VE</item>
+        <item>84,VN</item>
+        <item>681,WF</item>
+        <item>967,YE</item>
+        <item>260,ZM</item>
+        <item>263,ZW</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+
+
+</resources>

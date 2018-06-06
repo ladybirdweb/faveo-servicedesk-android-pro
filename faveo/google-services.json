@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "330395017006",
+    "firebase_url": "https://faveo-servicedesk-pro.firebaseio.com",
+    "project_id": "faveo-servicedesk-pro",
+    "storage_bucket": "faveo-servicedesk-pro.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:330395017006:android:5b63f1737fa67c6f",
+        "android_client_info": {
+          "package_name": "co.servicedesk.faveo.pro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "330395017006-udm09aj4b6vs4f423ki79ehjr8uc34kl.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "330395017006-udm09aj4b6vs4f423ki79ehjr8uc34kl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4_EfISjlfYr6g4W9HnnICCOChPPGkGDs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
