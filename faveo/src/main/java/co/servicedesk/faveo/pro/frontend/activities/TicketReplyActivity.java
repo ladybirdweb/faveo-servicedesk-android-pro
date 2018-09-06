@@ -2,38 +2,26 @@ package co.servicedesk.faveo.pro.frontend.activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
 import android.os.StrictMode;
-import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -46,6 +34,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.flipboard.bottomsheet.BottomSheetLayout;
+import com.flipboard.bottomsheet.commons.MenuSheetView;
 import com.kishan.askpermission.AskPermission;
 import com.kishan.askpermission.ErrorCallback;
 import com.kishan.askpermission.PermissionCallback;
@@ -66,8 +56,6 @@ import net.gotev.uploadservice.ServerResponse;
 import net.gotev.uploadservice.UploadInfo;
 import net.gotev.uploadservice.UploadStatusDelegate;
 
-//import org.apache.http.entity.mime.HttpMultipartMode;
-//import org.apache.http.entity.mime.MultipartEntity;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -76,7 +64,6 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -85,9 +72,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.UUID;
@@ -97,16 +82,15 @@ import javax.net.ssl.HttpsURLConnection;
 import co.servicedesk.faveo.pro.Constants;
 import co.servicedesk.faveo.pro.R;
 import co.servicedesk.faveo.pro.backend.api.v1.Helpdesk;
-import co.servicedesk.faveo.pro.frontend.adapters.TicketThreadAdapter;
-import co.servicedesk.faveo.pro.frontend.fragments.ticketDetail.Conversation;
-import co.servicedesk.faveo.pro.frontend.receivers.InternetReceiver;
 import co.servicedesk.faveo.pro.model.Data;
-import co.servicedesk.faveo.pro.model.TicketThread;
 import dmax.dialog.SpotsDialog;
 import es.dmoral.toasty.Toasty;
 
 import static com.vincent.filepicker.activity.AudioPickActivity.IS_NEED_RECORDER;
 import static com.vincent.filepicker.activity.ImagePickActivity.IS_NEED_CAMERA;
+
+//import org.apache.http.entity.mime.HttpMultipartMode;
+//import org.apache.http.entity.mime.MultipartEntity;
 
 public class TicketReplyActivity extends AppCompatActivity implements PermissionCallback, ErrorCallback {
     ImageView imageView;
@@ -143,6 +127,7 @@ public class TicketReplyActivity extends AppCompatActivity implements Permission
     String email;
     String term;
     ArrayList<String> strings;
+    BottomSheetLayout bottomSheet;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -158,11 +143,13 @@ public class TicketReplyActivity extends AppCompatActivity implements Permission
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(ContextCompat.getColor(TicketReplyActivity.this,R.color.faveo));
         button= (Button) findViewById(R.id.attachment);
+        bottomSheet= (BottomSheetLayout) findViewById(R.id.bottomsheet);
         attachment_layout= (RelativeLayout) findViewById(R.id.attachment_layout);
         attachmentFileName= (TextView) findViewById(R.id.attachment_name);
         imageButton= (ImageButton) findViewById(R.id.attachment_close);
         bottomNavigationView= (BottomNavigationView) findViewById(R.id.navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        //bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -176,17 +163,67 @@ public class TicketReplyActivity extends AppCompatActivity implements Permission
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if (bottomNavigationView.getVisibility()==View.GONE){
-                    bottomNavigationView.setVisibility(View.VISIBLE);
+                View view = TicketReplyActivity.this.getCurrentFocus();
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
-                else if (bottomNavigationView.getVisibility()==View.VISIBLE){
-                    bottomNavigationView.setVisibility(View.GONE);
-                }
+                MenuSheetView menuSheetView =
+                        new MenuSheetView(TicketReplyActivity.this, MenuSheetView.MenuType.LIST, "Choose...", new MenuSheetView.OnMenuItemClickListener() {
+                            @Override
+                            public boolean onMenuItemClick(MenuItem item) {
+                                if (bottomSheet.isSheetShowing()) {
+                                    bottomSheet.dismissSheet();
+                                }
+                                if (item.getItemId()==R.id.imageGalley){
+                                    gallery=2;
+                                    reqPermissionCamera();
+                                    return true;
+                                }
+                                else if (item.getItemId()==R.id.videoGallery){
+                                    camera=3;
+                                    reqPermissionCamera();
+                                    return true;
+                                }
+                                else if (item.getItemId()==R.id.musicGallery){
+                                    audio=4;
+                                    reqPermissionCamera();
+                                    return true;
+                                }
+                                else if (item.getItemId()==R.id.documentGallery){
+                                    document=1;
+                                    reqPermissionCamera();
+                                    return true;
+                                }
 
+                                return true;
+                            }
+                        });
+                menuSheetView.inflateMenu(R.menu.navigation);
+                bottomSheet.showWithSheetView(menuSheetView);
 
+//                if (bottomNavigationView.getVisibility()==View.GONE){
+//                    bottomNavigationView.setVisibility(View.VISIBLE);
+//                }
+//                else if (bottomNavigationView.getVisibility()==View.VISIBLE){
+//                    bottomNavigationView.setVisibility(View.GONE);
+//                }
             }
         });
+//        button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                if (bottomNavigationView.getVisibility()==View.GONE){
+//                    bottomNavigationView.setVisibility(View.VISIBLE);
+//                }
+//                else if (bottomNavigationView.getVisibility()==View.VISIBLE){
+//                    bottomNavigationView.setVisibility(View.GONE);
+//                }
+//
+//
+//            }
+//        });
         ticketID=Prefs.getString("TICKETid",null);
         buttonSend = (Button) findViewById(R.id.button_send);
         imageView= (ImageView) findViewById(R.id.imageViewBackTicketReply);
@@ -198,8 +235,7 @@ public class TicketReplyActivity extends AppCompatActivity implements Permission
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(TicketReplyActivity.this,TicketDetailActivity.class);
-                startActivity(intent);
+               finish();
             }
         });
         addCc.setOnClickListener(new View.OnClickListener() {
@@ -235,17 +271,7 @@ public class TicketReplyActivity extends AppCompatActivity implements Permission
     }
     @Override
     public void onBackPressed() {
-        if (!TicketDetailActivity.isShowing) {
-            Log.d("isShowing", "false");
-            Intent intent = new Intent(this, TicketDetailActivity.class);
-            startActivity(intent);
-        } else {
-            Intent intent = new Intent(this, TicketDetailActivity.class);
-            startActivity(intent);
-            Log.d("isShowing", "true");
-        }
-
-        super.onBackPressed();
+        finish();
     }
 
     public class SendPostRequest extends AsyncTask<String, Void, String> {
@@ -377,11 +403,11 @@ public class TicketReplyActivity extends AppCompatActivity implements Permission
                                         uploadInfo.getUploadId(), uploadInfo.getElapsedTime() / 1000,
                                         uploadInfo.getUploadRate(), serverResponse.getHttpCode(),
                                         serverResponse.getBodyAsString()));
-                                new FetchTicketThreads(TicketReplyActivity.this, Prefs.getString("TICKETid", null)).execute();
-//                                editTextReplyMessage.getText().clear();
-//                                Toasty.success(TicketReplyActivity.this, getString(R.string.posted_reply), Toast.LENGTH_LONG).show();
-//                                Intent intent = new Intent(TicketReplyActivity.this, TicketDetailActivity.class);
-//                                startActivity(intent);
+                                //new FetchTicketThreads(TicketReplyActivity.this, Prefs.getString("TICKETid", null)).execute();
+                                editTextReplyMessage.getText().clear();
+                                Toasty.success(TicketReplyActivity.this, getString(R.string.posted_reply), Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(TicketReplyActivity.this, MainActivity.class);
+                                startActivity(intent);
 
                             }
 
@@ -429,33 +455,33 @@ public class TicketReplyActivity extends AppCompatActivity implements Permission
     }
 
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_shop:
-                    gallery=2;
-                    reqPermissionCamera();
-                    return true;
-                case R.id.navigation_gifts:
-                    camera=3;
-                    reqPermissionCamera();
-                    return true;
-                case R.id.navigation_music:
-                    audio=4;
-                    reqPermissionCamera();
-                    return true;
-                case R.id.navigation_cart:
-                    document=1;
-                    reqPermissionCamera();
-                    return true;
-            }
-
-            return false;
-        }
-    };
+//    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+//            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+//
+//        @Override
+//        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//            switch (item.getItemId()) {
+//                case R.id.navigation_shop:
+//                    gallery=2;
+//                    reqPermissionCamera();
+//                    return true;
+//                case R.id.navigation_gifts:
+//                    camera=3;
+//                    reqPermissionCamera();
+//                    return true;
+//                case R.id.navigation_music:
+//                    audio=4;
+//                    reqPermissionCamera();
+//                    return true;
+//                case R.id.navigation_cart:
+//                    document=1;
+//                    reqPermissionCamera();
+//                    return true;
+//            }
+//
+//            return false;
+//        }
+//    };
 
     @Override
     public void onPermissionsGranted(int requestCode) {
@@ -666,7 +692,10 @@ public class TicketReplyActivity extends AppCompatActivity implements Permission
                 String message=jsonObject.getString("message");
 
                 if (message.contains("Successfully replied")){
-                    new FetchTicketThreads(TicketReplyActivity.this, Prefs.getString("TICKETid", null)).execute();
+                    Toasty.success(TicketReplyActivity.this, getString(R.string.posted_reply), Toast.LENGTH_LONG).show();
+                    Intent intent=new Intent(TicketReplyActivity.this,MainActivity.class);
+                    startActivity(intent);
+//                    new FetchTicketThreads(TicketReplyActivity.this, Prefs.getString("TICKETid", null)).execute();
 
                 }
             } catch (JSONException e) {

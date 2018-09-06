@@ -1,6 +1,5 @@
 package co.servicedesk.faveo.pro.frontend.activities;
 
-import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -14,30 +13,21 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.pixplicity.easyprefs.library.Prefs;
-
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -46,16 +36,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import butterknife.ButterKnife;
 import co.servicedesk.faveo.pro.R;
-import co.servicedesk.faveo.pro.frontend.adapters.MyPagerAdapter;
-import co.servicedesk.faveo.pro.frontend.adapters.TabsPagerAdapter;
 import co.servicedesk.faveo.pro.frontend.fragments.TicketFragment;
 import co.servicedesk.faveo.pro.frontend.fragments.UsersFragment;
 import co.servicedesk.faveo.pro.frontend.fragments.ticketDetail.Conversation;
 import co.servicedesk.faveo.pro.frontend.fragments.ticketDetail.Detail;
 import co.servicedesk.faveo.pro.frontend.receivers.InternetReceiver;
-import co.servicedesk.faveo.pro.model.Data;
 
 
 public class SearchActivity extends AppCompatActivity implements
@@ -90,6 +76,7 @@ public class SearchActivity extends AppCompatActivity implements
 
 // finally change the color
         window.setStatusBarColor(ContextCompat.getColor(SearchActivity.this,R.color.faveo));
+        imageViewback=findViewById(R.id.image_search_back);
         vpPager = (ViewPager) findViewById(R.id.viewpager);
         tabLayout= (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(vpPager);
@@ -106,7 +93,7 @@ public class SearchActivity extends AppCompatActivity implements
         //ViewPager vpPager = (ViewPager) findViewById(R.id.viewpager);
         //myAdapter = new TabsPagerAdapter(getSupportFragmentManager());
         //vpPager.setAdapter(myAdapter);
-        imageViewback= (ImageView) toolbar.findViewById(R.id.image_search_back);
+        //imageViewback= (ImageView) toolbar.findViewById(R.id.image_search_back);
         searchView= (AutoCompleteTextView) toolbar.findViewById(R.id.edit_text_search);
         imageViewClearText= (ImageView) toolbar.findViewById(R.id.cleartext);
         imageViewClearText.setVisibility(View.GONE);

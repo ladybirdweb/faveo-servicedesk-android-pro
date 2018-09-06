@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 //import android.content.DialogInterface;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.Loader;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -13,15 +14,19 @@ import android.os.Handler;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 //import android.support.v7.app.AlertDialog;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -44,6 +49,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.elyeproj.loaderviewlibrary.LoaderTextView;
 import com.github.javiersantos.bottomdialogs.BottomDialog;
 import com.gordonwong.materialsheetfab.MaterialSheetFab;
 import com.gordonwong.materialsheetfab.MaterialSheetFabEventListener;
@@ -66,6 +72,7 @@ import co.servicedesk.faveo.pro.backend.api.v1.Authenticate;
 import co.servicedesk.faveo.pro.backend.api.v1.Helpdesk;
 import co.servicedesk.faveo.pro.frontend.activities.TicketReplyActivity;
 import co.servicedesk.faveo.pro.frontend.activities.TicketSaveActivity;
+import co.servicedesk.faveo.pro.frontend.drawers.FragmentDrawer;
 import co.servicedesk.faveo.pro.frontend.fragments.ticketDetail.Conversation;
 import co.servicedesk.faveo.pro.frontend.fragments.ticketDetail.Detail;
 import co.servicedesk.faveo.pro.frontend.receivers.InternetReceiver;
@@ -87,41 +94,32 @@ import io.github.yavski.fabspeeddial.SimpleMenuListenerAdapter;
  */
 public class TicketDetailActivity extends AppCompatActivity implements
         Conversation.OnFragmentInteractionListener,
-        Detail.OnFragmentInteractionListener,View.OnClickListener {
-
+        Detail.OnFragmentInteractionListener,View.OnClickListener,FragmentDrawer.FragmentDrawerListener, NavigationView.OnNavigationItemSelectedListener{
+    private DrawerLayout mDrawerLayout;
     ViewPager viewPager;
     public ViewPagerAdapter adapter;
     Conversation fragmentConversation;
     Detail fragmentDetail;
-    Boolean fabExpanded = false;
-    int cx, cy;
-    Fab fab;
-    private MaterialSheetFab materialSheetFab;
-    View overlay;
-    EditText editTextInternalNote, editTextCC, editTextReplyMessage;
-    Button buttonCreate, buttonSend,buttonExit,buttonCancel;
+    EditText editTextInternalNote, editTextReplyMessage;
+    Button buttonCreate, buttonSend;
     ProgressDialog progressDialog;
     SpotsDialog dialog1;
-    private int statusBarColor;
     public static String ticketID, ticketNumber;
     TextView textView;
     String status;
     String title;
-    LinearLayout linearLayout;
-    TextView addCc;
-    View viewpriority,viewCollapsePriority;
+    TextView addCc,headerTitle;
+    View viewCollapsePriority;
     ImageView imgaeviewBack;
-    String cameFromNotification;
     public static boolean isShowing = false;
-    TextView textViewStatus, textviewAgentName, textViewTitle, textViewSubject,textViewDepartment;
+    LoaderTextView textViewStatus, textviewAgentName, textViewTitle,textViewSubject,textViewDepartment;
     ArrayList<Data> statusItems;
     int id = 0;
-    ProgressBar progressBar;
     FabSpeedDial fabSpeedDial;
     View view;
-    CoordinatorLayout coordinatorLayout;
-    private boolean isFabOpen;
+    NavigationView navigationView;
     private Menu menu;
+    TextView textViewDemo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -137,9 +135,18 @@ public class TicketDetailActivity extends AppCompatActivity implements
 // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(ContextCompat.getColor(TicketDetailActivity.this,R.color.faveo));
+       // imageView=findViewById(R.id.collaboratorview);
         //view=findViewById(R.id.overlay);
-        fabSpeedDial = (FabSpeedDial) findViewById(R.id.fab_speed_dial);
+        mDrawerLayout=findViewById(R.id.my_drawer_layout);
+        if (navigationView != null) {
+            setupDrawerContent(navigationView);
+            if (navigationView != null) {
+                navigationView.setNavigationItemSelectedListener(this);
+            }
+        }
 
+        fabSpeedDial = (FabSpeedDial) findViewById(R.id.fab_speed_dial);
+            navigationView=findViewById(R.id.nav_view);
 //       fabSpeedDial.setOnClickListener(this);
         fabSpeedDial.setMenuListener(new SimpleMenuListenerAdapter() {
             @Override
@@ -178,29 +185,49 @@ public class TicketDetailActivity extends AppCompatActivity implements
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
         Log.d("ticketDetailOnCreate","True");
         ticketID=Prefs.getString("TICKETid",null);
         AppBarLayout mAppBarLayout = (AppBarLayout) findViewById(R.id.appbar);
         Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbarTicketDetail);
         setSupportActionBar(mToolbar);
+        //mToolbar.setOverflowIcon(R.drawable.ic_action_attach_file);
+//        mToolbar.setOverflowIcon(ContextCompat.getDrawable(this, R.drawable.ic_action_attach_file));
+
         //Log.d("cameFromNotification",cameFromNotification);
         ticketNumber = getIntent().getStringExtra("ticket_number");
+
         //linearLayout= (LinearLayout) findViewById(R.id.section_internal_note);
         //mToolbar = (Toolbar) findViewById(R.id.toolbarTicketDetail);
-        textViewStatus = (TextView) mAppBarLayout.findViewById(R.id.status);
-        textviewAgentName = (TextView) mAppBarLayout.findViewById(R.id.textViewagentName);
-        textViewTitle = (TextView) mAppBarLayout.findViewById(R.id.title);
-        textViewDepartment= (TextView) mAppBarLayout.findViewById(R.id.department);
-        textViewSubject = (TextView) mToolbar.findViewById(R.id.subject);
+        textViewStatus = (LoaderTextView) mAppBarLayout.findViewById(R.id.status);
+        textviewAgentName = (LoaderTextView) mAppBarLayout.findViewById(R.id.textViewagentName);
+        textViewTitle = (LoaderTextView) mAppBarLayout.findViewById(R.id.title);
+        textViewDepartment= (LoaderTextView) mAppBarLayout.findViewById(R.id.department);
+        textViewSubject = (LoaderTextView) mAppBarLayout.findViewById(R.id.subject);
         imgaeviewBack= (ImageView) mToolbar.findViewById(R.id.imageViewBackTicketDetail);
-        viewpriority=mToolbar.findViewById(R.id.viewPriority);
+        //viewpriority=mToolbar.findViewById(R.id.viewPriority);
         viewCollapsePriority=mAppBarLayout.findViewById(R.id.viewPriority1);
         //viewCollapsePriority.setBackgroundColor(Color.parseColor("#FF0000"));
+        textViewDemo=findViewById(R.id.ticketNumberDemo);
+        int pos1=ticketNumber.lastIndexOf("-");
+        String ticket_number=ticketNumber.substring(pos1+1,ticketNumber.length());
+
+
+
         mToolbar.inflateMenu(R.menu.menu_main_new);
         isShowing=true;
         //Log.d("came into ticket detail","true");
         mToolbar.getMenu().getItem(0).setEnabled(false);
-
+//        imageView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Prefs.putString("cameFromTicket","true");
+//                Intent intent=new Intent(TicketDetailActivity.this,collaboratorAdd.class);
+//                startActivity(intent);
+//                finish();
+//            }
+//        });
+        Prefs.putString("cameFromTicket","false");
         mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = false;
             int scrollRange = -1;
@@ -230,6 +257,7 @@ public class TicketDetailActivity extends AppCompatActivity implements
                     new FetchTicketDetail(Prefs.getString("TICKETid",null)).execute();
                 }
             }).start();
+            //new FetchCollaboratorAssociatedWithTicket(Prefs.getString("TICKETid",null)).execute();
             }
         imgaeviewBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -237,27 +265,24 @@ public class TicketDetailActivity extends AppCompatActivity implements
                 Log.d("cameFromnotification",Prefs.getString("cameFromNotification",null));
                 String option=Prefs.getString("cameFromNotification",null);
 
-
                 switch (option) {
                     case "true": {
-                        Intent intent = new Intent(TicketDetailActivity.this, NotificationActivity.class);
-                        startActivity(intent);
+//                        Intent intent = new Intent(TicketDetailActivity.this, NotificationActivity.class);
+//                        startActivity(intent);
+                        finish();
                         break;
                     }
                     case "none": {
                         //finish();
-                        Intent intent1=new Intent(TicketDetailActivity.this,SearchActivity.class);
-                        startActivity(intent1);
+                        finish();
                         break;
                     }
                     case "false": {
-                        Intent intent1=new Intent(TicketDetailActivity.this,MainActivity.class);
-                   startActivity(intent1);
+                        finish();
                         break;
                     }
                     default: {
-                        Intent intent1 = new Intent(TicketDetailActivity.this, MainActivity.class);
-                        startActivity(intent1);
+                        finish();
                         break;
                     }
                 }
@@ -291,6 +316,8 @@ public class TicketDetailActivity extends AppCompatActivity implements
 ////                        break;
 ////                }
               }
+
+
         });
 
         setSupportActionBar(mToolbar);
@@ -338,15 +365,30 @@ public class TicketDetailActivity extends AppCompatActivity implements
         editTextReplyMessage = (EditText) findViewById(R.id.editText_reply_message);
         buttonCreate = (Button) findViewById(R.id.button_create);
         buttonSend = (Button) findViewById(R.id.button_send);
+        View header=navigationView.getHeaderView(0);
+        headerTitle=header.findViewById(R.id.nav_header_textView);
+        headerTitle.setText("#"+ticketNumber);
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        int id=menuItem.getItemId();
+                        //mDrawerLayout.closeDrawers();
+                        if (id == R.id.asset) {//DO your stuff }
+                            mDrawerLayout.closeDrawer(GravityCompat.END);
 
-        //overlay = findViewById(R.id.overlay);
-//        overlay.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //exitReveal();
-//            }
-//        });
+                            }
+                        else if (id==R.id.problem){
+                            mDrawerLayout.closeDrawer(GravityCompat.END);
+                            Intent intent=new Intent(TicketDetailActivity.this,AssociatedProblem.class);
+                            startActivity(intent);
+                        }
+
+                        return true;
+                    }
+                });
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -364,6 +406,10 @@ public class TicketDetailActivity extends AppCompatActivity implements
 
         return true;
     }
+    private void setupDrawerContent(NavigationView navigationView) {
+
+
+    }
 
     /**
      * Handle action bar item clicks here. The action bar will
@@ -379,7 +425,6 @@ public class TicketDetailActivity extends AppCompatActivity implements
         if (id1 == R.id.buttonsave) {
             Intent intent = new Intent(TicketDetailActivity.this, TicketSaveActivity.class);
             startActivity(intent);
-            finish();
 //            title = getString(R.string.title_activity_ticketsave);
 //            fragment = getSupportFragmentManager().findFragmentByTag(title);
 //            if (fragment == null)
@@ -396,6 +441,9 @@ public class TicketDetailActivity extends AppCompatActivity implements
         else if (item.getItemId() == android.R.id.home) {
             Log.d("camehere","true");
             onBackPressed(); // close this activity and return to preview activity (if there is any)
+        }
+        else if (item.getItemId()==R.id.problem){
+            mDrawerLayout.openDrawer(GravityCompat.END);
         }
 //
 //        try {
@@ -577,6 +625,17 @@ public class TicketDetailActivity extends AppCompatActivity implements
 
         }
     }
+
+    @Override
+    public void onDrawerItemSelected(View view, int position) {
+
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        return false;
+    }
+
 //    public void animateFAB(){
 //
 //        if(fabSpeedDial.isMenuOpen()){
@@ -943,26 +1002,43 @@ public void fabOpen(){
      */
     @Override
     public void onBackPressed() {
-
-        if (!MainActivity.isShowing) {
-            Log.d("isShowing", "false");
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
+        if(mDrawerLayout.isDrawerOpen(GravityCompat.END)) {
+            //drawer is open
+            mDrawerLayout.closeDrawers();
         }
-//        else {
-//            Intent intent = new Intent(this, MainActivity.class);
-//            startActivity(intent);
-//            Log.d("isShowing", "true");
-//        }
+        else{
+            finish();
+        }
 
-//        if (materialSheetFab.isSheetVisible()) {
-//            materialSheetFab.hideSheet();
-//        } else {
-//            super.onBackPressed();
+//        Log.d("cameFromnotification",Prefs.getString("cameFromNotification",null));
+//        String option=Prefs.getString("cameFromNotification",null);
+//
+//
+//        switch (option) {
+//            case "true": {
+//                Intent intent = new Intent(TicketDetailActivity.this, NotificationActivity.class);
+//                startActivity(intent);
+//                break;
+//            }
+//            case "none": {
+//                //finish();
+//                Intent intent1=new Intent(TicketDetailActivity.this,SearchActivity.class);
+//                startActivity(intent1);
+//                break;
+//            }
+//            case "false": {
+//                Intent intent1=new Intent(TicketDetailActivity.this,MainActivity.class);
+//                startActivity(intent1);
+//                finish();
+//                break;
+//            }
+//            default: {
+//                Intent intent1=new Intent(TicketDetailActivity.this,MainActivity.class);
+//                startActivity(intent1);
+//                finish();
+//                break;
+//            }
 //        }
-//        if (fabExpanded)
-//            exitReveal();
-//        else super.onBackPressed();
     }
 
     /**
@@ -971,89 +1047,6 @@ public void fabOpen(){
      */
     @Override
     protected void onResume() {
-        JSONObject jsonObject = null;
-//        progressDialog.setMessage(getString(R.string.pleasewait));
-//        progressDialog.show();
-        //new FetchTicketDetail(Prefs.getString("TICKETid",null)).execute();
-        Log.d("onResume","CALLED");
-        if (Prefs.getString("TicketRelated",null).equals("")){
-//                    progressDialog.setMessage(getString(R.string.pleasewait));
-//                    progressDialog.show();
-//            progressBar.setVisibility(View.VISIBLE);
-            new FetchTicketDetail(Prefs.getString("TICKETid",null)).execute();
-        }
-        else{
-            String ticketInformation=Prefs.getString("TicketRelated",null);
-            try {
-                jsonObject = new JSONObject(ticketInformation);
-                JSONObject jsonObject1 = jsonObject.getJSONObject("data");
-                JSONObject jsonObject2=jsonObject1.getJSONObject("ticket");
-                String ticketNumber=jsonObject2.getString("ticket_number");
-                String statusName=jsonObject2.getString("status_name");
-                String subject=jsonObject2.getString("title");
-                String department=jsonObject2.getString("dept_name");
-                String priorityColor=jsonObject2.getString("priority_color");
-                if (!priorityColor.equals("")||!priorityColor.equals("null")){
-                    viewpriority.setBackgroundColor(Color.parseColor(priorityColor));
-                    viewCollapsePriority.setBackgroundColor(Color.parseColor(priorityColor));
-                }
-                else{
-                    viewpriority.setVisibility(View.GONE);
-                    viewCollapsePriority.setVisibility(View.GONE);
-                }
-                JSONObject jsonObject3=jsonObject2.getJSONObject("from");
-                String userName = jsonObject3.getString("first_name")+" "+jsonObject3.getString("last_name");
-                if (userName.equals("")||userName.equals("null null")||userName.equals(" ")){
-                    userName=jsonObject3.getString("user_name");
-                    textviewAgentName.setText(userName);
-                }
-                else{
-                    userName=jsonObject3.getString("first_name")+" "+jsonObject3.getString("last_name");
-                    textviewAgentName.setText(userName);
-                }
-                if (!statusName.equals("null")||!statusName.equals("")){
-                    textViewStatus.setText(statusName);
-                }
-                else{
-                    textViewStatus.setVisibility(View.GONE);
-                }
-                textViewTitle.setText(ticketNumber);
-                if (subject.startsWith("=?")){
-                    title=subject.replaceAll("=?UTF-8?Q?","");
-                    String newTitle=title.replaceAll("=E2=80=99","");
-                    String second1=newTitle.replace("=C3=BA","");
-                    String third = second1.replace("=C2=A0", "");
-                    String finalTitle=third.replace("=??Q?","");
-                    String newTitle1=finalTitle.replace("?=","");
-                    String newTitle2=newTitle1.replace("_"," ");
-                    Log.d("new name",newTitle2);
-                    textViewSubject.setText(newTitle2);
-                }
-                else if (!subject.equals("null")){
-                    textViewSubject.setText(subject);
-                }
-                else if (subject.equals("null")){
-                    textViewSubject.setText("");
-                }
-                if (!department.equals("")||!department.equals("null")){
-                    textViewDepartment.setText(department);
-                }
-                else{
-                    textViewDepartment.setVisibility(View.GONE);
-                }
-
-                Log.d("TITLE",subject);
-                Log.d("TICKETNUMBER",ticketNumber);
-                //String priority=jsonObject1.getString("priority_id");
-
-
-
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
         Prefs.putString("filePath","");
         checkConnection();
         //setupFab();
@@ -1172,11 +1165,11 @@ public void fabOpen(){
                 String department=jsonObject2.getString("dept_name");
                 String priorityColor=jsonObject2.getString("priority_color");
                 if (!priorityColor.equals("")||!priorityColor.equals("null")){
-                    viewpriority.setBackgroundColor(Color.parseColor(priorityColor));
+                    //viewpriority.setBackgroundColor(Color.parseColor(priorityColor));
                     viewCollapsePriority.setBackgroundColor(Color.parseColor(priorityColor));
                 }
                 else{
-                    viewpriority.setVisibility(View.GONE);
+                    //viewpriority.setVisibility(View.GONE);
                     viewCollapsePriority.setVisibility(View.GONE);
                 }
                 JSONObject jsonObject3=jsonObject2.getJSONObject("from");
@@ -1195,7 +1188,7 @@ public void fabOpen(){
                 else{
                     textViewStatus.setVisibility(View.GONE);
                 }
-                textViewTitle.setText(ticketNumber);
+                textViewTitle.setText("#"+ticketNumber);
                 if (subject.startsWith("=?")){
                     title=subject.replaceAll("=?UTF-8?Q?","");
                     String newTitle=title.replaceAll("=E2=80=99","");
@@ -1206,12 +1199,14 @@ public void fabOpen(){
                     String newTitle2=newTitle1.replace("_"," ");
                     Log.d("new name",newTitle2);
                     textViewSubject.setText(newTitle2);
+                    textViewDemo.setText(newTitle2);
                 }
                 else if (!subject.equals("null")){
                     textViewSubject.setText(subject);
+                    textViewDemo.setText(subject);
                 }
                 else if (subject.equals("null")){
-                    textViewSubject.setText("");
+                    textViewDemo.setText(subject);
                 }
                 if (!department.equals("")||!department.equals("null")){
                     textViewDepartment.setText(department);
@@ -1233,7 +1228,51 @@ public void fabOpen(){
             }
         }
     }
-
+//    private class FetchCollaboratorAssociatedWithTicket extends AsyncTask<String, Void, String> {
+//        String ticketid;
+//
+//        FetchCollaboratorAssociatedWithTicket(String ticketid) {
+//
+//            this.ticketid = ticketid;
+//        }
+//
+//        protected String doInBackground(String... urls) {
+//            return new Helpdesk().postCollaboratorAssociatedWithTicket(ticketid);
+//        }
+//
+//        protected void onPostExecute(String result) {
+//
+//            int noOfCollaborator=0;
+//            if (isCancelled()) return;
+//            //strings.clear();
+//
+////            if (progressDialog.isShowing())
+////                progressDialog.dismiss();
+//
+//            if (result == null) {
+//                Toasty.error(TicketDetailActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
+////                Data data=new Data(0,"No recipients");
+////                stringArrayList.add(data);
+//                return;
+//            }
+//
+//            try {
+//                JSONObject jsonObject = new JSONObject(result);
+//                JSONArray jsonArray = jsonObject.getJSONArray("collaborator");
+//                if (jsonArray.length()==0){
+//                    imageView.setVisibility(View.GONE);
+//                    return;
+//                }
+//                else{
+//                    imageView.setVisibility(View.VISIBLE);
+//                }
+//
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//
+//    }
 
     @Override
     protected void onRestart() {

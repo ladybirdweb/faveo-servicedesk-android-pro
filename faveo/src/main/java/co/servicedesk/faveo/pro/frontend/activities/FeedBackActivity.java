@@ -3,10 +3,10 @@ package co.servicedesk.faveo.pro.frontend.activities;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -17,7 +17,6 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.javiersantos.bottomdialogs.BottomDialog;
@@ -31,9 +30,7 @@ import java.net.URLEncoder;
 
 import co.servicedesk.faveo.pro.R;
 import co.servicedesk.faveo.pro.backend.api.v1.Helpdesk;
-import co.servicedesk.faveo.pro.frontend.activities.SettingsActivity;
 import co.servicedesk.faveo.pro.frontend.receivers.InternetReceiver;
-import co.servicedesk.faveo.pro.frontend.views.SmoothCheckBox;
 import dmax.dialog.SpotsDialog;
 import es.dmoral.toasty.Toasty;
 

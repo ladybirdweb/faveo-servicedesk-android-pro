@@ -13,7 +13,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import co.servicedesk.faveo.pro.FaveoApplication;
 import co.servicedesk.faveo.pro.R;
 import co.servicedesk.faveo.pro.frontend.receivers.InternetReceiver;
 import co.servicedesk.faveo.pro.model.MessageEvent;

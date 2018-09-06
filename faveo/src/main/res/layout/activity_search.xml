@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:background="@color/colorAccent"
     android:fitsSystemWindows="true"
-    tools:context="co.helpdesk.faveo.pro.frontend.activities.SearchActivity">
+    tools:context=".frontend.activities.SearchActivity">
 
     <!--<android.support.design.widget.FloatingActionButton-->
     <!--android:id="@+id/fab"-->

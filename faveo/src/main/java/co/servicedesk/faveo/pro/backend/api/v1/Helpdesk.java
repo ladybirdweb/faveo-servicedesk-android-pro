@@ -7,9 +7,6 @@ import com.pixplicity.easyprefs.library.Prefs;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.util.Arrays;
-
 import co.servicedesk.faveo.pro.Constants;
 
 /**
@@ -728,6 +725,32 @@ public class Helpdesk {
             return new HTTPConnection().HTTPResponsePost(Constants.URL + "helpdesk/helpsection/mails?token="+token+"&help_email=faveoservicedesk@gmail.com&help_subject="+subject+"&help_massage="+message,null);
             return result;
         }
+    public String postCreateUser(String email,String firstname,String lastname){
+        Log.d("RegisterUser", Constants.URL + "helpdesk/register?token=" +token +"&email=" +email +"&first_name=" +firstname +"&last_name="+ lastname);
+        String result=new HTTPConnection().HTTPResponsePost(Constants.URL +"helpdesk/register?token="+ token +"&email="+email+"&first_name=" +firstname + "&last_name="+ lastname,null);
+        if (result!=null && result.equals("tokenRefreshed"))
+            return new HTTPConnection().HTTPResponsePost(Constants.URL + "helpdesk/register?token=" +token +"&email=" +email +"&first_name=" +firstname + "&last_name="+ lastname,null);
+        return result;
+    }
+
+    public String getDependencyForServiceDesk(String type) {
+        Log.d("DependencyServiceDesk", Constants.URL + "servicedesk/dependency?token=" + token + "&type=" + type);
+        String result = new HTTPConnection().HTTPResponseGet(Constants.URL + "servicedesk/dependency?token=" + token + "&type=" + type);
+        if (result != null && result.equals("tokenRefreshed")) {
+            return new HTTPConnection().HTTPResponseGet(Constants.URL + "servicedesk/dependency?token=" + token + "&type=" + type);
+        }
+        return result;
+    }
+
+    public String getExisitngProblem()
+    {
+        Log.d("getExisitngProblem", Constants.URL + "servicedesk/all/problems?token=" + token);
+        String result = new HTTPConnection().HTTPResponseGet(Constants.URL + "servicedesk/all/problems?token=" + token);
+        if (result != null && result.equals("tokenRefreshed")) {
+            return new HTTPConnection().HTTPResponseGet(Constants.URL + "servicedesk/all/problems?token=" + token);
+        }
+        return result;
+    }
 
 
 }

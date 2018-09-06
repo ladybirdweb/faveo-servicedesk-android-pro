@@ -214,9 +214,6 @@
     <string name="filterFragment">Filtered Tickets</string>
     <string name="duebydesc">Due by descending</string>
     <string name="updatedat">Sort by last update date </string>
-
-
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_ticket_save">TicketSaveActivity</string>
     <string name="title_activity_ticketsave">Ticketsave</string>
@@ -470,6 +467,25 @@
     <string name="removingColl">"Removing collaborator…"</string>
     <string name="removingCollConf">"Are you sure you want to remove this user as collaborator?"</string>
     <string name="submittingConfirm">Are you sure you want to submit the feedback?</string>
+    <string name="video">Video</string>
+    <string name="music">Music</string>
+    <string name="document">Document</string>
+    <string name="interNalNote">Internal note</string>
+    <string name="educated">enough intro let</string>
+    <string name="user_collaborator">are you sure you want to remove this user as collaborator?</string>
+    <string name="no">no</string>
+    <string name="yes">yes</string>
+    <string name="adduser">Add user</string>
+    <string name="discard">discard changes?</string>
+    <string name="creatinguser">creating user</string>
+    <string name="adding_collaborator">adding collaborator</string>
+    <string name="lastname_minimum_char">LastName should be minimum 2 characters</string>
+    <string name="lastname_maximum_char">LastName should not exceed 30 characters</string>
+    <string name="createProblem">Create Problem</string>
+    <string name="from">From</string>
+    <string name="Impact">Impact</string>
+    <string name="description">Description</string>
+    <string name="addAsset">Add asset</string>
     <string-array name="CountryCodes">
 
         <item>93,AF</item>
@@ -679,7 +695,6 @@
         <item>260,ZM</item>
         <item>263,ZW</item>
     </string-array>
-    <!-- TODO: Remove or change this placeholder text -->
 
 
 </resources>

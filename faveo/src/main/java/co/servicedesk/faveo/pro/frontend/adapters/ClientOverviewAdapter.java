@@ -17,14 +17,10 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import agency.tango.android.avatarview.IImageLoader;
-import agency.tango.android.avatarview.loader.PicassoLoader;
-import agency.tango.android.avatarview.views.AvatarView;
 import co.servicedesk.faveo.pro.CircleTransform;
 import co.servicedesk.faveo.pro.R;
 import co.servicedesk.faveo.pro.frontend.activities.ClientDetailActivity;
 import co.servicedesk.faveo.pro.model.ClientOverview;
-import co.servicedesk.faveo.pro.frontend.activities.ClientDetailActivity;
 
 /**
  * This adapter is for the recycler view which we have used

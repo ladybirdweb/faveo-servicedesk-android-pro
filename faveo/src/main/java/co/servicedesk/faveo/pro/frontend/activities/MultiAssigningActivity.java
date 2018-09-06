@@ -1,17 +1,12 @@
 package co.servicedesk.faveo.pro.frontend.activities;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -36,9 +31,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import co.servicedesk.faveo.pro.R;
-import co.servicedesk.faveo.pro.backend.api.v1.Authenticate;
 import co.servicedesk.faveo.pro.backend.api.v1.Helpdesk;
-import co.servicedesk.faveo.pro.frontend.fragments.tickets.InboxTickets;
 import co.servicedesk.faveo.pro.frontend.receivers.InternetReceiver;
 import co.servicedesk.faveo.pro.model.Data;
 import dmax.dialog.SpotsDialog;

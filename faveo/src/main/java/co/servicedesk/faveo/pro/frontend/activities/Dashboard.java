@@ -1,9 +1,8 @@
 package co.servicedesk.faveo.pro.frontend.activities;
 
-import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
 import android.view.Window;
@@ -12,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import co.servicedesk.faveo.pro.R;
-import co.servicedesk.faveo.pro.frontend.activities.TicketsRelated;
 
 public class Dashboard extends AppCompatActivity {
 String content;
@@ -37,8 +35,7 @@ ImageView imageView;
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(Dashboard.this,TicketsRelated.class);
-                startActivity(intent);
+                finish();
             }
         });
         content="<b>Requestor/email id</b>: You can enter the mail id if the account already exists in Faveo. If you are a new user then click on the “+” button to create a new account. \n" +
@@ -53,5 +50,10 @@ ImageView imageView;
                 "You can assign this ticket to a particular agent on Faveo Helpdesk." +
                 "After filling out the details click on the check mark at the top right to create a ticket.\n";
         textView.setText(Html.fromHtml(content));
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }

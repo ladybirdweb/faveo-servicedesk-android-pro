@@ -5,7 +5,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,12 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonSerializer;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import org.json.JSONArray;
@@ -35,12 +30,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import co.servicedesk.faveo.pro.R;
 import co.servicedesk.faveo.pro.backend.api.v1.Helpdesk;
-import co.servicedesk.faveo.pro.frontend.activities.TicketDetailActivity;
 import co.servicedesk.faveo.pro.frontend.adapters.TicketThreadAdapter;
 import co.servicedesk.faveo.pro.frontend.receivers.InternetReceiver;
 import co.servicedesk.faveo.pro.model.TicketThread;
 import dmax.dialog.SpotsDialog;
-import es.dmoral.toasty.Toasty;
 
 /**
  *This is the Fragment for showing the conversation details.
@@ -126,17 +119,20 @@ public class Conversation extends Fragment {
                 if (Prefs.getString("ticketThread", null).equals("")) {
                     noInternet_view.setVisibility(View.GONE);
                     // swipeRefresh.setRefreshing(true);
-                    dialog1= new SpotsDialog(getActivity(), getString(R.string.pleasewait));
-                    dialog1.show();
+                    progressDialog = new ProgressDialog(getActivity());
+                    progressDialog.setMessage(getString(R.string.pleasewait));
+                    //swipeRefresh.setRefreshing(true);
+                    textView.setVisibility(View.GONE);
+                    swipeRefresh.setRefreshing(true);
                     task = new FetchTicketThreads(getActivity(), Prefs.getString("TICKETid", null));
                     task.execute();
                 }
                 else {
-//                    try {
-//                        progressDialog.dismiss();
-//                    } catch (NullPointerException e) {
-//                        e.printStackTrace();
-//                    }
+                    try {
+                        progressDialog.dismiss();
+                    } catch (NullPointerException e) {
+                        e.printStackTrace();
+                    }
                     if (InternetReceiver.isConnected()) {
                         String jsonObject2 = Prefs.getString("ticketThread", null);
                         textView.setVisibility(View.GONE);
@@ -236,14 +232,18 @@ public class Conversation extends Fragment {
                                 ticketThreadList.add(ticketThread);
                         }
                     }
-                    recyclerView.setHasFixedSize(false);
+                    //recyclerView.setHasFixedSize(false);
+                    recyclerView.setHasFixedSize(true);
+                    recyclerView.setItemViewCacheSize(40);
+                    recyclerView.setDrawingCacheEnabled(true);
+                    recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
                     final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
                     linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                     recyclerView.setLayoutManager(linearLayoutManager);
-
                     //Collections.reverse(ticketThreadList);
                     ticketThreadAdapter = new TicketThreadAdapter(getContext(), ticketThreadList);
                     recyclerView.setAdapter(ticketThreadAdapter);
+                    ticketThreadAdapter.notifyDataSetChanged();
                 }
             } else {
                 noInternet_view.setVisibility(View.VISIBLE);
@@ -312,11 +312,6 @@ public class Conversation extends Fragment {
             try {
                 JSONObject jsonObject = new JSONObject(result);
                 Prefs.putString("ticketThread", jsonObject.toString());
-//                PreferenceManager.getDefaultSharedPreferences(context).edit()
-//                        .putString("theJson",jsonObject.toString()).apply();
-//                String jsonObject2 = PreferenceManager.
-//                        getDefaultSharedPreferences(getActivity()).getString("theJson","");
-//                Log.d("jsonObject2",jsonObject2);
                 JSONObject jsonObject1 = jsonObject.getJSONObject("data");
                 JSONArray jsonArray = jsonObject1.getJSONArray("threads");
                 for (int i = 0; i < jsonArray.length(); i++) {

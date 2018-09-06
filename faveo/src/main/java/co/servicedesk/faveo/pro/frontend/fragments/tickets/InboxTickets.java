@@ -1,17 +1,10 @@
 package co.servicedesk.faveo.pro.frontend.fragments.tickets;
 
-import android.annotation.SuppressLint;
-import android.app.ActionBar;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -21,8 +14,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,7 +22,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,16 +31,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
-import com.getkeepsafe.taptargetview.TapTarget;
-import com.getkeepsafe.taptargetview.TapTargetSequence;
-import com.getkeepsafe.taptargetview.TapTargetView;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
 import com.github.javiersantos.bottomdialogs.BottomDialog;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
@@ -61,7 +47,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -69,28 +54,26 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import co.servicedesk.faveo.pro.CircleTransform;
-import co.servicedesk.faveo.pro.FileCacher;
 import co.servicedesk.faveo.pro.Helper;
 import co.servicedesk.faveo.pro.R;
-//import co.helpdesk.faveo.pro.Toolbar_ActionMode_Callback;
 import co.servicedesk.faveo.pro.backend.api.v1.Helpdesk;
-import co.servicedesk.faveo.pro.frontend.activities.CreateTicketActivity;
-import co.servicedesk.faveo.pro.frontend.activities.LoginActivity;
 import co.servicedesk.faveo.pro.frontend.activities.MainActivity;
 import co.servicedesk.faveo.pro.frontend.activities.MultiAssigningActivity;
 import co.servicedesk.faveo.pro.frontend.activities.NotificationActivity;
-//import co.helpdesk.faveo.pro.frontend.activities.SearchActivity;
 import co.servicedesk.faveo.pro.frontend.activities.SearchActivity;
 import co.servicedesk.faveo.pro.frontend.activities.TicketDetailActivity;
 import co.servicedesk.faveo.pro.frontend.activities.TicketFilter;
-//import co.helpdesk.faveo.pro.frontend.activities.TicketMergeActtivity;
-//import co.helpdesk.faveo.pro.frontend.activities.TicketMergeActtivity;
-//import co.helpdesk.faveo.pro.frontend.adapters.TicketOverviewAdapter;
 import co.servicedesk.faveo.pro.frontend.receivers.InternetReceiver;
 import co.servicedesk.faveo.pro.model.Data;
 import co.servicedesk.faveo.pro.model.TicketOverview;
 import dmax.dialog.SpotsDialog;
 import es.dmoral.toasty.Toasty;
+
+//import co.helpdesk.faveo.pro.Toolbar_ActionMode_Callback;
+//import co.helpdesk.faveo.pro.frontend.activities.SearchActivity;
+//import co.helpdesk.faveo.pro.frontend.activities.TicketMergeActtivity;
+//import co.helpdesk.faveo.pro.frontend.activities.TicketMergeActtivity;
+//import co.helpdesk.faveo.pro.frontend.adapters.TicketOverviewAdapter;
 
 public class InboxTickets extends Fragment {
     private static final String ARG_PARAM1 = "param1";
@@ -130,7 +113,7 @@ public class InboxTickets extends Fragment {
     Toolbar toolbar;
     TicketOverviewAdapter ticketOverviewAdapter;
     List<TicketOverview> ticketOverviewList = new ArrayList<>();
-    Toolbar toolbar1;
+    Toolbar toolbarMain,toolbar1;
     private boolean loading = true;
     String filterwithsorting;
     int pastVisibleItems, visibleItemCount, totalItemCount;
@@ -229,140 +212,15 @@ public class InboxTickets extends Fragment {
                              Bundle savedInstanceState) {
         if (rootView == null) {
             rootView = inflater.inflate(R.layout.fragment_recycler, container, false);
-            final Display display = getActivity().getWindowManager().getDefaultDisplay();
-            // Load our little droid guy
-            final Drawable droid = ContextCompat.getDrawable(getActivity(), R.drawable.ic_done_white_24dp);
-            droid.setColorFilter(getResources().getColor(R.color.faveo), PorterDuff.Mode.MULTIPLY );
-            // Tell our droid buddy where we want him to appear
-            final Rect droidTarget = new Rect(0, 0, droid.getIntrinsicWidth() * 2, droid.getIntrinsicHeight() * 2);
-            // Using deprecated methods makes you look way cool
-            droidTarget.offset(display.getWidth() / 2, display.getHeight() / 2);
-            toolbar = (Toolbar) rootView.findViewById(R.id.toolbar2);
-            toolbar.setVisibility(View.VISIBLE);
-            toolbar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_sort_black_24dp));
-            toolbar.setTitle(getString(R.string.sortbytitle));
-            toolbar.setTitleTextColor(Color.parseColor("#3da6d7"));
-//        mTitle.setText("Sort By");
-            toolbar.inflateMenu(R.menu.menu_for_sorting);
-            toolbar1 = (Toolbar) rootView.findViewById(R.id.toolbarfilteration);
-            toolbar1.setVisibility(View.VISIBLE);
-            toolbar1.setOverflowIcon(getResources().getDrawable(R.drawable.ic_if_filter_383135));
-            toolbarmain = (Toolbar) getActivity().findViewById(R.id.toolbarMain);
-            toolbarmain.inflateMenu(R.menu.menu_inbox);
-            @SuppressLint("CutPasteId") final TapTargetSequence sequence = new TapTargetSequence(getActivity())
-                    .targets(
 
-                            //TapTarget.forToolbarNavigationIcon(toolbar, "This is the back button").id(1),
-                            TapTarget.forToolbarMenuItem(toolbarmain, R.id.actionsearch, "This is a search icon", "Fro here you can search ticket and users in Faveo")
-                                    .dimColor(android.R.color.black)
-                                    .outerCircleColor(R.color.faveo)
-                                    .targetCircleColor(R.color.white)
-                                    .transparentTarget(false)
-                                    .textColor(R.color.white)
-                                    .id(2),
-                            TapTarget.forToolbarMenuItem(toolbarmain, R.id.action_noti, "This is a notification icon", "This will show notifications of Faveo")
-                                    .dimColor(android.R.color.black)
-                                    .outerCircleColor(R.color.faveo)
-                                    .targetCircleColor(R.color.white)
-                                    .transparentTarget(false)
-                                    .textColor(R.color.white)
-                                    .id(3),
+            toolbarmain = (Toolbar) getActivity().findViewById(R.id.toolbar);
 
-                            // You can also target the overflow button in your toolbar
-                       TapTarget.forToolbarOverflow(toolbar, "This will show options for sorting tickets", "Here all the sorting criteria will be available for sorting")
-                               .dimColor(android.R.color.black)
-                               .outerCircleColor(R.color.faveo)
-                               .targetCircleColor(R.color.white)
-                               .transparentTarget(false)
-                               .textColor(R.color.white)
-                               .id(3),
-                            TapTarget.forToolbarOverflow(toolbar, "Filtering ......", "From here you can filter tickets based on your requirement.")
-                                    .dimColor(android.R.color.black)
-                                    .outerCircleColor(R.color.faveo)
-                                    .targetCircleColor(R.color.white)
-                                    .transparentTarget(false)
-                                    .textColor(R.color.white)
-                                    .id(4),
-
-                            // This tap target will target our droid buddy at the given target rect
-                        TapTarget.forBounds(droidTarget, "Done!", "Let's explore the app")
-                                .cancelable(false)
-                                .dimColor(android.R.color.black)
-                                .outerCircleColor(R.color.faveo)
-                                .targetCircleColor(R.color.white)
-                                .transparentTarget(false)
-                                .textColor(R.color.white)
-                                .icon(droid)
-                                .id(4)
-                    )
-                    .listener(new TapTargetSequence.Listener() {
-                        // This listener will tell us when interesting(tm) events happen in regards
-                        // to the sequence
-                        @Override
-                        public void onSequenceFinish() {
-
-                        }
-
-                        @Override
-                        public void onSequenceStep(TapTarget lastTarget, boolean targetClicked) {
-                            Log.d("TapTargetView", "Clicked on " + lastTarget.id());
-                        }
-
-                        @Override
-                        public void onSequenceCanceled(TapTarget lastTarget) {
-                            final android.support.v7.app.AlertDialog dialog = new android.support.v7.app.AlertDialog.Builder(getActivity())
-                                    .setTitle("Uh oh")
-                                    .setMessage("You canceled the sequence")
-                                    .setPositiveButton("Oops", null).show();
-                            TapTargetView.showFor(dialog,
-                                    TapTarget.forView(dialog.getButton(DialogInterface.BUTTON_POSITIVE), "Uh oh!", "You canceled the sequence at step " + lastTarget.id())
-                                            .cancelable(false)
-                                            .tintTarget(false), new TapTargetView.Listener() {
-                                        @Override
-                                        public void onTargetClick(TapTargetView view) {
-                                            super.onTargetClick(view);
-                                            dialog.dismiss();
-                                        }
-                                    });
-                        }
-                    });
-
-            TapTargetView.showFor(getActivity(), TapTarget.forView(getActivity().findViewById(R.id.fab_main), "This is the FAB,From here you can create ticket,request for item or create changes.")
-                    .cancelable(false)
-                    .drawShadow(true)
-                    .dimColor(android.R.color.black)
-                    .outerCircleColor(R.color.faveo)
-                    .targetCircleColor(R.color.white)
-                    .transparentTarget(false)
-                    .textColor(R.color.white)
-                    .titleTextDimen(R.dimen.title_text_size)
-                    .tintTarget(false), new TapTargetView.Listener() {
-                @Override
-                public void onTargetClick(TapTargetView view) {
-                    super.onTargetClick(view);
-                    // .. which evidently starts the sequence we defined earlier
-                    sequence.start();
-                }
-
-                @Override
-                public void onOuterCircleClick(TapTargetView view) {
-                    super.onOuterCircleClick(view);
-                    Toast.makeText(view.getContext(), "You clicked the outer circle!", Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onTargetDismissed(TapTargetView view, boolean userInitiated) {
-                    Log.d("TapTargetViewSample", "You dismissed me :(");
-                }
-            });
 //            ActionBar actionBar = getActivity().getActionBar();
 //            if (actionBar != null) {
 //                actionBar.setHomeButtonEnabled(false);
 //                actionBar.setDisplayHomeAsUpEnabled(false);
 //                actionBar.setDisplayShowHomeEnabled(false);
 //            }
-
-
 
             Prefs.putString("querry","null");
             statusItems=new ArrayList<>();
@@ -386,13 +244,15 @@ public class InboxTickets extends Fragment {
             Prefs.putString("querry1", "null");
             Prefs.putString("Show","inbox");
             //toolbarmain.setVisibility(View.GONE);
-
+            rootView = inflater.inflate(R.layout.fragment_recycler, container, false);
             ButterKnife.bind(this, rootView);
             Prefs.putString("source", "5");
 //            Drawable drawable = ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_sort_black_24dp);
             Prefs.putString("querry", "null");
-
-
+            toolbar = (Toolbar) rootView.findViewById(R.id.toolbar2);
+            toolbar1 = (Toolbar) rootView.findViewById(R.id.toolbarfilteration);
+            toolbar1.setVisibility(View.VISIBLE);
+            toolbar1.setOverflowIcon(getResources().getDrawable(R.drawable.ic_if_filter_383135));
 
             toolbar1.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -434,7 +294,12 @@ public class InboxTickets extends Fragment {
             }
 
 
-
+            toolbar.setVisibility(View.VISIBLE);
+            toolbar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_sort_black_24dp));
+            toolbar.setTitle(getString(R.string.sortbytitle));
+            toolbar.setTitleTextColor(Color.parseColor("#3da6d7"));
+//        mTitle.setText("Sort By");
+            toolbar.inflateMenu(R.menu.menu_for_sorting);
             toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
@@ -1422,8 +1287,7 @@ public class InboxTickets extends Fragment {
         int id = item.getItemId();
         StringBuffer stringBuffer = new StringBuffer();
         if (id==android.R.id.home){
-            Log.d("homeButton","clicked on home button");
-            //Toast.makeText(context, "clicked on back button", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "clicked on back button", Toast.LENGTH_SHORT).show();
             return true;
         }
 //        if (id == R.id.action_statusClosed) {
@@ -2015,12 +1879,15 @@ public class InboxTickets extends Fragment {
 //                return;
 //            }
 
+                try {
+                    if (result.equals("all done")) {
 
-            if (result.equals("all done")) {
-
-                Toasty.info(context, getString(R.string.all_caught_up), Toast.LENGTH_SHORT).show();
-                //return;
-            }
+                        Toasty.info(context, getString(R.string.all_caught_up), Toast.LENGTH_SHORT).show();
+                        //return;
+                    }
+                }catch (NullPointerException e){
+                e.printStackTrace();
+                }
             //  recyclerView = (ShimmerRecyclerView) rootView.findViewById(R.id.cardList);
             recyclerView.setHasFixedSize(false);
             final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());

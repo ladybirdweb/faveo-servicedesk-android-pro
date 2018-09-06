@@ -3,7 +3,6 @@ package co.servicedesk.faveo.pro.frontend.fragments.ticketDetail;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,7 +18,6 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -31,15 +29,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import co.servicedesk.faveo.pro.Helper;
 import co.servicedesk.faveo.pro.R;
 import co.servicedesk.faveo.pro.backend.api.v1.Helpdesk;
-import co.servicedesk.faveo.pro.frontend.activities.MainActivity;
 import co.servicedesk.faveo.pro.frontend.activities.TicketDetailActivity;
 import co.servicedesk.faveo.pro.frontend.receivers.InternetReceiver;
 import co.servicedesk.faveo.pro.model.Data;
@@ -122,6 +117,12 @@ public class Detail extends Fragment {
         setUpViews(rootView);
         ticketId=Prefs.getString("TICKETid",null);
         animation= AnimationUtils.loadAnimation(getActivity(),R.anim.shake_error);
+        spinnerStaffs.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                return true;
+            }
+        });
         // progressDialog.show();
         if (InternetReceiver.isConnected()) {
             task = new FetchTicketDetail(Prefs.getString("TICKETid", null));
@@ -257,12 +258,7 @@ public class Detail extends Fragment {
                                 if (spinnerStaffs.getItemAtPosition(j).toString().equalsIgnoreCase(jsonObject3.getString("first_name")+" "+jsonObject3.getString("last_name"))) {
                                     spinnerStaffs.setSelection(j);
                                 }
-                                spinnerStaffs.setOnTouchListener(new View.OnTouchListener() {
-                                    @Override
-                                    public boolean onTouch(View view, MotionEvent motionEvent) {
-                                        return true;
-                                    }
-                                });
+
                             }
                             //spinnerStaffs.setSelection(staffItems.indexOf("assignee_email"));
                         }

@@ -22,9 +22,6 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import agency.tango.android.avatarview.IImageLoader;
-import agency.tango.android.avatarview.loader.PicassoLoader;
-import agency.tango.android.avatarview.views.AvatarView;
 import co.servicedesk.faveo.pro.CircleTransform;
 import co.servicedesk.faveo.pro.Helper;
 import co.servicedesk.faveo.pro.R;

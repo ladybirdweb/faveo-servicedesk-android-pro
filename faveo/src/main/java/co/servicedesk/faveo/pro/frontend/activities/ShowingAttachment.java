@@ -1,84 +1,53 @@
 package co.servicedesk.faveo.pro.frontend.activities;
 
 import android.Manifest;
-import android.annotation.TargetApi;
-import android.app.DownloadManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.PointF;
-import android.graphics.RectF;
-import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Base64;
 import android.util.Log;
-import android.util.Xml;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.webkit.WebView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
-import android.widget.VideoView;
+
 import com.kishan.askpermission.AskPermission;
 import com.kishan.askpermission.ErrorCallback;
 import com.kishan.askpermission.PermissionCallback;
 import com.kishan.askpermission.PermissionInterface;
 import com.pixplicity.easyprefs.library.Prefs;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.net.URI;
 import java.net.URLConnection;
-import java.net.URLEncoder;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import co.servicedesk.faveo.pro.R;
-import co.servicedesk.faveo.pro.TouchImageView;
-import co.servicedesk.faveo.pro.frontend.activities.TicketDetailActivity;
 import co.servicedesk.faveo.pro.frontend.adapters.AttachmnetAdapter;
 import co.servicedesk.faveo.pro.model.AttachmentModel;
-import co.servicedesk.faveo.pro.model.TicketThread;
 import es.dmoral.toasty.Toasty;
 
 public class ShowingAttachment extends AppCompatActivity implements PermissionCallback, ErrorCallback {
-    TouchImageView touchImageView;
     ImageView imageView;
     Toolbar toolbar;
-    DecimalFormat df;
     TextView textView;
-    WebView textViewFileShow;
-    String title, base64String;
+    String title;
     Context context;
-    MediaPlayer mediaPlayer;
     String type;
-    VideoView videoView;
-    byte[] decodedString;
     private static final int PICKFILE_REQUEST_CODE = 1234;
   String file;
     static final Integer WRITE_EXST = 0x3;
@@ -93,18 +62,11 @@ public class ShowingAttachment extends AppCompatActivity implements PermissionCa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_showing_attachment);
         Window window = ShowingAttachment.this.getWindow();
-
-// clear FLAG_TRANSLUCENT_STATUS flag:
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
-// add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(ContextCompat.getColor(ShowingAttachment.this,R.color.faveo));
         ListView listView = (ListView) findViewById(R.id.attachment_list);
         reqPermissionCamera();
-//        if (shouldAskPermissions()) {
-//            askPermissions();
-//        }
         try {
             multipleName=Prefs.getString("multipleName",null);
             multipleFile=Prefs.getString("multipleFile",null);
@@ -129,11 +91,6 @@ public class ShowingAttachment extends AppCompatActivity implements PermissionCa
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-
-
-        //attachmentModels.add(new AttachmentModel(title,base64String));
-
-        //attachmentModels.add(new AttachmentModel("second.jpg","secondfile_base64"));
 
         attachmnetAdapter = new AttachmnetAdapter(this,attachmentModels);
         listView.setAdapter(attachmnetAdapter);
@@ -186,54 +143,10 @@ public class ShowingAttachment extends AppCompatActivity implements PermissionCa
                 //Toast.makeText(ShowingAttachment.this, "CLICKED AT:"+attachmentModel.getFile(), Toast.LENGTH_SHORT).show();
             }
         });
-//        mediaPlayer = new MediaPlayer();
-//        decodedString = Base64.decode(base64String, Base64.DEFAULT);
-//        String text = new String(decodedString);
 
         toolbar = (Toolbar) findViewById(R.id.toolbarAttachment);
         imageView = (ImageView) toolbar.findViewById(R.id.imageViewBackAttachment);
-//        touchImageView = (TouchImageView) findViewById(R.id.attachment_view);
         textView = (TextView) toolbar.findViewById(R.id.attachmenttitle);
-//        pdfView = (PDFView) findViewById(R.id.pdfView);
-//        textViewFileShow = (WebView) findViewById(R.id.textFile);
-//        Uri uri = Uri.parse(text);
-//        videoView = (VideoView) findViewById(R.id.videoView);
-//        textViewFileShow.loadData(URLEncoder.encode(text).replaceAll("\\+", " "), "text/html", Xml.Encoding.UTF_8.toString());
-//        try {
-//            String path = Environment.getExternalStorageDirectory().getAbsolutePath();
-//            File myFile = new File(path+"/"+title);
-//            File file = new File(path+"/"+title);
-//            Uri uri1 = Uri.fromFile(file);
-//            Log.d("URI",uri1.toString());
-//            myFile.createNewFile();
-//            FileOutputStream fOut = new FileOutputStream(myFile);
-//            fOut.write(decodedString);
-//            OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
-//            myOutWriter.append(title + "came from storage");
-//            myOutWriter.close();
-//            fOut.close();
-//            Intent myIntent = new Intent(Intent.ACTION_VIEW);
-//            myIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//            String mime= URLConnection.guessContentTypeFromStream(new FileInputStream(myFile));
-//            if(mime==null) mime=URLConnection.guessContentTypeFromName(myFile.getName());
-//            myIntent.setDataAndType(Uri.fromFile(myFile), mime);
-//            startActivity(myIntent);
-//
-//            //Toast.makeText(ShowingAttachment.this, "Done writing SD 'mysdfile.txt'", Toast.LENGTH_SHORT).show();
-//            //txtData.setText("");
-//        } catch (Exception e) {
-//            Toast.makeText(ShowingAttachment.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-//        }
-//        textViewFileShow.setMovementMethod(new ScrollingMovementMethod());
-//        textViewFileShow.setText(text);
-//        pdfView.fromBytes(decodedString).load();
-////        String byteArray=new String(decodedString);
-//        pdfView.fromBytes(decodedString).load();
-        //df = new DecimalFormat("#.##");
-
-
-//        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-//        touchImageView.setImageBitmap(decodedByte);
         textView.setText("ATTACHMENT");
         imageView.setOnClickListener(new View.OnClickListener()
 

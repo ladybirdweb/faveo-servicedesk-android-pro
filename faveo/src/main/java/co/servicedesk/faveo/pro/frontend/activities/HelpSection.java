@@ -1,9 +1,9 @@
 package co.servicedesk.faveo.pro.frontend.activities;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import co.servicedesk.faveo.pro.R;
-import co.servicedesk.faveo.pro.frontend.activities.LogIn;
 
 public class HelpSection extends AppCompatActivity {
     ImageView imageView;
@@ -38,8 +37,7 @@ public class HelpSection extends AppCompatActivity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(HelpSection.this, MainActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
         login.setOnClickListener(new View.OnClickListener() {
@@ -68,5 +66,10 @@ public class HelpSection extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }

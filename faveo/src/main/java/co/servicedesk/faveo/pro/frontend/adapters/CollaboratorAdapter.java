@@ -10,14 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
-import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 import agency.tango.android.avatarview.IImageLoader;
-import agency.tango.android.avatarview.loader.PicassoLoader;
-import agency.tango.android.avatarview.views.AvatarView;
 import co.servicedesk.faveo.pro.CircleTransform;
 import co.servicedesk.faveo.pro.R;
 import co.servicedesk.faveo.pro.model.CollaboratorSuggestion;
@@ -56,8 +53,12 @@ public class CollaboratorAdapter extends ArrayAdapter<CollaboratorSuggestion> {
         ImageView ivCustomerImage = (ImageView) convertView.findViewById(R.id.imageView_collaborator);
         TextView textViewEmail= (TextView) convertView.findViewById(R.id.textView_client_email);
 
-        if (txtCustomer != null&&customer.getFirst_name()!=null)
+        if (txtCustomer != null&&customer.getFirst_name()!=null) {
             txtCustomer.setText(customer.getFirst_name() + " " + customer.getLast_name());
+        }
+        else{
+            txtCustomer.setVisibility(View.GONE);
+        }
 
 //        if (customer.getProfile_pic().equals("")) {
 //            ivCustomerImage.setVisibility(View.GONE);

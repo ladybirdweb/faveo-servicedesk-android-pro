@@ -12,7 +12,6 @@ import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -22,7 +21,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -33,6 +31,7 @@ import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.squareup.picasso.Picasso;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,9 +45,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -58,7 +55,6 @@ import co.servicedesk.faveo.pro.CircleTransform;
 import co.servicedesk.faveo.pro.Constants;
 import co.servicedesk.faveo.pro.R;
 import co.servicedesk.faveo.pro.UIUtils;
-import co.servicedesk.faveo.pro.backend.api.v1.Authenticate;
 import co.servicedesk.faveo.pro.backend.api.v1.Helpdesk;
 import co.servicedesk.faveo.pro.frontend.activities.CreateTicketActivity;
 import co.servicedesk.faveo.pro.frontend.activities.LoginActivity;
@@ -76,7 +72,6 @@ import co.servicedesk.faveo.pro.frontend.fragments.tickets.TrashTickets;
 import co.servicedesk.faveo.pro.frontend.fragments.tickets.UnassignedTickets;
 import co.servicedesk.faveo.pro.frontend.services.MyFirebaseInstanceIDService;
 import co.servicedesk.faveo.pro.model.DataModel;
-import co.servicedesk.faveo.pro.frontend.adapters.DrawerItemCustomAdapter;
 import co.servicedesk.faveo.pro.model.ServiceDeskDrawer;
 import es.dmoral.toasty.Toasty;
 
@@ -141,16 +136,16 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
         this.drawerListener = listener;
     }
 
-    public static List<NavDrawerItem> getData() {
-        List<NavDrawerItem> data = new ArrayList<>();
-
-        for (String title : titles) {
-            NavDrawerItem navItem = new NavDrawerItem();
-            navItem.setTitle(title);
-            data.add(navItem);
-        }
-        return data;
-    }
+//    public static List<NavDrawerItem> getData() {
+//        List<NavDrawerItem> data = new ArrayList<>();
+//
+//        for (String title : titles) {
+//            NavDrawerItem navItem = new NavDrawerItem();
+//            navItem.setTitle(title);
+//            data.add(navItem);
+//        }
+//        return data;
+//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

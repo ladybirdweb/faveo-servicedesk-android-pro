@@ -1,6 +1,5 @@
 package co.servicedesk.faveo.pro.frontend.activities;
 
-import android.app.ActivityManager;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
@@ -8,7 +7,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -33,7 +31,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,7 +41,6 @@ import co.servicedesk.faveo.pro.R;
 import co.servicedesk.faveo.pro.backend.api.v1.Helpdesk;
 import co.servicedesk.faveo.pro.frontend.receivers.InternetReceiver;
 import co.servicedesk.faveo.pro.model.MessageEvent;
-import co.servicedesk.faveo.pro.FaveoApplication;
 import es.dmoral.toasty.Toasty;
 
 /**

@@ -2,7 +2,6 @@ package co.servicedesk.faveo.pro.frontend.fragments.tickets;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -14,7 +13,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -64,13 +62,14 @@ import co.servicedesk.faveo.pro.frontend.activities.NotificationActivity;
 import co.servicedesk.faveo.pro.frontend.activities.SearchActivity;
 import co.servicedesk.faveo.pro.frontend.activities.TicketDetailActivity;
 import co.servicedesk.faveo.pro.frontend.activities.TicketFilter;
-//import co.helpdesk.faveo.pro.frontend.activities.TicketMergeActtivity;
-//import co.helpdesk.faveo.pro.frontend.adapters.TicketOverviewAdapter;
 import co.servicedesk.faveo.pro.frontend.receivers.InternetReceiver;
 import co.servicedesk.faveo.pro.model.Data;
 import co.servicedesk.faveo.pro.model.TicketOverview;
 import dmax.dialog.SpotsDialog;
 import es.dmoral.toasty.Toasty;
+
+//import co.helpdesk.faveo.pro.frontend.activities.TicketMergeActtivity;
+//import co.helpdesk.faveo.pro.frontend.adapters.TicketOverviewAdapter;
 
 public class UnassignedTickets extends Fragment {
     private static final String ARG_PARAM1 = "param1";

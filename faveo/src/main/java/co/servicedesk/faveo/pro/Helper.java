@@ -1,11 +1,14 @@
 package co.servicedesk.faveo.pro;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -494,6 +497,10 @@ public class Helper {
     public static int compareDates(String duedate1) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar calendar1 = Calendar.getInstance();
+        SimpleDateFormat formatter1 = new SimpleDateFormat("dd/M/yyyy h:mm");
+        String currentTime = formatter1.format(calendar1.getTime());
+        Log.d("currentTime",currentTime);
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         sdf1.setTimeZone(TimeZone.getTimeZone("UTC"));
         Date date = null;
@@ -529,6 +536,7 @@ public class Helper {
         int i = 0;
 
         if (dueDate1.equals(currDate1)) {
+
             i = 2;
         }
 

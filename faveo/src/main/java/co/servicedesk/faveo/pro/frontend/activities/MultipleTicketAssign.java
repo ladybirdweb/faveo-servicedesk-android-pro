@@ -1,16 +1,14 @@
 package co.servicedesk.faveo.pro.frontend.activities;
 
-import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
 import co.servicedesk.faveo.pro.R;
-import co.servicedesk.faveo.pro.frontend.activities.OtherFeatures;
 
 public class MultipleTicketAssign extends AppCompatActivity {
 ImageView imageView;
@@ -30,9 +28,13 @@ ImageView imageView;
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(MultipleTicketAssign.this,OtherFeatures.class);
-                startActivity(intent);
+                finish();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }

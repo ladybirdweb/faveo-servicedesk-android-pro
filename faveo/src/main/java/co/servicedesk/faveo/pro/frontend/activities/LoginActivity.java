@@ -43,6 +43,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
+
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.pixplicity.easyprefs.library.Prefs;
 

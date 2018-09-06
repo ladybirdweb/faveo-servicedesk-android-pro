@@ -1,17 +1,15 @@
 package co.servicedesk.faveo.pro.frontend.activities;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Handler;
+import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -19,9 +17,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.telephony.TelephonyManager;
-import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
@@ -30,13 +26,10 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import com.github.javiersantos.bottomdialogs.BottomDialog;
 import com.google.i18n.phonenumbers.NumberParseException;
@@ -52,25 +45,17 @@ import com.pixplicity.easyprefs.library.Prefs;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
 
-import agency.tango.android.avatarview.IImageLoader;
-import agency.tango.android.avatarview.loader.PicassoLoader;
 import co.servicedesk.faveo.pro.Helper;
 import co.servicedesk.faveo.pro.R;
-import co.servicedesk.faveo.pro.backend.api.v1.Authenticate;
 import co.servicedesk.faveo.pro.backend.api.v1.Helpdesk;
 import co.servicedesk.faveo.pro.frontend.receivers.InternetReceiver;
 import co.servicedesk.faveo.pro.model.MessageEvent;
-import co.servicedesk.faveo.pro.model.TicketGlimpse;
 import dmax.dialog.SpotsDialog;
 import es.dmoral.toasty.Toasty;
 

@@ -1,46 +1,29 @@
 package co.servicedesk.faveo.pro.frontend.activities;
 
-import android.app.NotificationManager;
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.ContextThemeWrapper;
-import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.MultiAutoCompleteTextView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.javiersantos.bottomdialogs.BottomDialog;
-import com.gitonway.lee.niftymodaldialogeffects.lib.Effectstype;
-import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import org.json.JSONArray;
@@ -52,14 +35,9 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Set;
 
 import butterknife.BindView;
-import co.servicedesk.faveo.pro.Constants;
-import co.servicedesk.faveo.pro.FaveoApplication;
 import co.servicedesk.faveo.pro.R;
-import co.servicedesk.faveo.pro.backend.api.v1.Authenticate;
 import co.servicedesk.faveo.pro.backend.api.v1.Helpdesk;
 import co.servicedesk.faveo.pro.frontend.receivers.InternetReceiver;
 import co.servicedesk.faveo.pro.model.Data;
@@ -83,7 +61,6 @@ public class TicketSaveActivity extends AppCompatActivity {
     ArrayAdapter<Data> spinnerPriArrayAdapter, spinnerHelpArrayAdapter, spinnerTypeArrayAdapter, spinnerSourceArrayAdapter, staffArrayAdapter;
     int id,id1;
     String option;
-    private Effectstype effect;
     public static String
             keyDepartment = "", valueDepartment = "",
             keySLA = "", valueSLA = "",
@@ -107,7 +84,7 @@ public class TicketSaveActivity extends AppCompatActivity {
 // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(ContextCompat.getColor(TicketSaveActivity.this,R.color.faveo));
-        final NiftyDialogBuilder dialogBuilder=NiftyDialogBuilder.getInstance(TicketSaveActivity.this);
+        //final NiftyDialogBuilder dialogBuilder=NiftyDialogBuilder.getInstance(TicketSaveActivity.this);
         StrictMode.setThreadPolicy(policy);
         if (InternetReceiver.isConnected()){
             new FetchDependency().execute();
@@ -147,7 +124,6 @@ public class TicketSaveActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-
                 new BottomDialog.Builder(TicketSaveActivity.this)
                         .setTitle(getString(R.string.refreshingPage))
                         .setContent(getString(R.string.refreshPage))
@@ -185,8 +161,7 @@ public class TicketSaveActivity extends AppCompatActivity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(TicketSaveActivity.this,TicketDetailActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
         setSupportActionBar(toolbar);
@@ -283,7 +258,7 @@ public class TicketSaveActivity extends AppCompatActivity {
                                     @Override
                                     public void onClick(BottomDialog dialog) {
                                         if (InternetReceiver.isConnected()){
-                                            dialogBuilder.cancel();
+                                            //dialogBuilder.cancel();
                                             dialog1= new SpotsDialog(TicketSaveActivity.this, getString(R.string.updating_ticket));
                                             dialog1.show();
                                             try {
@@ -313,13 +288,13 @@ public class TicketSaveActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
-        if (InternetReceiver.isConnected()){
-            new FetchTicketDetail(Prefs.getString("TICKETid",null)).execute();
-        }
-    }
+//    @Override
+//    protected void onPostResume() {
+//        super.onPostResume();
+//        if (InternetReceiver.isConnected()){
+//            new FetchTicketDetail(Prefs.getString("TICKETid",null)).execute();
+//        }
+//    }
     private class FetchTicketDetail1 extends AsyncTask<String, Void, String> {
         String ticketID;
         String agentName;
@@ -418,7 +393,10 @@ public class TicketSaveActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             if (result.contains("Edited successfully")) {
-                new FetchTicketDetail1(Prefs.getString("TICKETid",null)).execute();
+                Toasty.success(TicketSaveActivity.this, getString(R.string.update_success), Toast.LENGTH_LONG).show();
+                Intent intent=new Intent(TicketSaveActivity.this, MainActivity.class);
+                startActivity(intent);
+                //new FetchTicketDetail1(Prefs.getString("TICKETid",null)).execute();
 
             } else
                 Toasty.error(TicketSaveActivity.this, getString(R.string.failed_to_update_ticket), Toast.LENGTH_LONG).show();
@@ -694,16 +672,7 @@ public class TicketSaveActivity extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
-        if (!TicketDetailActivity.isShowing) {
-            Log.d("isShowing", "false");
-            Intent intent = new Intent(this, TicketDetailActivity.class);
-            startActivity(intent);
-        } else {
-            Intent intent = new Intent(this, TicketDetailActivity.class);
-            startActivity(intent);
-            Log.d("isShowing", "true");
-        }
-        super.onBackPressed();
+        finish();
 
     }
     private class FetchDependency extends AsyncTask<String, Void, String> {

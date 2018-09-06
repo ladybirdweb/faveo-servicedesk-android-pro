@@ -1,22 +1,12 @@
 package co.servicedesk.faveo.pro.frontend.activities;
-
-import android.animation.Animator;
-import android.app.ActionBar;
-import android.app.AlertDialog;
-import android.app.NotificationManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
@@ -26,44 +16,24 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewAnimationUtils;
-import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.crashlytics.android.Crashlytics;
-import com.getkeepsafe.taptargetview.TapTarget;
-import com.getkeepsafe.taptargetview.TapTargetSequence;
-import com.getkeepsafe.taptargetview.TapTargetView;
 import com.github.javiersantos.bottomdialogs.BottomDialog;
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.gordonwong.materialsheetfab.DimOverlayFrameLayout;
 import com.pixplicity.easyprefs.library.Prefs;
-import com.squareup.haha.perflib.Main;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-
 import butterknife.ButterKnife;
-import co.servicedesk.faveo.pro.Constants;
-import co.servicedesk.faveo.pro.frontend.activities.NotificationActivity;
-import co.servicedesk.faveo.pro.FaveoApplication;
-import co.servicedesk.faveo.pro.LocaleHelper;
+import co.servicedesk.faveo.pro.SharedPreference;
 import co.servicedesk.faveo.pro.R;
-import co.servicedesk.faveo.pro.backend.api.v1.Authenticate;
-import co.servicedesk.faveo.pro.backend.api.v1.Helpdesk;
 import co.servicedesk.faveo.pro.frontend.drawers.FragmentDrawer;
 import co.servicedesk.faveo.pro.frontend.fragments.About;
 import co.servicedesk.faveo.pro.frontend.fragments.ClientList;
-import co.servicedesk.faveo.pro.frontend.fragments.ConfirmationDialog;
 import co.servicedesk.faveo.pro.frontend.fragments.Settings;
 import co.servicedesk.faveo.pro.frontend.fragments.tickets.ClosedTickets;
 
@@ -82,11 +52,7 @@ import co.servicedesk.faveo.pro.frontend.fragments.tickets.UnassignedTickets;
 import co.servicedesk.faveo.pro.frontend.fragments.tickets.UpdatedAtAsc;
 import co.servicedesk.faveo.pro.frontend.fragments.tickets.UpdatedAtDesc;
 import co.servicedesk.faveo.pro.frontend.receivers.InternetReceiver;
-import co.servicedesk.faveo.pro.frontend.views.Fab;
 import co.servicedesk.faveo.pro.model.MessageEvent;
-import dmax.dialog.SpotsDialog;
-import es.dmoral.toasty.Toasty;
-import io.fabric.sdk.android.Fabric;
 import io.github.yavski.fabspeeddial.FabSpeedDial;
 
 /**
@@ -119,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
     FrameLayout rootLayout;
     FabSpeedDial fab;
     DimOverlayFrameLayout dimOverlayFrameLayout;
+    private SharedPreference sharedPreferenceObj;
     //    private ArrayList<String> mList = new ArrayList<>();
 //    @BindView(R.id.sort_view)
 //    RelativeLayout sortView;
@@ -131,18 +98,14 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Fabric.with(this, new Crashlytics());
-
-        //FirebaseCrash.setCrashCollectionEnabled(false);
-
-        //FirebaseCrash.report(new Exception("My first Android non-fatal error"));
+        sharedPreferenceObj=new SharedPreference(MainActivity.this);
         isShowing = true;
 //        requestWindowFeature(Window.FEATURE_NO_TITLE);
 //        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 //                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
-        fab= (FabSpeedDial) findViewById(R.id.fab_main);
-        dimOverlayFrameLayout= (DimOverlayFrameLayout) findViewById(R.id.dimOverlay);
+        fab = (FabSpeedDial) findViewById(R.id.fab_main);
+        dimOverlayFrameLayout = (DimOverlayFrameLayout) findViewById(R.id.dimOverlay);
         Window window = MainActivity.this.getWindow();
 
 // clear FLAG_TRANSLUCENT_STATUS flag:
@@ -152,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
 // finally change the color
-        window.setStatusBarColor(ContextCompat.getColor(MainActivity.this,R.color.faveo));
+        window.setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.faveo));
         ButterKnife.bind(this);
 
 
@@ -160,15 +123,15 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
         rootLayout = (FrameLayout) findViewById(R.id.root_layout);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        Prefs.putString("querry1","null");
-        strings=new ArrayList<>();
-        strings.add(0,"Sort by");
-        strings.add(1,"Due by time");
-        strings.add(2,"Priority");
-        strings.add(3,"Created at");
-        strings.add(4,"Updated at");
-        strings.add(5,"Ticket title");
-        strings.add(6,"Status");
+        Prefs.putString("querry1", "null");
+        strings = new ArrayList<>();
+        strings.add(0, "Sort by");
+        strings.add(1, "Due by time");
+        strings.add(2, "Priority");
+        strings.add(3, "Created at");
+        strings.add(4, "Updated at");
+        strings.add(5, "Ticket title");
+        strings.add(6, "Status");
 //        Prefs.putString("came from filter","false");
 
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -177,11 +140,9 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
 //
 //            }
 //        });
-
-
-        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbarMain);
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.inflateMenu(R.menu.menu_inbox);
-        mToolbar.setNavigationIcon(R.drawable.attachment);
+        mToolbar.setNavigationIcon(R.drawable.ic_action_attach_file);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -221,7 +182,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
 //
 //            }
 //        }
-        Prefs.putString("querry1","null");
+        Prefs.putString("querry1", "null");
 
 
 //Initializing the bottomNavigationView
@@ -267,40 +228,131 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
         fragmentTransaction.replace(R.id.container_body, inboxTickets);
         fragmentTransaction.commit();
         setActionBarTitle(getResources().getString(R.string.inbox));
+//        TapTargetView.showFor(this,                 // `this` is an Activity
+//                TapTarget.forView(findViewById(R.id.fab_main), "This is a FAB", "From here you can create ticket,make some changes and request for an item")
+//                        // All options below are optional
+//                        .outerCircleColor(R.color.faveo)      // Specify a color for the outer circle
+//                        .outerCircleAlpha(0.96f)            // Specify the alpha amount for the outer circle
+//                        .targetCircleColor(R.color.white)   // Specify a color for the target circle
+//                        .titleTextSize(20)                  // Specify the size (in sp) of the title text
+//                        .titleTextColor(R.color.white)      // Specify the color of the title text
+//                        .descriptionTextSize(10)            // Specify the size (in sp) of the description text
+//                        .descriptionTextColor(R.color.white)  // Specify the color of the description text
+//                        .textColor(R.color.blue)            // Specify a color for both the title and description text
+//                        .textTypeface(Typeface.SANS_SERIF)  // Specify a typeface for the text
+//                        .dimColor(R.color.black)            // If set, will dim behind the view with 30% opacity of the given color
+//                        .drawShadow(true)                   // Whether to draw a drop shadow or not
+//                        .cancelable(false)                  // Whether tapping outside the outer circle dismisses the view
+//                        .tintTarget(true)                   // Whether to tint the target view's color
+//                        .transparentTarget(false)           // Specify whether the target is transparent (displays the content underneath)
+//                        //.icon(R.drawable.ic_action_attach_file)                     // Specify a custom drawable to draw as the target
+//                        .targetRadius(60),                  // Specify the target radius (in dp)
+//                new TapTargetView.Listener() {          // The listener can listen for regular clicks, long clicks or cancels
+//                    @Override
+//                    public void onTargetClick(TapTargetView view) {
+//                        super.onTargetClick(view);      // This call is optional
+//                        //doSomething();
+//                    }
+//                });
 
-//        AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivity.this);
-//        builder1.setTitle("Faveo Pro");
-//        builder1.setMessage("Welcome to FAVEO!");
-//        builder1.setIcon(R.mipmap.ic_launcher);
-//        builder1.setCancelable(true);
+        // We load a drawable and create a location to show a tap target here
+        // We need the display to get the width and height at this point in time
+//        final Display display = getWindowManager().getDefaultDisplay();
+//        // Load our little droid guy
+//        final Drawable droid = ContextCompat.getDrawable(this, R.mipmap.ic_launcher);
+//        // Tell our droid buddy where we want him to appear
+//        final Rect droidTarget = new Rect(0, 0, droid.getIntrinsicWidth() * 2, droid.getIntrinsicHeight() * 2);
+//        // Using deprecated methods makes you look way cool
+//        droidTarget.offset(display.getWidth() / 2, display.getHeight() / 2);
 //
-//        final AlertDialog dlg = builder1.create();
+//        final SpannableString sassyDesc = new SpannableString("It allows you to go back, sometimes");
+//        sassyDesc.setSpan(new StyleSpan(Typeface.ITALIC), sassyDesc.length() - "sometimes".length(), sassyDesc.length(), 0);
 //
-//        dlg.show();
+//        // We have a sequence of targets, so lets build it!
+//        final TapTargetSequence sequence = new TapTargetSequence(this)
+//                .targets(
 //
-//        final Timer t = new Timer();
-//        t.schedule(new TimerTask() {
-//            public void run() {
-//                dlg.dismiss(); // when the task active then close the dialog
-//                t.cancel(); // also just top the timer thread, otherwise, you may receive a crash report
-//            }
-//        }, 2000);
-
+//                        // This tap target will target the back button, we just need to pass its containing toolbar
+//                        TapTarget.forToolbarNavigationIcon(mToolbar, "This is the hamburger icon,from here you can control the app.You will get option to create ticket,access the settings and support page and also you will get option to log out from the app.", sassyDesc).id(1)
+//                                .dimColor(android.R.color.black)
+//                                .outerCircleColor(R.color.faveo)
+//                                .targetCircleColor(android.R.color.white)
+//                                .transparentTarget(true)
+//                                .textColor(android.R.color.white).cancelable(false),
+//                        // Likewise, this tap target will target the search button
+//                        TapTarget.forToolbarMenuItem(mToolbar, R.id.actionsearch, "This is a search icon", "From here you will be able to search ticket and user in your helpdesk.")
+//                                .dimColor(android.R.color.black)
+//                                .outerCircleColor(R.color.faveo)
+//                                .targetCircleColor(android.R.color.white)
+//                                .transparentTarget(true)
+//                                .textColor(android.R.color.white)
+//                                .id(2).cancelable(false),
+//                        TapTarget.forToolbarMenuItem(mToolbar, R.id.action_noti, "This is a notification icon", "You will get all the notification in your helpdesk from here.")
+//                                .dimColor(android.R.color.black)
+//                                .outerCircleColor(R.color.faveo)
+//                                .targetCircleColor(android.R.color.white)
+//                                .transparentTarget(true)
+//                                .textColor(android.R.color.white)
+//                                .id(3).cancelable(false)
+//                )
+//                .listener(new TapTargetSequence.Listener() {
+//                    // This listener will tell us when interesting(tm) events happen in regards
+//                    // to the sequence
+//                    @Override
+//                    public void onSequenceFinish() {
+//                        //((TextView) findViewById(R.id.educated)).setText("Congratulations! You're educated now!");
+//                    }
+//
+//                    @Override
+//                    public void onSequenceStep(TapTarget lastTarget, boolean targetClicked) {
+//                        Log.d("TapTargetView", "Clicked on " + lastTarget.id());
+//                    }
+//
+//                    @Override
+//                    public void onSequenceCanceled(TapTarget lastTarget) {
+////                        final AlertDialog dialog = new AlertDialog.Builder(MainActivity.this)
+////                                .setTitle("Uh oh")
+////                                .setMessage("You canceled the sequence")
+////                                .setPositiveButton("Oops", null).show();
+////                        TapTargetView.showFor(dialog,
+////                                TapTarget.forView(dialog.getButton(DialogInterface.BUTTON_POSITIVE), "Uh oh!", "You canceled the sequence at step " + lastTarget.id())
+////                                        .cancelable(false)
+////                                        .tintTarget(false), new TapTargetView.Listener() {
+////                                    @Override
+////                                    public void onTargetClick(TapTargetView view) {
+////                                        super.onTargetClick(view);
+////                                        dialog.dismiss();
+////                                    }
+////                                });
+//                    }
+//                });
+//        if(sharedPreferenceObj.getApp_runFirst().equals("FIRST"))
+//        {
+//            // That's mean First Time Launch
+//            // After your Work , SET Status NO
+//            TapTargetView.showFor(this,                 // `this` is an Activity
+//                    TapTarget.forView(findViewById(R.id.fab_main), "This is a FAB", "From here you can create ticket,or you can edit your profile")
+//                            // All options below are optional
+//                            .dimColor(android.R.color.black)
+//                            .outerCircleColor(R.color.faveo)
+//                            .targetCircleColor(android.R.color.white)
+//                            .textColor(android.R.color.white).cancelable(false),                  // Specify the target radius (in dp)
+//                    new TapTargetView.Listener() {          // The listener can listen for regular clicks, long clicks or cancels
+//                        @Override
+//                        public void onTargetClick(TapTargetView view) {
+//                            super.onTargetClick(view);      // This call is optional
+//                            sequence.start();
+//                        }
+//                    });
+//
+//            sharedPreferenceObj.setApp_runFirst("NO");
+//        }
+//        else
+//        {
+//
+//            // App is not First Time Launch
+//        }
     }
-
-
-
-    //    private void logUser() {
-//        // TODO: Use the current user's information
-//        // You can call any combination of these three methods
-//        Crashlytics.setUserIdentifier(Preference.getUserID());
-//        Crashlytics.setUserEmail(Constants.URL);
-//        Crashlytics.setUserName(Preference.getUsername());
-//    }
-//@Override
-//protected void attachBaseContext(Context base) {
-//    super.attachBaseContext(LocaleHelper.onAttach(base));
-//}
 
     @Override
     protected void onDestroy() {
@@ -349,7 +401,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
     }
 
     public void setActionBarTitle(final String title) {
-        Toolbar toolbarTop = (Toolbar) findViewById(R.id.toolbarMain);
+        Toolbar toolbarTop = (Toolbar) findViewById(R.id.toolbar);
         TextView mTitle = (TextView) toolbarTop.findViewById(R.id.title);
         mTitle.setText(title.toUpperCase());
 
@@ -363,36 +415,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
 //        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
-//        MenuItem item = menu.findItem(R.id.spinner);
-//        final Spinner spinner = (Spinner) MenuItemCompat.getActionView(item);
-//
-//        ArrayAdapter<String> spinnerPriArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,strings); //selected item will look like a spinner set from XML
-//        spinnerPriArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        spinner.setAdapter(spinnerPriArrayAdapter);
-//
-//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//                int pos = spinner.getSelectedItemPosition();
-//
-//                if (pos == 0) {
-//                    ((TextView) adapterView.getChildAt(0)).setTextColor(Color.parseColor("#3da6d7"));
-//                    return;
-//                } else {
-//                    ((TextView) adapterView.getChildAt(0)).setTextColor(Color.parseColor("#3da6d7"));
-////                    ((TextView) adapterView.getChildAt(0)).setTextSize(5);
-//                    Toast.makeText(MainActivity.this, "Position" + pos, Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> adapterView) {
-//
-//            }
-//        });
-//
-//
+//        getMenuInflater().inflate(R.menu.menu_inbox, menu);
 //        return true;
 //    }
 

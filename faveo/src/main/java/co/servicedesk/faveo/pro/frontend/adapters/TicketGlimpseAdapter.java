@@ -16,7 +16,6 @@ import java.util.List;
 import co.servicedesk.faveo.pro.R;
 import co.servicedesk.faveo.pro.frontend.activities.TicketDetailActivity;
 import co.servicedesk.faveo.pro.model.TicketGlimpse;
-import co.servicedesk.faveo.pro.frontend.activities.TicketDetailActivity;
 
 /**
  * This adapter is for the Open/Close page in the client detail page.

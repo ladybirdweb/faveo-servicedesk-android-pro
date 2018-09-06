@@ -1,31 +1,27 @@
 {
   "project_info": {
-    "project_number": "330395017006",
-    "firebase_url": "https://faveo-servicedesk-pro.firebaseio.com",
-    "project_id": "faveo-servicedesk-pro",
-    "storage_bucket": "faveo-servicedesk-pro.appspot.com"
+    "project_number": "3921353215",
+    "firebase_url": "https://faveo-service-desk-pro.firebaseio.com",
+    "project_id": "faveo-service-desk-pro",
+    "storage_bucket": "faveo-service-desk-pro.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:330395017006:android:5b63f1737fa67c6f",
+        "mobilesdk_app_id": "1:3921353215:android:5b63f1737fa67c6f",
         "android_client_info": {
           "package_name": "co.servicedesk.faveo.pro"
         }
       },
       "oauth_client": [
         {
-          "client_id": "330395017006-udm09aj4b6vs4f423ki79ehjr8uc34kl.apps.googleusercontent.com",
-          "client_type": 3
-        },
-        {
-          "client_id": "330395017006-udm09aj4b6vs4f423ki79ehjr8uc34kl.apps.googleusercontent.com",
+          "client_id": "3921353215-rcnv64psug25kt9cq8a9qisdea1v2taj.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC4_EfISjlfYr6g4W9HnnICCOChPPGkGDs"
+          "current_key": "AIzaSyDmHm-FptaCBj76DK4Gz2iBe8qSJm9SQiM"
         }
       ],
       "services": {

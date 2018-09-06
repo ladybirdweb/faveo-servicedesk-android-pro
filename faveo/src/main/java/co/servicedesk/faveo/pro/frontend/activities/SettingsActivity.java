@@ -3,11 +3,11 @@ package co.servicedesk.faveo.pro.frontend.activities;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
 import android.view.View;
 import android.view.Window;
@@ -20,10 +20,8 @@ import android.widget.Toast;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import co.servicedesk.faveo.pro.R;
-import co.servicedesk.faveo.pro.frontend.activities.TicketsRelated;
 import es.dmoral.toasty.Toasty;
 
-import static co.servicedesk.faveo.pro.FaveoApplication.getContext;
 import static co.servicedesk.faveo.pro.FaveoApplication.getContext;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -64,8 +62,7 @@ public class SettingsActivity extends AppCompatActivity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(SettingsActivity.this,MainActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
         login.setOnClickListener(new View.OnClickListener() {
@@ -197,4 +194,10 @@ public class SettingsActivity extends AppCompatActivity {
 ////            }
 ////        }, 2500);
 //    }
+
+
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 }

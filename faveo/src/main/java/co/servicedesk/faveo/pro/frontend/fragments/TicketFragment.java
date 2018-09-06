@@ -32,14 +32,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
 import co.servicedesk.faveo.pro.Helper;
 import co.servicedesk.faveo.pro.R;
 import co.servicedesk.faveo.pro.backend.api.v1.Helpdesk;
-import co.servicedesk.faveo.pro.frontend.activities.TicketDetailActivity;
 import co.servicedesk.faveo.pro.frontend.adapters.TicketOverviewAdapter;
-import co.servicedesk.faveo.pro.frontend.fragments.ticketDetail.Conversation;
-import co.servicedesk.faveo.pro.frontend.fragments.tickets.MyTickets;
 import co.servicedesk.faveo.pro.frontend.receivers.InternetReceiver;
 import co.servicedesk.faveo.pro.model.TicketOverview;
 import dmax.dialog.SpotsDialog;

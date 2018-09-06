@@ -7,15 +7,11 @@ import android.net.ConnectivityManager;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
-import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.ndk.CrashlyticsNdk;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import java.io.File;
 
-import co.servicedesk.faveo.pro.LocalFileUncaughtExceptionHandler;
 import co.servicedesk.faveo.pro.frontend.receivers.InternetReceiver;
-import io.fabric.sdk.android.Fabric;
 
 /**
  * In this class we are adding fabric to our application.
@@ -87,7 +83,7 @@ public class FaveoApplication extends MultiDexApplication {
           Fabric.io.
           Crash reporting tool.
          */
-        Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
+        //Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
         instance = this;
 
 

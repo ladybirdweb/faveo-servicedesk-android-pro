@@ -132,7 +132,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginBottom="1dp"
             android:layout_marginTop="1dp"
-            android:background="@color/background_dim_overlay" />
+            android:background="@color/blue" />
 
         <com.github.curioustechizen.ago.RelativeTimeTextView
             android:id="@+id/textView_ticket_time"
@@ -160,7 +160,10 @@
             android:gravity="center"
             android:paddingBottom="2dp"
             android:text="@string/due_today"
+            android:alpha=".4"
+            android:backgroundTint="#ff6666"
             android:textSize="12sp"
+            android:textColor="@color/white"
             android:textStyle="bold"
             android:visibility="gone" />
 
@@ -173,6 +176,9 @@
             android:background="@drawable/rectangle2"
             android:gravity="center"
             android:paddingBottom="2dp"
+            android:alpha=".4"
+            android:backgroundTint="#ff9933"
+            android:textColor="@color/white"
             android:text="@string/due_today"
             android:textSize="12sp"
             android:textStyle="bold"

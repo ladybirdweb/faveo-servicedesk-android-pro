@@ -1,15 +1,11 @@
 package co.servicedesk.faveo.pro.frontend.activities;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -21,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.github.javiersantos.bottomdialogs.BottomDialog;
-import com.hbb20.CountryCodePicker;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import org.json.JSONArray;
@@ -31,7 +26,6 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-import butterknife.BindView;
 import co.servicedesk.faveo.pro.Helper;
 import co.servicedesk.faveo.pro.R;
 import co.servicedesk.faveo.pro.backend.api.v1.Helpdesk;

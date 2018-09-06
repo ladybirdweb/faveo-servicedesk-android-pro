@@ -4,11 +4,10 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Handler;
+import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -27,9 +26,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import co.servicedesk.faveo.pro.R;
-import co.servicedesk.faveo.pro.backend.api.v1.Authenticate;
 import co.servicedesk.faveo.pro.backend.api.v1.Helpdesk;
-import co.servicedesk.faveo.pro.frontend.activities.TicketDetailActivity;
 import dmax.dialog.SpotsDialog;
 import es.dmoral.toasty.Toasty;
 
@@ -96,8 +93,7 @@ public class InternalNoteActivity extends AppCompatActivity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(InternalNoteActivity.this,TicketDetailActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
         buttonCreate.setOnClickListener(new View.OnClickListener() {
@@ -193,5 +189,8 @@ public class InternalNoteActivity extends AppCompatActivity {
         }
     }
 
-
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 }
