@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -14,6 +16,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -81,7 +84,7 @@ public class InboxTickets extends Fragment {
 
     Toolbar toolbarmain;
     @BindView(R.id.swipeRefresh)
-    SwipeRefreshLayout swipeRefresh;
+    SwipeRefreshLayout swipeRefreshLayout;
     SpotsDialog dialog1;
     @BindView(R.id.cardList)
     ShimmerRecyclerView recyclerView;
@@ -212,7 +215,6 @@ public class InboxTickets extends Fragment {
                              Bundle savedInstanceState) {
         if (rootView == null) {
             rootView = inflater.inflate(R.layout.fragment_recycler, container, false);
-
             toolbarmain = (Toolbar) getActivity().findViewById(R.id.toolbar);
 
 //            ActionBar actionBar = getActivity().getActionBar();
@@ -466,7 +468,7 @@ public class InboxTickets extends Fragment {
             });
             dialog1=new SpotsDialog(getActivity(),getString(R.string.pleasewait));
             //progressDialog.setMessage("Please wait");
-            swipeRefresh.setColorSchemeResources(R.color.faveo_blue);
+            swipeRefreshLayout.setColorSchemeResources(R.color.faveo_blue);
             try {
                 check = Prefs.getString("came from filter", null);
                 if (InternetReceiver.isConnected()) {
@@ -843,7 +845,7 @@ public class InboxTickets extends Fragment {
                     empty_view.setVisibility(View.GONE);
                 }
 
-                swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
                         if (InternetReceiver.isConnected()) {
@@ -1139,7 +1141,7 @@ public class InboxTickets extends Fragment {
 //                        new FetchFirst(getActivity()).execute();
                         } else {
                             recyclerView.setVisibility(View.INVISIBLE);
-                            swipeRefresh.setRefreshing(false);
+                            swipeRefreshLayout.setRefreshing(false);
                             empty_view.setVisibility(View.GONE);
                             noInternet_view.setVisibility(View.VISIBLE);
                         }
@@ -1830,8 +1832,8 @@ public class InboxTickets extends Fragment {
             dialog1.dismiss();
 
             textView.setText("" + total + " tickets");
-            if (swipeRefresh.isRefreshing())
-                swipeRefresh.setRefreshing(false);
+            if (swipeRefreshLayout.isRefreshing())
+                swipeRefreshLayout.setRefreshing(false);
 //            try {
 //                String state = Prefs.getString("405", null);
 //                Log.d("state", state);
@@ -2047,8 +2049,8 @@ public class InboxTickets extends Fragment {
             Log.d("URL", url);
             dialog1.dismiss();
             textView.setText("" + total + " tickets");
-            if (swipeRefresh.isRefreshing())
-                swipeRefresh.setRefreshing(false);
+            if (swipeRefreshLayout.isRefreshing())
+                swipeRefreshLayout.setRefreshing(false);
 
             if (result == null) {
                 Toasty.error(getActivity(), getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
@@ -2303,13 +2305,14 @@ public class InboxTickets extends Fragment {
             if (checked_items.contains(id)) {
                 ticketViewHolder.ticket.setBackgroundColor(Color.parseColor("#d6d6d6"));
             } else {
-                if (ticketOverview.lastReply.equals("client")) {
-                    ticketViewHolder.ticket.setBackgroundColor(Color.parseColor("#FFFFFF"));
-//                    int color = Color.parseColor("#ededed");
-//                    ticketViewHolder.ticket.setBackgroundColor(color);
-//                } else {
+                ticketViewHolder.ticket.setBackgroundColor(Color.parseColor("#FFFFFF"));
+//                if (ticketOverview.lastReply.equals("client")) {
 //
-                }
+////                    int color = Color.parseColor("#ededed");
+////                    ticketViewHolder.ticket.setBackgroundColor(color);
+////                } else {
+////
+//                }
                 //ticketViewHolder.ticket.setBackgroundColor(Color.parseColor("#FFFFFF"));
             }
 
@@ -2835,8 +2838,16 @@ public class InboxTickets extends Fragment {
         @Override
         public boolean onCreateActionMode(android.support.v7.view.ActionMode mode, Menu menu) {
             //Inflate the menu over action mode
+
             mode.getMenuInflater().inflate(R.menu.multiplemenuinbox, menu);
-            SubMenu fileMenu = menu.addSubMenu("Change Status");
+            SubMenu fileMenu = menu.addSubMenu("Change Status").setIcon(getResources().getDrawable(R.drawable.changestatuslogo));
+            Drawable drawable = fileMenu.getItem().getIcon();
+            if (drawable != null) {
+                // If we don't mutate the drawable, then all drawable's with this id will have a color
+                // filter applied to it.
+                drawable.mutate();
+                drawable.setColorFilter(getResources().getColor(R.color.faveo), PorterDuff.Mode.SRC_ATOP);
+            }
             //menu.addSubMenu("Change Status");
             for (int i=0;i<statusItems.size();i++){
                 Data data=statusItems.get(i);
@@ -2851,12 +2862,12 @@ public class InboxTickets extends Fragment {
             //Sometimes the meu will not be visible so for that we need to set their visibility manually in this method
             //So here show action menu according to SDK Levels
             if (Build.VERSION.SDK_INT < 11) {
-                //MenuItemCompat.setShowAsAction(menu.findItem(R.id.mergeticket), MenuItemCompat.SHOW_AS_ACTION_NEVER);
+                MenuItemCompat.setShowAsAction(menu.findItem(R.id.assignticket), MenuItemCompat.SHOW_AS_ACTION_NEVER);
 
 //            MenuItemCompat.setShowAsAction(menu.findItem(R.id.action_copy), MenuItemCompat.SHOW_AS_ACTION_NEVER);
 //            MenuItemCompat.setShowAsAction(menu.findItem(R.id.action_forward), MenuItemCompat.SHOW_AS_ACTION_NEVER);
             } else {
-                //menu.findItem(R.id.mergeticket).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+                menu.findItem(R.id.assignticket).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 //            menu.findItem(R.id.action_copy).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 //            menu.findItem(R.id.action_forward).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
             }
@@ -2880,7 +2891,6 @@ public class InboxTickets extends Fragment {
                 Data data = statusItems.get(i);
                 if (data.getName().equals(item.toString())) {
                     id = data.getID();
-
                     if (status.equalsIgnoreCase(item.toString())) {
                         Toasty.warning(getActivity(), "Ticket is already in " + item.toString() + " state", Toast.LENGTH_SHORT).show();
                     } else {

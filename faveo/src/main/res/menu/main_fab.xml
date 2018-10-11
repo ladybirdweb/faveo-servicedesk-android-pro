@@ -6,14 +6,15 @@
             android:title="Create Ticket"
             />
         <item
-            android:id="@+id/fab_requestItem"
-            android:icon="@drawable/ic_shopping_cart_black_24dp"
-            android:title="Request Item"
+            android:id="@+id/fab_createProblem"
+            android:icon="@drawable/problems"
+            android:title="Create Problem"
+            android:iconTint="@color/faveo"
             />
         <item
-            android:id="@+id/fab_createChange"
-            android:icon="@drawable/ic_createchange_black_24dp"
-            android:title="Create Change"
+            android:id="@+id/fab_addAsset"
+            android:icon="@drawable/ic_add_black_24dp_colored"
+            android:title="Add Asset"
             />
     </menu>
 

@@ -485,7 +485,21 @@
     <string name="from">From</string>
     <string name="Impact">Impact</string>
     <string name="description">Description</string>
-    <string name="addAsset">Add asset</string>
+    <string name="addAsset">Attach asset</string>
+    <string name="associating">associating with the ticket?</string>
+    <string name="no_problems_found">No problems found</string>
+    <string name="selectUser">Please select a user to create the problem</string>
+    <string name="descriptionEmpty">Description must not be empty</string>
+    <string name="impactrequired">please select the impact</string>
+    <string name="statusRequired">please select the status</string>
+    <string name="departmentRequired">please select the department</string>
+    <string name="creating_problem">Creating problem</string>
+    <string name="problem_confirm">are you sure you want to create this problem?</string>
+    <string name="all_problem_loaded">All problems are loaded</string>
+    <string name="problem_deleted">Problem Deleted Successfully</string>
+    <string name="editingProblem">Editing Problem</string>
+    <string name="editProblemConfirm">are you sure you want to edit the problem?</string>
+    <string name="impact">Impact</string>
     <string-array name="CountryCodes">
 
         <item>93,AF</item>

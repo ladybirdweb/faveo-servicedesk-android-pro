@@ -180,6 +180,7 @@ public class InternalNoteActivity extends AppCompatActivity {
                 Prefs.putString("ticketThread",jsonObject.toString());
                 Toasty.success(InternalNoteActivity.this, getString(R.string.internal_notes_posted), Toast.LENGTH_LONG).show();
                 Intent intent=new Intent(InternalNoteActivity.this,TicketDetailActivity.class);
+                Prefs.putString("cameFromNewProblem","true");
                 startActivity(intent);
                 editTextInternalNote.getText().clear();
             } catch (JSONException e) {

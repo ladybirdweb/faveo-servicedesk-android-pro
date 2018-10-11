@@ -57,6 +57,7 @@ import co.servicedesk.faveo.pro.R;
 import co.servicedesk.faveo.pro.UIUtils;
 import co.servicedesk.faveo.pro.backend.api.v1.Helpdesk;
 import co.servicedesk.faveo.pro.frontend.activities.CreateTicketActivity;
+import co.servicedesk.faveo.pro.frontend.activities.ExistingProblems;
 import co.servicedesk.faveo.pro.frontend.activities.LoginActivity;
 import co.servicedesk.faveo.pro.frontend.activities.MainActivity;
 import co.servicedesk.faveo.pro.frontend.activities.SettingsActivity;
@@ -164,6 +165,7 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
         layout.findViewById(R.id.settings).setOnClickListener(this);
         layout.findViewById(R.id.about).setOnClickListener(this);
         layout.findViewById(R.id.logout).setOnClickListener(this);
+        layout.findViewById(R.id.problems).setOnClickListener(this);
         drawerItem = new DataModel[5];
         serviceDeskDrawers=new ServiceDeskDrawer[2];
         ButterKnife.bind(this, layout);
@@ -730,6 +732,12 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
                 fragment = getActivity().getSupportFragmentManager().findFragmentByTag(title);
                 if (fragment == null)
                     fragment = new ClientList();
+                break;
+
+            case R.id.problems:
+                Intent intent1=new Intent(getContext(), ExistingProblems.class);
+                Prefs.putString("cameFromMain","True");
+                startActivity(intent1);
                 break;
 //            case R.id.settings:
 //                Intent intentSettings=new Intent(getContext(), SettingsActivity.class);

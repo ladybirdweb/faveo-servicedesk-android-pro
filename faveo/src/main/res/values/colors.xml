@@ -50,4 +50,10 @@
     <color name="grey_500">#9E9E9E</color>
     <color name="faveo_200">#B2EBF2</color>
 
+    <color name="tabTitle">@color/faveo</color>
+    <color name="tabTitle_selected">#ffffff</color>
+    <color name="tabBackground">#ffffff</color>
+    <color name="tabBackground_selected">@color/faveo</color>
+
+
 </resources>

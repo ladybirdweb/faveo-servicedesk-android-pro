@@ -41,7 +41,6 @@ import co.servicedesk.faveo.pro.frontend.activities.TicketDetailActivity;
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "MyFirebaseMsgService";
     String by;
-    Context context;
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);

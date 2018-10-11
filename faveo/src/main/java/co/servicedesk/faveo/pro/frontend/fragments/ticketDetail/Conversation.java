@@ -116,135 +116,144 @@ public class Conversation extends Fragment {
             //            swipeRefresh.setRefreshing(true);
 //            new FetchFirst(getActivity()).execute();
             if (InternetReceiver.isConnected()) {
-                if (Prefs.getString("ticketThread", null).equals("")) {
-                    noInternet_view.setVisibility(View.GONE);
-                    // swipeRefresh.setRefreshing(true);
-                    progressDialog = new ProgressDialog(getActivity());
-                    progressDialog.setMessage(getString(R.string.pleasewait));
-                    //swipeRefresh.setRefreshing(true);
-                    textView.setVisibility(View.GONE);
-                    swipeRefresh.setRefreshing(true);
-                    task = new FetchTicketThreads(getActivity(), Prefs.getString("TICKETid", null));
-                    task.execute();
-                }
-                else {
-                    try {
-                        progressDialog.dismiss();
-                    } catch (NullPointerException e) {
-                        e.printStackTrace();
-                    }
-                    if (InternetReceiver.isConnected()) {
-                        String jsonObject2 = Prefs.getString("ticketThread", null);
-                        textView.setVisibility(View.GONE);
-                        Log.d("jsonObject2", jsonObject2);
-                        JSONObject jsonObject = null;
-                        try {
-                            jsonObject = new JSONObject(jsonObject2);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        JSONObject jsonObject1 = null;
-                        try {
-                            jsonObject1 = jsonObject.getJSONObject("data");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        JSONArray jsonArray = null;
-                        try {
-                            jsonArray = jsonObject1.getJSONArray("threads");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            TicketThread ticketThread = null;
-                            try {
-                                String clientPicture = null;
-                                try {
-                                    clientPicture = jsonArray.getJSONObject(i).getJSONObject("user").getString("profile_pic");
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-/*                        String clientName = jsonArray.getJSONObject(i).getString("poster");
-                        if (clientName.equals("null") || clientName.equals(""))
-                            clientName = "NOTE";*/
-                                String firstName = jsonArray.getJSONObject(i).getJSONObject("user").getString("first_name");
-                                String userName = jsonArray.getJSONObject(i).getJSONObject("user").getString("user_name");
-                                String lastName = jsonArray.getJSONObject(i).getJSONObject("user").getString("last_name");
-                                JSONArray jsonArray1 = jsonArray.getJSONObject(i).getJSONArray("attach");
-                                stringBuilderName = new StringBuilder();
-                                stringBuilderFile = new StringBuilder();
-                                if (jsonArray1.length() == 0) {
-                                    Prefs.putString("imageBase64", "no attachment");
-                                    Log.d("FileBase64", "no attachment");
-                                    name = "";
-                                } else {
-                                    for (int j = 0; j < jsonArray1.length(); j++) {
-                                        JSONObject jsonObject5 = jsonArray1.getJSONObject(j);
-                                        file = jsonObject5.getString("file");
-                                        name = jsonObject5.getString("name");
-                                        //stringBuilderFile=new StringBuilder(file);
-                                        stringBuilderName.append(name + ",");
-                                        stringBuilderFile.append(file + ",");
-                                        //stringBuilderFile.append(file+",");
-                                        type = jsonObject5.getString("type");
-                                    }
-                                    //Log.d("FileBase64", file);
-                                    name = stringBuilderName.toString();
-                                    file = stringBuilderFile.toString();
-                                    Log.d("MultipleFileName", stringBuilderName.toString());
-                                    noOfAttachment = "" + jsonArray1.length();
-                                    Log.d("Total Attachments", "" + jsonArray1.length());
-                                }
-
-                                String clientName = firstName + " " + lastName;
-                                String f = "", l = "";
-                                if (firstName.trim().length() != 0) {
-                                    f = firstName.substring(0, 1);
-                                }
-                                if (lastName.trim().length() != 0) {
-                                    l = lastName.substring(0, 1);
-                                }
-//                        if ((clientName.equals("null null") || clientName.equals(""))&&userName.equals("")){
-//                            clientName="system";
-//                        }else
-                                if (firstName.equals("null") && lastName.equals("null") && userName.equals("null")) {
-                                    clientName = "System Generated";
-                                } else if (clientName.equals("") && userName.equals("null") && userName.equals("null")) {
-                                    clientName = "System Generated";
-                                } else if ((firstName.equals("null")) && (lastName.equals("null")) && (userName != null)) {
-                                    clientName = userName;
-                                } else if (firstName.equals("") && (lastName.equals("")) && (userName != null)) {
-                                    clientName = userName;
-                                } else if (firstName != null || lastName != null) {
-                                    clientName = firstName + " " + lastName;
-                                }
-                                String messageTime = jsonArray.getJSONObject(i).getString("created_at");
-                                String messageTitle = jsonArray.getJSONObject(i).getString("title");
-                                String message = jsonArray.getJSONObject(i).getString("body");
-                                Log.d("body:", message);
-                                //String isReply = jsonArray.getJSONObject(i).getString("is_internal").equals("0") ? "false" : "true";
-                                String isReply = "0";
-                                ticketThread = new TicketThread(clientPicture, clientName, messageTime, messageTitle, message, isReply, f + l, name, file, type, noOfAttachment);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                            if (ticketThread != null)
-                                ticketThreadList.add(ticketThread);
-                        }
-                    }
-                    //recyclerView.setHasFixedSize(false);
-                    recyclerView.setHasFixedSize(true);
-                    recyclerView.setItemViewCacheSize(40);
-                    recyclerView.setDrawingCacheEnabled(true);
-                    recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-                    final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-                    linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                    recyclerView.setLayoutManager(linearLayoutManager);
-                    //Collections.reverse(ticketThreadList);
-                    ticketThreadAdapter = new TicketThreadAdapter(getContext(), ticketThreadList);
-                    recyclerView.setAdapter(ticketThreadAdapter);
-                    ticketThreadAdapter.notifyDataSetChanged();
-                }
+                noInternet_view.setVisibility(View.GONE);
+                // swipeRefresh.setRefreshing(true);
+                progressDialog = new ProgressDialog(getActivity());
+                progressDialog.setMessage(getString(R.string.pleasewait));
+                //swipeRefresh.setRefreshing(true);
+                textView.setVisibility(View.GONE);
+                swipeRefresh.setRefreshing(true);
+                task = new FetchTicketThreads(getActivity(), Prefs.getString("TICKETid", null));
+                task.execute();
+//                if (Prefs.getString("ticketThread", null).equals("")) {
+//                    noInternet_view.setVisibility(View.GONE);
+//                    // swipeRefresh.setRefreshing(true);
+//                    progressDialog = new ProgressDialog(getActivity());
+//                    progressDialog.setMessage(getString(R.string.pleasewait));
+//                    //swipeRefresh.setRefreshing(true);
+//                    textView.setVisibility(View.GONE);
+//                    swipeRefresh.setRefreshing(true);
+//                    task = new FetchTicketThreads(getActivity(), Prefs.getString("TICKETid", null));
+//                    task.execute();
+//                }
+//                else {
+//                    try {
+//                        progressDialog.dismiss();
+//                    } catch (NullPointerException e) {
+//                        e.printStackTrace();
+//                    }
+//                    if (InternetReceiver.isConnected()) {
+//                        String jsonObject2 = Prefs.getString("ticketThread", null);
+//                        textView.setVisibility(View.GONE);
+//                        Log.d("jsonObject2", jsonObject2);
+//                        JSONObject jsonObject = null;
+//                        try {
+//                            jsonObject = new JSONObject(jsonObject2);
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                        JSONObject jsonObject1 = null;
+//                        try {
+//                            jsonObject1 = jsonObject.getJSONObject("data");
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                        JSONArray jsonArray = null;
+//                        try {
+//                            jsonArray = jsonObject1.getJSONArray("threads");
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                        for (int i = 0; i < jsonArray.length(); i++) {
+//                            TicketThread ticketThread = null;
+//                            try {
+//                                String clientPicture = null;
+//                                try {
+//                                    clientPicture = jsonArray.getJSONObject(i).getJSONObject("user").getString("profile_pic");
+//                                } catch (Exception e) {
+//                                    e.printStackTrace();
+//                                }
+///*                        String clientName = jsonArray.getJSONObject(i).getString("poster");
+//                        if (clientName.equals("null") || clientName.equals(""))
+//                            clientName = "NOTE";*/
+//                                String firstName = jsonArray.getJSONObject(i).getJSONObject("user").getString("first_name");
+//                                String userName = jsonArray.getJSONObject(i).getJSONObject("user").getString("user_name");
+//                                String lastName = jsonArray.getJSONObject(i).getJSONObject("user").getString("last_name");
+//                                JSONArray jsonArray1 = jsonArray.getJSONObject(i).getJSONArray("attach");
+//                                stringBuilderName = new StringBuilder();
+//                                stringBuilderFile = new StringBuilder();
+//                                if (jsonArray1.length() == 0) {
+//                                    Prefs.putString("imageBase64", "no attachment");
+//                                    Log.d("FileBase64", "no attachment");
+//                                    name = "";
+//                                } else {
+//                                    for (int j = 0; j < jsonArray1.length(); j++) {
+//                                        JSONObject jsonObject5 = jsonArray1.getJSONObject(j);
+//                                        file = jsonObject5.getString("file");
+//                                        name = jsonObject5.getString("name");
+//                                        //stringBuilderFile=new StringBuilder(file);
+//                                        stringBuilderName.append(name + ",");
+//                                        stringBuilderFile.append(file + ",");
+//                                        //stringBuilderFile.append(file+",");
+//                                        type = jsonObject5.getString("type");
+//                                    }
+//                                    //Log.d("FileBase64", file);
+//                                    name = stringBuilderName.toString();
+//                                    file = stringBuilderFile.toString();
+//                                    Log.d("MultipleFileName", stringBuilderName.toString());
+//                                    noOfAttachment = "" + jsonArray1.length();
+//                                    Log.d("Total Attachments", "" + jsonArray1.length());
+//                                }
+//
+//                                String clientName = firstName + " " + lastName;
+//                                String f = "", l = "";
+//                                if (firstName.trim().length() != 0) {
+//                                    f = firstName.substring(0, 1);
+//                                }
+//                                if (lastName.trim().length() != 0) {
+//                                    l = lastName.substring(0, 1);
+//                                }
+////                        if ((clientName.equals("null null") || clientName.equals(""))&&userName.equals("")){
+////                            clientName="system";
+////                        }else
+//                                if (firstName.equals("null") && lastName.equals("null") && userName.equals("null")) {
+//                                    clientName = "System Generated";
+//                                } else if (clientName.equals("") && userName.equals("null") && userName.equals("null")) {
+//                                    clientName = "System Generated";
+//                                } else if ((firstName.equals("null")) && (lastName.equals("null")) && (userName != null)) {
+//                                    clientName = userName;
+//                                } else if (firstName.equals("") && (lastName.equals("")) && (userName != null)) {
+//                                    clientName = userName;
+//                                } else if (firstName != null || lastName != null) {
+//                                    clientName = firstName + " " + lastName;
+//                                }
+//                                String messageTime = jsonArray.getJSONObject(i).getString("created_at");
+//                                String messageTitle = jsonArray.getJSONObject(i).getString("title");
+//                                String message = jsonArray.getJSONObject(i).getString("body");
+//                                Log.d("body:", message);
+//                                //String isReply = jsonArray.getJSONObject(i).getString("is_internal").equals("0") ? "false" : "true";
+//                                String isReply = "0";
+//                                ticketThread = new TicketThread(clientPicture, clientName, messageTime, messageTitle, message, isReply, f + l, name, file, type, noOfAttachment);
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//                            if (ticketThread != null)
+//                                ticketThreadList.add(ticketThread);
+//                        }
+//                    }
+//                    //recyclerView.setHasFixedSize(false);
+//                    recyclerView.setHasFixedSize(true);
+//                    recyclerView.setItemViewCacheSize(40);
+//                    recyclerView.setDrawingCacheEnabled(true);
+//                    recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+//                    final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+//                    linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+//                    recyclerView.setLayoutManager(linearLayoutManager);
+//                    //Collections.reverse(ticketThreadList);
+//                    ticketThreadAdapter = new TicketThreadAdapter(getContext(), ticketThreadList);
+//                    recyclerView.setAdapter(ticketThreadAdapter);
+//                    ticketThreadAdapter.notifyDataSetChanged();
+//                }
             } else {
                 noInternet_view.setVisibility(View.VISIBLE);
                 recyclerView.setVisibility(View.INVISIBLE);
@@ -628,7 +637,7 @@ public class Conversation extends Fragment {
     @Override
     public void onResume() {
         Log.d("calledOnResume", "true");
-        refresh();
+//        refresh();
         super.onResume();
     }
 //            noInternet_view.setVisibility(View.GONE);

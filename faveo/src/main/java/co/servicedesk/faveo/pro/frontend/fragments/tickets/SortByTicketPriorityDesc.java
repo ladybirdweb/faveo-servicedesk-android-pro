@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -1938,7 +1940,14 @@ public class SortByTicketPriorityDesc extends Fragment {
         public boolean onCreateActionMode(android.support.v7.view.ActionMode mode, Menu menu) {
             //mode.getMenuInflater().inflate(R.menu.multiplesorting, menu);//Inflate the menu over action mode
             mode.getMenuInflater().inflate(R.menu.multiplemenuinbox, menu);
-            SubMenu fileMenu = menu.addSubMenu("Change Status");
+            SubMenu fileMenu = menu.addSubMenu("Change Status").setIcon(getResources().getDrawable(R.drawable.changestatuslogo));
+            Drawable drawable = fileMenu.getItem().getIcon();
+            if (drawable != null) {
+                // If we don't mutate the drawable, then all drawable's with this id will have a color
+                // filter applied to it.
+                drawable.mutate();
+                drawable.setColorFilter(getResources().getColor(R.color.faveo), PorterDuff.Mode.SRC_ATOP);
+            }
             //menu.addSubMenu("Change Status");
             for (int i=0;i<statusItems.size();i++){
                 Data data=statusItems.get(i);

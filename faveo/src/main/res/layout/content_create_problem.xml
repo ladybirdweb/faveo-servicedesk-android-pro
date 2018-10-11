@@ -39,16 +39,6 @@
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:text="@string/required"
-                    android:textSize="12sp" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -93,16 +83,6 @@
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:text="@string/required"
-                    android:textSize="12sp" />
             </RelativeLayout>
 
             <LinearLayout
@@ -143,17 +123,6 @@
                     android:text="@string/priority"
                     android:textSize="16sp"
                     android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:text="@string/required"
-                    android:textSize="12sp" />
             </RelativeLayout>
 
             <LinearLayout
@@ -168,7 +137,6 @@
                     android:spinnerMode="dropdown"
                     android:layout_marginStart="16dp"
                     android:nextFocusForward="@+id/spinner_help"
-                    android:entries="@array/spinnerAssignTo"
                     android:hint="@string/SelectPriority"/>
             </LinearLayout>
 
@@ -234,16 +202,6 @@
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:text="@string/required"
-                    android:textSize="12sp" />
             </RelativeLayout>
 
             <LinearLayout
@@ -256,7 +214,6 @@
                     android:layout_height="50dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginStart="16dp"
-                    android:entries="@array/spinnerAssignTo"
                     android:nextFocusForward="@+id/msg_edittext"
                     android:hint="@string/SelectHelptopic"/>
             </LinearLayout>
@@ -278,16 +235,6 @@
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:text="@string/required"
-                    android:textSize="12sp" />
             </RelativeLayout>
 
             <LinearLayout
@@ -300,7 +247,6 @@
                     android:layout_height="50dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginStart="16dp"
-                    android:entries="@array/spinnerAssignTo"
                     android:nextFocusForward="@+id/msg_edittext"
                     android:hint="@string/SelectHelptopic"/>
             </LinearLayout>
@@ -321,17 +267,6 @@
                     android:text="@string/department"
                     android:textSize="16sp"
                     android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:text="@string/required"
-                    android:textSize="12sp" />
             </RelativeLayout>
 
             <LinearLayout
@@ -344,7 +279,6 @@
                     android:layout_height="50dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginStart="16dp"
-                    android:entries="@array/spinnerAssignTo"
                     android:nextFocusForward="@+id/msg_edittext"
                     android:hint="@string/SelectHelptopic"/>
             </LinearLayout>
@@ -477,17 +411,6 @@
                     android:text="@string/addAsset"
                     android:textSize="16sp"
                     android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:text="@string/required"
-                    android:textSize="12sp" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -507,6 +430,7 @@
                     android:cursorVisible="true"
                     android:imeOptions="actionNext"
                     android:inputType="textEmailAddress"
+                    android:enabled="true"
                     android:nextFocusForward="@+id/editText_firstname"
                     android:textCursorDrawable="@drawable/color_cursor"
                     android:textSize="16sp"
@@ -530,17 +454,6 @@
                     android:text="@string/description"
                     android:textSize="16sp"
                     android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:text="@string/required"
-                    android:textSize="12sp" />
             </RelativeLayout>
 
             <LinearLayout

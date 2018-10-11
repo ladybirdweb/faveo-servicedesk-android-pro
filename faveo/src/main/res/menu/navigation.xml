@@ -4,7 +4,8 @@
     <item
         android:id="@+id/imageGalley"
         android:icon="@drawable/ic_perm_media_black_24dp"
-        android:title="@string/gallery" />
+        android:title="@string/gallery"
+        />
 
     <item
         android:id="@+id/videoGallery"

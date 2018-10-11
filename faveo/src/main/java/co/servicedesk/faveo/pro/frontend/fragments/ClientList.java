@@ -419,6 +419,7 @@ public class ClientList extends Fragment implements View.OnClickListener {
         int id=item.getItemId();
         if (id == R.id.action_search) {
             Intent intent = new Intent(getActivity(), SearchActivity.class);
+            Prefs.putString("cameFromClientList","true");
             startActivity(intent);
             return true;
         }

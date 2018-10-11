@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.github.javiersantos.bottomdialogs.BottomDialog;
 import com.gordonwong.materialsheetfab.DimOverlayFrameLayout;
 import com.pixplicity.easyprefs.library.Prefs;
+import com.squareup.haha.perflib.Main;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -54,6 +55,7 @@ import co.servicedesk.faveo.pro.frontend.fragments.tickets.UpdatedAtDesc;
 import co.servicedesk.faveo.pro.frontend.receivers.InternetReceiver;
 import co.servicedesk.faveo.pro.model.MessageEvent;
 import io.github.yavski.fabspeeddial.FabSpeedDial;
+import io.github.yavski.fabspeeddial.SimpleMenuListenerAdapter;
 
 /**
  * This is the main activity where we are loading the inbox fragment
@@ -140,6 +142,27 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
 //
 //            }
 //        });
+
+        fab.setMenuListener(new SimpleMenuListenerAdapter() {
+            @Override
+            public boolean onMenuItemSelected(MenuItem menuItem) {
+                int id=menuItem.getItemId();
+
+                if (id==R.id.fab_createTicket){
+                    Intent intent=new Intent(MainActivity.this,CreateTicketActivity.class);
+                    startActivity(intent);
+                }
+                else if (id==R.id.fab_createProblem){
+                    Intent intent=new Intent(MainActivity.this,NewProblem.class);
+                    startActivity(intent);
+                }
+                else if (id==R.id.fab_addAsset){
+
+                }
+                //TODO: Start some activity
+                return false;
+            }
+        });
         Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.inflateMenu(R.menu.menu_inbox);
         mToolbar.setNavigationIcon(R.drawable.ic_action_attach_file);

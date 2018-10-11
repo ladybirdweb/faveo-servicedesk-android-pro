@@ -1,0 +1,152 @@
+
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:orientation="vertical"
+            tools:context=".frontend.activities.TicketDetailActivity">
+
+            <!--<ImageView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="160dp"-->
+            <!--android:layout_marginTop="12dp"-->
+            <!--android:padding="12dp"-->
+            <!--android:src="@drawable/pro" />-->
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="94dp"
+                android:background="@color/faveo">
+
+                <TextView
+                    android:id="@+id/usernametv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginBottom="14dp"
+                    android:layout_marginStart="37dp"
+                    android:text="Options"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey_200" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorAccent"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:id="@+id/create_asset"
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:background="@color/colorAccent">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_margin="22dp"
+                            android:src="@drawable/asset"
+                            android:tint="@color/faveo"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginStart="71dp"
+                            android:fontFamily="sans-serif-bold"
+                            android:gravity="center"
+                            android:text="@string/assets"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/assetcount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginEnd="14dp"
+                            android:background="@drawable/rounded_textview"
+                            android:gravity="center"
+                            android:padding="2dp"
+                            android:text="0"
+                            android:textColor="@android:color/white"
+                            android:textSize="14sp" />
+                    </RelativeLayout>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/grey_200" />
+
+                    <RelativeLayout
+                        android:id="@+id/create_problem"
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:background="@color/colorAccent">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_margin="22dp"
+                            android:src="@drawable/problems"
+                            android:tint="@color/faveo"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginStart="70dp"
+                            android:fontFamily="sans-serif-bold"
+                            android:gravity="center"
+                            android:text="@string/problems"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/problemcount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginEnd="15dp"
+                            android:background="@drawable/rounded_textview"
+                            android:gravity="center"
+                            android:padding="2dp"
+                            android:text="0"
+                            android:textColor="@android:color/white"
+                            android:textSize="14sp" />
+
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/grey_200" />
+
+
+
+                    <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="1dp"-->
+                    <!--android:background="@color/grey_200" />-->
+                </LinearLayout>
+

@@ -115,14 +115,7 @@ public class TicketReplyActivity extends AppCompatActivity implements Permission
     int gallery,document,camera,audio=0;
     BottomNavigationView bottomNavigationView;
     String path,realPath="";
-    private Uri fileUri = null;//Uri to capture image
-    private String getImageUrl = "";
     String replyMessage;
-    LinearLayout linearLayout;
-    ArrayList<Data> stringArrayList;
-    ArrayAdapter<Data> arrayAdapterCC;
-    ArrayAdapter<String> spinnerPriArrayAdapter;
-    AutoCompleteTextView autoCompleteTextViewUser;
     int id;
     String email;
     String term;
@@ -406,7 +399,8 @@ public class TicketReplyActivity extends AppCompatActivity implements Permission
                                 //new FetchTicketThreads(TicketReplyActivity.this, Prefs.getString("TICKETid", null)).execute();
                                 editTextReplyMessage.getText().clear();
                                 Toasty.success(TicketReplyActivity.this, getString(R.string.posted_reply), Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(TicketReplyActivity.this, MainActivity.class);
+                                Prefs.putString("cameFromNewProblem","true");
+                                Intent intent = new Intent(TicketReplyActivity.this,TicketDetailActivity.class);
                                 startActivity(intent);
 
                             }
@@ -693,7 +687,8 @@ public class TicketReplyActivity extends AppCompatActivity implements Permission
 
                 if (message.contains("Successfully replied")){
                     Toasty.success(TicketReplyActivity.this, getString(R.string.posted_reply), Toast.LENGTH_LONG).show();
-                    Intent intent=new Intent(TicketReplyActivity.this,MainActivity.class);
+                    Intent intent=new Intent(TicketReplyActivity.this,TicketDetailActivity.class);
+                    Prefs.putString("cameFromNewProblem","true");
                     startActivity(intent);
 //                    new FetchTicketThreads(TicketReplyActivity.this, Prefs.getString("TICKETid", null)).execute();
 
@@ -701,47 +696,6 @@ public class TicketReplyActivity extends AppCompatActivity implements Permission
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }
-    }
-
-    class FetchTicketThreads extends AsyncTask<String, Void, String> {
-        Context context;
-        String ticketID;
-
-
-        FetchTicketThreads(Context context,String ticketID) {
-            this.context = context;
-            this.ticketID = ticketID;
-        }
-
-        protected String doInBackground(String... urls) {
-            return new Helpdesk().getTicketThread(ticketID);
-        }
-
-        protected void onPostExecute(String result) {
-//            progressDialog.dismiss();
-            Log.d("calledFromReply","true");
-            try {
-                progressDialog.dismiss();
-            }catch (NullPointerException e){
-                e.printStackTrace();
-            }
-            if (result == null) {
-                //Toasty.error(getActivity(), getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
-                return;
-            }
-            try {
-                JSONObject jsonObject=new JSONObject(result);
-                Log.d("ticketThreadReply",jsonObject.toString());
-                Prefs.putString("ticketThread",jsonObject.toString());
-                editTextReplyMessage.getText().clear();
-                Toasty.success(TicketReplyActivity.this, getString(R.string.posted_reply), Toast.LENGTH_LONG).show();
-                Intent intent=new Intent(TicketReplyActivity.this,TicketDetailActivity.class);
-                startActivity(intent);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
         }
     }
     @SuppressLint("StaticFieldLeak")

@@ -151,20 +151,21 @@ public class collaboratorAdd extends AppCompatActivity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    if (Prefs.getString("cameFromTicket", null).equals("true")) {
-                        Intent intent = new Intent(collaboratorAdd.this, TicketDetailActivity.class);
-                        Prefs.putString("cameFromTicket","false");
-                        startActivity(intent);
-                        finish();
-                    } else {
-                        Intent intent = new Intent(collaboratorAdd.this, TicketReplyActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                }catch (NullPointerException e){
-                    e.printStackTrace();
-                }
+                finish();
+//                try {
+//                    if (Prefs.getString("cameFromTicket", null).equals("true")) {
+//                        Intent intent = new Intent(collaboratorAdd.this, TicketDetailActivity.class);
+//                        Prefs.putString("cameFromTicket","false");
+//                        startActivity(intent);
+//                        finish();
+//                    } else {
+//                        Intent intent = new Intent(collaboratorAdd.this, TicketReplyActivity.class);
+//                        startActivity(intent);
+//                        finish();
+//                    }
+//                }catch (NullPointerException e){
+//                    e.printStackTrace();
+//                }
             }
         });
 
@@ -227,7 +228,6 @@ public class collaboratorAdd extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent=new Intent(collaboratorAdd.this,collaboratorcreate.class);
                 startActivity(intent);
-                finish();
             }
         });
 //        deleteUser.setOnClickListener(new View.OnClickListener() {
@@ -465,22 +465,22 @@ public class collaboratorAdd extends AppCompatActivity {
                         JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                         String email = jsonObject1.getString("email");
                         String image=jsonObject1.getString("avatar");
-                        String name=jsonObject1.getString("first_name");
-                        String last=jsonObject1.getString("last_name");
-                        String fullName;
-                        if (name.equals("")&&last.equals("")){
-                            fullName="";
-                        }
-                        else if (name.equals("")&&!last.equals("")){
-                            fullName=last;
-                        }
-                        else if (last.equals("")&&!name.equals("")){
-                            fullName=name;
-                        }
-                        else{
-                            fullName=name+" "+last;
-                        }
-                        AttachedCollaborator attachedCollaborator=new AttachedCollaborator(email,image,fullName);
+                        String name=jsonObject1.getString("user_name");
+//                        String last=jsonObject1.getString("last_name");
+//                        String fullName;
+//                        if (name.equals("")&&last.equals("")){
+//                            fullName="";
+//                        }
+//                        else if (name.equals("")&&!last.equals("")){
+//                            fullName=last;
+//                        }
+//                        else if (last.equals("")&&!name.equals("")){
+//                            fullName=name;
+//                        }
+//                        else{
+//                            fullName=name+" "+last;
+//                        }
+                        AttachedCollaborator attachedCollaborator=new AttachedCollaborator(email,image,name);
                         movieList.add(attachedCollaborator);
 
 
@@ -566,20 +566,20 @@ public class collaboratorAdd extends AppCompatActivity {
     };
     @Override
     public void onBackPressed() {
-        try {
-            if (Prefs.getString("cameFromTicket", null).equals("true")) {
-                Intent intent = new Intent(collaboratorAdd.this, TicketDetailActivity.class);
-                Prefs.putString("cameFromTicket","false");
-                startActivity(intent);
-                finish();
-            } else {
-                Intent intent = new Intent(collaboratorAdd.this, TicketReplyActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        }catch (NullPointerException e){
-            e.printStackTrace();
-        }
+        finish();
+//        try {
+//            if (Prefs.getString("cameFromTicket", null).equals("true")) {
+//                Intent intent = new Intent(collaboratorAdd.this, TicketDetailActivity.class);
+//                Prefs.putString("cameFromTicket","false");
+//                startActivity(intent);
+//            } else {
+//                Intent intent = new Intent(collaboratorAdd.this, TicketReplyActivity.class);
+//                startActivity(intent);
+//
+//            }
+//        }catch (NullPointerException e){
+//            e.printStackTrace();
+//        }
     }
     public class Collaboratoradapter extends RecyclerView.Adapter<Collaboratoradapter.MyViewHolder> {
         private List<AttachedCollaborator> moviesList;

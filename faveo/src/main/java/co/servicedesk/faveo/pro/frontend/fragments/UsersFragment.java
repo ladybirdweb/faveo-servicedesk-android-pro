@@ -1,5 +1,6 @@
 package co.servicedesk.faveo.pro.frontend.fragments;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
@@ -15,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -68,7 +70,7 @@ public class UsersFragment extends Fragment {
     int pastVisibleItems, visibleItemCount, totalItemCount;
     private boolean loading = true;
     private String lastQuerry;
-
+    private boolean isViewShown = false;
     public static UsersFragment newInstance(int page, String title) {
         UsersFragment fragmentFirst = new UsersFragment();
         Bundle args = new Bundle();
@@ -116,31 +118,31 @@ public class UsersFragment extends Fragment {
 
         querry= Prefs.getString("querry",null);
         swipeRefresh.setColorSchemeResources(R.color.faveo_blue);
-        if (InternetReceiver.isConnected()) {
-            if (querry.equals("")||querry.equals("null")){
-                Log.d("QUERRY","No Querry");
-                recyclerView.setVisibility(View.GONE);
-                empty_view.setVisibility(View.VISIBLE);
-                empty_view.setText(getString(R.string.noUser));
-            }
-            else{
-                noInternet_view.setVisibility(View.GONE);
-                recyclerView.setVisibility(View.VISIBLE);
-                empty_view.setVisibility(View.GONE);
-                getActivity().getWindow().setSoftInputMode(
-                        WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
-                );
-                new FetchClients(getActivity(),querry).execute();
-            }
+//        if (InternetReceiver.isConnected()) {
+//            if (querry.equals("")||querry.equals("null")){
+//                Log.d("QUERRY","No Querry");
+//                recyclerView.setVisibility(View.GONE);
+//                empty_view.setVisibility(View.VISIBLE);
+//                empty_view.setText(getString(R.string.noUser));
+//            }
+//            else{
 //                noInternet_view.setVisibility(View.GONE);
-//                // swipeRefresh.setRefreshing(true);
-//                progressDialog.show();
-//                new FetchFirst(getActivity(),querry).execute();
-        } else {
-            noInternet_view.setVisibility(View.VISIBLE);
-            recyclerView.setVisibility(View.INVISIBLE);
-            empty_view.setVisibility(View.GONE);
-        }
+//                recyclerView.setVisibility(View.VISIBLE);
+//                empty_view.setVisibility(View.GONE);
+//                getActivity().getWindow().setSoftInputMode(
+//                        WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+//                );
+//                new FetchClients(getActivity(),querry).execute();
+//            }
+////                noInternet_view.setVisibility(View.GONE);
+////                // swipeRefresh.setRefreshing(true);
+////                progressDialog.show();
+////                new FetchFirst(getActivity(),querry).execute();
+//        } else {
+//            noInternet_view.setVisibility(View.VISIBLE);
+//            recyclerView.setVisibility(View.INVISIBLE);
+//            empty_view.setVisibility(View.GONE);
+//        }
 //        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 //            @Override
 //            public void onRefresh() {
@@ -172,6 +174,46 @@ public class UsersFragment extends Fragment {
 //            }
 //        });
         return rootView;
+    }
+
+    @Override
+    public void setMenuVisibility(final boolean visible) {
+        try {
+            if (visible) {
+                Log.d("visibilty", "visible");
+                if (InternetReceiver.isConnected()) {
+                    if (querry.equals("") || querry.equals("null")) {
+                        Log.d("QUERRY", "No Querry");
+                        recyclerView.setVisibility(View.GONE);
+                        empty_view.setVisibility(View.GONE);
+                        //empty_view.setText(getString(R.string.noUser));
+                    } else {
+                        noInternet_view.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
+                        empty_view.setVisibility(View.GONE);
+                        swipeRefresh.setRefreshing(true);
+                        //progressDialog.show();
+                        getActivity().getWindow().setSoftInputMode(
+                                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+                        );
+                        new FetchClients(getActivity(), querry).execute();
+                    }
+//                noInternet_view.setVisibility(View.GONE);
+//                // swipeRefresh.setRefreshing(true);
+//                progressDialog.show();
+//                new FetchFirst(getActivity(),querry).execute();
+                } else {
+                    noInternet_view.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.INVISIBLE);
+                    empty_view.setVisibility(View.GONE);
+                }
+            } else {
+                Log.d("noneedtoloaddata", "true");
+            }
+            super.setMenuVisibility(visible);
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
     }
 
 
@@ -215,6 +257,7 @@ public class UsersFragment extends Fragment {
         protected void onPostExecute(String result) {
             textView.setVisibility(View.VISIBLE);
             textView.setText(total+" users");
+
             //url="null";
             //Prefs.putString("customerfilter","null");
             //textView.setText(""+total+" clients");
@@ -323,84 +366,6 @@ public class UsersFragment extends Fragment {
     public void onResume() {
         //Toast.makeText(getActivity(), "onResume", Toast.LENGTH_SHORT).show();
         Log.d("onResumeOfUsers","called");
-        try {
-            lastQuerry = Prefs.getString("searchUser", null);
-            if (InternetReceiver.isConnected()) {
-                if (querry.equals("") || querry.equals("null")) {
-                    Log.d("QUERRY", "No Querry");
-                    recyclerView.setVisibility(View.GONE);
-                    empty_view.setVisibility(View.VISIBLE);
-                    empty_view.setText(getString(R.string.noUser));
-                } else {
-                    if (lastQuerry.equals(null) || lastQuerry.equals("")) {
-                        noInternet_view.setVisibility(View.GONE);
-                        recyclerView.setVisibility(View.VISIBLE);
-                        empty_view.setVisibility(View.GONE);
-//                        dialog1= new SpotsDialog(getActivity(), getString(R.string.pleasewait));
-//                        dialog1.show();
-                        getActivity().getWindow().setSoftInputMode(
-                                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
-                        );
-                        new FetchClients(getActivity(), querry).execute();
-                    }
-                    else{
-                        Log.d("lastQuerry",lastQuerry);
-                        String result=Prefs.getString("searchUser",null);
-                        String data;
-                        clientOverviewList.clear();
-                        try {
-                            JSONObject jsonObject = new JSONObject(result);
-                            data = jsonObject.getString("users");
-                            JSONArray jsonArray = new JSONArray(data);
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                total++;
-                                ClientOverview clientOverview = Helper.parseSearchClientOverview(jsonArray, i);
-                                if (clientOverview != null)
-                                    clientOverviewList.add(clientOverview);
-                            }
-
-                            Log.d("total",""+total);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        textView.setVisibility(View.VISIBLE);
-                        textView.setText(total+" users");
-                        //url="null";
-                        //Prefs.putString("customerfilter","null");
-                        //textView.setText(""+total+" clients");
-                        if (swipeRefresh.isRefreshing())
-                            swipeRefresh.setRefreshing(false);
-
-                        if (result == null) {
-                            Toasty.error(getActivity(), getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
-                            return;
-                        }
-                        if (result.equals("all done")) {
-
-                            Toasty.info(getActivity(), getString(R.string.all_caught_up), Toast.LENGTH_SHORT).show();
-                            //return;
-                        }
-                        // recyclerView = (ShimmerRecyclerView) rootView.findViewById(R.id.cardList);
-                        recyclerView.setHasFixedSize(false);
-                        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-                        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                        recyclerView.setLayoutManager(linearLayoutManager);
-                        clientOverviewAdapter = new ClientOverviewAdapter(getContext(),clientOverviewList);
-                        recyclerView.setAdapter(clientOverviewAdapter);
-                        if (clientOverviewAdapter.getItemCount() == 0) {
-                            empty_view.setVisibility(View.VISIBLE);
-                        } else empty_view.setVisibility(View.GONE);
-            }
-        }
-            }
-            else {
-                noInternet_view.setVisibility(View.VISIBLE);
-                recyclerView.setVisibility(View.INVISIBLE);
-                empty_view.setVisibility(View.GONE);
-            }
-        }catch (NullPointerException e){
-            e.printStackTrace();
-        }
         super.onResume();
     }
     @Override

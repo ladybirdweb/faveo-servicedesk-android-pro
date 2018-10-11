@@ -115,7 +115,8 @@
             android:name=".frontend.activities.MainActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_main"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/MyMaterialTheme" />
 
         <receiver
             android:name=".frontend.receivers.InternetReceiver"
@@ -237,7 +238,9 @@
         <activity android:name=".frontend.activities.collaboratorcreate" />
         <activity android:name=".frontend.activities.ExistingProblems" />
         <activity android:name=".frontend.activities.NewProblem" />
-        <activity android:name=".frontend.activities.AssociatedProblem"></activity>
+        <activity android:name=".frontend.activities.AssociatedProblem" />
+        <activity android:name=".frontend.activities.EditAndViewProblem" />
+        <activity android:name=".frontend.activities.ProblemViewPage"></activity>
     </application>
 
 </manifest>

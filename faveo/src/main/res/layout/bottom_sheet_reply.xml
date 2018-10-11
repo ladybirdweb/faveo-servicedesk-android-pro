@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+
+    <TextView
+        android:id="@+id/heading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Reply Options :"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:paddingLeft="7dp"
+        android:background="@color/grey_200"/>
+
+    <TextView
+        android:id="@+id/associate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/heading"
+        android:layout_below="@+id/heading"
+        android:fontFamily="serif"
+        android:text="Reply"
+        android:layout_marginTop="10dp"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/viewproblem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/heading"
+        android:layout_below="@+id/associate"
+        android:fontFamily="serif"
+        android:layout_marginTop="10dp"
+        android:text="Internal Note"
+        android:textSize="16sp" />
+
+
+
+
+
+
+</RelativeLayout>

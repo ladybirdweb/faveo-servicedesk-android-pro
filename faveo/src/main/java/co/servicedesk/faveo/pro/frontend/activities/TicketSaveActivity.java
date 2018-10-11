@@ -394,7 +394,8 @@ public class TicketSaveActivity extends AppCompatActivity {
             }
             if (result.contains("Edited successfully")) {
                 Toasty.success(TicketSaveActivity.this, getString(R.string.update_success), Toast.LENGTH_LONG).show();
-                Intent intent=new Intent(TicketSaveActivity.this, MainActivity.class);
+                Prefs.putString("cameFromNewProblem","true");
+                Intent intent=new Intent(TicketSaveActivity.this, TicketDetailActivity.class);
                 startActivity(intent);
                 //new FetchTicketDetail1(Prefs.getString("TICKETid",null)).execute();
 

@@ -3,83 +3,71 @@
 xmlns:card_view="http://schemas.android.com/apk/res-auto"
 android:id="@+id/ticket"
 android:layout_width="match_parent"
-android:layout_height="89dp"
+android:layout_height="100dp"
+    android:layout_margin="6dp"
+    android:elevation="6dp"
+    card_view:cardCornerRadius="6dp"
 android:background="@drawable/rectanglenew"
 >
 
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/attachedCollaborator"
-    android:layout_width="match_parent"
-    android:layout_height="89dp"
-    android:layout_margin="5dp"
-    android:padding="10dp"
-    android:background="@drawable/rectanglenew"
-    android:backgroundTint="@color/colorAccent">
-
-    <TextView
-        android:id="@+id/textView_client_email"
-        android:layout_width="220dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="21dp"
-        android:layout_marginStart="29dp"
-        android:alpha=".54"
-        android:fontFamily="monospace"
-        android:maxLines="1"
-        android:text="From :"
-        android:textColor="@color/black"
-        android:textSize="15sp" />
-
-    <TextView
-        android:id="@+id/collaboratorname"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/textView_client_email"
-        android:fontFamily="sans-serif-condensed"
-        android:text="Sayar Samanta"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:visibility="visible" />
-    <TextView
-        android:id="@+id/textViewOptions"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:background="@drawable/menudot"
-        android:backgroundTint="@color/faveo"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:textAppearance="?android:textAppearanceLarge" />
-
-    <View
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/problemList"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:background="#DCDCDC">
+        android:layout_height="100dp"
+        android:layout_margin="5dp"
+        android:background="@drawable/rectanglenew"
+        android:backgroundTint="@color/colorAccent"
+        android:padding="10dp">
 
-    </View>
-    <!--<ImageView-->
-        <!--android:id="@+id/deleteCollaborator"-->
-        <!--android:layout_width="30dp"-->
-        <!--android:layout_height="30dp"-->
-        <!--android:layout_alignParentStart="true"-->
-        <!--android:layout_centerVertical="true"-->
-        <!--android:layout_gravity="center"-->
-        <!--android:layout_marginStart="17dp"-->
-        <!--android:button="@null"-->
-        <!--android:foregroundGravity="center"-->
-        <!--android:scaleX="0.70"-->
-        <!--android:scaleY="0.70"-->
-        <!--android:background="@drawable/circleclose"-->
-        <!--android:src="@drawable/ic_close_24dp"-->
-        <!--android:tint="@color/error_red"-->
-        <!--android:visibility="visible" />-->
+        <TextView
+            android:id="@+id/textView_client_email"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/collaboratorname"
+            android:layout_centerVertical="true"
+            android:alpha=".54"
+            android:maxLines="1"
+            android:text="From :"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/collaboratorname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/textViewOptions"
+            android:layout_marginStart="16dp"
+            android:text="Sayar Samanta"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/textViewOptions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/textView_client_email"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/menudot"
+            android:backgroundTint="@color/faveo"
+            android:textAppearance="?android:textAppearanceLarge"
+            android:visibility="visible" />
+
+        <com.github.curioustechizen.ago.RelativeTimeTextView
+            android:id="@+id/textView_ticket_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignStart="@+id/textView_client_email"
+            android:alpha=".50"
+            android:layout_marginBottom="5dp"
+            android:maxLines="1"
+            android:text="@string/dummy_date"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
 
 
-</RelativeLayout>
+    </RelativeLayout>
 
     </android.support.v7.widget.CardView>

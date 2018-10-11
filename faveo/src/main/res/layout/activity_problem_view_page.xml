@@ -1,0 +1,135 @@
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/ticketDetailCo"
+    android:background="@color/colorAccent"
+    tools:context=".frontend.activities.TicketDetailActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:theme="@style/AppThemeOverlay.ActionBar">
+
+
+
+
+                <!--<ImageView-->
+                <!--android:id="@+id/collaboratorview"-->
+                <!--android:layout_width="25dp"-->
+                <!--android:layout_height="25dp"-->
+                <!--android:layout_alignParentEnd="true"-->
+                <!--android:layout_alignTop="@+id/title"-->
+                <!--android:layout_gravity="start"-->
+                <!--android:layout_marginEnd="17dp"-->
+                <!--android:background="@drawable/ic_group_black_24dp"-->
+                <!--android:backgroundTint="@color/faveo"-->
+                <!--android:visibility="gone"-->
+                <!--/>-->
+
+                <!--<ProgressBar-->
+                <!--android:id="@+id/TicketDetailProgressbar"-->
+                <!--android:layout_width="20dp"-->
+                <!--android:layout_height="20dp"-->
+                <!--android:layout_alignParentEnd="true"-->
+                <!--android:layout_toEndOf="@+id/title"-->
+                <!--android:layout_alignTop="@+id/title"-->
+                <!--android:layout_marginEnd="162dp"-->
+                <!--android:visibility="gone" />-->
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbarTicketDetail"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/faveo"
+                app:contentInsetStart="0dp"
+                app:theme="@style/ToolbarColoredBackArrow"
+                >
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize">
+                    <!--<View-->
+                    <!--android:id="@+id/viewPriority"-->
+                    <!--android:layout_width="7dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:visibility="visible"-->
+                    <!--android:layout_alignParentStart="true"-->
+                    <!--android:layout_alignParentTop="true"-->
+                    <!--android:background="@color/faveo">-->
+                    <!--</View>-->
+
+                    <TextView
+                        android:id="@+id/ticketNumberDemo"
+                        android:layout_width="170dp"
+                        android:layout_height="25dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="start"
+                        android:layout_marginStart="61dp"
+                        android:maxLines="1"
+                        android:textStyle="bold"
+                        android:text="# PRB 12"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white"
+                        android:textSize="18sp" />
+                    <ImageView
+                        android:id="@+id/imageViewBackProblemDetail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="21dp"
+                        android:src="@drawable/ic_arrow_back_black_24dp"
+                        android:tint="@color/white" />
+
+                    <ImageView
+                        android:id="@+id/editProblem"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="14dp"
+                        android:src="@drawable/ic_edit_black_24dp" />
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.Toolbar>
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:tabGravity="fill"
+            android:background="@color/faveo"
+            app:tabTextColor="@color/grey_500"
+            app:tabSelectedTextColor="@color/white"
+            android:tabStripEnabled="false"
+            app:tabMode="fixed"
+            app:layout_collapseMode="pin"
+            />
+
+    </android.support.design.widget.AppBarLayout>
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+
+    <com.aurelhubert.ahbottomnavigation.AHBottomNavigation
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom"
+        app:menu="@menu/bottom_navigation_main"
+        android:background="@color/faveo"
+        android:id="@+id/bottomMenu"
+        >
+    </com.aurelhubert.ahbottomnavigation.AHBottomNavigation>
+
+
+</android.support.design.widget.CoordinatorLayout>

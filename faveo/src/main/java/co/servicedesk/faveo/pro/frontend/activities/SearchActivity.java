@@ -1,5 +1,6 @@
 package co.servicedesk.faveo.pro.frontend.activities;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -22,6 +23,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
@@ -62,10 +65,8 @@ public class SearchActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_search);
-//        ButterKnife.bind(this);
+
         Window window = SearchActivity.this.getWindow();
 
 // clear FLAG_TRANSLUCENT_STATUS flag:
@@ -75,7 +76,7 @@ public class SearchActivity extends AppCompatActivity implements
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
 // finally change the color
-        window.setStatusBarColor(ContextCompat.getColor(SearchActivity.this,R.color.faveo));
+        window.setStatusBarColor(ContextCompat.getColor(SearchActivity.this, R.color.faveo));
         imageViewback=findViewById(R.id.image_search_back);
         vpPager = (ViewPager) findViewById(R.id.viewpager);
         tabLayout= (TabLayout) findViewById(R.id.tabs);
@@ -86,6 +87,43 @@ public class SearchActivity extends AppCompatActivity implements
                 ContextCompat.getColor(this, R.color.grey_500),
                 ContextCompat.getColor(this, R.color.faveo)
         );
+        try {
+            if (Prefs.getString("cameFromClientList", null).equals("true")) {
+                vpPager.setCurrentItem(1);
+            } else if (Prefs.getString("cameFromClientList", null).equals("false")){
+                vpPager.setCurrentItem(0);
+            }
+        }catch (NullPointerException e){
+
+        }
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                switch(tab.getPosition()) {
+                    case 0:
+                        //Log.d("onSearchPage","true");
+                        Prefs.putString("cameFromClientList","false");
+                        //vpPager.getAdapter().notifyDataSetChanged();
+                        break;
+                    case 1:
+                        //Log.d("onSearchPage","false");
+                        Prefs.putString("cameFromClientList","true");
+                        //vpPager.getAdapter().notifyDataSetChanged();
+                        break;
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                Log.d("onSearchPage","false");
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
         //adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
         //vpPager.setAdapter(adapterViewPager);
         //handleIntent(getIntent());
@@ -96,8 +134,15 @@ public class SearchActivity extends AppCompatActivity implements
         //imageViewback= (ImageView) toolbar.findViewById(R.id.image_search_back);
         searchView= (AutoCompleteTextView) toolbar.findViewById(R.id.edit_text_search);
         imageViewClearText= (ImageView) toolbar.findViewById(R.id.cleartext);
-        imageViewClearText.setVisibility(View.GONE);
         //imageViewSearchIcon= (ImageView) toolbar.findViewById(R.id.searchIcon);
+        imageViewClearText.setVisibility(View.GONE);
+        imageViewClearText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("camehere","true");
+                searchView.setText("");
+            }
+        });
         colorList=new ArrayList<>();
         colorList.clear();
         String querry=Prefs.getString("querry",null);
@@ -126,6 +171,8 @@ public class SearchActivity extends AppCompatActivity implements
         }catch (NullPointerException e){
             e.printStackTrace();
         }
+
+
 //        suggestionAdapter=new ArrayAdapter<String>(SearchActivity.this,R.layout.row,R.id.textView,colorList);
 //        searchView.setAdapter(suggestionAdapter);
 //        searchView.setDropDownWidth(1500);
@@ -246,6 +293,14 @@ public class SearchActivity extends AppCompatActivity implements
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
+                    InputMethodManager imm = (InputMethodManager) SearchActivity.this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    //Find the currently focused view, so we can grab the correct window token from it.
+                    View view = SearchActivity.this.getCurrentFocus();
+                    //If no view currently has focus, create a new one, just so we can grab a window token from it
+                    if (view == null) {
+                        view = new View(SearchActivity.this);
+                    }
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
                     if (!colorList.contains(querry)){
                         colorList.add(searchView.getText().toString());
@@ -255,15 +310,83 @@ public class SearchActivity extends AppCompatActivity implements
                     Log.d("suggestionss",colorList.toString());
                     //Toast.makeText(SearchActivity.this, "Text is :"+searchView.getText().toString(), Toast.LENGTH_SHORT).show();
 //                    Log.d("IME SEARCH",searchView.getText().toString());
-                    Intent intent=new Intent(SearchActivity.this,SearchActivity.class);
-                    finish();
-                    startActivity(intent);
+                    try {
+                        if (Prefs.getString("cameFromClientList", null).equals("true")) {
+
+                            ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+                            adapter.addFrag(new TicketFragment(), getString(R.string.tickets));
+                            adapter.addFrag(new UsersFragment(), getString(R.string.users));
+                            adapter.notifyDataSetChanged();
+                            vpPager.setAdapter(adapter);
+                            vpPager.setCurrentItem(1);
+
+                        } else if (Prefs.getString("cameFromClientList", null).equals("false")){
+                            ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+                            adapter.addFrag(new TicketFragment(), getString(R.string.tickets));
+                            adapter.addFrag(new UsersFragment(), getString(R.string.users));
+                            adapter.notifyDataSetChanged();
+                            vpPager.setAdapter(adapter);
+                            vpPager.setCurrentItem(0);
+                        }
+                    }catch (NullPointerException e){
+                        e.printStackTrace();
+                    }
+//                    Intent intent=new Intent(SearchActivity.this,SearchActivity.class);
+//                    finish();
+//                    startActivity(intent);
                     //colorList.add(searchView.getText().toString());
 
                     //performSearch();
                     return true;
                 }
                 return false;
+            }
+        });
+
+        searchView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view1, int i, long l) {
+                String querry=searchView.getText().toString();
+                Prefs.putString("querry",querry);
+                try {
+                    String querry1 = URLEncoder.encode(querry, "utf-8");
+                    Prefs.putString("querry1",querry1);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                if (!colorList.contains(querry)){
+                    colorList.add(searchView.getText().toString());
+                }
+                View view = SearchActivity.this.getCurrentFocus();
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
+                Prefs.putString("RecentSearh",colorList.toString());
+                Log.d("suggestionss",colorList.toString());
+
+
+                try {
+                    if (Prefs.getString("cameFromClientList", null).equals("true")) {
+
+                        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+                        adapter.addFrag(new TicketFragment(), getString(R.string.tickets));
+                        adapter.addFrag(new UsersFragment(), getString(R.string.users));
+                        adapter.notifyDataSetChanged();
+                        vpPager.setAdapter(adapter);
+                        vpPager.setCurrentItem(1);
+
+                    } else if (Prefs.getString("cameFromClientList", null).equals("false")){
+                        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+                        adapter.addFrag(new TicketFragment(), getString(R.string.tickets));
+                        adapter.addFrag(new UsersFragment(), getString(R.string.users));
+                        adapter.notifyDataSetChanged();
+                        vpPager.setAdapter(adapter);
+                        vpPager.setCurrentItem(0);
+                    }
+                }catch (NullPointerException e){
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -278,47 +401,35 @@ public class SearchActivity extends AppCompatActivity implements
 //                return false;
 //            }
 //        });
-        searchView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus) {
-                    suggestionAdapter=new ArrayAdapter<String>(SearchActivity.this,R.layout.row,R.id.textView,colorList);
-                    searchView.setAdapter(suggestionAdapter);
-                    searchView.setDropDownWidth(1090);
-                    searchView.setThreshold(1);
-//                    searchView.showDropDown();
-                }
-            }
-        });
-
-        imageViewClearText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                searchView.setText("");
-                suggestionAdapter=new ArrayAdapter<String>(SearchActivity.this,R.layout.row,R.id.textView,colorList);
-                searchView.setAdapter(suggestionAdapter);
-                searchView.setDropDownWidth(1500);
-                searchView.setThreshold(1);
-                searchView.showDropDown();
-                }
-        });
+//        searchView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            public void onFocusChange(View v, boolean hasFocus) {
+//                if(hasFocus) {
+//                    suggestionAdapter=new ArrayAdapter<String>(SearchActivity.this,R.layout.row,R.id.textView,colorList);
+//                    searchView.setAdapter(suggestionAdapter);
+//                    searchView.setDropDownWidth(1090);
+//                    searchView.setThreshold(1);
+////                    searchView.showDropDown();
+//                }
+//            }
+//        });
         }
 
     @Override
     protected void onResume() {
-        Prefs.putString("searchResult", "");
-        Log.d("calledOnResume","true");
-        try {
-            querry = Prefs.getString("querry", null);
-            Log.d("QUERRYonResume",querry);
-        }catch (NullPointerException e){
-            e.printStackTrace();
-        }
-        if (querry.equals("")||querry.equals(null)||querry.equals("null")){
-            searchView.setText("");
-        }
-        else{
-            searchView.setText(querry);
-        }
+//        Prefs.putString("searchResult", "");
+//        Log.d("calledOnResume","true");
+//        try {
+//            querry = Prefs.getString("querry", null);
+//            Log.d("QUERRYonResume",querry);
+//        }catch (NullPointerException e){
+//            e.printStackTrace();
+//        }
+//        if (querry.equals("")||querry.equals(null)||querry.equals("null")){
+//            searchView.setText("");
+//        }
+//        else{
+//            searchView.setText(querry);
+//        }
         super.onResume();
     }
 
@@ -333,16 +444,17 @@ public class SearchActivity extends AppCompatActivity implements
     public void onBackPressed() {
         Prefs.putString("querry","null");
         Prefs.putString("querry1","null");
-        if (!MainActivity.isShowing) {
-            Log.d("isShowing", "false");
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-        } else{
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            Log.d("isShowing", "true");
-        }
-        super.onBackPressed();
+        finish();
+//        if (!MainActivity.isShowing) {
+//            Log.d("isShowing", "false");
+//            Intent intent = new Intent(this, MainActivity.class);
+//            startActivity(intent);
+//        } else{
+//            Intent intent = new Intent(this, MainActivity.class);
+//            startActivity(intent);
+//            Log.d("isShowing", "true");
+//        }
+//        super.onBackPressed();
     }
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -392,7 +504,7 @@ public class SearchActivity extends AppCompatActivity implements
             if (term.equals("")){
 //                searchView.showDropDown();
                 imageViewClearText.setVisibility(View.GONE);
-                imageViewClearText.setClickable(false);
+                //imageViewClearText.setClickable(false);
             }
             else{
                 imageViewClearText.setVisibility(View.VISIBLE);
@@ -445,7 +557,7 @@ public class SearchActivity extends AppCompatActivity implements
                 imageViewClearText.setVisibility(View.GONE);
                 getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
                 //searchView.showDropDown();
-                imageViewClearText.setClickable(false);
+                //imageViewClearText.setClickable(false);
             }
             else{
                 imageViewClearText.setVisibility(View.VISIBLE);

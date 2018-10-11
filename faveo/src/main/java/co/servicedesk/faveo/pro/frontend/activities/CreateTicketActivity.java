@@ -560,40 +560,41 @@ public class CreateTicketActivity extends AppCompatActivity implements Permissio
             lastname = Prefs.getString("lastusername", null);
             email = Prefs.getString("firstuseremail", null);
             phone = Prefs.getString("firstusermobile", null);
+            if (firstname.equals("null")){
+                editTextFirstName.setText("");
+            }
+            else{
+                editTextFirstName.setText(firstname);
+            }
+
+
+            if (lastname.equals("null")){
+                editTextLastName.setText("");
+            }
+            else{
+                editTextLastName.setText(lastname);
+            }
+
+
+            if (email.equals("null")){
+                editTextEmail.setText("");
+            }
+            else{
+                editTextEmail.setText(email);
+            }
+
+
+            if (phone.equals("null")){
+                editTextPhone.setText("");
+            }
+            else{
+                editTextPhone.setText(phone);
+            }
         }catch (NullPointerException e){
             e.printStackTrace();
         }
 
-        if (firstname.equals("null")){
-            editTextFirstName.setText("");
-        }
-        else{
-            editTextFirstName.setText(firstname);
-        }
 
-
-        if (lastname.equals("null")){
-            editTextLastName.setText("");
-        }
-        else{
-            editTextLastName.setText(lastname);
-        }
-
-
-        if (email.equals("null")){
-            editTextEmail.setText("");
-        }
-        else{
-            editTextEmail.setText(email);
-        }
-
-
-        if (phone.equals("null")){
-            editTextPhone.setText("");
-        }
-        else{
-            editTextPhone.setText(phone);
-        }
 
 
         //getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
@@ -1420,12 +1421,6 @@ public class CreateTicketActivity extends AppCompatActivity implements Permissio
         mobile = editTextMobile.getText().toString();
 
 
-//        if (!phCode.getSelectedItem().toString().equals("Code")) {
-//            countrycode = phCode.getSelectedItem().toString();
-//            String[] cc = countrycode.split(",");
-//            countrycode = cc[1];
-//        }
-
         countrycode = countryCodePicker.getSelectedCountryCode();
 
 
@@ -1467,7 +1462,8 @@ public class CreateTicketActivity extends AppCompatActivity implements Permissio
             Toasty.warning(this, "Subject must not exceed 150 characters"
                     , Toast.LENGTH_SHORT).show();
             allCorrect = false;
-        } else if (priority.ID == 0) {
+        }
+        else if (priority.ID == 0) {
             allCorrect = false;
             Toasty.warning(CreateTicketActivity.this, getString(R.string.please_select_some_priority), Toast.LENGTH_SHORT).show();
         } else if (helpTopic.ID == 0) {
@@ -1483,25 +1479,7 @@ public class CreateTicketActivity extends AppCompatActivity implements Permissio
         if (autoCompleteTextView.getSelectedItem().toString().equals("")) {
             id = 0;
         }
-        if(countrycode.length() > 0 && phone.length() > 0){
-            if(isValidPhoneNumber(phone)){
-                boolean status = validateUsing_libphonenumber(countrycode, phone);
-                if(status){
-                    //tvIsValidPhone.setText("Valid Phone Number (libphonenumber)");
-                } else {
-                    Toasty.warning(this, "Invalid Number", Toast.LENGTH_SHORT).show();
-                    allCorrect=false;
-                    return;
-                }
-            }
-            else {
-                Toasty.warning(this, "Invalid Number", Toast.LENGTH_SHORT).show();
-                allCorrect=false;
-                return;
-            }
-        } else {
-            Toast.makeText(getApplicationContext(), "Country Code and Phone Number is required", Toast.LENGTH_SHORT).show();
-        }
+
         if (allCorrect) {
 
             if (InternetReceiver.isConnected()) {
@@ -2623,6 +2601,7 @@ public class CreateTicketActivity extends AppCompatActivity implements Permissio
                 editTextEmail.setThreshold(3);
                 editTextEmail.setDropDownWidth(1500);
                 editTextEmail.setAdapter(arrayAdapterCC);
+                arrayAdapterCC.notifyDataSetChanged();
                 editTextEmail.showDropDown();
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -2692,6 +2671,7 @@ public class CreateTicketActivity extends AppCompatActivity implements Permissio
                     multiAutoCompleteTextViewCC.setThreshold(3);
                     multiAutoCompleteTextViewCC.setDropDownWidth(1500);
                     multiAutoCompleteTextViewCC.setAdapter(adapter1);
+                    adapter1.notifyDataSetChanged();
                     multiAutoCompleteTextViewCC.showDropDown();
 
 

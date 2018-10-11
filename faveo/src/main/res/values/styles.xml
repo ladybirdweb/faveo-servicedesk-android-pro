@@ -4,7 +4,7 @@
 
     </style>
     <style name="ToolbarColoredBackArrow" parent="AppTheme">
-        <item name="android:textColorSecondary">@color/colorAccent</item>
+        <item name="android:textColorSecondary">@color/faveo</item>
     </style>
 
     <style name="MyMaterialTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -21,7 +21,6 @@
     <style name="AppThemes" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">#f2f2f2</item>
         <item name="colorPrimaryDark">#f2f2f2</item>
-        <item name="android:windowFullscreen">true</item>
         <item name="colorAccent">#f2f2f2
         </item>
     </style>
