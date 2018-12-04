@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="6dp"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+
+    <TextView
+        android:id="@+id/heading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="Update :"
+        android:textSize="16sp"
+        android:background="@color/grey_200"
+        android:paddingLeft="4dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/reasonForChange"
+        android:layout_width="368dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="serif"
+        android:padding="5dp"
+        android:text="Reason for change"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/impactChange"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/deleteproblem"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="serif"
+        android:text="Impact"
+        android:padding="5dp"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/rolloutPlan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/associate"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="serif"
+        android:text="Rollout plan"
+        android:padding="5dp"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/backoutPlan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/viewproblem"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="serif"
+        android:padding="4dp"
+        android:text="Backput plan"
+        android:textSize="16sp" />
+
+
+
+</LinearLayout>

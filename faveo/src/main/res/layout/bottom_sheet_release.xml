@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="6dp"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+
+    <TextView
+        android:id="@+id/heading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="Release :"
+        android:textSize="16sp"
+        android:background="@color/grey_200"
+        android:paddingLeft="4dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/newRelease"
+        android:layout_width="368dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="serif"
+        android:padding="5dp"
+        android:text="New release"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/getexistingRelease"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/deleteproblem"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="serif"
+        android:text="Existing release"
+        android:padding="5dp"
+        android:textSize="16sp" />
+
+
+
+</LinearLayout>
