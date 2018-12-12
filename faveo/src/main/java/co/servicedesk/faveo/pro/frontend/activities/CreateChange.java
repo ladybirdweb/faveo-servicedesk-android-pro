@@ -52,10 +52,6 @@ import co.servicedesk.faveo.pro.model.Data;
 import dmax.dialog.SpotsDialog;
 import es.dmoral.toasty.Toasty;
 
-/**
- * This class is for creating new change in Faveo.
- */
-
 public class CreateChange extends AppCompatActivity {
 
     ImageView imageViewback,refresh;

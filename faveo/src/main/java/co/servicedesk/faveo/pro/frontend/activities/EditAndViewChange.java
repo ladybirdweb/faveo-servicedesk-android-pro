@@ -41,9 +41,6 @@ import co.servicedesk.faveo.pro.model.CollaboratorSuggestion;
 import co.servicedesk.faveo.pro.model.Data;
 import dmax.dialog.SpotsDialog;
 
-/**
- * This class is responsible for editing the existing change in Faveo
- */
 public class EditAndViewChange extends AppCompatActivity {
 
 

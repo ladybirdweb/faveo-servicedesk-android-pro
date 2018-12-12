@@ -13,7 +13,7 @@
         android:text="Problem :"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:layout_marginLeft="5dp"/>
+        android:background="@color/grey_200"/>
 
     <TextView
         android:id="@+id/associate"

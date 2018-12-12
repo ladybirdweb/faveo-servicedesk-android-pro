@@ -2,6 +2,7 @@ package co.servicedesk.faveo.pro.frontend.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
@@ -17,6 +18,7 @@ import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -74,7 +76,7 @@ public class ExistingProblems extends AppCompatActivity {
     Button button;
     public int ticketId;
     int problemId;
-    private BottomSheetBehavior mBottomSheetBehavior;
+    String problemTitle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,7 +109,7 @@ public class ExistingProblems extends AppCompatActivity {
                 startActivity(intent1);
             }
         });
-        recyclerView=findViewById(R.id.list);
+        recyclerView=findViewById(R.id.listExistingProblem);
     imageView=findViewById(R.id.imageViewBack);
         if (InternetReceiver.isConnected()){
             dialog1 = new SpotsDialog(ExistingProblems.this, getString(R.string.pleasewait));
@@ -158,44 +160,6 @@ public class ExistingProblems extends AppCompatActivity {
     }
 
 
-    public class AttachProblem extends AsyncTask<String,Void,String>{
-
-        int ticketId,problemId;
-
-        public AttachProblem(int ticketId,int problemId){
-            this.ticketId=ticketId;
-            this.problemId=problemId;
-        }
-
-
-        @Override
-        protected String doInBackground(String... strings) {
-            return new Helpdesk().associateProblem(ticketId,problemId);
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            dialog1.dismiss();
-            if (s.equals("")||s.equals(null)){
-                Toasty.error(ExistingProblems.this, getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
-                return;
-            }
-
-            try{
-                JSONObject jsonObject=new JSONObject(s);
-                String data=jsonObject.getString("data");
-                if (data.equals("Problem attached to this ticket")){
-                    Toasty.success(ExistingProblems.this,"Successfully attached to the ticket",Toast.LENGTH_SHORT).show();
-                }
-
-            }catch (JSONException e){
-                e.printStackTrace();
-            }
-
-        }
-    }
-
-
     private class DeleteProblem extends AsyncTask<String,Void,String>{
 
         int problemId;
@@ -232,7 +196,7 @@ public class ExistingProblems extends AppCompatActivity {
         }
     }
 
-    private class FetchExistingProblem extends AsyncTask<String, Void, String> {
+    class FetchExistingProblem extends AsyncTask<String, Void, String> {
 
 
         FetchExistingProblem() {
@@ -243,7 +207,9 @@ public class ExistingProblems extends AppCompatActivity {
         }
 
         protected void onPostExecute(String result) {
-            dialog1.dismiss();
+            if (dialog1 != null && dialog1.isShowing()) {
+                dialog1.dismiss();
+            }
             problemList.clear();
             swipeRefresh.setRefreshing(false);
             if (isCancelled()) return;
@@ -264,6 +230,7 @@ public class ExistingProblems extends AppCompatActivity {
                             int id=jsonObject2.getInt("id");
                             String subject=jsonObject2.getString("subject");
                             String email=jsonObject2.getString("from");
+                            Log.d("email",email);
                             String createdDate=jsonObject2.getString("created_at");
                             ProblemModel problemModel=new ProblemModel(email,subject,createdDate,id);
                             problemList.add(problemModel);
@@ -274,7 +241,6 @@ public class ExistingProblems extends AppCompatActivity {
                 final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ExistingProblems.this);
                 linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                 recyclerView.setLayoutManager(linearLayoutManager);
-                    mAdapter = new ProblemAdpter(ExistingProblems.this,problemList);
                 recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                     @Override
                     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -298,9 +264,9 @@ public class ExistingProblems extends AppCompatActivity {
                         }
                     }
                 });
+                mAdapter = new ProblemAdpter(ExistingProblems.this,problemList);
                     recyclerView.setAdapter(mAdapter);
                     //recyclerView.getAdapter().notifyDataSetChanged();
-                    mAdapter.notifyDataSetChanged();
                 } catch (JSONException e1) {
                 e1.printStackTrace();
             }
@@ -364,22 +330,20 @@ public class ExistingProblems extends AppCompatActivity {
 
 
 
-    public class ProblemAdpter extends RecyclerView.Adapter<ProblemAdpter.MyViewHolder> implements Filterable{
+    public class ProblemAdpter extends RecyclerView.Adapter<ProblemAdpter.MyViewHolder>{
         private List<ProblemModel> moviesList;
         Context context;
-        private List<ProblemModel> mFilteredList;
-        private List<Integer> integers=new ArrayList<>();
 
         public class MyViewHolder extends RecyclerView.ViewHolder {
             public TextView email;
-            public TextView subject,options;
+            public TextView subject;
+            ImageView options;
             RelativeTimeTextView relativeTimeTextView;
             RelativeLayout relativeLayout;
             public MyViewHolder(View view) {
                 super(view);
-                email = (TextView) view.findViewById(R.id.textView_client_email);
-                //relativeLayout= (RelativeLayout) view.findViewById(R.id.attachedCollaborator);
-                subject= (TextView) view.findViewById(R.id.collaboratorname);
+                email = view.findViewById(R.id.textView_client_email);
+                subject=view.findViewById(R.id.collaboratorname);
                 options=view.findViewById(R.id.textViewOptions);
                 relativeTimeTextView=view.findViewById(R.id.textView_ticket_time);
                 relativeLayout=view.findViewById(R.id.problemList);
@@ -388,61 +352,27 @@ public class ExistingProblems extends AppCompatActivity {
             }
         }
 
-        public ProblemAdpter(Context context,List<ProblemModel> moviesList) {
+        ProblemAdpter(Context context,List<ProblemModel> moviesList) {
             this.moviesList = moviesList;
             this.context=context;
-            this.mFilteredList= moviesList;
+
         }
         @Override
-        public Filter getFilter() {
-
-            return new Filter() {
-                @Override
-                protected FilterResults performFiltering(CharSequence charSequence) {
-
-                    String charString = charSequence.toString();
-
-                    if (charString.isEmpty()) {
-
-                        moviesList = mFilteredList;
-                    } else {
-
-                        List<ProblemModel> filteredList = new ArrayList<>();
-
-                        for (ProblemModel androidVersion : mFilteredList) {
-
-                            if (androidVersion.getSubject().toLowerCase().contains(charString) || androidVersion.getEmail().toLowerCase().contains(charString)) {
-
-                                filteredList.add(androidVersion);
-                            }
-                        }
-
-                        moviesList = filteredList;
-                    }
-
-                    FilterResults filterResults = new FilterResults();
-                    filterResults.values = moviesList;
-                    return filterResults;
-                }
-        @Override
-        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            moviesList = (ArrayList<ProblemModel>) filterResults.values;
-            notifyDataSetChanged();
-        }
-            };
-        }
-        @Override
-        public ProblemAdpter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View itemView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.listofproblems, parent, false);
-            return new ProblemAdpter.MyViewHolder(itemView);
+            return new MyViewHolder(itemView);
         }
 
         @Override
-        public void onBindViewHolder(final ProblemAdpter.MyViewHolder holder, int position) {
-            final ProblemModel movie = moviesList.get(position);
+        public void onBindViewHolder(final MyViewHolder holder, int position) {
+             final ProblemModel movie = moviesList.get(position);
+//             holder.options.setColorFilter(getColor(R.color.faveo));
+             holder.options.setImageDrawable(getDrawable(R.drawable.menudot));
             if (!movie.getEmail().equals("")) {
-                holder.email.setText("From :  " +movie.getEmail());
+                Log.d("cameHere","true");
+                //holder.email.setText("From :  " +movie.getEmail());
+                holder.email.setText(movie.getEmail());
             }
 
             if (movie.getSubject().equals("")){
@@ -459,6 +389,7 @@ public class ExistingProblems extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     problemId=movie.getId();
+                    problemTitle=movie.getSubject();
                     MyBottomSheetDialog myBottomSheetDialog = new MyBottomSheetDialog(ExistingProblems.this);
                     myBottomSheetDialog.show();
                 }
@@ -480,7 +411,7 @@ public class ExistingProblems extends AppCompatActivity {
     public class MyBottomSheetDialog extends BottomSheetDialog implements View.OnClickListener {
 
         Context context;
-        TextView viewproblem,deleteproblem;
+        TextView viewproblem,deleteproblem,editProblem;
 
         MyBottomSheetDialog(@NonNull Context context) {
             super(context);
@@ -505,11 +436,13 @@ public class ExistingProblems extends AppCompatActivity {
             };
             viewproblem = (TextView) bottomSheetView.findViewById(R.id.viewproblem);
             deleteproblem = (TextView) bottomSheetView.findViewById(R.id.deleteproblem);
+            editProblem=bottomSheetView.findViewById(R.id.textview_more);
             viewproblem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent=new Intent(ExistingProblems.this,ProblemViewPage.class);
                                     intent.putExtra("problemId",problemId);
+                                    intent.putExtra("problemTitle",problemTitle);
                                     startActivity(intent);
                 }
             });
@@ -517,7 +450,8 @@ public class ExistingProblems extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                                     new BottomDialog.Builder(ExistingProblems.this)
-                                            .setContent("Deleting Problem?")
+                                            .setTitle(getString(R.string.deleting_prob))
+                                            .setContent(getString(R.string.suredeletingproblem))
                                             .setPositiveText("YES")
                                             .setNegativeText("NO")
                                             .setPositiveBackgroundColorResource(R.color.white)
@@ -546,6 +480,15 @@ public class ExistingProblems extends AppCompatActivity {
                                             .show();
                 }
             });
+            editProblem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent1=new Intent(ExistingProblems.this,EditAndViewProblem.class);
+                    intent1.putExtra("problemId",problemId);
+                    startActivity(intent1);
+                }
+            });
+
 
         }
 

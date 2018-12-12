@@ -583,11 +583,11 @@ public class Helpdesk {
 //        return result;
 //    }
 
-    public String postRegisterUser(String email, String firstname, String lastname, String mobile, String company) {
-        Log.d("RegisterUser", Constants.URL + "helpdesk/register?token=" + token + "&email=" + email + "&first_name=" + firstname + "&last_name=" + lastname + "&mobile=" + mobile + "&company=" + company);
-        String result = new HTTPConnection().HTTPResponsePost(Constants.URL + "helpdesk/register?token=" + token + "&email=" + email + "&first_name=" + firstname + "&last_name=" + lastname + "&mobile=" + mobile + "&company=" + company, null);
+    public String postRegisterUser(String email, String firstname, String lastname, String mobile, String company,String code) {
+        Log.d("RegisterUser", Constants.URL + "helpdesk/register?token=" + token + "&email=" + email + "&first_name=" + firstname + "&last_name=" + lastname + "&mobile=" + mobile + "&company=" + company +"&code="+code);
+        String result = new HTTPConnection().HTTPResponsePost(Constants.URL + "helpdesk/register?token=" + token + "&email=" + email + "&first_name=" + firstname + "&last_name=" + lastname + "&mobile=" + mobile + "&company=" + company+"&code="+code, null);
         if (result != null && result.equals("tokenRefreshed"))
-            return new HTTPConnection().HTTPResponsePost(Constants.URL + "helpdesk/register?token=" + token + "&email=" + email + "&first_name=" + firstname + "&last_name=" + lastname + "&mobile=" + mobile + "&company=" + company, null);
+            return new HTTPConnection().HTTPResponsePost(Constants.URL + "helpdesk/register?token=" + token + "&email=" + email + "&first_name=" + firstname + "&last_name=" + lastname + "&mobile=" + mobile + "&company=" + company+"&code="+code, null);
         return result;
     }
 
@@ -761,6 +761,14 @@ public class Helpdesk {
         }
         return result;
     }
+    public String getExistingChanges(){
+        Log.d("getExistingChanges",Constants.URL + "servicedesk/all/changes?token=" + token);
+        String result=new HTTPConnection().HTTPResponseGet(Constants.URL + "servicedesk/all/changes?token=" + token);
+        if (result != null && result.equals("tokenRefreshed")) {
+            return new HTTPConnection().HTTPResponseGet(Constants.URL + "servicedesk/all/changes?token=" + token);
+        }
+        return result;
+    }
 
     public String createProblem(String from, String subject,
                                 int statusId, int priorityId, int impactId, int departmentId, int assignedId, String description) {
@@ -777,11 +785,34 @@ public class Helpdesk {
 
     }
 
+    public String createChange(int from,String subject,int statusId,int priorityId,int impactId,int changeTypeId,String description){
+        Log.d("createChange", Constants.URL + "servicedesk/change/create?token=" + token + "&requester=" + from + "&subject=" + subject + "&status_id=" + statusId
+                + "&priority_id=" + priorityId + "&change_type_id=" +changeTypeId+"&impact_id=" + impactId + "&description=" + description);
+        String result = new HTTPConnection().HTTPResponsePost(Constants.URL + "servicedesk/change/create?token=" + token + "&requester=" + from + "&subject=" + subject + "&status_id=" + statusId
+                + "&priority_id=" + priorityId +"&change_type_id=" +changeTypeId+ "&impact_id=" + impactId + "&description=" + description, null);
+        if (result != null && result.equals("tokenRefreshed")) {
+            return new HTTPConnection().HTTPResponsePost(Constants.URL + "servicedesk/change/create?token=" + token + "&requester=" + from + "&subject=" + subject + "&status_id=" + statusId
+                    + "&priority_id=" + priorityId +"&change_type_id=" +changeTypeId+ "&impact_id=" + impactId + "&description=" + description, null);
+        }
+        return result;
+    }
+
+
     public String fetchProblemDetail(int problemId) {
         Log.d("fetchProblemDetail", Constants.URL + "servicedesk/problem/editbind/" + problemId + "?token=" + token);
         String result = new HTTPConnection().HTTPResponseGet(Constants.URL + "servicedesk/problem/editbind/" + problemId + "?token=" + token);
         if (result != null && result.equals("tokenRefreshed")) {
             return new HTTPConnection().HTTPResponseGet(Constants.URL + "servicedesk/problem/editbind/" + problemId + "?token=" + token);
+
+        }
+        return result;
+    }
+
+    public String fetchChangeDetail(int changeID){
+        Log.d("changeDetail",Constants.URL+"servicedesk/change/editbind/" + changeID + "?token=" + token);
+        String result = new HTTPConnection().HTTPResponseGet(Constants.URL + "servicedesk/change/editbind/" + changeID + "?token=" + token);
+        if (result != null && result.equals("tokenRefreshed")) {
+            return new HTTPConnection().HTTPResponseGet(Constants.URL + "servicedesk/change/editbind/" + changeID + "?token=" + token);
 
         }
         return result;
@@ -807,6 +838,16 @@ public class Helpdesk {
         String result = new HTTPConnection().HTTPResponseGet(Constants.URL + "servicedesk/problem/delete/" + problemId + "?token=" + token);
         if (result != null && result.equals("tokenRefreshed")) {
             return new HTTPConnection().HTTPResponseGet(Constants.URL + "servicedesk/problem/delete/" + problemId + "?token=" + token);
+
+        }
+        return result;
+    }
+
+    public String deleteChange(int changeId){
+        Log.d("changeProblem",Constants.URL + "servicedesk/change/delete/" + changeId +"?token="+token);
+        String result = new HTTPConnection().HTTPResponseGet(Constants.URL + "servicedesk/change/delete/" + changeId + "?token=" + token);
+        if (result != null && result.equals("tokenRefreshed")) {
+            return new HTTPConnection().HTTPResponseGet(Constants.URL + "servicedesk/change/delete/" + changeId + "?token=" + token);
 
         }
         return result;
@@ -872,6 +913,14 @@ public class Helpdesk {
             return new HTTPConnection().HTTPResponseGet(Constants.URL+"servicedesk/get/updates/"+problemId+"/"+tableModule+"/"+identifier+"?token="+token);
         }
     return result;
+    }
+    public String deleteworkAroundModule(int problemId,String tableModule,String identifier){
+        Log.d("deleteWorkAround",Constants.URL+"servicedesk/delete/updates/"+problemId+"/"+tableModule+"/"+identifier+"?token="+token);
+        String result=new HTTPConnection().HTTPResponseGet(Constants.URL+"servicedesk/delete/updates/"+problemId+"/"+tableModule+"/"+identifier+"?token="+token);
+        if (result!=null&&result.equals("tokenRefreshed")){
+            return new HTTPConnection().HTTPResponseGet(Constants.URL+"servicedesk/delete/updates/"+problemId+"/"+tableModule+"/"+identifier+"?token="+token);
+            }
+        return result;
     }
 
         }

@@ -25,7 +25,8 @@ import java.net.URL;
 import co.servicedesk.faveo.pro.FaveoApplication;
 
 /**
- * Created by Sumit
+ * Created by Sayar,this class will be responsible for making the connection with the server.We do have separate method for get
+ * post,put.
  */
 class HTTPConnection{
     private StringBuilder sb = null;
@@ -117,6 +118,11 @@ class HTTPConnection{
                         Prefs.putString("403","403");
 
                         break;
+                    case HttpURLConnection.HTTP_CONFLICT:
+                        Log.e("Response code","Conflict");
+                        ret="Conflict";
+                        Prefs.putString("409","409");
+                        break;
                     default:
 
                         break; // abort
@@ -127,6 +133,8 @@ class HTTPConnection{
             Prefs.putString("405","False");
             Prefs.putString("unauthorized","false");
             Prefs.putString("400","false");
+            Prefs.putString("403","false");
+            Prefs.putString("409","true");
             is = connection.getInputStream();
             Log.e("Response Code", connection.getResponseCode() + "");
         } catch (IOException e) {
@@ -193,10 +201,10 @@ class HTTPConnection{
                     case HttpURLConnection.HTTP_UNAUTHORIZED:
                         Log.e("Response code: ", "401-UNAUTHORIZED!");
                         //ret="HTTP_UNAUTHORIZED";
-//                        if (refreshToken() == null)
-//                            return null;
-//                        new Helpdesk();
-//                        new Authenticate();
+                        if (refreshToken() == null)
+                            return null;
+                        new Helpdesk();
+                        new Authenticate();
                         return "tokenRefreshed";
                     case HttpURLConnection.HTTP_NOT_FOUND:
                         Log.e("Response code: ", "NotFound-404!");

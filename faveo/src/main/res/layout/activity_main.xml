@@ -94,6 +94,7 @@
             app:itemTextAppearance="@style/MenuItems"
             app:miniFabTitleBackgroundTint="@color/faveo"
             app:miniFabTitleTextColor="@color/white"
+            android:visibility="gone"
             />
 
     </android.support.design.widget.CoordinatorLayout>

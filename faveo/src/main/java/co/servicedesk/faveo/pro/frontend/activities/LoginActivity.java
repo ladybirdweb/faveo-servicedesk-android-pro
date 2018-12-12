@@ -471,7 +471,7 @@ public class LoginActivity extends AppCompatActivity {
             //Log.d("result",result);
             try {
                 apiDisabled = Prefs.getString("400", null);
-                if (apiDisabled.equals("badRequest")) {
+                 if (apiDisabled.equals("badRequest")) {
                     Prefs.putString("400", "null");
                     Toasty.info(context, getString(R.string.apiDisabled), Toast.LENGTH_LONG).show();
                     return;
@@ -743,7 +743,7 @@ public class LoginActivity extends AppCompatActivity {
         Context context;
         String username;
         String password;
-
+        String apiDisabled;
         SignIn(Context context, String username, String password) {
             this.context = context;
             this.username = username;
@@ -817,6 +817,57 @@ public class LoginActivity extends AppCompatActivity {
 //                    e.printStackTrace();
 //                }
 //            }
+            try{
+                apiDisabled = Prefs.getString("403", null);
+                if (apiDisabled.equals("403")){
+                    Prefs.putString("400", "true");
+                    textInputLayoutUsername.setEnabled(true);
+                    textInputLayoutPass.setEnabled(true);
+                    buttonSignIn.setText(getString(R.string.sign_in));
+                    //Toast.makeText(LoginActivity.this, "Wrong Credentials", Toast.LENGTH_SHORT).show();
+                    //StyleableToast st = new StyleableToast(LoginActivity.this, getString(R.string.wrong_credentials), Toast.LENGTH_LONG);
+                    passwordEdittext.startAnimation(animation);
+                    usernameEdittext.startAnimation(animation);
+                    textInputLayoutUsername.setEnabled(true);
+                    textInputLayoutPass.setEnabled(true);
+
+                    //progressBar.setVisibility(View.GONE);
+                    Toasty.info(context, getString(R.string.bannedOrdeactivated), Toast.LENGTH_LONG).show();
+                    return;
+                }
+            }catch (NullPointerException e){
+
+            }
+
+            try{
+                apiDisabled = Prefs.getString("409", null);
+                if (apiDisabled.equals("409")){
+                    Prefs.putString("409", "true");
+                    textInputLayoutUsername.setEnabled(true);
+                    textInputLayoutPass.setEnabled(true);
+
+                    //progressBar.setVisibility(View.GONE);
+                    Toasty.info(context, getString(R.string.inactiveagent), Toast.LENGTH_LONG).show();
+                    return;
+                }
+            }catch (NullPointerException e){
+                e.printStackTrace();
+            }
+
+            try {
+                apiDisabled = Prefs.getString("400", null);
+                if (apiDisabled.equals("badRequest")) {
+
+                    Prefs.putString("400", "null");
+                    textInputLayoutUsername.setEnabled(true);
+                    textInputLayoutPass.setEnabled(true);
+                    //progressBar.setVisibility(View.GONE);
+                    Toasty.info(context, getString(R.string.apiDisabled), Toast.LENGTH_LONG).show();
+                    return;
+                }
+            }catch (NullPointerException e){
+                e.printStackTrace();
+            }
 
             try {
                 JSONObject jsonObject = new JSONObject(result);
@@ -883,7 +934,7 @@ public class LoginActivity extends AppCompatActivity {
                 buttonSignIn.setText(getString(R.string.sign_in));
                 //Toast.makeText(LoginActivity.this, "Wrong Credentials", Toast.LENGTH_SHORT).show();
                 userNameError.setVisibility(View.VISIBLE);
-                userNameError.setText("Please check your password and email");
+                userNameError.setText(R.string.credentialsMismatch);
                 userNameError.setTextColor(Color.parseColor("#ff0000"));
                 userNameError.postDelayed(new Runnable() {
                     public void run() {

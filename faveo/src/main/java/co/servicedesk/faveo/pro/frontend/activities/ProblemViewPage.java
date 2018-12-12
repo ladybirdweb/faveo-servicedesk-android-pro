@@ -11,6 +11,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.TabLayout;
@@ -24,9 +25,8 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -39,6 +39,9 @@ import android.widget.Toast;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
+import com.elyeproj.loaderviewlibrary.LoaderTextView;
+import com.github.javiersantos.bottomdialogs.BottomDialog;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,9 +57,9 @@ import co.servicedesk.faveo.pro.backend.api.v1.Helpdesk;
 import co.servicedesk.faveo.pro.frontend.fragments.ProblemSpecific;
 import co.servicedesk.faveo.pro.frontend.fragments.ProblemDescription;
 import co.servicedesk.faveo.pro.frontend.receivers.InternetReceiver;
-import co.servicedesk.faveo.pro.model.Data;
 import co.servicedesk.faveo.pro.model.ProblemAssociatedAssets;
 import co.servicedesk.faveo.pro.model.ProblemAssociatedTicket;
+import dmax.dialog.SpotsDialog;
 import es.dmoral.toasty.Toasty;
 
 public class ProblemViewPage extends AppCompatActivity implements ProblemDescription.OnFragmentInteractionListener,ProblemSpecific.OnFragmentInteractionListener {
@@ -67,6 +70,7 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
     private ItemAdapterAsset itemAdapterAsset;
     ImageView imageView,imageViewBack;
     int problemId;
+    String problemTitle;
     List<ProblemAssociatedAssets> items;
     List<ProblemAssociatedTicket> items1;
     int assetCount=0;
@@ -76,6 +80,9 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
     String identifier="";
     AHBottomNavigation bottomNavigation;
     ProgressDialog progressDialog;
+    SpotsDialog dialog1;
+    TextView textViewTicketTitle;
+    LoaderTextView loaderTextViewFrom,loaderTextViewstatus,loaderTextViewdepartment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,8 +108,15 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
         tabLayout.setupWithViewPager(vpPager);
         setupViewPager(vpPager);
         imageView=findViewById(R.id.editProblem);
+        textViewTicketTitle=findViewById(R.id.ticketNumberDemo);
+        AppBarLayout mAppBarLayout = (AppBarLayout) findViewById(R.id.appbarProblem);
+        loaderTextViewdepartment=mAppBarLayout.findViewById(R.id.problemdepartment);
+        loaderTextViewFrom=mAppBarLayout.findViewById(R.id.fromProblem);
+        loaderTextViewstatus=mAppBarLayout.findViewById(R.id.problemstatus);
         final Intent intent = getIntent();
         problemId= intent.getIntExtra("problemId",0);
+        problemTitle=intent.getStringExtra("problemTitle");
+        textViewTicketTitle.setText(problemTitle);
         imageViewBack=findViewById(R.id.imageViewBackProblemDetail);
 
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -130,14 +144,14 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
 // Create items
         AHBottomNavigationItem item1 = new AHBottomNavigationItem("Tickets", R.drawable.ticket, R.color.white);
         AHBottomNavigationItem item2 = new AHBottomNavigationItem("Assets", R.drawable.ic_local_grocery_store_black_24dp, R.color.white);
-        AHBottomNavigationItem item3 = new AHBottomNavigationItem("Change", R.drawable.changes, R.color.white);
+        //AHBottomNavigationItem item3 = new AHBottomNavigationItem("Change", R.drawable.changes, R.color.white);
         AHBottomNavigationItem item4 = new AHBottomNavigationItem("Update", R.drawable.ic_update_black_24dp, R.color.white);
         AHBottomNavigationItem item5 = new AHBottomNavigationItem("More", R.drawable.ic_expand_more_black_24dp, R.color.white);
 
 // Add items
         bottomNavigation.addItem(item1);
         bottomNavigation.addItem(item2);
-        bottomNavigation.addItem(item3);
+        //bottomNavigation.addItem(item3);
         bottomNavigation.addItem(item4);
         bottomNavigation.addItem(item5);
         bottomNavigation.setAccentColor(getResources().getColor(R.color.white));
@@ -163,19 +177,17 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
                     myBottomSheetDialog.show();
                 }
                 if (position == 2) {
-                    MyBottomSheetDialogChange myBottomSheetDialog = new MyBottomSheetDialogChange(ProblemViewPage.this);
-                    myBottomSheetDialog.show();
-                }
-                if (position == 3) {
                     MyBottomSheetDialogUpdate myBottomSheetDialog = new MyBottomSheetDialogUpdate(ProblemViewPage.this);
                     myBottomSheetDialog.show();
                 }
-                if (position == 4) {
+//                if (position == 3) {
+//                    MyBottomSheetDialogUpdate myBottomSheetDialog = new MyBottomSheetDialogUpdate(ProblemViewPage.this);
+//                    myBottomSheetDialog.show();
+//                }
+                if (position == 3) {
                     MyBottomSheetDialogMore myBottomSheetDialog = new MyBottomSheetDialogMore(ProblemViewPage.this);
                     myBottomSheetDialog.show();
                 }
-
-                // Do something cool here...
                 return true;
             }
         });
@@ -201,13 +213,27 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
             try {
                 JSONObject jsonObject=new JSONObject(result);
                 JSONObject jsonObject1=jsonObject.getJSONObject("data");
+                JSONObject jsonObject3=jsonObject1.getJSONObject("department");
+                String name=jsonObject3.getString("name");
+                String from=jsonObject1.getString("from");
+                JSONObject jsonObject4=jsonObject1.getJSONObject("status_type_id");
+                String status=jsonObject4.getString("name");
+                if (!from.equals("")){
+                    loaderTextViewFrom.setText(from);
+                }
+                if (!name.equals("")){
+                    loaderTextViewdepartment.setText(name);
+                }
+                if (!status.equals("")){
+                    loaderTextViewstatus.setText(status);
+                }
                 JSONArray jsonArray=jsonObject1.getJSONArray("asset");
                 for (int i=0;i<jsonArray.length();i++){
                     assetCount++;
                     JSONObject jsonObject2=jsonArray.getJSONObject(i);
-                    String name=jsonObject2.getString("name");
+                    String name1=jsonObject2.getString("name");
                     int id=jsonObject2.getInt("id");
-                    ProblemAssociatedAssets problemAssociatedTicket=new ProblemAssociatedAssets(1,"AST-"+id,name);
+                    ProblemAssociatedAssets problemAssociatedTicket=new ProblemAssociatedAssets(1,"AST-"+id,name1);
                     items.add(problemAssociatedTicket);
 
 
@@ -319,7 +345,7 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
     public class MyBottomSheetDialogMore extends BottomSheetDialog {
 
         Context context;
-        TextView associate, viewproblem, deleteproblem;
+        TextView  viewproblem;
 
         MyBottomSheetDialogMore(@NonNull Context context) {
             super(context);
@@ -342,17 +368,43 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
                     // do something
                 }
             };
-
-            associate = (TextView) bottomSheetView.findViewById(R.id.associate);
-            viewproblem = (TextView) bottomSheetView.findViewById(R.id.viewproblem);
-            deleteproblem = (TextView) bottomSheetView.findViewById(R.id.deleteproblem);
-
-            associate.setOnClickListener(new View.OnClickListener() {
+            viewproblem = (TextView) bottomSheetView.findViewById(R.id.delete);
+            viewproblem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(context, "clicked on edit", Toast.LENGTH_SHORT).show();
+                    new BottomDialog.Builder(ProblemViewPage.this)
+                            .setTitle(R.string.deleting_prob)
+                            .setContent(R.string.suredeletingproblem)
+                            .setPositiveText("YES")
+                            .setNegativeText("NO")
+                            .setPositiveBackgroundColorResource(R.color.white)
+                            //.setPositiveBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary)
+                            .setPositiveTextColorResource(R.color.faveo)
+                            .setNegativeTextColor(R.color.black)
+                            //.setPositiveTextColor(ContextCompat.getColor(this, android.R.color.colorPrimary)
+                            .onPositive(new BottomDialog.ButtonCallback() {
+                                @Override
+                                public void onClick(BottomDialog dialog) {
+                                    if (InternetReceiver.isConnected()){
+                                        if (InternetReceiver.isConnected()){
+                                            dialog1= new SpotsDialog(ProblemViewPage.this,"Deleting Problem...");
+                                            dialog1.show();
+                                            new DeleteProblem(problemId).execute();
+
+                                        }
+                                    }
+                                }
+                            }).onNegative(new BottomDialog.ButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull BottomDialog bottomDialog) {
+                            bottomDialog.dismiss();
+                        }
+                    })
+                            .show();
+
                 }
             });
+
 
         }
     }
@@ -361,7 +413,7 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
 
         Context context;
         RecyclerView recyclerView;
-
+        TextView textViewEmpty;
         MyBottomSheetDialogAssets(@NonNull Context context) {
             super(context);
             this.context = context;
@@ -384,11 +436,19 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
                 }
             };
             recyclerView = (RecyclerView) bottomSheetView.findViewById(R.id.recyclerViewAsset);
-            recyclerView.setHasFixedSize(true);
-            recyclerView.setLayoutManager(new LinearLayoutManager(ProblemViewPage.this));
-            itemAdapterAsset = new ItemAdapterAsset(ProblemViewPage.this,items);
-            recyclerView.setAdapter(itemAdapterAsset);
-            itemAdapterAsset.notifyDataSetChanged();
+            textViewEmpty=bottomSheetView.findViewById(R.id.empty_view);
+            if (items.isEmpty()){
+                textViewEmpty.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.GONE);
+            }
+            else {
+                recyclerView.setHasFixedSize(true);
+                recyclerView.setLayoutManager(new LinearLayoutManager(ProblemViewPage.this));
+                itemAdapterAsset = new ItemAdapterAsset(ProblemViewPage.this,items);
+                recyclerView.setAdapter(itemAdapterAsset);
+                itemAdapterAsset.notifyDataSetChanged();
+            }
+
 
         }
 
@@ -399,7 +459,7 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
 
         Context context;
         RecyclerView recyclerView;
-
+        TextView textViewEmptyTextView;
         MyBottomSheetDialogTickets(@NonNull Context context) {
             super(context);
             this.context = context;
@@ -422,11 +482,19 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
                 }
             };
             recyclerView = (RecyclerView) bottomSheetView.findViewById(R.id.recyclerView);
-            recyclerView.setHasFixedSize(true);
-            recyclerView.setLayoutManager(new LinearLayoutManager(ProblemViewPage.this));
-            mAdapter = new ItemAdapter(items1);
-            recyclerView.setAdapter(mAdapter);
-            mAdapter.notifyDataSetChanged();
+            textViewEmptyTextView=bottomSheetView.findViewById(R.id.empty_view);
+            if (items1.isEmpty()){
+                textViewEmptyTextView.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.GONE);
+            }
+            else{
+                recyclerView.setHasFixedSize(true);
+                recyclerView.setLayoutManager(new LinearLayoutManager(ProblemViewPage.this));
+                mAdapter = new ItemAdapter(items1);
+                recyclerView.setAdapter(mAdapter);
+                mAdapter.notifyDataSetChanged();
+            }
+
 
         }
 
@@ -541,6 +609,42 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
 
     }
 
+    private class DeleteProblem extends AsyncTask<String,Void,String>{
+
+        int problemId;
+
+        public DeleteProblem(int problemId){
+            this.problemId=problemId;
+        }
+
+
+
+        @Override
+        protected String doInBackground(String... strings) {
+            return new Helpdesk().deleteProblem(problemId);
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            if (dialog1 != null && dialog1.isShowing()) {
+                dialog1.dismiss();
+            }
+
+            try {
+                JSONObject jsonObject=new JSONObject(s);
+                String data=jsonObject.getString("data");
+                if (data.equals("Problem Deleted Successfully.")){
+                    Toasty.success(ProblemViewPage.this, getString(R.string.problem_deleted), Toast.LENGTH_LONG).show();
+                    Intent intent=new Intent(ProblemViewPage.this,ExistingProblems.class);
+                    startActivity(intent);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
     class CustomDialogClassRootCause extends Dialog implements
             android.view.View.OnClickListener {
 
@@ -563,6 +667,10 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
             yes = (Button) findViewById(R.id.btn_yes);
             no = (Button) findViewById(R.id.btn_no);
             editTextRootCause=findViewById(R.id.rootCause);
+            String data=Prefs.getString("description",null);
+            if (!data.equals("")){
+                editTextRootCause.setText(data);
+            }
             yes.setOnClickListener(this);
             no.setOnClickListener(this);
 
@@ -623,6 +731,10 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
             yes = (Button) findViewById(R.id.btn_yes);
             no = (Button) findViewById(R.id.btn_no);
             editTextImpact=findViewById(R.id.impactEdit);
+            String data=Prefs.getString("impact",null);
+            if (!data.equals("")){
+                editTextImpact.setText(data);
+            }
             yes.setOnClickListener(this);
             no.setOnClickListener(this);
 
@@ -682,6 +794,10 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
             yes = (Button) findViewById(R.id.btn_yes);
             no = (Button) findViewById(R.id.btn_no);
             editTextSymptoms=findViewById(R.id.symptomsEdit);
+            String data=Prefs.getString("symptoms",null);
+            if (!data.equals("")){
+                editTextSymptoms.setText(data);
+            }
             yes.setOnClickListener(this);
             no.setOnClickListener(this);
 
@@ -741,9 +857,12 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
             yes = (Button) findViewById(R.id.btn_yes);
             no = (Button) findViewById(R.id.btn_no);
             editTextSolution=findViewById(R.id.editSolution);
+            String data=Prefs.getString("solution",null);
+            if (!data.equals("")){
+                editTextSolution.setText(data);
+            }
             yes.setOnClickListener(this);
             no.setOnClickListener(this);
-
         }
 
         @Override
@@ -858,13 +977,6 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
             ProblemAssociatedAssets problemAssociatedTicket = mItems.get(position);
             holder.textViewAssetId.setText(problemAssociatedTicket.getTicketnumber());
             holder.assetTitle.setText(problemAssociatedTicket.getTitle());
-
-            holder.cardViewAssociated.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Toast.makeText(context, "click at: "+position, Toast.LENGTH_SHORT).show();
-                }
-            });
         }
 
         @Override

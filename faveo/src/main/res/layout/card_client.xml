@@ -8,14 +8,13 @@
     android:paddingRight="16dp"
     android:paddingTop="4dp"
     android:focusable="true"
-
     android:background="@drawable/custom_ripple">
 
     <!--<TextView-->
-        <!--android:id="@+id/textView_client_id"-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentRight="true" />-->
+    <!--android:id="@+id/textView_client_id"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentRight="true" />-->
 
     <ImageView
         android:id="@+id/imageView_default_profile"
@@ -24,7 +23,7 @@
         android:transitionName="@string/blue_name"
         android:layout_centerVertical="true"
         android:src="@drawable/default_pic"
-        />
+        android:background="@drawable/rounded_textview"/>
 
 
 
@@ -85,7 +84,6 @@
         android:textSize="16sp" />
 
     <View
-        android:id="@+id/view3"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_alignParentBottom="true"

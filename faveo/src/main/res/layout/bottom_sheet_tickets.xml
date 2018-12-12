@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:padding="5dp"
+    android:padding="6dp"
     android:orientation="vertical">
 
     <TextView
@@ -11,7 +11,7 @@
         android:text="Associated Tickets"
         android:textStyle="bold"
         android:textSize="16sp"
-        android:paddingLeft="7dp"
+        android:paddingLeft="4dp"
         android:background="@color/grey_200"/>
 
     <android.support.v7.widget.RecyclerView
@@ -19,8 +19,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:visibility="visible">
 
     </android.support.v7.widget.RecyclerView>
+
+    <TextView
+        android:id="@+id/empty_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:drawableTint="@color/dark_translucent"
+        android:drawableTop="@drawable/ic_inbox_black_48dp"
+        android:text="@string/no_records"
+        android:textColor="@color/dark_translucent"
+        android:textSize="28sp"
+        android:visibility="gone" />
 
 </LinearLayout>

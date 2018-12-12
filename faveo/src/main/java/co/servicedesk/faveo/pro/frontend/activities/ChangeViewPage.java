@@ -59,12 +59,6 @@ import co.servicedesk.faveo.pro.frontend.receivers.InternetReceiver;
 import dmax.dialog.SpotsDialog;
 import es.dmoral.toasty.Toasty;
 
-
-/**
- * This class is written by Sayar, it is responsible for getting all the details of specific change of Faveo.
- * It will give option to edit that change in Faveo.We can also add change specific details frpm this page.
- * We can also see the problem which is associated with that change.
- */
 public class ChangeViewPage extends AppCompatActivity implements ChangeDescription.OnFragmentInteractionListener,ChangeSpecific.OnFragmentInteractionListener {
     Context context;
     ViewPager vpPager;
@@ -161,7 +155,7 @@ public class ChangeViewPage extends AppCompatActivity implements ChangeDescripti
                 }
                 if (position==2){
                     new BottomDialog.Builder(ChangeViewPage.this)
-                            .setContent("Deleting Change?")
+                            .setContent("Deleting Problem?")
                             .setPositiveText("YES")
                             .setNegativeText("NO")
                             .setPositiveBackgroundColorResource(R.color.white)
@@ -174,9 +168,9 @@ public class ChangeViewPage extends AppCompatActivity implements ChangeDescripti
                                 public void onClick(BottomDialog dialog) {
                                     if (InternetReceiver.isConnected()){
                                         if (InternetReceiver.isConnected()){
-                                            dialog1= new SpotsDialog(ChangeViewPage.this,"Deleting change...");
+                                            dialog1= new SpotsDialog(ChangeViewPage.this,"Deleting Problem...");
                                             dialog1.show();
-                                            new DeleteChange(changeId).execute();
+                                            new DeleteProblem(changeId).execute();
 
                                         }
                                     }
@@ -197,19 +191,19 @@ public class ChangeViewPage extends AppCompatActivity implements ChangeDescripti
 
 
     }
-    private class DeleteChange extends AsyncTask<String,Void,String>{
+    private class DeleteProblem extends AsyncTask<String,Void,String>{
 
-        int changeId;
+        int problemId;
 
-        public DeleteChange(int changeId){
-            this.changeId=changeId;
+        public DeleteProblem(int problemId){
+            this.problemId=problemId;
         }
 
 
 
         @Override
         protected String doInBackground(String... strings) {
-            return new Helpdesk().deleteChange(changeId);
+            return new Helpdesk().deleteProblem(problemId);
         }
 
         @Override
@@ -221,9 +215,9 @@ public class ChangeViewPage extends AppCompatActivity implements ChangeDescripti
             try {
                 JSONObject jsonObject=new JSONObject(s);
                 String data=jsonObject.getString("data");
-                if (data.equals("Changes Deleted.")){
-                    Toasty.success(ChangeViewPage.this, getString(R.string.change_delete), Toast.LENGTH_LONG).show();
-                    Intent intent=new Intent(ChangeViewPage.this,ExistingChanges.class);
+                if (data.equals("Problem Deleted Successfully.")){
+                    Toasty.success(ChangeViewPage.this, getString(R.string.problem_deleted), Toast.LENGTH_LONG).show();
+                    Intent intent=new Intent(ChangeViewPage.this,ExistingProblems.class);
                     startActivity(intent);
                 }
             } catch (JSONException e) {

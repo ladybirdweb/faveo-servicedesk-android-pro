@@ -1,6 +1,7 @@
 package co.servicedesk.faveo.pro.frontend.activities;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -101,7 +102,7 @@ public class EditAndViewProblem extends AppCompatActivity implements PermissionC
     MultiAutoCompleteTextView assetItem;
     String path="";
     boolean allCorrect;
-    String email1;
+    String email1="";
     SpotsDialog dialog1;
     StringBuilder sb1 = new StringBuilder();
     String assetListFinal;
@@ -225,6 +226,9 @@ public class EditAndViewProblem extends AppCompatActivity implements PermissionC
                         Log.d("email1",email1);
                         editTextEmail.setText(email1);
                     }
+                    else{
+                        email1="";
+                    }
                 }
 
             }
@@ -315,7 +319,10 @@ public class EditAndViewProblem extends AppCompatActivity implements PermissionC
                 final Data department = (Data) departmentSpinner.getSelectedItem();
                 final Data staff= (Data) staffautocompletetextview.getSelectedItem();
                 allCorrect = true;
-
+                if (email1.equals("")){
+                    Toasty.warning(EditAndViewProblem.this, getString(R.string.user_not_found), Toast.LENGTH_SHORT).show();
+                    allCorrect = false;
+                }
                 if (editTextEmail.getText().toString().equals("")){
                     Toasty.warning(EditAndViewProblem.this, getString(R.string.selectUser), Toast.LENGTH_SHORT).show();
                     allCorrect = false;
@@ -388,7 +395,7 @@ public class EditAndViewProblem extends AppCompatActivity implements PermissionC
                                         public void onClick(BottomDialog dialog) {
                                             if (InternetReceiver.isConnected()){
                                                  if (InternetReceiver.isConnected()){
-                                                    dialog1= new SpotsDialog(EditAndViewProblem.this, getString(R.string.creating_problem));
+                                                    dialog1= new SpotsDialog(EditAndViewProblem.this, getString(R.string.editingProblem));
                                                     dialog1.show();
                                                     new EditProblem(problemId,finalEmail, finalSubjec,status.ID,priority.ID,impact.ID,department.ID,staff.ID,finalDescrition).execute();
 
@@ -404,20 +411,41 @@ public class EditAndViewProblem extends AppCompatActivity implements PermissionC
                                     .show();
 
                         }
-                        else if (!assetListFinal.equals("")){
-
-                            if (assetListFinal.charAt(assetListFinal.length()-1)==','){
+                        else if (assetListFinal.charAt(assetListFinal.length()-1)==','){
                                 Log.d("assetFinalList",assetListFinal);
                                 values = assetListFinal.split(",");
                                 for (int i=0;i<values.length;i++){
-                                    Log.d("cameHere","True");
-                                    Data data=assetItems.get(i);
-                                    sb1.append("&asset[]=").append(data.getID());
-//                                    if (data.name.equals(values[i])) {
-//                                        Log.d("cameInFinalBlock","true");
-//
+                                    String name=values[i];
+                                    for (int j=0;j<assetItems.size();j++){
+                                        Data data=assetItems.get(j);
+                                        Log.d("beforeCondition","true");
+                                        String finalname=data.getName().replace(" ","");
+                                        if (finalname.equals(name)){
+                                            Log.d("beforeCondition","false");
+                                            sb1.append("&asset[]=").append(data.getID());
+                                        }
+                                        else{
+
+                                        }
+                                    }
+                                    Log.d("name",sb1.toString());
+
+//                                    for (int j=0;j<assetItems.size();j++){
+//                                        Data data=assetItems.get(i);
+//                                        if (name.equals(data.getName())){
+//                                            multipleAsset=sb1.append("&asset[]=").append(data.getID()).toString();
+//                                        }
 //                                    }
+//                                    Log.d("assetList",multipleAsset);
+//                                    Log.d("assetFinal",assetListFinal);
+//                                    Data data=assetItems.get(i);
+//                                    if (data.getName().equals(values[i])){
+//                                        multipleAsset=sb1.append("&asset[]=").append(data.getID()).toString();
+//                                    }
+
+
                                 }
+
 
 
                                 Log.d("assetList",sb1.toString());
@@ -437,8 +465,8 @@ public class EditAndViewProblem extends AppCompatActivity implements PermissionC
                                 final String finalSubjec = subjec;
                                 final String finalDescrition = descrition;
                                 new BottomDialog.Builder(EditAndViewProblem.this)
-                                        .setTitle(R.string.creating_problem)
-                                        .setContent(R.string.problem_confirm)
+                                        .setTitle(R.string.editingProblem)
+                                        .setContent(R.string.editProblemConfirm)
                                         .setPositiveText("YES")
                                         .setNegativeText("NO")
                                         .setPositiveBackgroundColorResource(R.color.white)
@@ -451,7 +479,7 @@ public class EditAndViewProblem extends AppCompatActivity implements PermissionC
                                             public void onClick(BottomDialog dialog) {
                                                 if (InternetReceiver.isConnected()){
                                                     if (InternetReceiver.isConnected()){
-                                                        dialog1= new SpotsDialog(EditAndViewProblem.this, getString(R.string.creating_problem));
+                                                        dialog1= new SpotsDialog(EditAndViewProblem.this, getString(R.string.editingProblem));
                                                         dialog1.show();
                                                         new EditProblem(problemId,finalEmail, finalSubjec,status.ID,priority.ID,impact.ID,department.ID,staff.ID,finalDescrition+sb1).execute();
 
@@ -468,16 +496,42 @@ public class EditAndViewProblem extends AppCompatActivity implements PermissionC
                             }
                             else{
                                 Log.d("assetFinal",assetListFinal);
-                                values = assetListFinal.split(",");
+                            String assetSelection=assetListFinal.replace(assetListFinal.charAt(assetListFinal.length()-1),',');
+                            values = assetSelection.split(",");
                                 for (int i=0;i<values.length;i++){
-                                    Log.d("cameHere","True");
-                                    Data data=assetItems.get(i);
-                                    sb1.append("&asset[]=").append(data.getID());
-//                        if (data.getName().trim().equals(values[i])){
-//
-//
-//
-}
+                                    String name=values[i];
+                                    for (int j=0;j<assetItems.size();j++){
+                                        Data data=assetItems.get(j);
+                                        Log.d("beforeCondition","true");
+                                        String finalname=data.getName().replace(" ","");
+                                        if (finalname.equals(name)){
+                                            Log.d("beforeCondition","false");
+                                            sb1.append("&asset[]=").append(data.getID());
+                                        }
+                                        else{
+                                        //Toasty.info(EditAndViewProblem.this,"selected asset is invalid",Toast.LENGTH_SHORT).show();
+
+                                    }
+                                    }
+
+                                    Log.d("name",sb1.toString());
+
+//                                    for (int j=0;j<assetItems.size();j++){
+//                                        Data data=assetItems.get(i);
+//                                        if (name.equals(data.getName())){
+//                                            multipleAsset=sb1.append("&asset[]=").append(data.getID()).toString();
+//                                        }
+//                                    }
+//                                    Log.d("assetList",multipleAsset);
+//                                    Log.d("assetFinal",assetListFinal);
+//                                    Data data=assetItems.get(i);
+//                                    if (data.getName().equals(values[i])){
+//                                        multipleAsset=sb1.append("&asset[]=").append(data.getID()).toString();
+//                                    }
+
+
+                                }
+
 
 
                                 Log.d("assetList",sb1.toString());
@@ -498,8 +552,8 @@ public class EditAndViewProblem extends AppCompatActivity implements PermissionC
                                 final String finalSubjec = subjec;
                                 final String finalDescrition = descrition;
                                 new BottomDialog.Builder(EditAndViewProblem.this)
-                                        .setTitle(R.string.creating_problem)
-                                        .setContent(R.string.problem_confirm)
+                                        .setTitle(R.string.editingProblem)
+                                        .setContent(R.string.editProblemConfirm)
                                         .setPositiveText("YES")
                                         .setNegativeText("NO")
                                         .setPositiveBackgroundColorResource(R.color.white)
@@ -512,7 +566,7 @@ public class EditAndViewProblem extends AppCompatActivity implements PermissionC
                                             public void onClick(BottomDialog dialog) {
                                                 if (InternetReceiver.isConnected()){
                                                     if (InternetReceiver.isConnected()){
-                                                        dialog1= new SpotsDialog(EditAndViewProblem.this, getString(R.string.creating_problem));
+                                                        dialog1= new SpotsDialog(EditAndViewProblem.this, getString(R.string.editingProblem));
                                                         dialog1.show();
                                                         new EditProblem(problemId,finalEmail, finalSubjec,status.ID,priority.ID,impact.ID,department.ID,staff.ID,finalDescrition+sb1).execute();
 
@@ -533,7 +587,7 @@ public class EditAndViewProblem extends AppCompatActivity implements PermissionC
                     }
 
                 }
-            }
+
         });
 
     }
@@ -591,8 +645,7 @@ public class EditAndViewProblem extends AppCompatActivity implements PermissionC
 
 
     }
-
-
+    @SuppressLint("StaticFieldLeak")
     private class FetchProblemDetail extends AsyncTask<String,Void,String>{
         int problemId;
 

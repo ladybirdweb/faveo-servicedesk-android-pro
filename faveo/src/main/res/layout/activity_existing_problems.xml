@@ -95,7 +95,7 @@
         >
 
         <com.cooltechworks.views.shimmer.ShimmerRecyclerView
-            android:id="@+id/list"
+            android:id="@+id/listExistingProblem"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:demo_child_count="10"

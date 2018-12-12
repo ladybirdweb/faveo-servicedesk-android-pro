@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/colorAccent"
-    tools:context="co.helpdesk.faveo.pro.frontend.activities.RegisterUser">
+    tools:context=".frontend.activities.RegisterUser">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

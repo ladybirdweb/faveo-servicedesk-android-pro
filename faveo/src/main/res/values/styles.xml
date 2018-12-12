@@ -41,7 +41,7 @@
         <item name="actionOverflowButtonStyle">@style/MyOverflowButtonStyle</item>
     </style>
     <style name="MyOverflowButtonStyle" parent="Widget.AppCompat.ActionButton.Overflow">
-        <item name="android:tint">@color/colorAccent</item>
+        <item name="android:tint">@color/faveo</item>
     </style>
 
     <style name="MyMaterialTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

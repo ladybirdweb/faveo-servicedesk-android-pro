@@ -62,7 +62,6 @@ public class ProblemDescription extends Fragment {
 
     TextView textViewRootCauseDescrip,textViewImpact,textViewSymptoms,textViewSolutions;
     ScrollView scrollView;
-    TextView editrootCause,deleterootCause;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -75,9 +74,10 @@ public class ProblemDescription extends Fragment {
     String table="sd_problem";
     String parameterName="";
     String identifier="";
-    TextView imageViewEditRootCause,imageViewDeleteRootCause,imageViewEditImpact,imageViewDeleteImpact,imageViewEditSymptom,imageViewDeleteSymptom;
+    TextView imageViewEditRootCause,imageViewDeleteRootCause,imageViewEditImpact,imageViewDeleteImpact,
+            imageViewEditSymptom,imageViewDeleteSymptom,imageViewEditSolution,imageViewDeleteSolution;
     ProgressDialog progressDialog;
-    CardView cardViewRootCause,cardViewImpact,cardViewSymptoms;
+    CardView cardViewRootCause,cardViewImpact,cardViewSymptoms,cardViewSolution;
     private OnFragmentInteractionListener mListener;
 
     public ProblemDescription() {
@@ -123,10 +123,13 @@ public class ProblemDescription extends Fragment {
         imageViewEditImpact=rootView.findViewById(R.id.editImpact);
         imageViewDeleteSymptom=rootView.findViewById(R.id.deleteSymptom);
         imageViewEditSymptom=rootView.findViewById(R.id.editSymptom);
+        imageViewEditSolution=rootView.findViewById(R.id.editSolution);
+        imageViewDeleteSolution=rootView.findViewById(R.id.deleteSolution);
         cardViewRootCause=rootView.findViewById(R.id.rootCard);
         cardViewImpact=rootView.findViewById(R.id.impactCard);
         cardViewSymptoms=rootView.findViewById(R.id.symptomsCard);
-        textViewSolutions=rootView.findViewById(R.id.solution);
+        cardViewSolution=rootView.findViewById(R.id.solutionCard);
+        textViewSolutions=rootView.findViewById(R.id.solutions);
         textViewImpact=rootView.findViewById(R.id.impact);
         textViewSymptoms=rootView.findViewById(R.id.symptoms);
         textViewRootCauseDescrip=rootView.findViewById(R.id.rootCauseDescrip);
@@ -135,8 +138,6 @@ public class ProblemDescription extends Fragment {
         textViewImpact.setMovementMethod(new ScrollingMovementMethod());
         final Intent intent = getActivity().getIntent();
         problemId= intent.getIntExtra("problemId",0);
-        editrootCause=rootView.findViewById(R.id.editRootCause);
-        deleterootCause=rootView.findViewById(R.id.deleteRootCause);
         if (InternetReceiver.isConnected()) {
             progressDialog = new ProgressDialog(getActivity());
             progressDialog.setMessage(getString(R.string.pleasewait));
@@ -168,22 +169,52 @@ public class ProblemDescription extends Fragment {
                 cdd.show();
             }
         });
+        imageViewDeleteRootCause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                progressDialog = new ProgressDialog(getActivity());
+                progressDialog.setMessage(getString(R.string.pleasewait));
+                progressDialog.show();
+                new DeleteWorkAround(getActivity(),problemId,tableNameRoot,identifierRoot).execute();
 
+            }
+        });
+        imageViewDeleteImpact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                progressDialog = new ProgressDialog(getActivity());
+                progressDialog.setMessage(getString(R.string.pleasewait));
+                progressDialog.show();
+                new DeleteWorkAround(getActivity(),problemId,tableNameRoot,identifierImopact).execute();
+            }
+        });
+        imageViewDeleteSymptom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                progressDialog = new ProgressDialog(getActivity());
+                progressDialog.setMessage(getString(R.string.pleasewait));
+                progressDialog.show();
+                new DeleteWorkAround(getActivity(),problemId,tableNameRoot,identifierSymptoms).execute();
+            }
+        });
+        imageViewEditSolution.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CustomDialogClassSolution cdd = new CustomDialogClassSolution(getActivity());
+                cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                cdd.show();
+            }
+        });
+        imageViewDeleteSolution.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                progressDialog = new ProgressDialog(getActivity());
+                progressDialog.setMessage(getString(R.string.pleasewait));
+                progressDialog.show();
+                new DeleteWorkAround(getActivity(),problemId,tableNameRoot,identifierSolutions).execute();
+            }
+        });
 
-//        if (InternetReceiver.isConnected()){
-//            Log.d("FetchProblemDescription","true");
-//            task = ;
-//            task.execute();
-//
-//        }
-//        if (InternetReceiver.isConnected()){
-//            task=;
-//            task.execute();
-//        }
-//        if (InternetReceiver.isConnected()){
-//            task=;
-//            task.execute();
-//        }
         scrollView.setOnTouchListener(new View.OnTouchListener() {
 
             @Override
@@ -240,6 +271,44 @@ public class ProblemDescription extends Fragment {
         }
     }
 
+    public class DeleteWorkAround extends AsyncTask<String,Void,String>{
+        int problemId;
+        String tableName;
+        String identifier;
+        Context context;
+
+        DeleteWorkAround(Context context,int problemId,String tableName,String identifier){
+        this.context=context;
+        this.problemId=problemId;
+        this.tableName=tableName;
+        this.identifier=identifier;
+        }
+        @Override
+        protected String doInBackground(String... strings) {
+            return new Helpdesk().deleteworkAroundModule(problemId,tableName,identifier);
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            progressDialog.dismiss();
+
+            try{
+                JSONObject jsonObject=new JSONObject(s);
+                String data=jsonObject.getString("data");
+                if (data.equals("Deleted")){
+                    Toast.makeText(context, "successfully deleted the root cause", Toast.LENGTH_SHORT).show();
+                    getActivity().finish();
+                    startActivity(getActivity().getIntent());
+                }
+
+            }catch (JSONException e){
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+
     public class FetchProblemDescription extends AsyncTask<String,Void,String> {
         int problemId;
         String tableModule;
@@ -260,9 +329,11 @@ public class ProblemDescription extends Fragment {
                 JSONObject jsonObject=new JSONObject(result);
                 String data=jsonObject.getString("data");
                 String data1=data.replaceAll("&nbsp;"," ");
+                Prefs.putString("description",data1);
                 textViewRootCauseDescrip.setText(data1);
                 new FetchProblemDescriptionImpact(getActivity(),problemId,tableNameRoot,identifierImopact).execute();
                 } catch (JSONException | NullPointerException e) {
+                Prefs.putString("description","");
                 cardViewRootCause.setVisibility(View.GONE);
 //                imageViewDeleteRootCause.setVisibility(View.GONE);
 //                imageViewEditRootCause.setVisibility(View.GONE);
@@ -293,9 +364,12 @@ public class ProblemDescription extends Fragment {
                 JSONObject jsonObject=new JSONObject(result);
                 String data=jsonObject.getString("data");
                 String data1=data.replaceAll("&nbsp;"," ");
+                Prefs.putString("solution",data1);
                 textViewSolutions.setText(data1);
 
             } catch (JSONException | NullPointerException e) {
+                Prefs.putString("solution","");
+                cardViewSolution.setVisibility(View.GONE);
                 e.printStackTrace();
             }
 
@@ -321,9 +395,11 @@ public class ProblemDescription extends Fragment {
                 JSONObject jsonObject=new JSONObject(result);
                 String data=jsonObject.getString("data");
                 String data1=data.replaceAll("&nbsp;"," ");
+                Prefs.putString("impact",data);
                 textViewImpact.setText(data1);
                 new FetchProblemDescriptionSymptoms(getActivity(),problemId,tableNameRoot,identifierSymptoms).execute();
             } catch (JSONException | NullPointerException e) {
+                Prefs.putString("impact","");
                 cardViewImpact.setVisibility(View.GONE);
 //                imageViewDeleteImpact.setVisibility(View.GONE);
 //                imageViewEditImpact.setVisibility(View.GONE);
@@ -354,8 +430,10 @@ public class ProblemDescription extends Fragment {
                 String data=jsonObject.getString("data");
                 String data1=data.replaceAll("&nbsp;"," ");
                 textViewSymptoms.setText(data1);
+                Prefs.putString("symptoms",data1);
                 new FetchProblemSolution(getActivity(),problemId,tableNameRoot,identifierSolutions).execute();
             } catch (JSONException | NullPointerException e) {
+                Prefs.putString("symptoms","");
                 cardViewSymptoms.setVisibility(View.GONE);
 //                imageViewDeleteSymptom.setVisibility(View.GONE);
 //                imageViewEditSymptom.setVisibility(View.GONE);
@@ -388,6 +466,10 @@ public class ProblemDescription extends Fragment {
             yes = (Button) findViewById(R.id.btn_yes);
             no = (Button) findViewById(R.id.btn_no);
             editTextRootCause=findViewById(R.id.rootCause);
+            String data=Prefs.getString("description",null);
+            if (!data.equals("")){
+                editTextRootCause.setText(data);
+            }
             yes.setOnClickListener(this);
             no.setOnClickListener(this);
 
@@ -448,6 +530,10 @@ public class ProblemDescription extends Fragment {
             yes = (Button) findViewById(R.id.btn_yes);
             no = (Button) findViewById(R.id.btn_no);
             editTextImpact=findViewById(R.id.impactEdit);
+            String data=Prefs.getString("impact",null);
+            if (!data.equals("")){
+                editTextImpact.setText(data);
+            }
             yes.setOnClickListener(this);
             no.setOnClickListener(this);
 
@@ -507,6 +593,10 @@ public class ProblemDescription extends Fragment {
             yes = (Button) findViewById(R.id.btn_yes);
             no = (Button) findViewById(R.id.btn_no);
             editTextSymptoms=findViewById(R.id.symptomsEdit);
+            String data=Prefs.getString("symptoms",null);
+            if (!data.equals("")){
+                editTextSymptoms.setText(data);
+            }
             yes.setOnClickListener(this);
             no.setOnClickListener(this);
 
@@ -577,6 +667,68 @@ public class ProblemDescription extends Fragment {
                 e.printStackTrace();
             }
 
+        }
+    }
+    class CustomDialogClassSolution extends Dialog implements
+            android.view.View.OnClickListener {
+
+        public Activity c;
+        public Dialog d;
+        public Button yes, no;
+        EditText editTextSolution;
+        public CustomDialogClassSolution(Activity a) {
+            super(a);
+            // TODO Auto-generated constructor stub
+            this.c = a;
+        }
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
+            setContentView(R.layout.custom_dialog_solution);
+            yes = (Button) findViewById(R.id.btn_yes);
+            no = (Button) findViewById(R.id.btn_no);
+            editTextSolution=findViewById(R.id.editSolution);
+            String data=Prefs.getString("solution",null);
+            if (!data.equals("")){
+                editTextSolution.setText(data);
+            }
+            yes.setOnClickListener(this);
+            no.setOnClickListener(this);
+
+        }
+
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.btn_yes:
+                    if (editTextSolution.getText().toString().equals("")){
+                        Toasty.info(c,"message cannot be empty",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    else{
+                        String body=editTextSolution.getText().toString();
+                        try {
+                            body = URLEncoder.encode(body.trim(), "utf-8");
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
+                        identifier="solution";
+                        parameterName="solution";
+                        progressDialog = new ProgressDialog(getActivity());
+                        progressDialog.setMessage(getString(R.string.pleasewait));
+                        progressDialog.show();
+                        new workAround(getActivity(),problemId,table,identifier,parameterName,body).execute();
+                    }
+                    break;
+                case R.id.btn_no:
+                    dismiss();
+                    break;
+                default:
+                    break;
+            }
+            dismiss();
         }
     }
 

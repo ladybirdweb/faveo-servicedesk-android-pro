@@ -156,9 +156,6 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
                     Intent intent=new Intent(MainActivity.this,NewProblem.class);
                     startActivity(intent);
                 }
-                else if (id==R.id.fab_addAsset){
-
-                }
                 //TODO: Start some activity
                 return false;
             }

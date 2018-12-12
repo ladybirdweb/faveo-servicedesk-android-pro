@@ -27,7 +27,7 @@
     <item
         android:id="@+id/inactive"
         android:orderInCategory="100"
-        android:title="Inactive Users"
+        android:title="Unverified Users"
         app:showAsAction="never">
 
     </item>

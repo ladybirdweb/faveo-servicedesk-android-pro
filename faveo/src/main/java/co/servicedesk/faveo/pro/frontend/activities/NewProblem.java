@@ -125,7 +125,7 @@ public class NewProblem extends AppCompatActivity implements PermissionCallback,
     MultiAutoCompleteTextView assetItem;
     String path="";
     boolean allCorrect;
-    String email1;
+    String email1="";
     SpotsDialog dialog1;
     StringBuilder sb1 = new StringBuilder();
     String assetListFinal;
@@ -249,6 +249,9 @@ public class NewProblem extends AppCompatActivity implements PermissionCallback,
                         Log.d("email1",email1);
                         editTextEmail.setText(email1);
                     }
+                    else{
+                        email1="";
+                    }
                 }
 
             }
@@ -323,6 +326,8 @@ public class NewProblem extends AppCompatActivity implements PermissionCallback,
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                dialog1= new SpotsDialog(NewProblem.this,getString(R.string.refreshConfirmation));
+                dialog1.show();
                 refresh.startAnimation(rotation);
                 new FetchDependencyForProblem("problem").execute();
             }
@@ -339,6 +344,11 @@ public class NewProblem extends AppCompatActivity implements PermissionCallback,
                 final Data staff= (Data) staffautocompletetextview.getSelectedItem();
                 allCorrect = true;
 
+                if (email1.equals("")){
+                    Toasty.warning(NewProblem.this, getString(R.string.user_not_found), Toast.LENGTH_SHORT).show();
+                    allCorrect = false;
+                }
+
                 if (editTextEmail.getText().toString().equals("")){
                     Toasty.warning(NewProblem.this, getString(R.string.selectUser), Toast.LENGTH_SHORT).show();
                     allCorrect = false;
@@ -351,23 +361,25 @@ public class NewProblem extends AppCompatActivity implements PermissionCallback,
                     Toasty.warning(NewProblem.this, getString(R.string.sub_must_not_be_empty), Toast.LENGTH_SHORT).show();
                     allCorrect = false;
                 }
-             else if (editTextDescription.getText().toString().equals("")){
-                    Toasty.warning(NewProblem.this, getString(R.string.descriptionEmpty), Toast.LENGTH_SHORT).show();
-                    allCorrect = false;
-                }
                 else if (priority.ID == 0) {
                     Toasty.warning(NewProblem.this, getString(R.string.please_select_some_priority), Toast.LENGTH_SHORT).show();
-                    allCorrect = false;
-                } else if (impact.ID == 0) {
-                    Toasty.warning(NewProblem.this, getString(R.string.impactrequired), Toast.LENGTH_SHORT).show();
                     allCorrect = false;
                 }
                 else if (status.ID==0){
                     Toasty.warning(NewProblem.this, getString(R.string.statusRequired), Toast.LENGTH_SHORT).show();
                     allCorrect = false;
                 }
+                else if (impact.ID == 0) {
+                    Toasty.warning(NewProblem.this, getString(R.string.impactrequired), Toast.LENGTH_SHORT).show();
+                    allCorrect = false;
+                }
+
                 else if (department.ID==0){
                     Toasty.warning(NewProblem.this, getString(R.string.departmentRequired), Toast.LENGTH_SHORT).show();
+                    allCorrect = false;
+                }
+                else if (editTextDescription.getText().toString().equals("")){
+                    Toasty.warning(NewProblem.this, getString(R.string.descriptionEmpty), Toast.LENGTH_SHORT).show();
                     allCorrect = false;
                 }
 
@@ -478,17 +490,43 @@ public class NewProblem extends AppCompatActivity implements PermissionCallback,
 
                         }
                         else if (assetListFinal.charAt(assetListFinal.length()-1)==','){
-
                             if (condition.equals("True")){
-                                Log.d("assetFinal",assetListFinal);
+                              //String assetSelection=assetListFinal.replace(assetListFinal.charAt(assetListFinal.length()-1),',');
                                 values = assetListFinal.split(",");
                                 for (int i=0;i<values.length;i++){
-                                    Log.d("cameHere","True");
-                                    Data data=assetItems.get(i);
-                                    sb1.append("&asset[]=").append(data.getID());
+                                    String name=values[i];
+                                    for (int j=0;j<assetItems.size();j++){
+                                        Data data=assetItems.get(j);
+                                        Log.d("beforeCondition","true");
+                                        String finalname=data.getName().replace(" ","");
+                                        if (name.equals(finalname.trim())){
+                                            Log.d("beforeCondition","false");
+                                            sb1.append("&asset[]=").append(data.getID());
+                                            Log.d("notMatching","false");
+                                        }
+                                        else{
+                                            Log.d("notMatching","true");
+                                        }
+                                    }
+                                    Log.d("name",sb1.toString());
 
-                                }
-                                Log.d("assetList",sb1.toString());
+//                                    for (int j=0;j<assetItems.size();j++){
+//                                        Data data=assetItems.get(i);
+//                                        if (name.equals(data.getName())){
+//                                            multipleAsset=sb1.append("&asset[]=").append(data.getID()).toString();
+//                                        }
+//                                    }
+//                                    Log.d("assetList",multipleAsset);
+//                                    Log.d("assetFinal",assetListFinal);
+//                                    Data data=assetItems.get(i);
+//                                    if (data.getName().equals(values[i])){
+//                                        multipleAsset=sb1.append("&asset[]=").append(data.getID()).toString();
+//                                    }
+
+
+                                    }
+
+
                                 String email=email1;
                                 String subjec=editTextsubject.getText().toString();
                                 String descrition=editTextDescription.getText().toString();
@@ -537,12 +575,38 @@ public class NewProblem extends AppCompatActivity implements PermissionCallback,
                                 //                                Log.d("assetFinal",assetListFinal);
                                 values = assetListFinal.split(",");
                                 for (int i=0;i<values.length;i++){
-                                    Log.d("cameHere","True");
-                                    Data data=assetItems.get(i);
-                                    sb1.append("&asset[]=").append(data.getID());
+                                    String name=values[i];
+                                    for (int j=0;j<assetItems.size();j++){
+                                        Data data=assetItems.get(j);
+                                        Log.d("beforeCondition","true");
+                                        String finalname=data.getName().replace(" ","");
+                                        if (finalname.equals(name)){
+                                            Log.d("beforeCondition","false");
+                                            sb1.append("&asset[]=").append(data.getID());
+                                        }
+                                        else{
+                                            //Toasty.info(NewProblem.this,"selected asset is invalid",Toast.LENGTH_SHORT).show();
+
+                                        }
+                                    }
+                                    Log.d("name",sb1.toString());
+
+//                                    for (int j=0;j<assetItems.size();j++){
+//                                        Data data=assetItems.get(i);
+//                                        if (name.equals(data.getName())){
+//                                            multipleAsset=sb1.append("&asset[]=").append(data.getID()).toString();
+//                                        }
+//                                    }
+//                                    Log.d("assetList",multipleAsset);
+//                                    Log.d("assetFinal",assetListFinal);
+//                                    Data data=assetItems.get(i);
+//                                    if (data.getName().equals(values[i])){
+//                                        multipleAsset=sb1.append("&asset[]=").append(data.getID()).toString();
+//                                    }
+
 
                                 }
-                                Log.d("assetList",sb1.toString());
+
                                 String email=email1;
                                 String subjec=editTextsubject.getText().toString();
                                 String descrition=editTextDescription.getText().toString();
@@ -588,62 +652,176 @@ public class NewProblem extends AppCompatActivity implements PermissionCallback,
                                         .show();
 
                             }
-//                            else if (condition.equals("False")){
-//                                Log.d("assetFinal",assetListFinal);
-//                                values = assetListFinal.split(",");
-//                                for (int i=0;i<values.length;i++){
-//                                    Log.d("cameHere","True");
-//                                    Data data=assetItems.get(i);
-//                                    sb1.append("&asset[]=").append(data.getID());
-//
-//                                }
-//                                Log.d("assetList",sb1.toString());
-//                                String email=email1;
-//                                String subjec=editTextsubject.getText().toString();
-//                                String descrition=editTextDescription.getText().toString();
-//
-//                                try {
-//                                    email = URLEncoder.encode(email.trim(), "utf-8");
-//                                    subjec = URLEncoder.encode(subjec.trim(), "utf-8");
-//                                    descrition = URLEncoder.encode(descrition.trim(), "utf-8");
-//
-//                                } catch (UnsupportedEncodingException e) {
-//                                    e.printStackTrace();
-//                                }
-//                                final String finalEmail = email;
-//                                final String finalSubjec = subjec;
-//                                final String finalDescrition = descrition;
-//                                new BottomDialog.Builder(NewProblem.this)
-//                                        .setTitle(R.string.creating_problem)
-//                                        .setContent(R.string.problem_confirm)
-//                                        .setPositiveText("YES")
-//                                        .setNegativeText("NO")
-//                                        .setPositiveBackgroundColorResource(R.color.white)
-//                                        //.setPositiveBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary)
-//                                        .setPositiveTextColorResource(R.color.faveo)
-//                                        .setNegativeTextColor(R.color.black)
-//                                        //.setPositiveTextColor(ContextCompat.getColor(this, android.R.color.colorPrimary)
-//                                        .onPositive(new BottomDialog.ButtonCallback() {
-//                                            @Override
-//                                            public void onClick(BottomDialog dialog) {
-//                                                if (InternetReceiver.isConnected()){
-//                                                    if (InternetReceiver.isConnected()){
-//                                                        dialog1= new SpotsDialog(NewProblem.this, getString(R.string.creating_problem));
-//                                                        dialog1.show();
-//                                                        new CreateAndAttach(ticketId,finalEmail, finalSubjec,status.ID,priority.ID,impact.ID,department.ID,staff.ID,finalDescrition+sb1.toString()).execute();
-//                                                    }
-//                                                }
-//                                            }
-//                                        }).onNegative(new BottomDialog.ButtonCallback() {
-//                                    @Override
-//                                    public void onClick(@NonNull BottomDialog bottomDialog) {
-//                                        bottomDialog.dismiss();
+
+
+
+                        }
+                        else if (!assetListFinal.equals("")){
+                            if (condition.equals("True")){
+                                Log.d("cameHere","true");
+                                String assetSelection=assetListFinal.replace(assetListFinal.charAt(assetListFinal.length()-1),',');
+                                values = assetSelection.split(",");
+                                for (int i=0;i<values.length;i++){
+                                    String name=values[i];
+                                    for (int j=0;j<assetItems.size();j++){
+                                        Data data=assetItems.get(j);
+                                        Log.d("beforeCondition","true");
+                                        String finalname=data.getName().replace(" ","");
+                                        if (finalname.equals(name)){
+                                            Log.d("beforeCondition","false");
+                                            sb1.append("&asset[]=").append(data.getID());
+                                        }
+                                        else{
+                                            allCorrect=false;
+                                            Toasty.info(NewProblem.this,"selected asset is invalid",Toast.LENGTH_SHORT).show();
+                                            return;
+                                        }
+                                    }
+                                    Log.d("name",sb1.toString());
+
+//                                    for (int j=0;j<assetItems.size();j++){
+//                                        Data data=assetItems.get(i);
+//                                        if (name.equals(data.getName())){
+//                                            multipleAsset=sb1.append("&asset[]=").append(data.getID()).toString();
+//                                        }
 //                                    }
-//                                })
-//                                        .show();
-//                            }
+//                                    Log.d("assetList",multipleAsset);
+//                                    Log.d("assetFinal",assetListFinal);
+//                                    Data data=assetItems.get(i);
+//                                    if (data.getName().equals(values[i])){
+//                                        multipleAsset=sb1.append("&asset[]=").append(data.getID()).toString();
+//                                    }
 
 
+                                }
+
+
+                                String email=email1;
+                                String subjec=editTextsubject.getText().toString();
+                                String descrition=editTextDescription.getText().toString();
+
+                                try {
+                                    email = URLEncoder.encode(email.trim(), "utf-8");
+                                    subjec = URLEncoder.encode(subjec.trim(), "utf-8");
+                                    descrition = URLEncoder.encode(descrition.trim(), "utf-8");
+                                } catch (UnsupportedEncodingException e) {
+                                    e.printStackTrace();
+                                }
+                                final String finalEmail = email;
+                                final String finalSubjec = subjec;
+                                final String finalDescrition = descrition;
+                                new BottomDialog.Builder(NewProblem.this)
+                                        .setTitle(R.string.creating_problem)
+                                        .setContent(R.string.problem_confirm)
+                                        .setPositiveText("YES")
+                                        .setNegativeText("NO")
+                                        .setPositiveBackgroundColorResource(R.color.white)
+                                        //.setPositiveBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary)
+                                        .setPositiveTextColorResource(R.color.faveo)
+                                        .setNegativeTextColor(R.color.black)
+                                        //.setPositiveTextColor(ContextCompat.getColor(this, android.R.color.colorPrimary)
+                                        .onPositive(new BottomDialog.ButtonCallback() {
+                                            @Override
+                                            public void onClick(BottomDialog dialog) {
+                                                if (InternetReceiver.isConnected()){
+                                                    if (InternetReceiver.isConnected()){
+                                                        dialog1= new SpotsDialog(NewProblem.this, getString(R.string.creating_problem));
+                                                        dialog1.show();
+                                                        new CreateProblem(finalEmail, finalSubjec,status.ID,priority.ID,impact.ID,department.ID,staff.ID,finalDescrition+sb1.toString()).execute();
+                                                    }
+                                                }
+                                            }
+                                        }).onNegative(new BottomDialog.ButtonCallback() {
+                                    @Override
+                                    public void onClick(@NonNull BottomDialog bottomDialog) {
+                                        bottomDialog.dismiss();
+                                    }
+                                })
+                                        .show();
+
+                            }
+                            else {
+                                //                                Log.d("assetFinal",assetListFinal);
+                                values = assetListFinal.split(",");
+                                for (int i=0;i<values.length;i++){
+                                    String name=values[i];
+                                    for (int j=0;j<assetItems.size();j++){
+                                        Data data=assetItems.get(j);
+                                        Log.d("beforeCondition","true");
+                                        String finalname=data.getName().replace(" ","");
+                                        if (finalname.equals(name)){
+                                            Log.d("beforeCondition","false");
+                                            sb1.append("&asset[]=").append(data.getID());
+                                        }
+                                        else{
+                                            allCorrect=false;
+                                            Toasty.info(NewProblem.this,"selected asset is invalid",Toast.LENGTH_SHORT).show();
+                                            return;
+                                        }
+                                    }
+                                    Log.d("name",sb1.toString());
+
+//                                    for (int j=0;j<assetItems.size();j++){
+//                                        Data data=assetItems.get(i);
+//                                        if (name.equals(data.getName())){
+//                                            multipleAsset=sb1.append("&asset[]=").append(data.getID()).toString();
+//                                        }
+//                                    }
+//                                    Log.d("assetList",multipleAsset);
+//                                    Log.d("assetFinal",assetListFinal);
+//                                    Data data=assetItems.get(i);
+//                                    if (data.getName().equals(values[i])){
+//                                        multipleAsset=sb1.append("&asset[]=").append(data.getID()).toString();
+//                                    }
+
+
+                                }
+
+                                String email=email1;
+                                String subjec=editTextsubject.getText().toString();
+                                String descrition=editTextDescription.getText().toString();
+
+                                try {
+                                    email = URLEncoder.encode(email.trim(), "utf-8");
+                                    subjec = URLEncoder.encode(subjec.trim(), "utf-8");
+                                    descrition = URLEncoder.encode(descrition.trim(), "utf-8");
+
+                                } catch (UnsupportedEncodingException e) {
+                                    e.printStackTrace();
+                                }
+                                final String finalEmail = email;
+                                final String finalSubjec = subjec;
+                                final String finalDescrition = descrition;
+                                new BottomDialog.Builder(NewProblem.this)
+                                        .setTitle(R.string.creating_problem)
+                                        .setContent(R.string.problem_confirm)
+                                        .setPositiveText("YES")
+                                        .setNegativeText("NO")
+                                        .setPositiveBackgroundColorResource(R.color.white)
+                                        //.setPositiveBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary)
+                                        .setPositiveTextColorResource(R.color.faveo)
+                                        .setNegativeTextColor(R.color.black)
+                                        //.setPositiveTextColor(ContextCompat.getColor(this, android.R.color.colorPrimary)
+                                        .onPositive(new BottomDialog.ButtonCallback() {
+                                            @Override
+                                            public void onClick(BottomDialog dialog) {
+                                                if (InternetReceiver.isConnected()){
+                                                    if (InternetReceiver.isConnected()){
+                                                        dialog1= new SpotsDialog(NewProblem.this, getString(R.string.creating_problem));
+                                                        dialog1.show();
+                                                        new CreateAndAttach(ticketId,finalEmail, finalSubjec,status.ID,priority.ID,impact.ID,department.ID,staff.ID,finalDescrition+sb1.toString()).execute();
+                                                    }
+                                                }
+                                            }
+                                        }).onNegative(new BottomDialog.ButtonCallback() {
+                                    @Override
+                                    public void onClick(@NonNull BottomDialog bottomDialog) {
+                                        bottomDialog.dismiss();
+                                    }
+                                })
+                                        .show();
+
+                            }
 
                         }
 
@@ -925,9 +1103,27 @@ public class NewProblem extends AppCompatActivity implements PermissionCallback,
 
             try{
                 JSONObject jsonObject=new JSONObject(result);
+                JSONObject jsonObject1=jsonObject.getJSONObject("error");
+                JSONArray jsonArray=jsonObject1.getJSONArray("subject");
+                for (int i=0;i<jsonArray.length();i++){
+                    String message=jsonArray.getString(i);
+                    if (message.equals("The subject should be less than 50 characters.")){
+                        Toasty.warning(NewProblem.this,"The subject should be less than 50 characters.",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                }
+
+            }catch (JSONException e){
+                e.printStackTrace();
+            }
+
+            try{
+                JSONObject jsonObject=new JSONObject(result);
                 JSONObject jsonObject1=jsonObject.getJSONObject("data");
                 String success=jsonObject1.getString("success");
                 if (success.equals("Problem Created Successfully.")){
+                    Toasty.success(NewProblem.this,getString(R.string.problemCreation),Toast.LENGTH_SHORT).show();
                     Intent intent=new Intent(NewProblem.this,ExistingProblems.class);
                     startActivity(intent);
                 }
@@ -983,12 +1179,28 @@ public class NewProblem extends AppCompatActivity implements PermissionCallback,
             //Toast.makeText(CreateTicketActivity.this, "api called", Toast.LENGTH_SHORT).show();
 
             dialog1.dismiss();
+            try{
+                JSONObject jsonObject=new JSONObject(result);
+                JSONObject jsonObject1=jsonObject.getJSONObject("error");
+                JSONArray jsonArray=jsonObject1.getJSONArray("subject");
+                for (int i=0;i<jsonArray.length();i++){
+                    String message=jsonArray.getString(i);
+                    if (message.equals("The subject should be less than 50 characters.")){
+                        Toasty.warning(NewProblem.this,"The subject should be less than 50 characters.",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                }
+
+            }catch (JSONException e){
+                e.printStackTrace();
+            }
 
             try{
                 JSONObject jsonObject=new JSONObject(result);
                 String data=jsonObject.getString("data");
                 if (data.equals("Created new problem and attached to this ticket")){
-                    Toasty.success(NewProblem.this,"successfully created the problem and attached to this ticket",Toast.LENGTH_SHORT).show();
+                    Toasty.success(NewProblem.this,getString(R.string.createAndAttach),Toast.LENGTH_SHORT).show();
                     Intent intent=new Intent(NewProblem.this,TicketDetailActivity.class);
                     Prefs.putString("cameFromNewProblem","true");
                     startActivity(intent);
@@ -1017,6 +1229,11 @@ public class NewProblem extends AppCompatActivity implements PermissionCallback,
 
         protected void onPostExecute(String result) {
             refresh.clearAnimation();
+            try {
+                dialog1.dismiss();
+            }catch (NullPointerException e){
+                e.printStackTrace();
+            }
             Data data = null;
             try {
                 JSONObject jsonObject = new JSONObject(result);
@@ -1219,116 +1436,6 @@ public class NewProblem extends AppCompatActivity implements PermissionCallback,
         public void afterTextChanged(Editable s) {
         }
     };
-    public class SendPostRequest extends AsyncTask<String, Void, String> {
-
-        protected void onPreExecute(){}
-
-        protected String doInBackground(String... arg0) {
-
-            try {
-
-                URL url = new URL(Constants.URL + "authenticate"); // here is your URL path
-
-                JSONObject postDataParams = new JSONObject();
-                postDataParams.put("username", Prefs.getString("USERNAME", null));
-                postDataParams.put("password", Prefs.getString("PASSWORD", null));
-                Log.e("params",postDataParams.toString());
-
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(15000 /* milliseconds */);
-                conn.setConnectTimeout(15000 /* milliseconds */);
-                //MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
-                conn.setRequestMethod("POST");
-                conn.setDoInput(true);
-                conn.setDoOutput(true);
-
-                OutputStream os = conn.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(
-                        new OutputStreamWriter(os, "UTF-8"));
-                writer.write(getPostDataString(postDataParams));
-
-                writer.flush();
-                writer.close();
-                os.close();
-
-                int responseCode=conn.getResponseCode();
-
-                if (responseCode == HttpsURLConnection.HTTP_OK) {
-
-                    BufferedReader in=new BufferedReader(new
-                            InputStreamReader(
-                            conn.getInputStream()));
-
-                    StringBuffer sb = new StringBuffer("");
-                    String line="";
-
-                    while((line = in.readLine()) != null) {
-
-                        sb.append(line);
-                        break;
-                    }
-
-                    in.close();
-                    return sb.toString();
-
-                }
-                else {
-                    return new String("false : "+responseCode);
-                }
-            }
-            catch(Exception e){
-                return new String("Exception: " + e.getMessage());
-            }
-
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            //progressDialog.dismiss();
-            //Toast.makeText(getApplicationContext(), result,
-            //Toast.LENGTH_LONG).show();
-            Log.d("resultFromNewCall",result);
-            try {
-                JSONObject jsonObject=new JSONObject(result);
-                JSONObject jsonObject1=jsonObject.getJSONObject("data");
-                token = jsonObject1.getString("token");
-                Prefs.putString("TOKEN", token);
-                Log.d("TOKEN",token);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-//            try {
-//                uploadMultipartData();
-//            } catch (UnsupportedEncodingException e) {
-//                e.printStackTrace();
-//            }
-
-        }
-    }
-    public String getPostDataString(JSONObject params) throws Exception {
-
-        StringBuilder result = new StringBuilder();
-        boolean first = true;
-
-        Iterator<String> itr = params.keys();
-
-        while(itr.hasNext()){
-
-            String key= itr.next();
-            Object value = params.get(key);
-
-            if (first)
-                first = false;
-            else
-                result.append("&");
-
-            result.append(URLEncoder.encode(key, "UTF-8"));
-            result.append("=");
-            result.append(URLEncoder.encode(value.toString(), "UTF-8"));
-
-        }
-        return result.toString();
-    }
 
     @Override
     public void onBackPressed() {

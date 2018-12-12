@@ -1,6 +1,7 @@
 package co.servicedesk.faveo.pro.frontend.activities;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -8,6 +9,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -17,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.github.javiersantos.bottomdialogs.BottomDialog;
+import com.hbb20.CountryCodePicker;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import org.json.JSONArray;
@@ -42,7 +46,10 @@ public class RegisterUser extends AppCompatActivity {
     ProgressDialog progressDialog;
     SpotsDialog dialog1;
     String email;
-
+    String CountryID="";
+    String CountryZipCode="";
+    String countrycode = "";
+    CountryCodePicker countryCodePicker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +80,15 @@ public class RegisterUser extends AppCompatActivity {
                 finish();
             }
         });
+        countryCodePicker= (CountryCodePicker) findViewById(R.id.countrycoode);
+        countryCodePicker.setOnCountryChangeListener(new CountryCodePicker.OnCountryChangeListener() {
+            @Override
+            public void onCountrySelected() {
+                //Toast.makeText(MainActivity.this, "code :"+countryCodePicker.getSelectedCountryCode(), Toast.LENGTH_SHORT).show();
 
+                countrycode=countryCodePicker.getSelectedCountryCode();
+            }
+        });
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -113,6 +128,7 @@ public class RegisterUser extends AppCompatActivity {
                     Toasty.warning(RegisterUser.this,getString(R.string.lastNameCharacter),Toast.LENGTH_SHORT).show();
                     return;
                 }
+                countrycode = countryCodePicker.getSelectedCountryCode();
 
                 if (allCorect) {
                     Prefs.putString("firstusername",firstname);
@@ -156,7 +172,7 @@ public class RegisterUser extends AppCompatActivity {
                                         if (InternetReceiver.isConnected()){
                                             dialog1= new SpotsDialog(RegisterUser.this, getString(R.string.UserCreating));
                                             dialog1.show();
-                                            new RegisterUserNew(finalFirstname, finalLastname, finalEmail, finalPhone, finalCompany).execute();
+                                            new RegisterUserNew(finalFirstname, finalLastname, finalEmail, finalPhone, finalCompany,countrycode).execute();
                                         }
                                     }
                                 }).onNegative(new BottomDialog.ButtonCallback() {
@@ -211,22 +227,41 @@ public class RegisterUser extends AppCompatActivity {
         });
 
     }
+    public String GetCountryZipCode(){
+        TelephonyManager manager = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
+        //getNetworkCountryIso
+        assert manager != null;
+        CountryID= manager.getSimCountryIso().toUpperCase();
+        String[] rl=this.getResources().getStringArray(R.array.CountryCodes);
+        for (String aRl : rl) {
+            String[] g = aRl.split(",");
+            if (g[1].trim().equals(CountryID.trim())) {
+                CountryZipCode = g[0];
+                break;
+            }
+        }
+
+        Log.d("ZIPcode",CountryZipCode);
+        countrycode=CountryZipCode;
+        return CountryZipCode;
+    }
 
     private class RegisterUserNew extends AsyncTask<String, Void, String> {
-        String firstname,email,mobile,company,lastname;
+        String firstname,email,mobile,company,lastname,code;
 
-        RegisterUserNew(String firstname,String lastname,String email,String mobile,String company) {
+        RegisterUserNew(String firstname,String lastname,String email,String mobile,String company,String code) {
 
             this.firstname=firstname;
             this.email=email;
             this.mobile=mobile;
             this.company=company;
             this.lastname=lastname;
+            this.code=code;
 
         }
 
         protected String doInBackground(String... urls) {
-            return new Helpdesk().postRegisterUser(email,firstname,lastname,mobile,company);
+            return new Helpdesk().postRegisterUser(email,firstname,lastname,mobile,company,code);
         }
 
         protected void onPostExecute(String result) {

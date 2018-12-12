@@ -436,6 +436,7 @@ public class ProblemSpecific extends Fragment {
                             }
 
                         }
+
                         staffautocompletetextview.setOnTouchListener(new View.OnTouchListener() {
                             @Override
                             public boolean onTouch(View view, MotionEvent motionEvent) {

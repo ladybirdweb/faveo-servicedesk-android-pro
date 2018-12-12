@@ -11,10 +11,10 @@
             android:title="Create Problem"
             android:iconTint="@color/faveo"
             />
-        <item
-            android:id="@+id/fab_addAsset"
-            android:icon="@drawable/ic_add_black_24dp_colored"
-            android:title="Add Asset"
-            />
+        <!--<item-->
+            <!--android:id="@+id/fab_addAsset"-->
+            <!--android:icon="@drawable/ic_add_black_24dp_colored"-->
+            <!--android:title="Add Asset"-->
+            <!--/>-->
     </menu>
 

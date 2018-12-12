@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -15,6 +16,7 @@ import android.os.Handler;
 import android.os.StrictMode;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.BottomSheetBehavior;
@@ -123,7 +125,7 @@ import io.github.yavski.fabspeeddial.SimpleMenuListenerAdapter;
 public class TicketDetailActivity extends AppCompatActivity implements
         Conversation.OnFragmentInteractionListener,
         Detail.OnFragmentInteractionListener,View.OnClickListener,FragmentDrawer.FragmentDrawerListener, NavigationView.OnNavigationItemSelectedListener{
-    private DrawerLayout mDrawerLayout;
+    //private DrawerLayout mDrawerLayout;
     ViewPager viewPager;
     public ViewPagerAdapter adapter;
     Conversation fragmentConversation;
@@ -145,7 +147,7 @@ public class TicketDetailActivity extends AppCompatActivity implements
     LoaderTextView textViewStatus, textviewAgentName, textViewTitle,textViewSubject,textViewDepartment;
     ArrayList<Data> statusItems;
     int id = 0;
-//    FabSpeedDial fabSpeedDial;
+    FabSpeedDial fabSpeedDial;
     View view;
     NavigationView navigationView;
     private Menu menu;
@@ -173,6 +175,7 @@ public class TicketDetailActivity extends AppCompatActivity implements
         Window window = TicketDetailActivity.this.getWindow();
         context=this;
 // clear FLAG_TRANSLUCENT_STATUS flag:
+
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
 // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
@@ -181,33 +184,33 @@ public class TicketDetailActivity extends AppCompatActivity implements
        // imageView=findViewById(R.id.collaboratorview);
         //view=findViewById(R.id.overlay);
         Prefs.putString("cameFromNewProblem","false");
-        mDrawerLayout=findViewById(R.id.my_drawer_layout);
+        //mDrawerLayout=findViewById(R.id.my_drawer_layout);
 
-        if (navigationView != null) {
-            setupDrawerContent(navigationView);
-            if (navigationView != null) {
-                navigationView.setNavigationItemSelectedListener(this);
-            }
-        }
+//        if (navigationView != null) {
+//            setupDrawerContent(navigationView);
+//            if (navigationView != null) {
+//                navigationView.setNavigationItemSelectedListener(this);
+//            }
+//        }
 
-        //fabSpeedDial = (FabSpeedDial) findViewById(R.id.fab_main);
-            navigationView=findViewById(R.id.nav_view);
-        textViewAssetCount=navigationView.findViewById(R.id.assetcount);
-        problemCount=navigationView.findViewById(R.id.problemcount);
+        fabSpeedDial = (FabSpeedDial) findViewById(R.id.fab_main);
+//            navigationView=findViewById(R.id.nav_view);
+//        textViewAssetCount=navigationView.findViewById(R.id.assetcount);
+//        problemCount=navigationView.findViewById(R.id.problemcount);
 
         bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottomMenu);
-        AHBottomNavigationItem item1 = new AHBottomNavigationItem("Problems", R.drawable.problem, R.color.white);
+        AHBottomNavigationItem item1 = new AHBottomNavigationItem("Problems", R.drawable.problemimage, R.color.white);
         //AHBottomNavigationItem item2 = new AHBottomNavigationItem("Assets", R.drawable.ic_local_grocery_store_black_24dp, R.color.white);
         AHBottomNavigationItem item3 = new AHBottomNavigationItem("Edit", R.drawable.ic_edit_black_24dp, R.color.white);
-        AHBottomNavigationItem item4 = new AHBottomNavigationItem("Reply", R.drawable.ic_reply_black_24dp, R.color.white);
-        AHBottomNavigationItem item5 = new AHBottomNavigationItem("More", R.drawable.ic_expand_more_black_24dp, R.color.white);
+        //AHBottomNavigationItem item4 = new AHBottomNavigationItem("Reply", R.drawable.ic_reply_black_24dp, R.color.white);
+        AHBottomNavigationItem item5 = new AHBottomNavigationItem("More", R.drawable.menudot, R.color.white);
 
 
 // Add items
         bottomNavigation.addItem(item1);
        // bottomNavigation.addItem(item2);
         bottomNavigation.addItem(item3);
-        bottomNavigation.addItem(item4);
+        //bottomNavigation.addItem(item4);
         bottomNavigation.addItem(item5);
         bottomNavigation.setAccentColor(getResources().getColor(R.color.white));
         bottomNavigation.setInactiveColor(getResources().getColor(R.color.white));
@@ -221,7 +224,6 @@ public class TicketDetailActivity extends AppCompatActivity implements
 
                 if (position == 0) {
                     if (problemcount==0){
-
                         MyBottomSheetDialogChange myBottomSheetDialog = new MyBottomSheetDialogChange(TicketDetailActivity.this);
                         myBottomSheetDialog.show();
                     }
@@ -231,15 +233,16 @@ public class TicketDetailActivity extends AppCompatActivity implements
                     }
 
                 }
+
                 if (position == 1) {
                     Intent intent=new Intent(TicketDetailActivity.this,TicketSaveActivity.class);
                     startActivity(intent);
                 }
-                if (position == 2) {
-                    MyBottomSheetDialogReply myBottomSheetDialog = new MyBottomSheetDialogReply(TicketDetailActivity.this);
-                    myBottomSheetDialog.show();
-                }
-                if (position == 3) {
+//                if (position == 2) {
+//                    MyBottomSheetDialogReply myBottomSheetDialog = new MyBottomSheetDialogReply(TicketDetailActivity.this);
+//                    myBottomSheetDialog.show();
+//                }
+                if (position ==2) {
                     MyBottomSheetDialogChangeStatus myBottomSheetDialog = new MyBottomSheetDialogChangeStatus(TicketDetailActivity.this);
                     myBottomSheetDialog.show();
                 }
@@ -256,24 +259,24 @@ public class TicketDetailActivity extends AppCompatActivity implements
 
 
 
-//       fabSpeedDial.setOnClickListener(this);
-//        fabSpeedDial.setMenuListener(new SimpleMenuListenerAdapter() {
-//            @Override
-//            public boolean onMenuItemSelected(MenuItem menuItem) {
-//               int id=menuItem.getItemId();
-//
-//               if (id==R.id.fab_reply){
-//                   Intent intent=new Intent(TicketDetailActivity.this,TicketReplyActivity.class);
-//                   startActivity(intent);
-//               }
-//               else if (id==R.id.fab_internalnote){
-//                   Intent intent=new Intent(TicketDetailActivity.this,InternalNoteActivity.class);
-//                   startActivity(intent);
-//               }
-//                //TODO: Start some activity
-//                return false;
-//            }
-//        });
+       fabSpeedDial.setOnClickListener(this);
+        fabSpeedDial.setMenuListener(new SimpleMenuListenerAdapter() {
+            @Override
+            public boolean onMenuItemSelected(MenuItem menuItem) {
+               int id=menuItem.getItemId();
+
+               if (id==R.id.fab_reply){
+                   Intent intent=new Intent(TicketDetailActivity.this,TicketReplyActivity.class);
+                   startActivity(intent);
+               }
+               else if (id==R.id.fab_internalnote){
+                   Intent intent=new Intent(TicketDetailActivity.this,InternalNoteActivity.class);
+                   startActivity(intent);
+               }
+                //TODO: Start some activity
+                return false;
+            }
+        });
 //        BottomNavigationView bottomNavigationView=findViewById(R.id.bottom_ticket);
 //        bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
 //            @Override
@@ -368,7 +371,7 @@ public class TicketDetailActivity extends AppCompatActivity implements
         //mToolbar = (Toolbar) findViewById(R.id.toolbarTicketDetail);
         textViewStatus = (LoaderTextView) mAppBarLayout.findViewById(R.id.status);
         textviewAgentName = (LoaderTextView) mAppBarLayout.findViewById(R.id.textViewagentName);
-        textViewTitle = (LoaderTextView) mAppBarLayout.findViewById(R.id.title);
+        //textViewTitle = (LoaderTextView) mAppBarLayout.findViewById(R.id.title);
         textViewDepartment= (LoaderTextView) mAppBarLayout.findViewById(R.id.department);
         textViewSubject = (LoaderTextView) mAppBarLayout.findViewById(R.id.subject);
         imgaeviewBack= (ImageView) mToolbar.findViewById(R.id.imageViewBackTicketDetail);
@@ -379,7 +382,7 @@ public class TicketDetailActivity extends AppCompatActivity implements
         mToolbar.inflateMenu(R.menu.menu_main_new);
         isShowing=true;
         //Log.d("came into ticket detail","true");
-        mToolbar.getMenu().getItem(0).setEnabled(false);
+        //mToolbar.getMenu().getItem(0).setEnabled(false);
 //        imageView.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -527,52 +530,52 @@ public class TicketDetailActivity extends AppCompatActivity implements
         editTextReplyMessage = (EditText) findViewById(R.id.editText_reply_message);
         buttonCreate = (Button) findViewById(R.id.button_create);
         buttonSend = (Button) findViewById(R.id.button_send);
-        linearLayoutCreateAsset=navigationView.findViewById(R.id.create_asset);
-        linearLayoutCreateProblem=navigationView.findViewById(R.id.create_problem);
+//        linearLayoutCreateAsset=navigationView.findViewById(R.id.create_asset);
+//        linearLayoutCreateProblem=navigationView.findViewById(R.id.create_problem);
 
-        linearLayoutCreateProblem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               Intent intent=new Intent(TicketDetailActivity.this,AssociatedProblem.class);
-               startActivity(intent);
-            }
-        });
-
-        linearLayoutCreateAsset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-
-
-            }
-        });
-
-
-        mDrawerToggle = new ActionBarDrawerToggle(TicketDetailActivity.this, mDrawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close) {
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                new FetchAttachedProblem(Integer.parseInt(Prefs.getString("TICKETid",null))).execute();
-                //textViewAssetCount.setText("1");
-
-            }
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                super.onDrawerClosed(drawerView);
-                //textViewAssetCount.setText("0");
-
-            }
-        };
-
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-//        mDrawerLayout.post(new Runnable() {
+//        linearLayoutCreateProblem.setOnClickListener(new View.OnClickListener() {
 //            @Override
-//            public void run() {
-//                mDrawerToggle.syncState();
+//            public void onClick(View view) {
+//               Intent intent=new Intent(TicketDetailActivity.this,AssociatedProblem.class);
+//               startActivity(intent);
+//            }
+//        });
+//
+//        linearLayoutCreateAsset.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//
+//
 //            }
 //        });
 
+
+//        mDrawerToggle = new ActionBarDrawerToggle(TicketDetailActivity.this, mDrawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close) {
+//            @Override
+//            public void onDrawerOpened(View drawerView) {
+//                super.onDrawerOpened(drawerView);
+//                new FetchAttachedProblem(Integer.parseInt(Prefs.getString("TICKETid",null))).execute();
+//                //textViewAssetCount.setText("1");
+//
+//            }
+//
+//            @Override
+//            public void onDrawerClosed(View drawerView) {
+//                super.onDrawerClosed(drawerView);
+//                //textViewAssetCount.setText("0");
+//
+//            }
+//        };
+//
+//        mDrawerLayout.setDrawerListener(mDrawerToggle);
+////        mDrawerLayout.post(new Runnable() {
+////            @Override
+////            public void run() {
+////                mDrawerToggle.syncState();
+////            }
+////        });
+//
     }
 
     public class MyBottomSheetDialogChange extends BottomSheetDialog {
@@ -702,11 +705,11 @@ public class TicketDetailActivity extends AppCompatActivity implements
             final Attachedproblem movie = moviesList.get(position);
 
             if (!movie.getFrom().equals("")||!movie.getFrom().equals(null)){
-                holder.email.setText("From :"+movie.getFrom());
+                holder.email.setText("From :"+ movie.getFrom());
             }
 
             if (!movie.getImpact().equals("")||!movie.getImpact().equals(null)){
-                holder.impact.setText("Impact :"+movie.getImpact());
+                holder.impact.setText("Impact :"+ movie.getImpact());
             }
 
             if (!movie.getSubject().equals(null)||!movie.getSubject().equals("")){
@@ -753,6 +756,8 @@ public class TicketDetailActivity extends AppCompatActivity implements
                 public void onClick(View view) {
                     Intent intent=new Intent(TicketDetailActivity.this,ProblemViewPage.class);
                     intent.putExtra("problemId",movie.getId());
+                    Log.d("subject",movie.getSubject());
+                    intent.putExtra("problemTitle",movie.getSubject());
                     startActivity(intent);
                 }
             });
@@ -947,6 +952,7 @@ public class TicketDetailActivity extends AppCompatActivity implements
             };
             final RecyclerView recyclerView = (RecyclerView) bottomSheetView.findViewById(R.id.recyclerViewExistingProblem);
             final ProgressBar progressBar=bottomSheetView.findViewById(R.id.progressbarExisting);
+            progressBar.setProgressTintList(ColorStateList.valueOf(getResources().getColor(R.color.faveo)));
             progressBar.setVisibility(View.VISIBLE);
             recyclerView.setHasFixedSize(true);
             class FetchExistingProblem extends AsyncTask<String, Void, String> {
@@ -1135,15 +1141,14 @@ public class TicketDetailActivity extends AppCompatActivity implements
     }
 
 
-    public class ProblemAdpter extends RecyclerView.Adapter<TicketDetailActivity.ProblemAdpter.MyViewHolder> {
+    public class ProblemAdpter extends RecyclerView.Adapter<ProblemAdpter.MyViewHolder> {
         private List<ProblemModel> moviesList;
         Context context;
-        private List<ProblemModel> mFilteredList;
-        private List<Integer> integers=new ArrayList<>();
 
         public class MyViewHolder extends RecyclerView.ViewHolder {
             public TextView email;
-            public TextView subject,options;
+            public TextView subject;
+            ImageView options;
             RelativeTimeTextView relativeTimeTextView;
             RelativeLayout relativeLayout;
             public MyViewHolder(View view) {
@@ -1154,28 +1159,28 @@ public class TicketDetailActivity extends AppCompatActivity implements
                 options=view.findViewById(R.id.textViewOptions);
                 relativeTimeTextView=view.findViewById(R.id.textView_ticket_time);
                 relativeLayout=view.findViewById(R.id.problemList);
-
-
-            }
+                }
         }
 
         public ProblemAdpter(Context context,List<ProblemModel> moviesList) {
             this.moviesList = moviesList;
             this.context=context;
-            this.mFilteredList= moviesList;
         }
         @Override
-        public ProblemAdpter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View itemView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.listofproblems, parent, false);
             return new ProblemAdpter.MyViewHolder(itemView);
         }
 
+        @RequiresApi(api = Build.VERSION_CODES.M)
         @Override
-        public void onBindViewHolder(final ProblemAdpter.MyViewHolder holder, int position) {
+        public void onBindViewHolder(final MyViewHolder holder, int position) {
             final ProblemModel movie = moviesList.get(position);
+            holder.options.setColorFilter(getApplicationContext().getResources().getColor(R.color.faveo));
+            holder.options.setImageDrawable(getDrawable(R.drawable.addnew));
             if (!movie.getEmail().equals("")) {
-                holder.email.setText("From :  " +movie.getEmail());
+                holder.email.setText(movie.getEmail());
             }
 
             if (movie.getSubject().equals("")){
@@ -1193,8 +1198,34 @@ public class TicketDetailActivity extends AppCompatActivity implements
                 @Override
                 public void onClick(View view) {
                     problemId=movie.getId();
-                    MyBottomSheetDialog myBottomSheetDialog = new MyBottomSheetDialog(TicketDetailActivity.this);
-                    myBottomSheetDialog.show();
+                    new BottomDialog.Builder(context)
+                            .setContent(R.string.associating)
+                            .setPositiveText("YES")
+                            .setNegativeText("NO")
+                            .setPositiveBackgroundColorResource(R.color.white)
+                            //.setPositiveBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary)
+                            .setPositiveTextColorResource(R.color.faveo)
+                            .setNegativeTextColor(R.color.black)
+                            //.setPositiveTextColor(ContextCompat.getColor(this, android.R.color.colorPrimary)
+                            .onPositive(new BottomDialog.ButtonCallback() {
+                                @Override
+                                public void onClick(BottomDialog dialog) {
+                                    if (InternetReceiver.isConnected()){
+                                        if (InternetReceiver.isConnected()){
+                                            dialog1= new SpotsDialog(context, "Associating Problem..");
+                                            dialog1.show();
+                                            new AttachProblem(Integer.parseInt(Prefs.getString("TICKETid",null)),problemId).execute();
+
+                                        }
+                                    }
+                                }
+                            }).onNegative(new BottomDialog.ButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull BottomDialog bottomDialog) {
+                            bottomDialog.dismiss();
+                        }
+                    })
+                            .show();
                 }
             });
 
@@ -1287,7 +1318,7 @@ public class MyBottomSheetDialogReply extends BottomSheetDialog {
             try {
                 JSONObject jsonObject = new JSONObject(s);
                 JSONObject jsonObject1 = jsonObject.getJSONObject("data");
-                problemCount.setText("1");
+//                problemCount.setText("1");
                 problemcount=1;
                 problemId=jsonObject1.getInt("id");
                 String subject=jsonObject1.getString("subject");
@@ -1303,7 +1334,7 @@ public class MyBottomSheetDialogReply extends BottomSheetDialog {
 //                }
 
             }catch (JSONException e){
-                problemCount.setText("0");
+//                problemCount.setText("0");
                 problemcount=0;
                 bottomNavigation.setNotification(problemcount+"",0);
                 e.printStackTrace();
@@ -1373,7 +1404,7 @@ public class MyBottomSheetDialogReply extends BottomSheetDialog {
             onBackPressed(); // close this activity and return to preview activity (if there is any)
         }
         else if (item.getItemId()==R.id.problem){
-            mDrawerLayout.openDrawer(GravityCompat.END);
+            //mDrawerLayout.openDrawer(GravityCompat.END);
         }
 //
 //        try {
@@ -1437,15 +1468,6 @@ public class MyBottomSheetDialogReply extends BottomSheetDialog {
 
 
         return super.onOptionsItemSelected(item);
-    }
-    private void hideOption(int id) {
-        MenuItem item = menu.findItem(id);
-        item.setVisible(false);
-    }
-
-    private void showOption(int id) {
-        MenuItem item = menu.findItem(id);
-        item.setVisible(true);
     }
 
     /**
@@ -1525,19 +1547,6 @@ public class MyBottomSheetDialogReply extends BottomSheetDialog {
 //        findViewById(R.id.fab_sheet_item_photo).setOnClickListener(this);
 //        findViewById(R.id.fab_sheet_item_note).setOnClickListener(this);
     //}
-
-    private int getStatusBarColor() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            return getWindow().getStatusBarColor();
-        }
-        return 0;
-    }
-
-    private void setStatusBarColor(int color) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(color);
-        }
-    }
 
     @Override
     public void onClick(View view) {
@@ -1932,13 +1941,14 @@ public class MyBottomSheetDialogReply extends BottomSheetDialog {
      */
     @Override
     public void onBackPressed() {
-        if(mDrawerLayout.isDrawerOpen(GravityCompat.END)) {
-            //drawer is open
-            mDrawerLayout.closeDrawers();
-        }
-        else{
-            finish();
-        }
+        finish();
+//        if(mDrawerLayout.isDrawerOpen(GravityCompat.END)) {
+//            //drawer is open
+//            mDrawerLayout.closeDrawers();
+//        }
+//        else{
+//            finish();
+//        }
 
 //        Log.d("cameFromnotification",Prefs.getString("cameFromNotification",null));
 //        String option=Prefs.getString("cameFromNotification",null);
@@ -2131,7 +2141,7 @@ public class MyBottomSheetDialogReply extends BottomSheetDialog {
                 else{
                     textViewStatus.setVisibility(View.GONE);
                 }
-                textViewTitle.setText("#"+ticketNumber);
+                //textViewTitle.setText("#"+ticketNumber);
                 if (subject.startsWith("=?")){
                     title=subject.replaceAll("=?UTF-8?Q?","");
                     String newTitle=title.replaceAll("=E2=80=99","");
@@ -2142,14 +2152,14 @@ public class MyBottomSheetDialogReply extends BottomSheetDialog {
                     String newTitle2=newTitle1.replace("_"," ");
                     Log.d("new name",newTitle2);
                     textViewSubject.setText(newTitle2);
-                    textViewDemo.setText("#INC 2");
+                    textViewDemo.setText(ticketNumber);
                 }
                 else if (!subject.equals("null")){
                     textViewSubject.setText(subject);
-                    textViewDemo.setText("#INC 2");
+                    textViewDemo.setText(ticketNumber);
                 }
                 else if (subject.equals("null")){
-                    textViewDemo.setText("#INC 2");
+                    textViewDemo.setText(ticketNumber);
                 }
                 if (!department.equals("")||!department.equals("null")){
                     textViewDepartment.setText(department);
@@ -2203,34 +2213,7 @@ public class MyBottomSheetDialogReply extends BottomSheetDialog {
             associate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    new BottomDialog.Builder(context)
-                            .setContent(R.string.associating)
-                            .setPositiveText("YES")
-                            .setNegativeText("NO")
-                            .setPositiveBackgroundColorResource(R.color.white)
-                            //.setPositiveBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary)
-                            .setPositiveTextColorResource(R.color.faveo)
-                            .setNegativeTextColor(R.color.black)
-                            //.setPositiveTextColor(ContextCompat.getColor(this, android.R.color.colorPrimary)
-                            .onPositive(new BottomDialog.ButtonCallback() {
-                                @Override
-                                public void onClick(BottomDialog dialog) {
-                                    if (InternetReceiver.isConnected()){
-                                        if (InternetReceiver.isConnected()){
-                                            dialog1= new SpotsDialog(context, "Associating Problem..");
-                                            dialog1.show();
-                                            new AttachProblem(Integer.parseInt(Prefs.getString("TICKETid",null)),problemId).execute();
 
-                                        }
-                                    }
-                                }
-                            }).onNegative(new BottomDialog.ButtonCallback() {
-                        @Override
-                        public void onClick(@NonNull BottomDialog bottomDialog) {
-                            bottomDialog.dismiss();
-                        }
-                    })
-                            .show();
                 }
             });
 

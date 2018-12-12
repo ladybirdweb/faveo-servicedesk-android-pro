@@ -55,14 +55,17 @@ import co.servicedesk.faveo.pro.CircleTransform;
 import co.servicedesk.faveo.pro.Constants;
 import co.servicedesk.faveo.pro.R;
 import co.servicedesk.faveo.pro.UIUtils;
+import co.servicedesk.faveo.pro.UiUtilsServicedesk;
 import co.servicedesk.faveo.pro.backend.api.v1.Helpdesk;
+import co.servicedesk.faveo.pro.frontend.activities.CreateChange;
 import co.servicedesk.faveo.pro.frontend.activities.CreateTicketActivity;
 import co.servicedesk.faveo.pro.frontend.activities.ExistingProblems;
 import co.servicedesk.faveo.pro.frontend.activities.LoginActivity;
 import co.servicedesk.faveo.pro.frontend.activities.MainActivity;
+import co.servicedesk.faveo.pro.frontend.activities.NewProblem;
 import co.servicedesk.faveo.pro.frontend.activities.SettingsActivity;
 import co.servicedesk.faveo.pro.frontend.adapters.DrawerItemCustomAdapter;
-import co.servicedesk.faveo.pro.frontend.adapters.ServiceDeskDrawerAdapter;
+import co.servicedesk.faveo.pro.frontend.adapters.ProblemListAdapter;
 import co.servicedesk.faveo.pro.frontend.fragments.About;
 import co.servicedesk.faveo.pro.frontend.fragments.ClientList;
 import co.servicedesk.faveo.pro.frontend.fragments.ConfirmationDialog;
@@ -73,7 +76,7 @@ import co.servicedesk.faveo.pro.frontend.fragments.tickets.TrashTickets;
 import co.servicedesk.faveo.pro.frontend.fragments.tickets.UnassignedTickets;
 import co.servicedesk.faveo.pro.frontend.services.MyFirebaseInstanceIDService;
 import co.servicedesk.faveo.pro.model.DataModel;
-import co.servicedesk.faveo.pro.model.ServiceDeskDrawer;
+import co.servicedesk.faveo.pro.model.ServicedeskModule;
 import es.dmoral.toasty.Toasty;
 
 /**
@@ -91,9 +94,8 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
     View layout;
     Context context;
     DataModel[] drawerItem;
-    ServiceDeskDrawer[] serviceDeskDrawers;
+    ServicedeskModule[] servicedeskModulesProblem,servicedeskModulesChanges;
     DrawerItemCustomAdapter drawerItemCustomAdapter;
-    ServiceDeskDrawerAdapter serviceDeskDrawerAdapter;
     ConfirmationDialog confirmationDialog;
     //int count=0;
     ProgressDialog progressDialog;
@@ -122,11 +124,11 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
     ListView listView;
     @BindView(R.id.ticket_list)
     LinearLayout ticketList;
-    @BindView(R.id.assets)
-    LinearLayout assets;
+    ListView listViewProblem;
+    ListView listViewChange;
+    LinearLayout linearLayout;
 
-
-
+    ProblemListAdapter problemListAdapter,changeListAdapter;
 
 
     public FragmentDrawer() {
@@ -160,14 +162,29 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
         context = getActivity().getApplicationContext();
         layout = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
         listView= (ListView) layout.findViewById(R.id.listviewNavigation);
+        listViewProblem=layout.findViewById(R.id.listviewProblems);
+        listViewChange=layout.findViewById(R.id.listviewChanges);
         layout.findViewById(R.id.create_ticket).setOnClickListener(this);
         layout.findViewById(R.id.client_list).setOnClickListener(this);
         layout.findViewById(R.id.settings).setOnClickListener(this);
         layout.findViewById(R.id.about).setOnClickListener(this);
         layout.findViewById(R.id.logout).setOnClickListener(this);
         layout.findViewById(R.id.problems).setOnClickListener(this);
+        layout.findViewById(R.id.changesModule).setOnClickListener(this);
         drawerItem = new DataModel[5];
-        serviceDeskDrawers=new ServiceDeskDrawer[2];
+        servicedeskModulesProblem=new ServicedeskModule[2];
+        servicedeskModulesChanges=new ServicedeskModule[2];
+        servicedeskModulesProblem[0]=new ServicedeskModule(R.drawable.circle_name,getString(R.string.all_prob));
+        servicedeskModulesProblem[1]=new ServicedeskModule(R.drawable.circle_name,getString(R.string.new_prob));
+        servicedeskModulesChanges[0]=new ServicedeskModule(R.drawable.circle_name,getString(R.string.all_change));
+        servicedeskModulesChanges[1]=new ServicedeskModule(R.drawable.circle_name,getString(R.string.new_change));
+       problemListAdapter =new ProblemListAdapter(getActivity(),R.layout.list_servicedesk_row,servicedeskModulesProblem);
+        changeListAdapter=new ProblemListAdapter(getActivity(),R.layout.list_servicedesk_row,servicedeskModulesChanges);
+        listViewChange.setAdapter(changeListAdapter);
+        changeListAdapter.notifyDataSetChanged();
+        listViewProblem.setAdapter(problemListAdapter);
+        progressDialog=new ProgressDialog(getActivity());
+        problemListAdapter.notifyDataSetChanged();
         ButterKnife.bind(this, layout);
         confirmationDialog=new ConfirmationDialog();
         drawerItem[0] = new DataModel(R.drawable.inbox_tickets,getString(R.string.inbox),Prefs.getString("inboxTickets",null));
@@ -179,8 +196,12 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
         listView.setAdapter(drawerItemCustomAdapter);
         progressDialog=new ProgressDialog(getActivity());
         drawerItemCustomAdapter.notifyDataSetChanged();
-
+/**
+ * This is dynamic height adjusting on the basis of item in list view
+ */
         UIUtils.setListViewHeightBasedOnItems(listView);
+        UiUtilsServicedesk.setListViewHeightBasedOnItems(listViewProblem);
+        UiUtilsServicedesk.setListViewHeightBasedOnItems(listViewChange);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -260,6 +281,39 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
 
             }
         });
+
+        listViewProblem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i==0){
+                    Intent intent1=new Intent(getContext(), ExistingProblems.class);
+                    Prefs.putString("cameFromMain","True");
+                    startActivity(intent1);
+                }
+                else if (i==1){
+                    Intent intent1=new Intent(getContext(), NewProblem.class);
+                    Prefs.putString("cameFromMain","True");
+                    startActivity(intent1);
+                }
+            }
+        });
+
+        listViewChange.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i==0){
+//                    Intent intent=new Intent(getContext(),ExistingChanges.class);
+//                    Prefs.putString("cameFromMainChange","True");
+//                    startActivity(intent);
+                }
+                else if (i==1){
+                    Intent intent=new Intent(getContext(),CreateChange.class);
+                    Prefs.putString("cameFromMainChange","True");
+                    startActivity(intent);
+
+                }
+            }
+        });
 //        IImageLoader imageLoader = new PicassoLoader();
 //        imageLoader.loadImage(profilePic, Prefs.getString("PROFILE_PIC", null), Prefs.getString("USERNAME", " ").charAt(0) + "");
         try {
@@ -301,12 +355,8 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
 
             }
         });
-        assets.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-            }
-        });
+
         return layout;
     }
 
@@ -678,10 +728,6 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
 
             case R.id.create_ticket:
-//                title = getString(R.string.create_ticket);
-//                fragment = getActivity().getSupportFragmentManager().findFragmentByTag(title);
-//                if (fragment == null)
-//                    fragment = new CreateTicket();
                 Prefs.putString("firstusername","null");
                 Prefs.putString("lastusername","null");
                 Prefs.putString("firstuseremail","null");
@@ -694,37 +740,6 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
                 Intent intent=new Intent(getContext(),SettingsActivity.class);
                 startActivity(intent);
                 break;
-//            case R.id.inbox_tickets:
-//
-//                title = getString(R.string.inbox);
-//                fragment = getActivity().getSupportFragmentManager().findFragmentByTag(title);
-//                if (fragment == null)
-//                    fragment = new InboxTickets();
-//                break;
-//            case R.id.my_tickets:
-//                title = getString(R.string.my_tickets);
-//                fragment = getActivity().getSupportFragmentManager().findFragmentByTag(title);
-//                if (fragment == null)
-//                    fragment = new MyTickets();
-//                break;
-//            case R.id.unassigned_tickets:
-//                title = getString(R.string.unassigned_tickets);
-//                fragment = getActivity().getSupportFragmentManager().findFragmentByTag(title);
-//                if (fragment == null)
-//                    fragment = new UnassignedTickets();
-//                break;
-//            case R.id.closed_tickets:
-//                title = getString(R.string.closed_tickets);
-//                fragment = getActivity().getSupportFragmentManager().findFragmentByTag(title);
-//                if (fragment == null)
-//                    fragment = new ClosedTickets();
-//                break;
-//            case R.id.trash_tickets:
-//                title = getString(R.string.trash);
-//                fragment = getActivity().getSupportFragmentManager().findFragmentByTag(title);
-//                if (fragment == null)
-//                    fragment = new TrashTickets();
-//                break;
             case R.id.client_list:
                 Prefs.putString("normalclientlist","true");
                 Prefs.putString("filtercustomer","true");
@@ -733,20 +748,24 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
                 if (fragment == null)
                     fragment = new ClientList();
                 break;
-
             case R.id.problems:
-                Intent intent1=new Intent(getContext(), ExistingProblems.class);
-                Prefs.putString("cameFromMain","True");
-                startActivity(intent1);
+                if (listViewProblem.getVisibility()==View.VISIBLE){
+                    listViewProblem.setVisibility(View.GONE);
+                }
+                else{
+                    listViewProblem.setVisibility(View.VISIBLE);
+                }
+
                 break;
-//            case R.id.settings:
-//                Intent intentSettings=new Intent(getContext(), SettingsActivity.class);
-//                startActivity(intentSettings);
-////                title = getString(R.string.settings);
-////                fragment = getActivity().getSupportFragmentManager().findFragmentByTag(title);
-////                if (fragment == null)
-////                    fragment = new Settings();
-//                break;
+            case R.id.changesModule:
+                Log.d("clicked","true");
+                if (listViewChange.getVisibility()==View.VISIBLE){
+                    listViewChange.setVisibility(View.GONE);
+                }
+                else{
+                    listViewChange.setVisibility(View.VISIBLE);
+                }
+                break;
             case R.id.about:
                 title = getString(R.string.about);
                 fragment = getActivity().getSupportFragmentManager().findFragmentByTag(title);
@@ -760,19 +779,6 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
                     e.printStackTrace();
                 }
                 confirmationDialog.show(getFragmentManager(),null);
-//                if (RealmController.with(this).hasTickets()) {
-//                    RealmController.with(this).clearAll();
-//                }
-//                NotificationManager notificationManager =
-//                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-//                notificationManager.cancelAll();
-//                FaveoApplication.getInstance().clearApplicationData();
-//                Prefs.clear();
-//                getActivity().getSharedPreferences(Constants.PREFERENCE, Context.MODE_PRIVATE).edit().clear().apply();
-//                Intent intent = new Intent(getActivity(), LoginActivity.class);
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                startActivity(intent);
-//                Toasty.success(getActivity(), "Logged out successfully!", Toast.LENGTH_SHORT).show();
 
                 break;
         }
@@ -780,7 +786,6 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.container_body, fragment);
-            // fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
             ((MainActivity) getActivity()).setActionBarTitle(title);
             mDrawerLayout.closeDrawer(GravityCompat.START);

@@ -15,19 +15,25 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amulyakhare.textdrawable.TextDrawable;
+import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
 import com.pixplicity.easyprefs.library.Prefs;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,14 +44,17 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import co.servicedesk.faveo.pro.CircleTransform;
 import co.servicedesk.faveo.pro.Helper;
 import co.servicedesk.faveo.pro.R;
 import co.servicedesk.faveo.pro.backend.api.v1.Helpdesk;
+import co.servicedesk.faveo.pro.frontend.RecyclerItemClickListener;
 import co.servicedesk.faveo.pro.frontend.activities.ClientDetailActivity;
 import co.servicedesk.faveo.pro.frontend.activities.MainActivity;
 import co.servicedesk.faveo.pro.frontend.activities.NotificationActivity;
 import co.servicedesk.faveo.pro.frontend.activities.RegisterUser;
 import co.servicedesk.faveo.pro.frontend.activities.SearchActivity;
+//import co.servicedesk.faveo.pro.frontend.adapters.ClientOverviewAdapter;
 import co.servicedesk.faveo.pro.frontend.adapters.ClientOverviewAdapter;
 import co.servicedesk.faveo.pro.frontend.receivers.InternetReceiver;
 import co.servicedesk.faveo.pro.model.ClientOverview;
@@ -69,13 +78,11 @@ public class ClientList extends Fragment implements View.OnClickListener {
     SwipeRefreshLayout swipeRefresh;
     ClientOverviewAdapter clientOverviewAdapter;
     int total;
-    String cameFromFilter;
     @BindView(R.id.totalcount)
-            TextView textView;
+    TextView textView;
     List<ClientOverview> clientOverviewList = new ArrayList<>();
     View rootView;
     ProgressDialog progressDialog;
-    SpotsDialog dialog1;
     Toolbar toolbar;
     View view;
     int page=1;
@@ -86,14 +93,12 @@ public class ClientList extends Fragment implements View.OnClickListener {
     public String mParam2;
     View view1;
     TextView toolbarTextview;
-    Toolbar toolbar1,toolbar2;
+    Toolbar toolbar1;
     String title;
     String heading;
     private OnFragmentInteractionListener mListener;
     String url;
     String condition;
-//    @BindView(R.id.fab_Useradd)
-//    Fab fab;
     public static ClientList newInstance(String param1, String param2) {
         ClientList fragment = new ClientList();
         Bundle args = new Bundle();
@@ -140,7 +145,7 @@ public class ClientList extends Fragment implements View.OnClickListener {
             toolbar= (Toolbar) rootView.findViewById(R.id.toolbar2);
             toolbarTextview= (TextView) toolbar.findViewById(R.id.toolbartextview);
 
-             if (heading.equals("active")){
+            if (heading.equals("active")){
                 toolbarTextview.setText(getString(R.string.activeUser));
             }
             else if (heading.equals("inactive")){
@@ -155,30 +160,19 @@ public class ClientList extends Fragment implements View.OnClickListener {
             else if (heading.equals("admin")){
                 toolbarTextview.setText(getString(R.string.roleAdmin));
             }
-             else if (heading.equals("agent")){
-                 toolbarTextview.setText(getString(R.string.roleAgent));
-             }
-             else if (heading.equals("user")){
-                 toolbarTextview.setText(getString(R.string.roleUser));
-             }
-             else{
+            else if (heading.equals("agent")){
+                toolbarTextview.setText(getString(R.string.roleAgent));
+            }
+            else if (heading.equals("user")){
+                toolbarTextview.setText(getString(R.string.roleUser));
+            }
+            else{
                 toolbarTextview.setText(getString(R.string.customerFilter));
             }
 
-
-//            fab.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    Intent intent=new Intent(getActivity(), RegisterUser.class);
-//                    startActivity(intent);
-//                }
-//            });
-
-
-
             view1=rootView.findViewById(R.id.separationView);
             view1.setVisibility(View.GONE);
-             toolbar1= (Toolbar) rootView.findViewById(R.id.toolbarfilteration);
+            toolbar1= (Toolbar) rootView.findViewById(R.id.toolbarfilteration);
             toolbar1.setVisibility(View.GONE);
 
             linearLayout= (LinearLayout) rootView.findViewById(R.id.toolbarview);
@@ -187,6 +181,8 @@ public class ClientList extends Fragment implements View.OnClickListener {
             view=rootView.findViewById(R.id.separationview);
             view.setVisibility(View.VISIBLE);
             ButterKnife.bind(this, rootView);
+            progressDialog=new ProgressDialog(getActivity());
+            progressDialog.setMessage("Please wait");
             toolbar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_sort_black_24dp));
             toolbar.inflateMenu(R.menu.menu_customer_filtration);
             toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
@@ -205,24 +201,11 @@ public class ClientList extends Fragment implements View.OnClickListener {
                         Prefs.putString("filtercustomer","active");
                         Prefs.putString("normalclientlist","false");
                         url="active=1";
-                        //Toast.makeText(getActivity(), "URL:"+url, Toast.LENGTH_SHORT).show();
                         Prefs.putString("customerfilter",url);
                         title = getString(R.string.client_list);
-                        fragment = getActivity().getSupportFragmentManager().findFragmentByTag(title);
-                        if (fragment == null)
-                            fragment = new ClientList();
-                        if (fragment != null) {
-                            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                            fragmentTransaction.replace(R.id.container_body, fragment);
-                            // fragmentTransaction.addToBackStack(null);
-                            fragmentTransaction.commit();
-                        }
-
-                        //Toast.makeText(getActivity(), "clicked on active", Toast.LENGTH_SHORT).show();
+                        fragmentController(title);
                         return true;
                     }
-
 
                     if (item.getItemId() == R.id.banned) {
                         Prefs.putString("filtercustomer","banned");
@@ -230,16 +213,7 @@ public class ClientList extends Fragment implements View.OnClickListener {
                         url="ban=1";
                         Prefs.putString("customerfilter",url);
                         title = getString(R.string.client_list);
-                        fragment = getActivity().getSupportFragmentManager().findFragmentByTag(title);
-                        if (fragment == null)
-                            fragment = new ClientList();
-                        if (fragment != null) {
-                            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                            fragmentTransaction.replace(R.id.container_body, fragment);
-                            // fragmentTransaction.addToBackStack(null);
-                            fragmentTransaction.commit();
-                        }
+                        fragmentController(title);
                         return true;
                     }
 
@@ -249,16 +223,7 @@ public class ClientList extends Fragment implements View.OnClickListener {
                         url="deleted=1";
                         Prefs.putString("customerfilter",url);
                         title = getString(R.string.client_list);
-                        fragment = getActivity().getSupportFragmentManager().findFragmentByTag(title);
-                        if (fragment == null)
-                            fragment = new ClientList();
-                        if (fragment != null) {
-                            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                            fragmentTransaction.replace(R.id.container_body, fragment);
-                            // fragmentTransaction.addToBackStack(null);
-                            fragmentTransaction.commit();
-                        }
+                        fragmentController(title);
                         return true;
                     }
                     if (item.getItemId() == R.id.inactive) {
@@ -267,16 +232,7 @@ public class ClientList extends Fragment implements View.OnClickListener {
                         url="active=0";
                         Prefs.putString("customerfilter",url);
                         title = getString(R.string.client_list);
-                        fragment = getActivity().getSupportFragmentManager().findFragmentByTag(title);
-                        if (fragment == null)
-                            fragment = new ClientList();
-                        if (fragment != null) {
-                            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                            fragmentTransaction.replace(R.id.container_body, fragment);
-                            // fragmentTransaction.addToBackStack(null);
-                            fragmentTransaction.commit();
-                        }
+                        fragmentController(title);
                         return true;
                     }
 
@@ -287,16 +243,7 @@ public class ClientList extends Fragment implements View.OnClickListener {
                         url="role=admin";
                         Prefs.putString("customerfilter",url);
                         title = getString(R.string.client_list);
-                        fragment = getActivity().getSupportFragmentManager().findFragmentByTag(title);
-                        if (fragment == null)
-                            fragment = new ClientList();
-                        if (fragment != null) {
-                            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                            fragmentTransaction.replace(R.id.container_body, fragment);
-                            // fragmentTransaction.addToBackStack(null);
-                            fragmentTransaction.commit();
-                        }
+                        fragmentController(title);
                         return true;
                     }
                     if (item.getItemId() == R.id.agent) {
@@ -305,16 +252,7 @@ public class ClientList extends Fragment implements View.OnClickListener {
                         url="role=agent";
                         Prefs.putString("customerfilter",url);
                         title = getString(R.string.client_list);
-                        fragment = getActivity().getSupportFragmentManager().findFragmentByTag(title);
-                        if (fragment == null)
-                            fragment = new ClientList();
-                        if (fragment != null) {
-                            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                            fragmentTransaction.replace(R.id.container_body, fragment);
-                            // fragmentTransaction.addToBackStack(null);
-                            fragmentTransaction.commit();
-                        }
+                        fragmentController(title);
                         return true;
                     }
                     if (item.getItemId() == R.id.user) {
@@ -323,16 +261,7 @@ public class ClientList extends Fragment implements View.OnClickListener {
                         url="role=user";
                         Prefs.putString("customerfilter",url);
                         title = getString(R.string.client_list);
-                        fragment = getActivity().getSupportFragmentManager().findFragmentByTag(title);
-                        if (fragment == null)
-                            fragment = new ClientList();
-                        if (fragment != null) {
-                            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                            fragmentTransaction.replace(R.id.container_body, fragment);
-                            // fragmentTransaction.addToBackStack(null);
-                            fragmentTransaction.commit();
-                        }
+                        fragmentController(title);
                         return true;
                     }
 
@@ -349,15 +278,11 @@ public class ClientList extends Fragment implements View.OnClickListener {
                     if (condition.equals("true")) {
                         noInternet_view.setVisibility(View.GONE);
                         //swipeRefresh.setRefreshing(true);
-                        dialog1= new SpotsDialog(getActivity(), getString(R.string.pleasewait));
-                        dialog1.show();
+                        swipeRefresh.setRefreshing(true);
                         new FetchClients(getActivity()).execute();
                     } else if (condition.equals("false")){
-                        dialog1= new SpotsDialog(getActivity(), getString(R.string.pleasewait));
-                        dialog1.show();
+                        swipeRefresh.setRefreshing(true);
                         new FetchClientsFilter(getActivity(), url, page).execute();
-//                        Toast.makeText(getActivity(), "came from filter", Toast.LENGTH_SHORT).show();
-//                        Toast.makeText(getActivity(), "url" + url, Toast.LENGTH_SHORT).show();
                     }
 
                 }catch (NullPointerException e){
@@ -379,14 +304,9 @@ public class ClientList extends Fragment implements View.OnClickListener {
                             url=Prefs.getString("customerfilter",null);
                             if (condition.equals("true")) {
                                 noInternet_view.setVisibility(View.GONE);
-                                //swipeRefresh.setRefreshing(true);
-                                //progressDialog.show();
                                 new FetchClients(getActivity()).execute();
                             } else if (condition.equals("false")){
-                                //progressDialog.show();
                                 new FetchClientsFilter(getActivity(), url, page).execute();
-//                        Toast.makeText(getActivity(), "came from filter", Toast.LENGTH_SHORT).show();
-//                        Toast.makeText(getActivity(), "url" + url, Toast.LENGTH_SHORT).show();
                             }
 
                         }catch (NullPointerException e){
@@ -401,12 +321,43 @@ public class ClientList extends Fragment implements View.OnClickListener {
                 }
             });
 
+            RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
+                boolean hideToolBar = false;
+                @Override
+                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                    super.onScrollStateChanged(recyclerView, newState);
+                }
+
+                @Override
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                    super.onScrolled(recyclerView, dx, dy);
+
+                }
+            };
+//
+            recyclerView.addOnScrollListener(onScrollListener);
+
             empty_view.setText(R.string.no_clients);
         }
         ((MainActivity) getActivity()).setActionBarTitle(getString(R.string.client_list));
 
         return rootView;
     }
+
+    public void fragmentController(String title){
+        Fragment fragment;
+        fragment =getActivity().getSupportFragmentManager().findFragmentByTag(title);
+        if (fragment == null)
+            fragment = new ClientList();
+        if (fragment != null) {
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.container_body, fragment);
+            fragmentTransaction.commit();
+        }
+    }
+
+
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -418,10 +369,11 @@ public class ClientList extends Fragment implements View.OnClickListener {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id=item.getItemId();
         if (id == R.id.action_search) {
-            Intent intent = new Intent(getActivity(), SearchActivity.class);
             Prefs.putString("cameFromClientList","true");
+            Prefs.putString("cameFromNotification","fromClient");
+            Intent intent = new Intent(getActivity(), SearchActivity.class);
             startActivity(intent);
-            return true;
+            //getActivity().finish();
         }
         else if (id==R.id.action_noti){
             Intent intent=new Intent(getActivity(),NotificationActivity.class);
@@ -466,7 +418,7 @@ public class ClientList extends Fragment implements View.OnClickListener {
         }
 
         protected void onPostExecute(String result) {
-            dialog1.dismiss();
+            swipeRefresh.setRefreshing(false);
             url = "null";
             //Prefs.putString("customerfilter","null");
             textView.setText("" + total + " clients");
@@ -598,7 +550,7 @@ public class ClientList extends Fragment implements View.OnClickListener {
         }
 
         protected void onPostExecute(String result) {
-            dialog1.dismiss();
+            swipeRefresh.setRefreshing(false);
             textView.setText(""+total+" clients");
             if (swipeRefresh.isRefreshing())
                 swipeRefresh.setRefreshing(false);

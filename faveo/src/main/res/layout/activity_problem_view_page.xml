@@ -9,10 +9,106 @@
     tools:context=".frontend.activities.TicketDetailActivity">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbar"
+        android:id="@+id/appbarProblem"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="80dp"
         android:theme="@style/AppThemeOverlay.ActionBar">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:fitsSystemWindows="true"
+            android:background="#F5F5F5"
+            app:contentScrim="?attr/colorPrimary"
+            app:theme="@style/ToolbarColoredBackArrow"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_collapseParallaxMultiplier="0.7"
+                app:layout_collapseMode="pin"
+                >
+
+                <com.elyeproj.loaderviewlibrary.LoaderTextView
+                    android:id="@+id/fromProblem"
+                    android:layout_width="76dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginBottom="3dp"
+                    android:background="@drawable/rectangle1"
+                    android:backgroundTint="@color/faveo"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
+                <com.elyeproj.loaderviewlibrary.LoaderTextView
+                    android:id="@+id/problemstatus"
+                    android:layout_width="76dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/fromProblem"
+                    android:layout_marginStart="3dp"
+                    android:layout_toEndOf="@+id/problemdepartment"
+                    android:background="@drawable/rectangle1"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
+                <com.elyeproj.loaderviewlibrary.LoaderTextView
+                    android:id="@+id/problemdepartment"
+                    android:layout_width="76dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/fromProblem"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_toEndOf="@+id/fromProblem"
+                    android:background="@drawable/rectangle1"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    tools:ignore="RelativeOverlap" />
+
+                <!--<com.elyeproj.loaderviewlibrary.LoaderTextView-->
+                <!--android:id="@+id/title"-->
+                <!--android:layout_width="170dp"-->
+                <!--android:layout_height="25dp"-->
+                <!--android:layout_alignStart="@+id/textViewagentName"-->
+                <!--android:layout_below="@+id/status"-->
+                <!--android:layout_gravity="start"-->
+                <!--android:layout_marginTop="13dp"-->
+                <!--android:maxLines="1"-->
+                <!--android:textColor="@color/black"-->
+                <!--android:textSize="15sp"-->
+                <!--android:visibility="visible"-->
+                <!--/>-->
+
+                <!--<ImageView-->
+                <!--android:id="@+id/collaboratorview"-->
+                <!--android:layout_width="25dp"-->
+                <!--android:layout_height="25dp"-->
+                <!--android:layout_alignParentEnd="true"-->
+                <!--android:layout_alignTop="@+id/title"-->
+                <!--android:layout_gravity="start"-->
+                <!--android:layout_marginEnd="17dp"-->
+                <!--android:background="@drawable/ic_group_black_24dp"-->
+                <!--android:backgroundTint="@color/faveo"-->
+                <!--android:visibility="gone"-->
+                <!--/>-->
+
+                <!--<ProgressBar-->
+                <!--android:id="@+id/TicketDetailProgressbar"-->
+                <!--android:layout_width="20dp"-->
+                <!--android:layout_height="20dp"-->
+                <!--android:layout_alignParentEnd="true"-->
+                <!--android:layout_toEndOf="@+id/title"-->
+                <!--android:layout_alignTop="@+id/title"-->
+                <!--android:layout_marginEnd="162dp"-->
+                <!--android:visibility="gone" />-->
+
+            </RelativeLayout>
 
 
 
@@ -46,6 +142,8 @@
                 android:layout_height="50dp"
                 android:background="@color/faveo"
                 app:contentInsetStart="0dp"
+                app:layout_collapseMode="pin"
+                app:contentInsetLeft="0dp"
                 app:theme="@style/ToolbarColoredBackArrow"
                 >
                 <RelativeLayout
@@ -63,7 +161,7 @@
 
                     <TextView
                         android:id="@+id/ticketNumberDemo"
-                        android:layout_width="170dp"
+                        android:layout_width="250dp"
                         android:layout_height="25dp"
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
@@ -71,10 +169,10 @@
                         android:layout_marginStart="61dp"
                         android:maxLines="1"
                         android:textStyle="bold"
-                        android:text="# PRB 12"
                         android:textAllCaps="true"
+                        android:text="Laptop related problem"
                         android:textColor="@color/white"
-                        android:textSize="18sp" />
+                        android:textSize="17sp" />
                     <ImageView
                         android:id="@+id/imageViewBackProblemDetail"
                         android:layout_width="wrap_content"
@@ -96,19 +194,20 @@
 
                 </RelativeLayout>
 
+
             </android.support.v7.widget.Toolbar>
+        </android.support.design.widget.CollapsingToolbarLayout>
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="0dp"
             app:tabGravity="fill"
-            android:background="@color/faveo"
+            android:background="@color/white"
             app:tabTextColor="@color/grey_500"
             app:tabSelectedTextColor="@color/white"
-            android:tabStripEnabled="false"
             app:tabMode="fixed"
-            app:layout_collapseMode="pin"
+            android:visibility="gone"
             />
 
     </android.support.design.widget.AppBarLayout>

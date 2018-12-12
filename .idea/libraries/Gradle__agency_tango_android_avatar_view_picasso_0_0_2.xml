@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: agency.tango.android:avatar-view-picasso-0.0.2">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/avatar-view-picasso-0.0.2.aar/5ccda80f09840bc84cdab097962b7658/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/avatar-view-picasso-0.0.2.aar/5ccda80f09840bc84cdab097962b7658/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/avatar-view-picasso-0.0.2.aar/367c6d6bc6832e157a1fae4777c8da01/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/avatar-view-picasso-0.0.2.aar/367c6d6bc6832e157a1fae4777c8da01/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
