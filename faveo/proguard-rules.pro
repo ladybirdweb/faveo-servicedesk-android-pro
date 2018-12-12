@@ -63,7 +63,8 @@
 -ignorewarnings
 -keep class * {
     public private *;
-}
+
+
 ## ButterKnife
 -dontwarn butterknife.internal.**
 -keep class **$$ViewInjector { *; }

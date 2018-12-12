@@ -165,6 +165,7 @@ public class TicketDetailActivity extends AppCompatActivity implements
     ProblemAdpter mAdapter;
     ProblemAdpterAttached problemAdpterAttached;
     int problemcount=2;
+    ImageView imageView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -194,6 +195,7 @@ public class TicketDetailActivity extends AppCompatActivity implements
 //        }
 
         fabSpeedDial = (FabSpeedDial) findViewById(R.id.fab_main);
+        imageView=findViewById(R.id.collaboratorview);
 //            navigationView=findViewById(R.id.nav_view);
 //        textViewAssetCount=navigationView.findViewById(R.id.assetcount);
 //        problemCount=navigationView.findViewById(R.id.problemcount);
@@ -256,6 +258,15 @@ public class TicketDetailActivity extends AppCompatActivity implements
         });
 
 
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Prefs.putString("cameFromTicket","true");
+                Intent intent=new Intent(TicketDetailActivity.this,collaboratorAdd.class);
+                intent.putExtra("ticket_id", ticketID);
+                startActivity(intent);
+            }
+        });
 
 
 
@@ -416,12 +427,8 @@ public class TicketDetailActivity extends AppCompatActivity implements
 //            progressDialog=new ProgressDialog(this);
 //            progressDialog.setMessage(getString(R.string.pleasewait));
 //            progressDialog.show();
-            new Thread(new Runnable() {
-                public void run(){
-                    Log.d("threadisrunning","true");
-                    new FetchTicketDetail(Prefs.getString("TICKETid",null)).execute();
-                }
-            }).start();
+            new FetchTicketDetail(Prefs.getString("TICKETid",null)).execute();
+            new FetchCollaboratorAssociatedWithTicket(Prefs.getString("ticketId", null)).execute();
             //new FetchCollaboratorAssociatedWithTicket(Prefs.getString("TICKETid",null)).execute();
             }
         imgaeviewBack.setOnClickListener(new View.OnClickListener() {
@@ -2226,51 +2233,45 @@ public class MyBottomSheetDialogReply extends BottomSheetDialog {
         }
     }
 
-//    private class FetchCollaboratorAssociatedWithTicket extends AsyncTask<String, Void, String> {
-//        String ticketid;
-//
-//        FetchCollaboratorAssociatedWithTicket(String ticketid) {
-//
-//            this.ticketid = ticketid;
-//        }
-//
-//        protected String doInBackground(String... urls) {
-//            return new Helpdesk().postCollaboratorAssociatedWithTicket(ticketid);
-//        }
-//
-//        protected void onPostExecute(String result) {
-//
-//            int noOfCollaborator=0;
-//            if (isCancelled()) return;
-//            //strings.clear();
-//
-////            if (progressDialog.isShowing())
-////                progressDialog.dismiss();
-//
-//            if (result == null) {
-//                Toasty.error(TicketDetailActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
-////                Data data=new Data(0,"No recipients");
-////                stringArrayList.add(data);
-//                return;
-//            }
-//
-//            try {
-//                JSONObject jsonObject = new JSONObject(result);
-//                JSONArray jsonArray = jsonObject.getJSONArray("collaborator");
-//                if (jsonArray.length()==0){
-//                    imageView.setVisibility(View.GONE);
-//                    return;
-//                }
-//                else{
-//                    imageView.setVisibility(View.VISIBLE);
-//                }
-//
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//
-//    }
+    private class FetchCollaboratorAssociatedWithTicket extends AsyncTask<String, Void, String> {
+        String ticketid;
+
+        FetchCollaboratorAssociatedWithTicket(String ticketid) {
+
+            this.ticketid = ticketid;
+        }
+
+        protected String doInBackground(String... urls) {
+            return new Helpdesk().postCollaboratorAssociatedWithTicket(ticketid);
+        }
+
+        protected void onPostExecute(String result) {
+
+            int noOfCollaborator=0;
+            if (isCancelled()) return;
+
+
+            if (result == null) {
+                return;
+            }
+
+            try {
+                JSONObject jsonObject = new JSONObject(result);
+                JSONArray jsonArray = jsonObject.getJSONArray("collaborator");
+                if (jsonArray.length()==0){
+                    imageView.setVisibility(View.GONE);
+                    return;
+                }
+                else{
+                    imageView.setVisibility(View.VISIBLE);
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
 
     @Override
     protected void onRestart() {

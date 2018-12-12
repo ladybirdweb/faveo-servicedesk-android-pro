@@ -48,6 +48,7 @@ android {
     }
     lintOptions {
         abortOnError false
+        lintConfig file("../lint.xml")
     }
     testOptions {
         unitTests.returnDefaultValues = true

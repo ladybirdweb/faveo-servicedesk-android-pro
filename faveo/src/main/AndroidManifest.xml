@@ -160,7 +160,8 @@
             android:name=".frontend.activities.CreateTicketActivity"
             android:label="@string/title_activity_create_ticket"
             android:screenOrientation="portrait"
-            android:theme="@style/MyMaterialTheme" />
+            android:theme="@style/MyMaterialTheme"
+            android:noHistory="true"/>
         <activity
             android:name=".frontend.activities.SearchActivity"
             android:label="@string/title_activity_search"
@@ -187,7 +188,8 @@
         <activity
             android:name=".frontend.activities.RegisterUser"
             android:label="@string/title_activity_register_user"
-            android:theme="@style/MyMaterialTheme" />
+            android:theme="@style/MyMaterialTheme"
+            android:noHistory="true"/>
         <activity
             android:name=".frontend.activities.collaboratorAdd"
             android:windowSoftInputMode="stateAlwaysHidden" />
