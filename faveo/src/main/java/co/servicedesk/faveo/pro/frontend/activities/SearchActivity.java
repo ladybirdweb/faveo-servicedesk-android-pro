@@ -520,13 +520,13 @@ public class SearchActivity extends AppCompatActivity implements
 //                    int pos = term.lastIndexOf(",");
 //                    term = term.substring(pos + 1, term.length());
 //                    Log.d("newTerm", term);
-//                    arrayAdapterCC = new ArrayAdapter<>(collaboratorAdd.this, android.R.layout.simple_dropdown_item_1line, stringArrayList);
-//                    new collaboratorAdd.FetchCollaborator(term.trim()).execute();
+//                    arrayAdapterCC = new ArrayAdapter<>(CollaboratorAdd.this, android.R.layout.simple_dropdown_item_1line, stringArrayList);
+//                    new CollaboratorAdd.FetchCollaborator(term.trim()).execute();
 //                    autoCompleteTextViewUser.setAdapter(arrayAdapterCC);
 //                }
-////            Toast.makeText(collaboratorAdd.this, "term:"+term, Toast.LENGTH_SHORT).show();
+////            Toast.makeText(CollaboratorAdd.this, "term:"+term, Toast.LENGTH_SHORT).show();
 //                else if (term.equals("")) {
-//                    arrayAdapterCC = new ArrayAdapter<>(collaboratorAdd.this, android.R.layout.simple_dropdown_item_1line, stringArrayList);
+//                    arrayAdapterCC = new ArrayAdapter<>(CollaboratorAdd.this, android.R.layout.simple_dropdown_item_1line, stringArrayList);
 //                    //new FetchCollaborator("s").execute();
 //                    Data data = new Data(0, "No result found");
 //                    stringArrayList.add(data);
@@ -536,8 +536,8 @@ public class SearchActivity extends AppCompatActivity implements
 ////                autoCompleteTextViewCC.setDropDownWidth(1000);
 //
 //                } else {
-//                    arrayAdapterCC = new ArrayAdapter<>(collaboratorAdd.this, android.R.layout.simple_dropdown_item_1line, stringArrayList);
-//                    new collaboratorAdd.FetchCollaborator(term).execute();
+//                    arrayAdapterCC = new ArrayAdapter<>(CollaboratorAdd.this, android.R.layout.simple_dropdown_item_1line, stringArrayList);
+//                    new CollaboratorAdd.FetchCollaborator(term).execute();
 //                    autoCompleteTextViewUser.setAdapter(arrayAdapterCC);
 //
 //

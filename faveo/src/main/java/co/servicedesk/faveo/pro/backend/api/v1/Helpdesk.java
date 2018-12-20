@@ -44,10 +44,10 @@ public class Helpdesk {
     }
 
     public String postCreateTicket(int userID, String subject, String body, int helpTopic,
-                                   int priority, String fname, String lname, String phone, String email, String code, int staff, String mobile) {
+                                   int priority, String fname, String lname, int staff,String email) {
         Log.d("postCreateTicketAPI", Constants.URL + "helpdesk/create?" +
                 "api_key=" + apiKey +
-                "&token=" + token +
+                "&token=" + token+
                 "&ip=" + IP +
                 "&user_id=" + userID +
                 "&subject=" + subject +
@@ -57,14 +57,12 @@ public class Helpdesk {
                 "&priority=" + priority +
                 //"&dept=" + dept +
                 "&first_name=" + fname +
-                "&last_name=" + lname +
-                "&email=" + email +
-                "&assigned=" + staff + "&phone=" + mobile +
-                "&code=" + code +
-                "&mobile=" + phone);
-        Prefs.putString("createTicketApi", Constants.URL + "helpdesk/create?" +
+                "&last_name=" + lname + "&assigned=" + staff+
+                "&email=" + email
+        );
+        Prefs.putString("createTicketApi",Constants.URL + "helpdesk/create?" +
                 "api_key=" + apiKey +
-                "&token=" + token +
+                "&token=" + token+
                 "&ip=" + IP +
                 "&user_id=" + userID +
                 "&subject=" + subject +
@@ -75,14 +73,13 @@ public class Helpdesk {
                 //"&dept=" + dept +
                 "&first_name=" + fname +
                 "&last_name=" + lname +
-                "&email=" + email +
-                "&assigned=" + staff + "&phone=" + mobile +
-                "&code=" + code +
-                "&mobile=" + phone);
+                "&assigned=" + staff+
+                "&email=" + email
+        );
 
         String result = new HTTPConnection().HTTPResponsePost(Constants.URL + "helpdesk/create?" +
                 "api_key=" + apiKey +
-                "&token=" + token +
+                "&token=" + token+
                 "&ip=" + IP +
                 "&user_id=" + userID +
                 "&subject=" + subject +
@@ -93,29 +90,26 @@ public class Helpdesk {
                 // "&dept=" + dept +
                 "&first_name=" + fname +
                 "&last_name=" + lname +
-                "&email=" + email +
-                "&assigned=" + staff + "&phone=" + mobile +
-                "&code=" + code +
-                "&mobile=" + phone, null);
+                "&assigned=" + staff+
+                "&email=" + email , null);
 
         if (result != null && result.equals("tokenRefreshed"))
             return new HTTPConnection().HTTPResponsePost(Constants.URL + "helpdesk/create?" +
-                    "api_key=" + apiKey +
-                    "&token=" + token +
-                    "&ip=" + IP +
-                    "&user_id=" + userID +
-                    "&subject=" + subject +
-                    "&body=" + body +
-                    "&help_topic=" + helpTopic +
-                    // "&sla=" + sla +
-                    "&priority=" + priority +
-                    //  "&dept=" + dept +
-                    "&first_name=" + fname +
-                    "&last_name=" + lname +
-                    "&email=" + email +
-                    "&assigned=" + staff + "&phone=" + mobile +
-                    "&code=" + code +
-                    "&mobile=" + phone, null);
+                            "api_key=" + apiKey +
+                            "&token=" + token+
+                            "&ip=" + IP +
+                            "&user_id=" + userID +
+                            "&subject=" + subject +
+                            "&body=" + body +
+                            "&help_topic=" + helpTopic +
+                            // "&sla=" + sla +
+                            "&priority=" + priority +
+                            //  "&dept=" + dept +
+                            "&first_name=" + fname +
+                            "&last_name=" + lname+
+                            "&assigned=" + staff+
+                            "&email=" + email
+                    , null);
         return result;
     }
 
@@ -583,11 +577,11 @@ public class Helpdesk {
 //        return result;
 //    }
 
-    public String postRegisterUser(String email, String firstname, String lastname, String mobile, String company,String code) {
-        Log.d("RegisterUser", Constants.URL + "helpdesk/register?token=" + token + "&email=" + email + "&first_name=" + firstname + "&last_name=" + lastname + "&mobile=" + mobile + "&company=" + company +"&code="+code);
-        String result = new HTTPConnection().HTTPResponsePost(Constants.URL + "helpdesk/register?token=" + token + "&email=" + email + "&first_name=" + firstname + "&last_name=" + lastname + "&mobile=" + mobile + "&company=" + company+"&code="+code, null);
+    public String postRegisterUser(String email, String firstname, String lastname, String mobile,String code) {
+        Log.d("RegisterUser", Constants.URL + "helpdesk/register?token=" + token + "&email=" + email + "&first_name=" + firstname + "&last_name=" + lastname + "&mobile=" + mobile +"&code="+code);
+        String result = new HTTPConnection().HTTPResponsePost(Constants.URL + "helpdesk/register?token=" + token + "&email=" + email + "&first_name=" + firstname + "&last_name=" + lastname + "&mobile=" + mobile +"&code="+code, null);
         if (result != null && result.equals("tokenRefreshed"))
-            return new HTTPConnection().HTTPResponsePost(Constants.URL + "helpdesk/register?token=" + token + "&email=" + email + "&first_name=" + firstname + "&last_name=" + lastname + "&mobile=" + mobile + "&company=" + company+"&code="+code, null);
+            return new HTTPConnection().HTTPResponsePost(Constants.URL + "helpdesk/register?token=" + token + "&email=" + email + "&first_name=" + firstname + "&last_name=" + lastname + "&mobile=" + mobile +"&code="+code, null);
         return result;
     }
 

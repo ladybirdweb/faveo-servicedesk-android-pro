@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: agency.tango.android:avatar-view-0.0.2">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/avatar-view-0.0.2.aar/89e29a58597d7414a8b988082c367f3c/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/avatar-view-0.0.2.aar/89e29a58597d7414a8b988082c367f3c/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/avatar-view-0.0.2.aar/57cb252f7d668da4a2fce5aae3c581ef/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/avatar-view-0.0.2.aar/57cb252f7d668da4a2fce5aae3c581ef/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

@@ -1370,7 +1370,7 @@ public class NewProblem extends AppCompatActivity implements PermissionCallback,
 //                progressDialog.dismiss();
 
 //            if (result == null) {
-//                Toasty.error(collaboratorAdd.this, getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
+//                Toasty.error(CollaboratorAdd.this, getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
 //                return;
 //            }
 
