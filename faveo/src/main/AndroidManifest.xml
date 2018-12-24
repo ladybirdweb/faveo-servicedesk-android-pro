@@ -27,7 +27,8 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/MyMaterialTheme"
-        tools:replace="allowBackup, label">
+        tools:replace="allowBackup, label"
+        tools:ignore="GoogleAppIndexingWarning">
 
         <!-- <provider -->
         <!-- android:name="android.support.v4.content.FileProvider" -->
@@ -237,10 +238,14 @@
         <activity android:name=".frontend.activities.ShowingAttachment" />
         <activity android:name=".frontend.activities.HelpingActivity" />
         <activity android:name=".frontend.activities.ExistingProblems" />
-        <activity android:name=".frontend.activities.NewProblem" />
+        <activity android:name=".frontend.activities.NewProblem"
+            android:launchMode="singleTask"/>
         <activity android:name=".frontend.activities.AssociatedProblem" />
-        <activity android:name=".frontend.activities.EditAndViewProblem" />
-        <activity android:name=".frontend.activities.ProblemViewPage"></activity>
+        <activity android:name=".frontend.activities.EditAndViewProblem"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".frontend.activities.ProblemViewPage" />
     </application>
 
 </manifest>

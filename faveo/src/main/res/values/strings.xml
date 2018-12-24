@@ -409,7 +409,7 @@
     <string name="noUser">No users found</string>
     <string name="roleChanged">Role has been changed!user can not use the app.</string>
     <string name="fileSize">File size should not exceed 6 MB</string>
-    <string name="apiDisabled">Either your API is disabled or your system is in offline.Please contact the administrator.</string>
+    <string name="apiDisabled">Please check either your API is disabled or your credentials are incorrect or the acount is inactive</string>
     <string name="successfullyChanged">Successfully changed the status</string>
     <string name="urlchange">Please check your helpdesk url,username and password!Some credentials may have changed.try to log in again with the new credentials.</string>
     <string name="apidisabled">API is disabled for the web application</string>
@@ -486,7 +486,7 @@
     <string name="Impact">Impact</string>
     <string name="description">Description</string>
     <string name="addAsset">Attach asset</string>
-    <string name="associating">associating with the ticket?</string>
+    <string name="associating">associating with the ticket</string>
     <string name="no_problems_found">No problems found</string>
     <string name="selectUser">Please select a user to create the problem</string>
     <string name="descriptionEmpty">Description must not be empty</string>
@@ -494,11 +494,11 @@
     <string name="statusRequired">please select the status</string>
     <string name="departmentRequired">please select the department</string>
     <string name="creating_problem">Creating problem</string>
-    <string name="problem_confirm">are you sure you want to create this problem?</string>
+    <string name="problem_confirm">Are you sure you want to create this problem?</string>
     <string name="all_problem_loaded">All problems are loaded</string>
     <string name="problem_deleted">Problem Deleted Successfully</string>
     <string name="editingProblem">Editing Problem</string>
-    <string name="editProblemConfirm">are you sure you want to edit the problem?</string>
+    <string name="editProblemConfirm">Are you sure you want to edit the problem?</string>
     <string name="impact">Impact</string>
     <string name="all_prob">All Problems</string>
     <string name="new_prob">New Problem</string>
@@ -524,6 +524,7 @@
     <string name="edit">Edit</string>
     <string name="suredeletingproblem">Are you sure you want to delete the problem?</string>
     <string name="email_taken">The email id has already been taken</string>
+    <string name="problem_with_ticket">Are you sure you want to associate this problem with the ticket?</string>
     <string-array name="CountryCodes">
 
         <item>93,AF</item>

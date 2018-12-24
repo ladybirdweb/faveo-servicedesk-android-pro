@@ -765,108 +765,36 @@ public class LoginActivity extends AppCompatActivity {
                 Toasty.error(LoginActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
                 return;
             }
-// else {
-//                try {
-//                    String unauthorized=Prefs.getString("unauthorized",null);
-//                    if (unauthorized.equals("true")){
-//                        Prefs.putString("unauthorized","false");
-//                        textInputLayoutUsername.setEnabled(true);
-//                        textInputLayoutPass.setEnabled(true);
-//                        buttonSignIn.setText(getString(R.string.sign_in));
-//                        //Toast.makeText(LoginActivity.this, "Wrong Credentials", Toast.LENGTH_SHORT).show();
-//                        userNameError.setVisibility(View.VISIBLE);
-//                        userNameError.setText("Please check your password and email");
-//                        userNameError.setTextColor(Color.parseColor("#ff0000"));
-//                        userNameError.postDelayed(new Runnable() {
-//                            public void run() {
-//                                userNameError.setVisibility(View.INVISIBLE);
-//                            }
-//                        }, 5000);
-//                        //StyleableToast st = new StyleableToast(LoginActivity.this, getString(R.string.wrong_credentials), Toast.LENGTH_LONG);
-//                        passwordEdittext.startAnimation(animation);
-//                        usernameEdittext.startAnimation(animation);
-//                    }
-//                    return;
-////                    JSONObject jsonObject = new JSONObject(result);
-////                    String error = jsonObject.getString("status_code");
-////                    String statusCode=jsonObject.getString("status_code");
-////                    if (error.equals("invalid_credentials")||statusCode.equals("401")) {
-////                        textInputLayoutUsername.setEnabled(true);
-////                        textInputLayoutPass.setEnabled(true);
-////                        buttonSignIn.setText(getString(R.string.sign_in));
-////                        //Toast.makeText(LoginActivity.this, "Wrong Credentials", Toast.LENGTH_SHORT).show();
-////                        userNameError.setVisibility(View.VISIBLE);
-////                        userNameError.setText("Please check your password and email");
-////                        userNameError.setTextColor(Color.parseColor("#ff0000"));
-////                        userNameError.postDelayed(new Runnable() {
-////                            public void run() {
-////                                userNameError.setVisibility(View.INVISIBLE);
-////                            }
-////                        }, 5000);
-////                        //StyleableToast st = new StyleableToast(LoginActivity.this, getString(R.string.wrong_credentials), Toast.LENGTH_LONG);
-////                        passwordEdittext.startAnimation(animation);
-////                        usernameEdittext.startAnimation(animation);
-////                        st.setBackgroundColor(Color.parseColor("#3da6d7"));
-////                        st.setBoldText();
-////                        st.setTextColor(Color.WHITE);
-////                        st.setCornerRadius(7);
-////                        st.show();
-////                        return;
-////                    }
-//                } catch (NullPointerException e) {
-//                    e.printStackTrace();
-//                }
-//            }
             try{
-                apiDisabled = Prefs.getString("403", null);
-                if (apiDisabled.equals("403")){
-                    Prefs.putString("400", "true");
+                apiDisabled = Prefs.getString("unauthorized", null);
+                if (apiDisabled.equals("true")){
+                    Prefs.putString("unauthorized","false");
                     textInputLayoutUsername.setEnabled(true);
                     textInputLayoutPass.setEnabled(true);
                     buttonSignIn.setText(getString(R.string.sign_in));
-                    //Toast.makeText(LoginActivity.this, "Wrong Credentials", Toast.LENGTH_SHORT).show();
-                    //StyleableToast st = new StyleableToast(LoginActivity.this, getString(R.string.wrong_credentials), Toast.LENGTH_LONG);
-                    passwordEdittext.startAnimation(animation);
-                    usernameEdittext.startAnimation(animation);
+                    Toasty.info(context, getString(R.string.apiDisabled), Toast.LENGTH_LONG).show();
                     textInputLayoutUsername.setEnabled(true);
                     textInputLayoutPass.setEnabled(true);
-
-                    //progressBar.setVisibility(View.GONE);
-                    Toasty.info(context, getString(R.string.bannedOrdeactivated), Toast.LENGTH_LONG).show();
                     return;
                 }
-            }catch (NullPointerException e){
 
+            }catch (NullPointerException e){
+                e.printStackTrace();
             }
 
             try{
-                apiDisabled = Prefs.getString("409", null);
-                if (apiDisabled.equals("409")){
-                    Prefs.putString("409", "true");
-                    textInputLayoutUsername.setEnabled(true);
-                    textInputLayoutPass.setEnabled(true);
-
-                    //progressBar.setVisibility(View.GONE);
-                    Toasty.info(context, getString(R.string.inactiveagent), Toast.LENGTH_LONG).show();
-                    return;
-                }
-            }catch (NullPointerException e){
-                e.printStackTrace();
-            }
-
-            try {
-                apiDisabled = Prefs.getString("400", null);
-                if (apiDisabled.equals("badRequest")) {
-
-                    Prefs.putString("400", "null");
+                apiDisabled = Prefs.getString("403", null);
+                if (apiDisabled.equals("403")){
+                    Prefs.putString("403","false");
+                    Toasty.info(context, getString(R.string.bannedOrdeactivated), Toast.LENGTH_LONG).show();
                     textInputLayoutUsername.setEnabled(true);
                     textInputLayoutPass.setEnabled(true);
                     //progressBar.setVisibility(View.GONE);
-                    Toasty.info(context, getString(R.string.apiDisabled), Toast.LENGTH_LONG).show();
+                    buttonSignIn.setText(getString(R.string.sign_in));
                     return;
                 }
             }catch (NullPointerException e){
-                e.printStackTrace();
+
             }
 
             try {
@@ -884,7 +812,7 @@ public class LoginActivity extends AppCompatActivity {
                     textInputLayoutUsername.setEnabled(true);
                     textInputLayoutPass.setEnabled(true);
                     buttonSignIn.setText(getString(R.string.sign_in));
-                    Toasty.warning(getApplicationContext(), getString(R.string.userLogIn), Toast.LENGTH_SHORT).show();
+                    Toasty.warning(getApplicationContext(), getString(R.string.userLogIn), Toast.LENGTH_LONG).show();
                     return;
 
                 }
@@ -930,7 +858,6 @@ public class LoginActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 textInputLayoutUsername.setEnabled(true);
                 textInputLayoutPass.setEnabled(true);
-                buttonSignIn.setText(getString(R.string.sign_in));
                 buttonSignIn.setText(getString(R.string.sign_in));
                 //Toast.makeText(LoginActivity.this, "Wrong Credentials", Toast.LENGTH_SHORT).show();
                 userNameError.setVisibility(View.VISIBLE);

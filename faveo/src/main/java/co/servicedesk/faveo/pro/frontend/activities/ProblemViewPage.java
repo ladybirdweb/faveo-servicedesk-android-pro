@@ -82,6 +82,7 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
     ProgressDialog progressDialog;
     SpotsDialog dialog1;
     TextView textViewTicketTitle;
+    String ticketId;
     LoaderTextView loaderTextViewFrom,loaderTextViewstatus,loaderTextViewdepartment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +116,7 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
         loaderTextViewstatus=mAppBarLayout.findViewById(R.id.problemstatus);
         final Intent intent = getIntent();
         problemId= intent.getIntExtra("problemId",0);
+        ticketId=intent.getStringExtra("ticket_id");
         problemTitle=intent.getStringExtra("problemTitle");
         textViewTicketTitle.setText(problemTitle);
         imageViewBack=findViewById(R.id.imageViewBackProblemDetail);
@@ -124,6 +126,7 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
             public void onClick(View view) {
                 Intent intent1=new Intent(ProblemViewPage.this,EditAndViewProblem.class);
                 intent1.putExtra("problemId",problemId);
+                intent1.putExtra("ticket_id",ticketId);
                 startActivity(intent1);
             }
         });
@@ -233,7 +236,7 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
                     JSONObject jsonObject2=jsonArray.getJSONObject(i);
                     String name1=jsonObject2.getString("name");
                     int id=jsonObject2.getInt("id");
-                    ProblemAssociatedAssets problemAssociatedTicket=new ProblemAssociatedAssets(1,"AST-"+id,name1);
+                    ProblemAssociatedAssets problemAssociatedTicket=new ProblemAssociatedAssets(1,name1);
                     items.add(problemAssociatedTicket);
 
 
@@ -253,11 +256,7 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
                 bottomNavigation.setNotification(""+assetCount, 1);
                 bottomNavigation.setNotification(""+ticketCount,0);
 
-
-
-
-
-            } catch (JSONException | NullPointerException e) {
+                } catch (JSONException | NullPointerException e) {
                 e.printStackTrace();
             }
 
@@ -442,6 +441,8 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
                 recyclerView.setVisibility(View.GONE);
             }
             else {
+                recyclerView.setVisibility(View.VISIBLE);
+                textViewEmpty.setVisibility(View.GONE);
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setLayoutManager(new LinearLayoutManager(ProblemViewPage.this));
                 itemAdapterAsset = new ItemAdapterAsset(ProblemViewPage.this,items);
@@ -488,6 +489,8 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
                 recyclerView.setVisibility(View.GONE);
             }
             else{
+                recyclerView.setVisibility(View.VISIBLE);
+                textViewEmptyTextView.setVisibility(View.GONE);
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setLayoutManager(new LinearLayoutManager(ProblemViewPage.this));
                 mAdapter = new ItemAdapter(items1);
@@ -949,10 +952,7 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
             }
 
         }
-
-
-
-    }
+        }
 
     public class ItemAdapterAsset extends RecyclerView.Adapter<ItemAdapterAsset.ViewHolder> {
 
@@ -975,7 +975,6 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
         @Override
         public void onBindViewHolder(ViewHolder holder, final int position) {
             ProblemAssociatedAssets problemAssociatedTicket = mItems.get(position);
-            holder.textViewAssetId.setText(problemAssociatedTicket.getTicketnumber());
             holder.assetTitle.setText(problemAssociatedTicket.getTitle());
         }
 
@@ -986,12 +985,10 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
 
         class ViewHolder extends RecyclerView.ViewHolder {
 
-            TextView textViewAssetId,assetTitle;
+            TextView assetTitle;
             CardView cardViewAssociated;
-
             ViewHolder(View itemView) {
                 super(itemView);
-                textViewAssetId = (TextView) itemView.findViewById(R.id.textView_asset_number);
                 assetTitle=itemView.findViewById(R.id.textView_asset_title);
                 cardViewAssociated=itemView.findViewById(R.id.ticketAssociated);
             }

@@ -77,6 +77,8 @@ public class ExistingProblems extends AppCompatActivity {
     public int ticketId;
     int problemId;
     String problemTitle;
+    int total;
+    TextView textView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,6 +102,7 @@ public class ExistingProblems extends AppCompatActivity {
             e.printStackTrace();
         }
         swipeRefresh=findViewById(R.id.swipeRefresh);
+        textView=findViewById(R.id.totalcount);
         button=findViewById(R.id.createNewProblem);
         MyBottomSheetDialog myBottomSheetDialog = new MyBottomSheetDialog(ExistingProblems.this);
         button.setOnClickListener(new View.OnClickListener() {
@@ -119,7 +122,8 @@ public class ExistingProblems extends AppCompatActivity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                Intent intent=new Intent(ExistingProblems.this,MainActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -224,6 +228,7 @@ public class ExistingProblems extends AppCompatActivity {
             try {
                 JSONObject jsonObject = new JSONObject(result);
                 nextPageURL = jsonObject.getString("next_page_url");
+                total=jsonObject.getInt("total");
                         JSONArray jsonArray=jsonObject.getJSONArray("data");
                         for (int i=0;i<jsonArray.length();i++){
                             JSONObject jsonObject2=jsonArray.getJSONObject(i);
@@ -266,6 +271,7 @@ public class ExistingProblems extends AppCompatActivity {
                 });
                 mAdapter = new ProblemAdpter(ExistingProblems.this,problemList);
                     recyclerView.setAdapter(mAdapter);
+                textView.setText("" + total + " clients");
                     //recyclerView.getAdapter().notifyDataSetChanged();
                 } catch (JSONException e1) {
                 e1.printStackTrace();
@@ -367,7 +373,7 @@ public class ExistingProblems extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final MyViewHolder holder, int position) {
              final ProblemModel movie = moviesList.get(position);
-//             holder.options.setColorFilter(getColor(R.color.faveo));
+             holder.options.setColorFilter(getColor(R.color.faveo));
              holder.options.setImageDrawable(getDrawable(R.drawable.menudot));
             if (!movie.getEmail().equals("")) {
                 Log.d("cameHere","true");
@@ -406,7 +412,8 @@ public class ExistingProblems extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        finish();
+        Intent intent=new Intent(ExistingProblems.this,MainActivity.class);
+        startActivity(intent);
     }
     public class MyBottomSheetDialog extends BottomSheetDialog implements View.OnClickListener {
 
@@ -485,6 +492,7 @@ public class ExistingProblems extends AppCompatActivity {
                 public void onClick(View view) {
                     Intent intent1=new Intent(ExistingProblems.this,EditAndViewProblem.class);
                     intent1.putExtra("problemId",problemId);
+
                     startActivity(intent1);
                 }
             });

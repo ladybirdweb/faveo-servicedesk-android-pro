@@ -143,36 +143,36 @@ public class UsersFragment extends Fragment {
 //            recyclerView.setVisibility(View.INVISIBLE);
 //            empty_view.setVisibility(View.GONE);
 //        }
-//        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                if (InternetReceiver.isConnected()) {
-//                    if (querry.equals("")||querry.equals("null")){
-//                        Log.d("QUERRY","No Querry");
-//                        recyclerView.setVisibility(View.GONE);
-//                        empty_view.setVisibility(View.VISIBLE);
-//                        empty_view.setText(getString(R.string.noUser));
-//                        swipeRefresh.setRefreshing(false);
-//                    }
-//                    else{
-//                        noInternet_view.setVisibility(View.GONE);
-//                        recyclerView.setVisibility(View.VISIBLE);
-//                        //progressDialog.show();
-//                        empty_view.setVisibility(View.GONE);
-//                        getActivity().getWindow().setSoftInputMode(
-//                                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
-//                        );
-//                        new FetchClients(getActivity(),querry).execute();
-//                    }
-//                } else {
-//                    recyclerView.setVisibility(View.INVISIBLE);
-//                    swipeRefresh.setRefreshing(false);
-//                    empty_view.setVisibility(View.GONE);
-//                    noInternet_view.setVisibility(View.VISIBLE);
-//                }
-//
-//            }
-//        });
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (InternetReceiver.isConnected()) {
+                    if (querry.equals("")||querry.equals("null")){
+                        Log.d("QUERRY","No Querry");
+                        recyclerView.setVisibility(View.GONE);
+                        empty_view.setVisibility(View.VISIBLE);
+                        empty_view.setText(getString(R.string.noUser));
+                        swipeRefresh.setRefreshing(false);
+                    }
+                    else{
+                        noInternet_view.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
+                        //progressDialog.show();
+                        empty_view.setVisibility(View.GONE);
+                        getActivity().getWindow().setSoftInputMode(
+                                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+                        );
+                        new FetchClients(getActivity(),querry).execute();
+                    }
+                } else {
+                    recyclerView.setVisibility(View.INVISIBLE);
+                    swipeRefresh.setRefreshing(false);
+                    empty_view.setVisibility(View.GONE);
+                    noInternet_view.setVisibility(View.VISIBLE);
+                }
+
+            }
+        });
         return rootView;
     }
 

@@ -44,7 +44,7 @@ public class Authenticate {
             e.printStackTrace();
         }
         Log.d("Authenticate-URL :", Constants.URL + "authenticate" + parameters);
-        return new HTTPConnection().HTTPResponsePost(Constants.URL + "authenticate", parameters);
+        return new HTTPConnection().hTTPResponsePostLogin(Constants.URL + "authenticate", parameters);
     }
 
 }

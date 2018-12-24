@@ -457,7 +457,7 @@ public class ClientList extends Fragment implements View.OnClickListener {
                         alertDialog.setTitle(getString(R.string.creatinguser));
 
                         // Setting Dialog Message
-                        alertDialog.setMessage(getString(R.string.createConfirmation));
+                        alertDialog.setMessage(getString(R.string.userConfirmation));
 
                         // Setting Icon to Dialog
                         alertDialog.setIcon(R.mipmap.ic_launcher);

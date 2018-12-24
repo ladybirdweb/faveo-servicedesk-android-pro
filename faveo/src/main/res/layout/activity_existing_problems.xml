@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout android:layout_width="match_parent"
+<LinearLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
@@ -91,7 +91,7 @@
         android:layout_height="match_parent"
         android:layout_weight="7"
         android:clickable="true"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="10dp"
         >
 
         <com.cooltechworks.views.shimmer.ShimmerRecyclerView
@@ -103,6 +103,14 @@
 
 
     </android.support.v4.widget.SwipeRefreshLayout>
+    <TextView
+        android:layout_width="380dp"
+        android:layout_height="50dp"
+        android:text="Total Count"
+        android:id="@+id/totalcount"
+        android:textColor="@color/faveo"
+        android:gravity="center"
+        android:visibility="visible"/>
 
     <!--<android.support.design.widget.FloatingActionButton-->
         <!--android:id="@+id/fabProblem"-->
@@ -112,5 +120,5 @@
         <!--android:layout_margin="@dimen/fab_margin"-->
         <!--android:src="@drawable/ic_add_black_24dp"-->
         <!--android:tint="@color/white"/>-->
-    </android.support.design.widget.CoordinatorLayout>
+    </LinearLayout>
 

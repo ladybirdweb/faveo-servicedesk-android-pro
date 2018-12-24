@@ -108,6 +108,7 @@ public class EditAndViewProblem extends AppCompatActivity implements PermissionC
     String assetListFinal;
     ArrayList<String> getStaffItems;
     int problemId;
+    String ticketId;
     public static String
             keyDepartment = "", valueDepartment = "",
             keySLA = "", valueSLA = "",
@@ -166,6 +167,7 @@ public class EditAndViewProblem extends AppCompatActivity implements PermissionC
         editTextDescription=findViewById(R.id.msg_edittext);
         final Intent intent = getIntent();
         problemId= intent.getIntExtra("problemId",0);
+        ticketId=intent.getStringExtra("ticket_id");
         imageBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -231,6 +233,22 @@ public class EditAndViewProblem extends AppCompatActivity implements PermissionC
                     }
                 }
 
+            }
+        });
+
+        editTextDescription.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                view.getParent().requestDisallowInterceptTouchEvent(true);
+                switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
+                    case MotionEvent.ACTION_SCROLL:
+                        view.getParent().requestDisallowInterceptTouchEvent(false);
+                        return true;
+                    case MotionEvent.ACTION_BUTTON_PRESS:
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.showSoftInput(editTextDescription, InputMethodManager.SHOW_IMPLICIT);
+                }
+                return false;
             }
         });
 
@@ -626,15 +644,25 @@ public class EditAndViewProblem extends AppCompatActivity implements PermissionC
         protected void onPostExecute(String result) {
 
             dialog1.dismiss();
-
+            String cameFrom=Prefs.getString("cameFromMain","True");
             try {
                 JSONObject jsonObject=new JSONObject(result);
                 JSONObject jsonObject1=jsonObject.getJSONObject("data");
                 String success=jsonObject1.getString("success");
+
                 if (success.equals("Problem Updated Successfully.")){
                     Toasty.success(EditAndViewProblem.this,"Problem Updated Successfully.",Toast.LENGTH_SHORT).show();
-                    Intent intent=new Intent(EditAndViewProblem.this,ExistingProblems.class);
-                    startActivity(intent);
+
+                    if (cameFrom.equals("True")){
+                        Intent intent=new Intent(EditAndViewProblem.this,ExistingProblems.class);
+                        startActivity(intent);
+                    }
+                    else{
+                        Intent intent=new Intent(EditAndViewProblem.this,TicketDetailActivity.class);
+                        intent.putExtra("ticket_id",ticketId);
+                        startActivity(intent);
+                    }
+
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -929,13 +957,6 @@ public class EditAndViewProblem extends AppCompatActivity implements PermissionC
             if (isCancelled()) return;
             refresh.clearAnimation();
             emailHint.clear();
-//            if (progressDialog.isShowing())
-//                progressDialog.dismiss();
-
-//            if (result == null) {
-//                Toasty.error(CollaboratorAdd.this, getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
-//                return;
-//            }
 
             try {
                 JSONObject jsonObject = new JSONObject(result);

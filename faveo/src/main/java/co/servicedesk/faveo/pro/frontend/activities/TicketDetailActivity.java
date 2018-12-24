@@ -400,7 +400,7 @@ public class TicketDetailActivity extends AppCompatActivity implements
 //            progressDialog.setMessage(getString(R.string.pleasewait));
 //            progressDialog.show();
             new FetchTicketDetail(Prefs.getString("TICKETid",null)).execute();
-            new FetchCollaboratorAssociatedWithTicket(Prefs.getString("ticketId", null)).execute();
+            //new FetchCollaboratorAssociatedWithTicket(Prefs.getString("ticketId", null)).execute();
             //new FetchCollaboratorAssociatedWithTicket(Prefs.getString("TICKETid",null)).execute();
             }
         imgaeviewBack.setOnClickListener(new View.OnClickListener() {
@@ -735,7 +735,9 @@ public class TicketDetailActivity extends AppCompatActivity implements
                 public void onClick(View view) {
                     Intent intent=new Intent(TicketDetailActivity.this,ProblemViewPage.class);
                     intent.putExtra("problemId",movie.getId());
+                    intent.putExtra("ticket_id",ticketID);
                     Log.d("subject",movie.getSubject());
+                    Prefs.putString("cameFromMain","False");
                     intent.putExtra("problemTitle",movie.getSubject());
                     startActivity(intent);
                 }
@@ -1178,7 +1180,8 @@ public class TicketDetailActivity extends AppCompatActivity implements
                 public void onClick(View view) {
                     problemId=movie.getId();
                     new BottomDialog.Builder(context)
-                            .setContent(R.string.associating)
+                            .setTitle(R.string.associating)
+                            .setContent(R.string.problem_with_ticket)
                             .setPositiveText("YES")
                             .setNegativeText("NO")
                             .setPositiveBackgroundColorResource(R.color.white)
@@ -2203,46 +2206,6 @@ public class MyBottomSheetDialogReply extends BottomSheetDialog {
 
 
         }
-    }
-
-    private class FetchCollaboratorAssociatedWithTicket extends AsyncTask<String, Void, String> {
-        String ticketid;
-
-        FetchCollaboratorAssociatedWithTicket(String ticketid) {
-
-            this.ticketid = ticketid;
-        }
-
-        protected String doInBackground(String... urls) {
-            return new Helpdesk().postCollaboratorAssociatedWithTicket(ticketid);
-        }
-
-        protected void onPostExecute(String result) {
-
-            int noOfCollaborator=0;
-            if (isCancelled()) return;
-
-
-            if (result == null) {
-                return;
-            }
-
-            try {
-                JSONObject jsonObject = new JSONObject(result);
-                JSONArray jsonArray = jsonObject.getJSONArray("collaborator");
-                if (jsonArray.length()==0){
-                    imageView.setVisibility(View.GONE);
-                    return;
-                }
-                else{
-                    imageView.setVisibility(View.VISIBLE);
-                }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-
     }
 
     @Override

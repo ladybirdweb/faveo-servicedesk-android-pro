@@ -31,7 +31,7 @@ import co.servicedesk.faveo.pro.model.ClientOverview;
 public class ClientOverviewAdapter extends RecyclerView.Adapter<ClientOverviewAdapter.ClientViewHolder> {
     private List<ClientOverview> clientOverviewList;
     Context context;
-    static ClientOverview clientOverview;
+    private static ClientOverview clientOverview;
     public ClientOverviewAdapter(Context context,List<ClientOverview> clientOverviewList) {
         this.clientOverviewList = clientOverviewList;
         this.context=context;
@@ -41,12 +41,22 @@ public class ClientOverviewAdapter extends RecyclerView.Adapter<ClientOverviewAd
     public int getItemCount() {
         return clientOverviewList.size();
     }
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
 
     @Override
-    public void onBindViewHolder(ClientViewHolder clientViewHolder, int i) {
+    public int getItemViewType(int position) {
+        return position;
+    }
+    @Override
+    public void onBindViewHolder(final ClientViewHolder clientViewHolder, int i) {
         try {
              clientOverview= clientOverviewList.get(i);
+
             String letter = String.valueOf(clientOverview.clientName.charAt(0)).toUpperCase();
+            Log.d("idClient",String.valueOf(clientOverview.clientID));
             //clientViewHolder.textViewClientID.setText(clientOverview.clientID + "");
             clientViewHolder.textViewClientName.setText(clientOverview.clientName);
             clientViewHolder.textViewClientEmail.setText(clientOverview.clientEmail);
@@ -61,33 +71,15 @@ public class ClientOverviewAdapter extends RecyclerView.Adapter<ClientOverviewAd
 
             }
             else if (clientOverview.clientPicture.contains(".jpg")||clientOverview.clientPicture.contains(".png")||clientOverview.clientPicture.contains(".jpeg")){
-                //mDrawableBuilder = TextDrawable.builder()
-                //.round();
-//    TextDrawable drawable1 = mDrawableBuilder.build(generator.getRandomColor());
                 Picasso.with(context).load(clientOverview.getClientPicture()).transform(new CircleTransform()).into(clientViewHolder.roundedImageViewProfilePic);
-//        Glide.with(context)
-//            .load(ticketOverview.getClientPicture())
-//            .into(ticketViewHolder.roundedImageViewProfilePic);
-
-                //ticketViewHolder.roundedImageViewProfilePic.setImageDrawable(drawable);
 
             }
             else{
-                int color= Color.parseColor("#cdc5bf");
                 ColorGenerator generator = ColorGenerator.MATERIAL;
                 TextDrawable drawable = TextDrawable.builder()
                         .buildRound(letter,generator.getRandomColor());
                 clientViewHolder.roundedImageViewProfilePic.setAlpha(0.6f);
                 clientViewHolder.roundedImageViewProfilePic.setImageDrawable(drawable);
-                //clientViewHolder.roundedImageViewProfilePic.setImageResource(R.drawable.default_pic);
-
-
-                clientViewHolder.client.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
-                });
             }
         }catch (IndexOutOfBoundsException e){
             e.printStackTrace();
@@ -96,8 +88,11 @@ public class ClientOverviewAdapter extends RecyclerView.Adapter<ClientOverviewAd
         clientViewHolder.client.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                int pos=clientViewHolder.getAdapterPosition();
+                clientOverview= clientOverviewList.get(pos);
                 Intent intent = new Intent(view.getContext(), ClientDetailActivity.class);
                 intent.putExtra("CLIENT_ID", clientOverview.clientID + "");
+                Log.d("clientid",clientOverview.clientID + "");
                 Prefs.putString("clientId",clientOverview.clientID+"");
                 Log.d("cameHere","TRUE");
                 intent.putExtra("CLIENT_NAME", clientOverview.clientName);
@@ -122,7 +117,6 @@ public class ClientOverviewAdapter extends RecyclerView.Adapter<ClientOverviewAd
 
     static class ClientViewHolder extends RecyclerView.ViewHolder {
         protected View client;
-        TextView textViewClientID;
         ImageView roundedImageViewProfilePic;
         TextView textViewClientName;
         TextView textViewClientEmail;
@@ -131,7 +125,6 @@ public class ClientOverviewAdapter extends RecyclerView.Adapter<ClientOverviewAd
         ClientViewHolder(View v) {
             super(v);
             client = v.findViewById(R.id.client);
-            //textViewClientID = (TextView) v.findViewById(R.id .textView_client_id);
             roundedImageViewProfilePic = (ImageView) v.findViewById(R.id.imageView_default_profile);
             textViewClientName = (TextView) v.findViewById(R.id.textView_client_name);
             textViewClientEmail = (TextView) v.findViewById(R.id.textView_client_email);
