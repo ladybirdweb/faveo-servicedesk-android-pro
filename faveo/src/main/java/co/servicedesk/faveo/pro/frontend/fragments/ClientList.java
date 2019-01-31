@@ -28,6 +28,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -390,170 +392,8 @@ public class ClientList extends Fragment implements View.OnClickListener {
             Intent intent=new Intent(getActivity(),NotificationActivity.class);
             startActivity(intent);
         }
-        else if (id==R.id.action_add){
-            CustomDialogClassSolution cdd = new CustomDialogClassSolution(getActivity());
-            cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            cdd.show();
-        }
 
         return super.onOptionsItemSelected(item);
-    }
-    class CustomDialogClassSolution extends Dialog implements
-            android.view.View.OnClickListener {
-        String firstName,lastName;
-        String email;
-        public Activity c;
-        public Dialog d;
-        public Button buttoncreate, buttonclose;
-        EditText editTextEmail,editTextFirstName,editTextLastName;
-        public CustomDialogClassSolution(Activity a) {
-            super(a);
-            // TODO Auto-generated constructor stub
-            this.c = a;
-        }
-
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            requestWindowFeature(Window.FEATURE_NO_TITLE);
-            setContentView(R.layout.activity_collaboratorcreate);
-            buttoncreate = (Button) findViewById(R.id.buttonAddUser);
-            buttonclose = (Button) findViewById(R.id.buttonClose);
-            editTextEmail=findViewById(R.id.email_edittextUser);
-            editTextFirstName=findViewById(R.id.fname_edittextUser);
-            editTextLastName=findViewById(R.id.lastname_edittext);
-            buttoncreate.setOnClickListener(this);
-            buttonclose.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.buttonAddUser:
-
-
-                    if (editTextEmail.getText().toString().equals("") || editTextFirstName.getText().toString().equals("") || editTextLastName.getText().toString().equals("")) {
-                        Toasty.info(getActivity(), getString(R.string.fill_all_the_details), Toast.LENGTH_LONG).show();
-                        return;
-                    } else if (!editTextEmail.getText().toString().equals("") && !Helper.isValidEmail(editTextEmail.getText().toString())) {
-                        Toasty.info(getActivity(), getString(R.string.invalid_email), Toast.LENGTH_LONG).show();
-                        return;
-                    } else if (editTextFirstName.getText().toString().trim().length() < 2) {
-                        Toasty.warning(getActivity(), getString(R.string.firstname_minimum_char), Toast.LENGTH_SHORT).show();
-                    } else if (editTextFirstName.getText().toString().trim().length() > 30) {
-                        Toasty.warning(getActivity(), getString(R.string.firstname_maximum_char), Toast.LENGTH_SHORT).show();
-                    } else if (editTextLastName.getText().toString().trim().length() < 2) {
-                        Toasty.warning(getActivity(), getString(R.string.lastname_minimum_char), Toast.LENGTH_SHORT).show();
-                    } else if (editTextLastName.getText().toString().trim().length() > 30) {
-                        Toasty.warning(getActivity(), getString(R.string.lastname_maximum_char), Toast.LENGTH_SHORT).show();
-                    } else {
-                        email = editTextEmail.getText().toString();
-                        firstName = editTextFirstName.getText().toString();
-                        lastName = editTextLastName.getText().toString();
-
-                        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
-
-                        // Setting Dialog Title
-                        alertDialog.setTitle(getString(R.string.creatinguser));
-
-                        // Setting Dialog Message
-                        alertDialog.setMessage(getString(R.string.userConfirmation));
-
-                        // Setting Icon to Dialog
-                        alertDialog.setIcon(R.mipmap.ic_launcher);
-                        alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                hideSoftKeyboard();
-                                if (InternetReceiver.isConnected()) {
-                                    progressDialog.setMessage(getString(R.string.creatinguser));
-                                    progressDialog.show();
-                                    new RegisterUserNew(email, firstName, lastName).execute();
-                                }
-                            }
-                        });
-
-                        // Setting Negative "NO" Button
-                        alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        });
-
-                        alertDialog.show();
-
-
-                    }
-                    break;
-                case R.id.buttonClose:
-                    dismiss();
-                    break;
-                default:
-                    break;
-            }
-            dismiss();
-        }
-    }
-    public void hideSoftKeyboard() {
-        if(getActivity().getCurrentFocus()!=null) {
-            InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
-        }
-    }
-
-    private class RegisterUserNew extends AsyncTask<String, Void, String> {
-        String firstname, email, lastname;
-
-        RegisterUserNew(String email, String firstname, String lastname) {
-
-            this.firstname = firstname;
-            this.email = email;
-            this.lastname = lastname;
-
-        }
-
-        protected String doInBackground(String... urls) {
-            return new Helpdesk().postCreateUser(email, firstname, lastname);
-        }
-
-        protected void onPostExecute(String result) {
-            Fragment fragment = null;
-            progressDialog.dismiss();
-            if (result == null) {
-                Toasty.error(getActivity(), getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
-                return;
-            }
-            try {
-                String state = Prefs.getString("400", null);
-
-                if (state.equals("badRequest")) {
-                    progressDialog.dismiss();
-                    Toasty.info(getActivity(), "The user is already registered", Toast.LENGTH_LONG).show();
-                    return;
-                }
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-            }
-            try {
-                JSONArray jsonArray = new JSONArray(result);
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    String message = jsonObject.getString("message");
-                    if (message.contains("Activate your account! Click on the link that we've sent to your mail")){
-                        Toasty.success(getActivity(),getString(R.string.registrationsuccesfull),Toast.LENGTH_SHORT).show();
-                        fragment = new ClientList();
-                        replaceFragment(fragment);
-                    }
-
-
-                }
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-
-
     }
     public void replaceFragment(Fragment someFragment) {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
@@ -640,6 +480,7 @@ public class ClientList extends Fragment implements View.OnClickListener {
                     }
                 });
                 clientOverviewAdapter = new ClientOverviewAdapter(getContext(), clientOverviewList);
+                runLayoutAnimation(recyclerView);
                 recyclerView.setAdapter(clientOverviewAdapter);
                 if (clientOverviewAdapter.getItemCount() == 0) {
                     empty_view.setVisibility(View.VISIBLE);
@@ -770,6 +611,7 @@ public class ClientList extends Fragment implements View.OnClickListener {
                 }
             });
             clientOverviewAdapter = new ClientOverviewAdapter(getContext(),clientOverviewList);
+            runLayoutAnimation(recyclerView);
             recyclerView.setAdapter(clientOverviewAdapter);
             if (clientOverviewAdapter.getItemCount() == 0) {
                 empty_view.setVisibility(View.VISIBLE);
@@ -822,7 +664,15 @@ public class ClientList extends Fragment implements View.OnClickListener {
             loading = true;
         }
     }
+    private void runLayoutAnimation(final RecyclerView recyclerView) {
+        final Context context = recyclerView.getContext();
+        final LayoutAnimationController controller =
+                AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_from_bottom);
 
+        recyclerView.setLayoutAnimation(controller);
+        clientOverviewAdapter.notifyDataSetChanged();
+        recyclerView.scheduleLayoutAnimation();
+    }
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);

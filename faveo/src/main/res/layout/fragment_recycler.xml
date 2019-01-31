@@ -19,6 +19,7 @@
         android:layout_height="40dp"
         android:orientation="horizontal"
         android:id="@+id/toolbarview"
+        android:visibility="gone"
         >
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbarfilteration"
@@ -27,7 +28,7 @@
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppThemeOverlay.ActionBar"
             app:layout_scrollFlags="scroll|enterAlways|snap"
-            android:visibility="visible"
+            android:visibility="gone"
             android:overScrollMode="always"
             android:layout_weight="1"
             >
@@ -76,12 +77,13 @@
             android:layout_weight="1">
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="30dp">
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="30dp"
                     android:text="@string/sort_by"
+                    android:fontFamily="@font/hintedlainesansregular"
                     android:textColor="#808080"
                     android:textSize="14sp"
                     android:textStyle="bold"
@@ -96,6 +98,7 @@
         android:id="@+id/separationview"
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:visibility="gone"
         android:background="#DCDCDC"
         />
     <TextView
@@ -161,6 +164,7 @@
         android:layout_height="50dp"
         android:text="Total Count"
         android:id="@+id/totalcount"
+        android:fontFamily="@font/hintedlainesansregular"
         android:textColor="@color/faveo"
         android:gravity="center"
         android:visibility="visible"/>

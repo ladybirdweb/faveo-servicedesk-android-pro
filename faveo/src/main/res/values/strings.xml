@@ -525,6 +525,9 @@
     <string name="suredeletingproblem">Are you sure you want to delete the problem?</string>
     <string name="email_taken">The email id has already been taken</string>
     <string name="problem_with_ticket">Are you sure you want to associate this problem with the ticket?</string>
+    <string name="welcome_faveo">Welcome to FAVEO</string>
+    <string name="welcome_back">Welcome back</string>
+    <string name="notification">Notifications</string>
     <string-array name="CountryCodes">
 
         <item>93,AF</item>

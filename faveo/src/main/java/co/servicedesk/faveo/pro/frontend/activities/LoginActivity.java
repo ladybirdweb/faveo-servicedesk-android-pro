@@ -141,7 +141,7 @@ public class LoginActivity extends AppCompatActivity {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
 // finally change the color
-        window.setStatusBarColor(ContextCompat.getColor(LoginActivity.this,R.color.faveo));
+        window.setStatusBarColor(ContextCompat.getColor(LoginActivity.this,R.color.mainActivityTopBar));
 
         ButterKnife.bind(this);
         try {

@@ -83,7 +83,7 @@ public class TicketSaveActivity extends AppCompatActivity {
 
 // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(TicketSaveActivity.this,R.color.faveo));
+        window.setStatusBarColor(ContextCompat.getColor(TicketSaveActivity.this,R.color.mainActivityTopBar));
         //final NiftyDialogBuilder dialogBuilder=NiftyDialogBuilder.getInstance(TicketSaveActivity.this);
         StrictMode.setThreadPolicy(policy);
         if (InternetReceiver.isConnected()){

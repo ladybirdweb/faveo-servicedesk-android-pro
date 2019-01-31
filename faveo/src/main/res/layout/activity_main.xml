@@ -33,9 +33,10 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?attr/colorPrimary"
+                android:background="@color/toolbarColor"
                 app:layout_scrollFlags="scroll|enterAlways|snap"
-                app:popupTheme="@style/AppThemeOverlay.ActionBar"
+                android:theme="@style/AppThemes"
+                app:popupTheme="@style/AppThemes"
                 >
 
                 <TextView
@@ -43,17 +44,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:textAllCaps="false"
-                    android:textColor="@color/theme"
+                    android:textColor="@color/colorAccent"
+                    android:fontFamily="@font/hintedlainesansregular"
                     android:textSize="16sp"
+                    android:text="INBOX"
                     android:textStyle="bold" />
 
             </android.support.v7.widget.Toolbar>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@color/faveo"
-                />
 
 
             <!--<android.support.design.widget.BottomNavigationView-->

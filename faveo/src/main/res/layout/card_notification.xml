@@ -1,69 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/notification_cardview"
     android:layout_width="match_parent"
-    android:layout_height="90dp"
+    android:layout_height="wrap_content"
     android:layout_marginTop="6dp"
     android:clickable="true"
+    android:layout_margin="7dp"
     android:focusable="true"
-    android:background="@color/colorAccent"
     android:foreground="?android:attr/selectableItemBackground"
-    card_view:cardCornerRadius="3dp"
+    card_view:cardCornerRadius="6dp"
     card_view:cardElevation="2dp"
     card_view:contentPadding="5dp">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_margin="4dp">
+        android:layout_height="wrap_content"
+        android:layout_margin="7dp">
 
 
         <ImageView
             android:id="@+id/dthumbnail"
-            android:layout_width="46dp"
-            android:layout_height="46dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:src="@drawable/default_pic"
-
+            android:background="@drawable/rounded_textview"
             />
+
         <TextView
             android:id="@+id/noti_subject"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginLeft="8dp"
             android:layout_toEndOf="@+id/dthumbnail"
             android:layout_toRightOf="@+id/dthumbnail"
-            android:ellipsize="end"
+            android:alpha=".7"
+            android:fontFamily="@font/hintedlainesansregular"
             android:maxLines="2"
-            android:text="@string/dummy_sub"
-            android:textSize="14sp" />
+            android:text="@string/send_crash_reports"
+            android:textSize="14sp"
+            android:textStyle="normal" />
 
         <com.github.curioustechizen.ago.RelativeTimeTextView
             android:id="@+id/noti_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/noti_subject"
-            android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="2dp"
             android:layout_toEndOf="@+id/dthumbnail"
             android:layout_toRightOf="@+id/dthumbnail"
+            android:fontFamily="@font/hintedlainesansregular"
             android:text="@string/dummy_date"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textSize="12sp" />
 
-
-
     </RelativeLayout>
-    </LinearLayout>
 
 </android.support.v7.widget.CardView>

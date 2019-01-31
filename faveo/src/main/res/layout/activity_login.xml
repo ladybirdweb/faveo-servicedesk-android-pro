@@ -37,6 +37,7 @@
                 android:layout_height="wrap_content"
                 android:text="FAVEO SERVICEDESK"
                 android:textSize="22sp"
+                android:fontFamily="@font/hintedlaineansedium"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -71,6 +72,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/view"
                 android:layout_marginTop="10dp"
+                android:fontFamily="@font/hintedlaineansedium"
                 android:text="http://www.ladybirdweb.com/support"
                 android:textSize="14sp"
                 android:visibility="gone" />
@@ -84,7 +86,7 @@
                 android:text="@string/login"
                 android:textSize="18sp"
                 android:textColor="@color/faveo"
-                android:fontFamily="monospace"
+                android:fontFamily="@font/hintedlaineansedium"
                 android:textStyle="bold"/>
 
 
@@ -124,6 +126,7 @@
                     android:text="@string/helpdesk_url"
                     android:textColor="@color/black"
                     android:textSize="14sp"
+                    android:fontFamily="@font/hintedlaineansedium"
                     android:textStyle="bold" />
 
                 <LinearLayout
@@ -146,6 +149,7 @@
                         android:layout_marginBottom="8dp"
                         android:layout_marginRight="4dp"
                         android:layout_weight="1.03"
+                        android:fontFamily="@font/hintedlaineansedium"
                         android:background="@drawable/edittext_modified_states"
                         android:drawableLeft="@drawable/ic_action_language"
                         android:imeOptions="actionDone"
@@ -173,6 +177,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/urlError"
                     android:visibility="gone"
+                    android:fontFamily="@font/hintedlaineansedium"
                     android:text="Please enter a valid url"
                     android:textColor="#ff0000"/>
 
@@ -211,6 +216,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/user_name"
+                        android:fontFamily="@font/hintedlaineansedium"
                         android:imeOptions="actionNext"
                         android:inputType="textPersonName" />
                     <TextView
@@ -218,6 +224,7 @@
                         android:layout_height="20dp"
                         android:id="@+id/usernameError"
                         android:visibility="gone"
+                        android:fontFamily="@font/hintedlaineansedium"
                         android:text="Username is required"
                         android:textColor="#ff0000"/>
 
@@ -236,6 +243,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/password"
+                        android:fontFamily="@font/hintedlaineansedium"
                         android:imeOptions="actionDone"
                         android:inputType="textPassword" />
                     <TextView
@@ -243,6 +251,7 @@
                         android:layout_height="20dp"
                         android:id="@+id/passwordError"
                         android:visibility="gone"
+                        android:fontFamily="@font/hintedlaineansedium"
                         android:text="Password is required"
                         android:textColor="#ff0000"/>
                 </android.support.design.widget.TextInputLayout>
@@ -254,6 +263,7 @@
                     android:layout_margin="32dp"
                     android:background="@drawable/button_background"
                     android:text="@string/sign_in"
+                    android:fontFamily="@font/hintedlaineansedium"
                     android:visibility="visible"
                     android:textColor="@color/white"
                     android:textStyle="bold" />

@@ -24,9 +24,10 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="36dp"
-                    android:background="#f2f2f2">
+                    android:background="@color/colorAccent">
 
                     <TextView
+                        android:id="@+id/requesterview"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
@@ -36,17 +37,17 @@
                         android:layout_marginLeft="17dp"
                         android:layout_marginStart="17dp"
                         android:text="@string/email"
-                        android:textSize="16sp"
+                        android:textSize="12sp"
+                        android:fontFamily="@font/hintedlainesansregular"
                         android:textStyle="bold" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginRight="8dp"
+                    <ImageView
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:layout_alignTop="@+id/requesterview"
+                        android:layout_toEndOf="@+id/requesterview"
+                        android:fontFamily="@font/hintedlainesansregular"
+                        android:src="@drawable/ic_star_black_24dp"
                         android:text="@string/required"
                         android:textSize="12sp" />
                 </RelativeLayout>
@@ -66,6 +67,7 @@
                         android:layout_marginRight="16dp"
                         android:background="@android:color/transparent"
                         android:cursorVisible="true"
+                        android:fontFamily="@font/hintedlainesansregular"
                         android:imeOptions="actionNext"
                         android:inputType="textEmailAddress"
                         android:nextFocusForward="@+id/editText_firstname"
@@ -90,10 +92,19 @@
 
                 </RelativeLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/grey_500"
+                    android:alpha=".3">
+
+                </View>
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="36dp"
-                    android:background="#f2f2f2">
+                    android:background="@color/colorAccent">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -105,7 +116,8 @@
                         android:layout_marginLeft="17dp"
                         android:layout_marginStart="17dp"
                         android:text="@string/cc"
-                        android:textSize="16sp"
+                        android:fontFamily="@font/hintedlainesansregular"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
                 </RelativeLayout>
 
@@ -121,6 +133,7 @@
                         android:layout_height="50dp"
                         android:layout_marginLeft="16dp"
                         android:layout_marginRight="16dp"
+                        android:fontFamily="@font/hintedlainesansregular"
                         android:background="@android:color/transparent"
                         android:imeOptions="actionNext"
                         android:inputType="textPersonName"
@@ -130,13 +143,22 @@
 
                         />
                 </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/grey_500"
+                    android:alpha=".3">
 
+                </View>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
-                android:background="#f2f2f2">
+                android:background="@color/colorAccent">
 
                 <TextView
+                    android:id="@+id/subjectview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
@@ -146,17 +168,17 @@
                     android:layout_marginLeft="17dp"
                     android:layout_marginStart="17dp"
                     android:text="@string/subject"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/hintedlainesansregular"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
+                <ImageView
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_alignTop="@+id/subjectview"
+                    android:layout_toEndOf="@+id/subjectview"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:src="@drawable/ic_star_black_24dp"
                     android:text="@string/required"
                     android:textSize="12sp" />
             </RelativeLayout>
@@ -175,19 +197,29 @@
                     android:layout_marginRight="16dp"
                     android:background="@android:color/transparent"
                     android:imeOptions="actionNext"
+                    android:fontFamily="@font/hintedlainesansregular"
                     android:inputType="textEmailAddress"
                     android:nextFocusForward="@+id/msg_edittext"
                     android:nextFocusDown="@+id/spinner_pri"
                     android:textCursorDrawable="@drawable/color_cursor"
                     android:textSize="16sp" />
             </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/grey_500"
+                    android:alpha=".3">
 
+                </View>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
-                android:background="#f2f2f2">
+                android:background="@color/colorAccent">
 
                 <TextView
+                    android:id="@+id/priorityview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
@@ -197,17 +229,17 @@
                     android:layout_marginLeft="17dp"
                     android:layout_marginStart="17dp"
                     android:text="@string/priority"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/hintedlainesansregular"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
+                <ImageView
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_alignTop="@+id/priorityview"
+                    android:layout_toEndOf="@+id/priorityview"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:src="@drawable/ic_star_black_24dp"
                     android:text="@string/required"
                     android:textSize="12sp" />
             </RelativeLayout>
@@ -227,57 +259,23 @@
                     android:entries="@array/spinnerAssignTo"
                     android:hint="@string/SelectPriority"/>
             </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/grey_500"
+                    android:alpha=".3">
 
-            <!--<RelativeLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="36dp"-->
-            <!--android:background="#EEEEEE">-->
-
-            <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentLeft="true"-->
-            <!--android:layout_alignParentStart="true"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:layout_marginLeft="17dp"-->
-            <!--android:layout_marginStart="17dp"-->
-            <!--android:text="@string/deparment"-->
-            <!--android:textSize="16sp"-->
-            <!--android:textStyle="bold" />-->
-
-            <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentEnd="true"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:layout_marginEnd="8dp"-->
-            <!--android:layout_marginRight="8dp"-->
-            <!--android:text="@string/required"-->
-            <!--android:textSize="12sp" />-->
-            <!--</RelativeLayout>-->
-
-            <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content">-->
-
-            <!--<Spinner-->
-            <!--android:id="@+id/spinner_dept"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="50dp"-->
-            <!--android:layout_marginLeft="16dp"-->
-            <!--android:layout_marginStart="16dp"-->
-            <!--android:entries="@array/spinnerAssignTo"-->
-            <!--android:textSize="14sp" />-->
-            <!--</LinearLayout>-->
+                </View>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
-                android:background="#f2f2f2">
+                android:background="@color/colorAccent">
 
                 <TextView
+                    android:id="@+id/helptopicView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
@@ -287,17 +285,17 @@
                     android:layout_marginLeft="17dp"
                     android:layout_marginStart="17dp"
                     android:text="@string/helptopic"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/hintedlainesansregular"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
+                <ImageView
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_alignTop="@+id/helptopicView"
+                    android:layout_toEndOf="@+id/helptopicView"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:src="@drawable/ic_star_black_24dp"
                     android:text="@string/required"
                     android:textSize="12sp" />
             </RelativeLayout>
@@ -317,44 +315,19 @@
                     android:hint="@string/SelectHelptopic"/>
             </LinearLayout>
 
-            <!--<RelativeLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="36dp"-->
-                <!--android:background="#EEEEEE">-->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/grey_500"
+                    android:alpha=".3">
 
-                <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_alignParentLeft="true"-->
-                    <!--android:layout_alignParentStart="true"-->
-                    <!--android:layout_centerVertical="true"-->
-                    <!--android:layout_gravity="center"-->
-                    <!--android:layout_marginLeft="17dp"-->
-                    <!--android:layout_marginStart="17dp"-->
-                    <!--android:text="@string/assignedto"-->
-                    <!--android:textSize="16sp"-->
-                    <!--android:textStyle="bold" />-->
-                <!--/>-->
-            <!--</RelativeLayout>-->
-
-            <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content">-->
-
-                <!--<Spinner-->
-                    <!--android:id="@+id/assignedto"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="50dp"-->
-                    <!--android:layout_marginLeft="16dp"-->
-                    <!--android:layout_marginStart="16dp"-->
-                    <!--android:entries="@array/spinnerAssignTo"-->
-                    <!--android:nextFocusForward="@+id/msg_edittext"-->
-                    <!--android:textSize="14sp" />-->
-            <!--</LinearLayout>-->
+                </View>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
-                android:background="#f2f2f2">
+                android:background="@color/colorAccent">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -366,7 +339,8 @@
                     android:layout_marginLeft="17dp"
                     android:layout_marginStart="17dp"
                     android:text="@string/assignedto"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/hintedlainesansregular"
                     android:textStyle="bold" />
                 />
             </RelativeLayout>
@@ -383,6 +357,16 @@
                     android:layout_marginLeft="10dp"
                     />
             </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/grey_500"
+                    android:alpha=".3">
+
+                </View>
 
             <!--<RelativeLayout-->
             <!--android:layout_width="match_parent"-->
@@ -432,9 +416,10 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
-                android:background="#f2f2f2">
+                android:background="@color/colorAccent">
 
                 <TextView
+                    android:id="@+id/messageView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
@@ -443,18 +428,18 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="17dp"
                     android:layout_marginStart="17dp"
+                    android:fontFamily="@font/hintedlainesansregular"
                     android:text="@string/message"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
+                <ImageView
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_alignTop="@+id/messageView"
+                    android:layout_toEndOf="@+id/messageView"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:src="@drawable/ic_star_black_24dp"
                     android:text="@string/required"
                     android:textSize="12sp" />
             </RelativeLayout>
@@ -474,6 +459,7 @@
                     android:layout_marginTop="4dp"
                     android:background="@android:color/transparent"
                     android:ems="10"
+                    android:fontFamily="@font/hintedlainesansregular"
                     android:enabled="true"
                     android:gravity="top"
                     android:imeOptions="actionDone"
@@ -484,7 +470,15 @@
                     android:textCursorDrawable="@drawable/color_cursor"
                     android:textSize="16sp" />
             </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/grey_500"
+                    android:alpha=".3">
 
+                </View>
 
             <RelativeLayout
                 android:id="@+id/attachment_layout"
@@ -493,16 +487,16 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginLeft="5dp"
                 android:visibility="gone"
-                android:background="@color/grey_200"
+                android:background="@drawable/rectangle1"
                 >
 
                 <TextView
                     android:id="@+id/attachment_name"
-                    android:layout_width="170dp"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
-                    android:background="@color/grey_200"
+                    android:background="#D3D3D3"
                     android:ellipsize="end"
                     android:gravity="center"
                     android:padding="5dp"
@@ -527,13 +521,26 @@
 
                 <ImageButton
                     android:id="@+id/attachment_close"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:layout_alignParentTop="true"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="5dp"
                     android:layout_toEndOf="@+id/attachment_name"
-                    android:background="@color/grey_200"
+                    android:background="#D3D3D3"
                     android:src="@drawable/ic_clear_black_18dp" />
             </RelativeLayout>
+                <Button
+                    android:id="@+id/buttonSubmit"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_alignTop="@id/titlesave"
+                    android:layout_margin="6dp"
+                    android:background="@drawable/button_background"
+                    android:backgroundTint="@color/faveo"
+                    android:textColor="#ffffff"
+                    android:text="@string/create_ticket"
+                    android:textSize="14sp" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </FrameLayout>

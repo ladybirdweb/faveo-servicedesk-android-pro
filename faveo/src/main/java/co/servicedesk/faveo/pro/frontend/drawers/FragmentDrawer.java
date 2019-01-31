@@ -357,6 +357,8 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
         });
 
 
+
+
         return layout;
     }
 
@@ -494,74 +496,74 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
         protected void onPostExecute(String result) {
             Log.d("resultFromNewCall",result);
 
-            if (responseCodeForShow==400){
-                final Toast toast = Toasty.info(getActivity(), getString(R.string.urlchange),Toast.LENGTH_SHORT);
-                toast.show();
-                new CountDownTimer(10000, 1000)
-                {
-                    public void onTick(long millisUntilFinished) {toast.show();}
-                    public void onFinish() {toast.cancel();}
-                }.start();
-                Prefs.clear();
-                Intent intent=new Intent(getActivity(),LoginActivity.class);
-                startActivity(intent);
-                return;
-            }
-            if (responseCodeForShow==401){
-                final Toast toast = Toasty.info(getActivity(), getString(R.string.apiDisabled),Toast.LENGTH_LONG);
-                toast.show();
-                new CountDownTimer(10000, 1000)
-                {
-                    public void onTick(long millisUntilFinished) {toast.show();}
-                    public void onFinish() {toast.cancel();}
-                }.start();
-                Prefs.clear();
-                Intent intent=new Intent(getActivity(),LoginActivity.class);
-                startActivity(intent);
-                return;
-            }
-            if (responseCodeForShow==403){
-                final Toast toast = Toasty.info(getActivity(), getString(R.string.bannedOrdeactivated),Toast.LENGTH_LONG);
-                toast.show();
-                new CountDownTimer(10000, 1000)
-                {
-                    public void onTick(long millisUntilFinished) {toast.show();}
-                    public void onFinish() {toast.cancel();}
-                }.start();
-                Prefs.clear();
-                Intent intent=new Intent(getActivity(),LoginActivity.class);
-                startActivity(intent);
-                return;
-            }
-
-            if (responseCodeForShow==405){
-                final Toast toast = Toasty.info(getActivity(), getString(R.string.urlchange),Toast.LENGTH_LONG);
-                toast.show();
-                new CountDownTimer(10000, 1000)
-                {
-                    public void onTick(long millisUntilFinished) {toast.show();}
-                    public void onFinish() {toast.cancel();}
-                }.start();
-                Prefs.clear();
-                Intent intent=new Intent(getActivity(),LoginActivity.class);
-                startActivity(intent);
-                return;
-            }
-
-
-            if (responseCodeForShow==302){
-                final Toast toast = Toasty.info(getActivity(), getString(R.string.urlchange),Toast.LENGTH_SHORT);
-                toast.show();
-                new CountDownTimer(10000, 1000)
-                {
-                    public void onTick(long millisUntilFinished) {toast.show();}
-                    public void onFinish() {toast.cancel();}
-                }.start();
-                Prefs.clear();
-                Intent intent=new Intent(getActivity(),LoginActivity.class);
-                startActivity(intent);
-                return;
-            }
+//            if (responseCodeForShow==400){
+//                final Toast toast = Toasty.info(getActivity(), getString(R.string.urlchange),Toast.LENGTH_SHORT);
+//                toast.show();
+//                new CountDownTimer(10000, 1000)
+//                {
+//                    public void onTick(long millisUntilFinished) {toast.show();}
+//                    public void onFinish() {toast.cancel();}
+//                }.start();
+//                Prefs.clear();
+//                Intent intent=new Intent(getActivity(),LoginActivity.class);
+//                startActivity(intent);
+//                return;
+//            }
+//            if (responseCodeForShow==401){
+//                final Toast toast = Toasty.info(getActivity(), getString(R.string.apiDisabled),Toast.LENGTH_LONG);
+//                toast.show();
+//                new CountDownTimer(10000, 1000)
+//                {
+//                    public void onTick(long millisUntilFinished) {toast.show();}
+//                    public void onFinish() {toast.cancel();}
+//                }.start();
+//                Prefs.clear();
+//                Intent intent=new Intent(getActivity(),LoginActivity.class);
+//                startActivity(intent);
+//                return;
+//            }
+//            if (responseCodeForShow==403){
+//                final Toast toast = Toasty.info(getActivity(), getString(R.string.bannedOrdeactivated),Toast.LENGTH_LONG);
+//                toast.show();
+//                new CountDownTimer(10000, 1000)
+//                {
+//                    public void onTick(long millisUntilFinished) {toast.show();}
+//                    public void onFinish() {toast.cancel();}
+//                }.start();
+//                Prefs.clear();
+//                Intent intent=new Intent(getActivity(),LoginActivity.class);
+//                startActivity(intent);
+//                return;
+//            }
+//
+//            if (responseCodeForShow==405){
+//                final Toast toast = Toasty.info(getActivity(), getString(R.string.urlchange),Toast.LENGTH_LONG);
+//                toast.show();
+//                new CountDownTimer(10000, 1000)
+//                {
+//                    public void onTick(long millisUntilFinished) {toast.show();}
+//                    public void onFinish() {toast.cancel();}
+//                }.start();
+//                Prefs.clear();
+//                Intent intent=new Intent(getActivity(),LoginActivity.class);
+//                startActivity(intent);
+//                return;
+//            }
+//
+//
+//            if (responseCodeForShow==302){
+//                final Toast toast = Toasty.info(getActivity(), getString(R.string.urlchange),Toast.LENGTH_SHORT);
+//                toast.show();
+//                new CountDownTimer(10000, 1000)
+//                {
+//                    public void onTick(long millisUntilFinished) {toast.show();}
+//                    public void onFinish() {toast.cancel();}
+//                }.start();
+//                Prefs.clear();
+//                Intent intent=new Intent(getActivity(),LoginActivity.class);
+//                startActivity(intent);
+//                return;
+//            }
 
             try {
                 JSONObject jsonObject=new JSONObject(result);

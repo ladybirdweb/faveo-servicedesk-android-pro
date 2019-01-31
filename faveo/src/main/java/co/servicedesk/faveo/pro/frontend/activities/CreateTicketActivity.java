@@ -186,9 +186,6 @@ public class CreateTicketActivity extends AppCompatActivity implements Permissio
     ArrayList<MultiCollaborator> stringArraylist;
     //String mobile="";
     String splChrs = "-/@#$%^&_+=()" ;
-    String CountryID="";
-    String CountryZipCode="";
-    String countrycode = "";
     int i=0;
     int res=0;
     MultiAutoCompleteTextView multiAutoCompleteTextViewCC;
@@ -248,7 +245,7 @@ public class CreateTicketActivity extends AppCompatActivity implements Permissio
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
 // finally change the color
-        window.setStatusBarColor(ContextCompat.getColor(CreateTicketActivity.this,R.color.faveo));
+        window.setStatusBarColor(ContextCompat.getColor(CreateTicketActivity.this,R.color.mainActivityTopBar));
         bottomSheet= (BottomSheetLayout) findViewById(R.id.bottomsheet);
         rotation = AnimationUtils.loadAnimation(this, R.anim.rotate);
         if (InternetReceiver.isConnected()){
@@ -412,11 +409,6 @@ public class CreateTicketActivity extends AppCompatActivity implements Permissio
                 return false;
             }
         });
-        
-
-
-
-
         imageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

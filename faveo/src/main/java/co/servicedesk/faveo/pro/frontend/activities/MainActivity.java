@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
 // finally change the color
-        window.setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.faveo));
+        window.setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.mainActivityTopBar));
         ButterKnife.bind(this);
 
 

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="faveo">#3da6d7</color>
+    <color name="faveo">#04aaf7</color>
 
-    <color name="actionbar">#3da6d7</color>
+    <color name="actionbar">#04aaf7</color>
 
     <color name="colorPrimary">#FFFFFF</color>
     <color name="colorPrimaryDark">#FFFFFF</color>
@@ -16,12 +16,12 @@
 
 
     <!--<color name="faveo_blu">#00B3EB</color>-->
-    <color name="faveo_blue">#3da6d7</color>
+    <color name="faveo_blue">#04aaf7</color>
     <!--<color name="theme">#3AA7D9</color>-->
-    <color name="blue">#3da6d7</color>
+    <color name="blue">#04aaf7</color>
     <!--<color name="blue_300">#64B5F6</color>-->
 
-    <color name="theme">#3da6d7</color>
+    <color name="theme">#04aaf7</color>
 
     <color name="shuffle">#3f51b5</color>
     <color name="share">#43609c</color>
@@ -49,11 +49,13 @@
     <color name="emergency">#D32F2F</color>
     <color name="grey_500">#9E9E9E</color>
     <color name="faveo_200">#B2EBF2</color>
-
+    <color name="test_color">#2079a3</color>
+    <color name="toolbarColor">#154c66</color>
     <color name="tabTitle">@color/faveo</color>
     <color name="tabTitle_selected">#ffffff</color>
     <color name="tabBackground">#ffffff</color>
     <color name="tabBackground_selected">@color/faveo</color>
+    <color name="mainActivityTopBar">#081d27</color>
 
 
 </resources>

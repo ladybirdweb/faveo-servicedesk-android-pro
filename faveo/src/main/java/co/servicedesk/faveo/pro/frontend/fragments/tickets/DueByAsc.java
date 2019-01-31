@@ -1879,7 +1879,7 @@ public class DueByAsc extends Fragment {
                 countThread= (TextView) v.findViewById(R.id.countthread);
                 source= (ImageView) v.findViewById(R.id.source);
                 agentAssigned= (TextView) v.findViewById(R.id.agentassigned);
-                agentAssignedImage= (ImageView) v.findViewById(R.id.agentAssigned);
+                //agentAssignedImage= (ImageView) v.findViewById(R.id.agentAssigned);
                 textViewduetoday= (TextView) v.findViewById(R.id.duetoday);
 
 

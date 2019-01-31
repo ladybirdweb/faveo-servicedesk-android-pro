@@ -52,7 +52,6 @@ public class SearchActivity extends AppCompatActivity implements
         Detail.OnFragmentInteractionListener {
     AutoCompleteTextView searchView;
     ImageView imageViewback;
-    ImageView imageViewClearText;
     private ViewPager vpPager;
     ArrayList<String> colorList;
     ArrayAdapter<String> suggestionAdapter;
@@ -76,7 +75,7 @@ public class SearchActivity extends AppCompatActivity implements
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
 // finally change the color
-        window.setStatusBarColor(ContextCompat.getColor(SearchActivity.this, R.color.faveo));
+        window.setStatusBarColor(ContextCompat.getColor(SearchActivity.this, R.color.mainActivityTopBar));
         imageViewback=findViewById(R.id.image_search_back);
         vpPager = (ViewPager) findViewById(R.id.viewpager);
         tabLayout= (TabLayout) findViewById(R.id.tabs);
@@ -133,16 +132,8 @@ public class SearchActivity extends AppCompatActivity implements
         //vpPager.setAdapter(myAdapter);
         //imageViewback= (ImageView) toolbar.findViewById(R.id.image_search_back);
         searchView= (AutoCompleteTextView) toolbar.findViewById(R.id.edit_text_search);
-        imageViewClearText= (ImageView) toolbar.findViewById(R.id.cleartext);
+        //imageViewClearText= (ImageView) toolbar.findViewById(R.id.cleartext);
         //imageViewSearchIcon= (ImageView) toolbar.findViewById(R.id.searchIcon);
-        imageViewClearText.setVisibility(View.GONE);
-        imageViewClearText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("camehere","true");
-                searchView.setText("");
-            }
-        });
         colorList=new ArrayList<>();
         colorList.clear();
         String querry=Prefs.getString("querry",null);
@@ -503,11 +494,10 @@ public class SearchActivity extends AppCompatActivity implements
             term = searchView.getText().toString();
             if (term.equals("")){
 //                searchView.showDropDown();
-                imageViewClearText.setVisibility(View.GONE);
+
                 //imageViewClearText.setClickable(false);
             }
             else{
-                imageViewClearText.setVisibility(View.VISIBLE);
             }
 //            if (colorList.contains(term)){
 //                searchView.showDropDown();
@@ -554,13 +544,11 @@ public class SearchActivity extends AppCompatActivity implements
 
         public void afterTextChanged(Editable s) {
             if (term.equals("")){
-                imageViewClearText.setVisibility(View.GONE);
                 getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
                 //searchView.showDropDown();
                 //imageViewClearText.setClickable(false);
             }
             else{
-                imageViewClearText.setVisibility(View.VISIBLE);
                 //searchView.showDropDown();
                 //searchView.showDropDown();
             }

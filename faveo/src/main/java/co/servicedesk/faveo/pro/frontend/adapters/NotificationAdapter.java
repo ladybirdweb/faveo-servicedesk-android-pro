@@ -78,9 +78,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             ColorGenerator generator = ColorGenerator.MATERIAL;
             TextDrawable drawable = TextDrawable.builder()
                     .buildRound(letter,generator.getRandomColor());
-            viewHolder.roundedImageViewProfilePic.setAlpha(0.6f);
-            //viewHolder.roundedImageViewProfilePic.setImageDrawable(drawable);
-            viewHolder.roundedImageViewProfilePic.setImageResource(R.drawable.default_pic);
+            viewHolder.roundedImageViewProfilePic.setImageDrawable(drawable);
+            //viewHolder.roundedImageViewProfilePic.setImageResource(R.drawable.default_pic);
         }
         if (notiThread.getNoti_seen().equals("1")) {
             viewHolder.textSub.setTypeface(null, Typeface.NORMAL);

@@ -38,6 +38,7 @@ import co.servicedesk.faveo.pro.BuildConfig;
 import co.servicedesk.faveo.pro.Constants;
 import co.servicedesk.faveo.pro.FaveoApplication;
 import co.servicedesk.faveo.pro.R;
+import co.servicedesk.faveo.pro.SharedPreference;
 import co.servicedesk.faveo.pro.backend.api.v1.Helpdesk;
 import co.servicedesk.faveo.pro.frontend.receivers.InternetReceiver;
 import co.servicedesk.faveo.pro.model.MessageEvent;
@@ -66,6 +67,10 @@ public class SplashActivity extends AppCompatActivity {
     Button button;
     Animation animationSlideUp;
     ImageView imageViewSplash;
+    ImageView imageViewFaveo;
+    TextView textViewTag;
+    Animation uptodown,downtoup;
+    SharedPreference sharedPreferenceObj;
     public static String
             keyDepartment = "", valueDepartment = "",
             keySLA = "", valueSLA = "",
@@ -84,6 +89,7 @@ public class SplashActivity extends AppCompatActivity {
 //        requestWindowFeature(Window.FEATURE_NO_TITLE);
 //        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 //                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        sharedPreferenceObj = new SharedPreference(SplashActivity.this);
         setContentView(R.layout.activity_splash);
         Window window = SplashActivity.this.getWindow();
 
@@ -92,13 +98,16 @@ public class SplashActivity extends AppCompatActivity {
 
 // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(SplashActivity.this,R.color.faveo));
+        window.setStatusBarColor(ContextCompat.getColor(SplashActivity.this,R.color.mainActivityTopBar));
         ButterKnife.bind(this);
         button= (Button) findViewById(R.id.clear_cache);
-        imageViewSplash= (ImageView) findViewById(R.id.splashImage);
-        animationSlideUp = AnimationUtils.loadAnimation(getApplicationContext(),
-                R.anim.slide_up);
-        imageViewSplash.startAnimation(animationSlideUp);
+        uptodown = AnimationUtils.loadAnimation(this,R.anim.uptodown);
+        downtoup = AnimationUtils.loadAnimation(this,R.anim.downtoup);
+        button= (Button) findViewById(R.id.clear_cache);
+        imageViewFaveo=findViewById(R.id.faveoImage);
+        textViewTag=findViewById(R.id.faveotag);
+        imageViewFaveo.setAnimation(uptodown);
+        textViewTag.setAnimation(downtoup);
         //httpConnection=new HTTPConnection(getApplicationContext());
         //welcomeDialog=new WelcomeDialog();
         try {
@@ -116,36 +125,44 @@ public class SplashActivity extends AppCompatActivity {
         Prefs.putString("cameFromSearch","false");
         Prefs.putString("cameFromNotification","false");
 
+        uptodown.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                progressDialog.setVisibility(View.GONE);
+            }
 
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if (InternetReceiver.isConnected()) {
+                    progressDialog.setVisibility(View.VISIBLE);
+                    new FetchDependency().execute();
+                    Prefs.putString("came from filter", "false");
 
-        if (InternetReceiver.isConnected()) {
-//            if (error.equals("True")){
-//                Intent intent=new Intent(SplashActivity.this,LoginActivity.class);
-//                startActivity(intent);
-//                return;
-//            }
-            progressDialog.setVisibility(View.VISIBLE);
-            new FetchDependency().execute();
-            Prefs.putString("came from filter", "false");
+                }else
+                {
+                    progressDialog.setVisibility(View.INVISIBLE);
+                    loading.setText(getString(R.string.oops_no_internet));
+                    textViewtryAgain.setVisibility(View.VISIBLE);
+                    textViewrefresh.setVisibility(View.VISIBLE);
+                    textViewrefresh.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            finish();
+                            Intent intent=new Intent(SplashActivity.this,SplashActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+                    //Toast.makeText(this, "Oops! No internet", Toast.LENGTH_LONG).show();
+                    Prefs.putString("querry","null");
 
-        }else
-        {
-            progressDialog.setVisibility(View.INVISIBLE);
-            loading.setText(getString(R.string.oops_no_internet));
-            textViewtryAgain.setVisibility(View.VISIBLE);
-            textViewrefresh.setVisibility(View.VISIBLE);
-            textViewrefresh.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    finish();
-                    Intent intent=new Intent(SplashActivity.this,SplashActivity.class);
-                    startActivity(intent);
                 }
-            });
-            //Toast.makeText(this, "Oops! No internet", Toast.LENGTH_LONG).show();
-            Prefs.putString("querry","null");
+            }
 
-        }
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
         Prefs.putString("tickets", "null");
     }
 
@@ -356,7 +373,13 @@ public class SplashActivity extends AppCompatActivity {
                     Prefs.putString("unassignedTickets", "999+");
                 else
                     Prefs.putString("unassignedTickets", unasigned + "");
-                loading.setText(R.string.done_loading);
+
+                if (sharedPreferenceObj.getApp_runFirst().equals("FIRST")) {
+                    loading.setText(R.string.welcome_faveo);
+                }else{
+                    loading.setText(getString(R.string.welcome_back)+Prefs.getString("PROFILE_NAME",""));
+                }
+                //loading.setText(R.string.done_loading);
 
                 Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                 startActivity(intent);
