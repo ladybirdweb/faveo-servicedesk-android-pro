@@ -67,6 +67,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -113,10 +114,11 @@ public class TicketDetailActivity extends AppCompatActivity implements
     Context context;
     TextView addCc,headerTitle;
     View viewCollapsePriority;
-    ImageView imgaeviewBack;
+    ImageView imgaeviewBack,imageViewSource;
     private ActionBarDrawerToggle mDrawerToggle;
     public static boolean isShowing = false;
-    LoaderTextView textViewStatus, textviewAgentName, textViewTitle,textViewSubject,textViewDepartment;
+    LoaderTextView textViewStatus, textViewTitle,textViewSubject,textViewDepartment;
+    TextView textviewAgentName;
     ArrayList<Data> statusItems;
     int id = 0;
     FabSpeedDial fabSpeedDial;
@@ -157,6 +159,7 @@ public class TicketDetailActivity extends AppCompatActivity implements
        // imageView=findViewById(R.id.collaboratorview);
         //view=findViewById(R.id.overlay);
         Prefs.putString("cameFromNewProblem","false");
+        imageViewSource=findViewById(R.id.imageView_default_profile);
         //mDrawerLayout=findViewById(R.id.my_drawer_layout);
 
 //        if (navigationView != null) {
@@ -189,7 +192,7 @@ public class TicketDetailActivity extends AppCompatActivity implements
         bottomNavigation.setAccentColor(getResources().getColor(R.color.white));
         bottomNavigation.setInactiveColor(getResources().getColor(R.color.white));
 
-        bottomNavigation.setDefaultBackgroundColor(getResources().getColor(R.color.faveo));
+        bottomNavigation.setDefaultBackgroundColor(getResources().getColor(R.color.toolbarColor));
         bottomNavigation.setNotificationBackgroundColor(Color.parseColor("#F63D2B"));
 
         bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
@@ -250,10 +253,12 @@ public class TicketDetailActivity extends AppCompatActivity implements
 
                if (id==R.id.fab_reply){
                    Intent intent=new Intent(TicketDetailActivity.this,TicketReplyActivity.class);
+                   intent.putExtra("ticket_id", ticketID);
                    startActivity(intent);
                }
                else if (id==R.id.fab_internalnote){
                    Intent intent=new Intent(TicketDetailActivity.this,InternalNoteActivity.class);
+                   intent.putExtra("ticket_id", ticketID);
                    startActivity(intent);
                }
                 //TODO: Start some activity
@@ -353,7 +358,7 @@ public class TicketDetailActivity extends AppCompatActivity implements
         //linearLayout= (LinearLayout) findViewById(R.id.section_internal_note);
         //mToolbar = (Toolbar) findViewById(R.id.toolbarTicketDetail);
         textViewStatus = (LoaderTextView) mAppBarLayout.findViewById(R.id.status);
-        textviewAgentName = (LoaderTextView) mAppBarLayout.findViewById(R.id.textViewagentName);
+        textviewAgentName = (TextView) mAppBarLayout.findViewById(R.id.agentassigned);
         //textViewTitle = (LoaderTextView) mAppBarLayout.findViewById(R.id.title);
         textViewDepartment= (LoaderTextView) mAppBarLayout.findViewById(R.id.department);
         textViewSubject = (LoaderTextView) mAppBarLayout.findViewById(R.id.subject);
@@ -361,7 +366,7 @@ public class TicketDetailActivity extends AppCompatActivity implements
         //viewpriority=mToolbar.findViewById(R.id.viewPriority);
         viewCollapsePriority=mAppBarLayout.findViewById(R.id.viewPriority1);
         //viewCollapsePriority.setBackgroundColor(Color.parseColor("#FF0000"));
-        textViewDemo=findViewById(R.id.ticketNumberDemo);
+        textViewDemo=findViewById(R.id.subject);
         mToolbar.inflateMenu(R.menu.menu_main_new);
         isShowing=true;
         //Log.d("came into ticket detail","true");
@@ -2099,6 +2104,54 @@ public class MyBottomSheetDialogReply extends BottomSheetDialog {
                 String subject=jsonObject2.getString("title");
                 String department=jsonObject2.getString("dept_name");
                 String priorityColor=jsonObject2.getString("priority_color");
+                String source=jsonObject2.getString("source_name");
+                switch (source) {
+                    case "Chat": {
+                        int color = Color.parseColor(priorityColor);
+                        imageViewSource.setImageResource(R.drawable.ic_chat_bubble_outline_black_24dp);
+                        imageViewSource.setColorFilter(color);
+                        break;
+                    }
+                    case "Web": {
+                        int color = Color.parseColor(priorityColor);
+                        imageViewSource.setImageResource(R.drawable.web_design);
+                        imageViewSource.setColorFilter(color);
+                        break;
+                    }
+                    case "Agent": {
+                        int color = Color.parseColor(priorityColor);
+                        imageViewSource.setImageResource(R.drawable.mail);
+                        imageViewSource.setColorFilter(color);
+                        break;
+                    }
+                    case "Email": {
+                        int color = Color.parseColor(priorityColor);
+                        imageViewSource.setImageResource(R.drawable.mail);
+                        imageViewSource.setColorFilter(color);
+                        break;
+                    }
+                    case "Facebook": {
+                        int color = Color.parseColor(priorityColor);
+                        imageViewSource.setImageResource(R.drawable.facebook);
+                        imageViewSource.setColorFilter(color);
+                        break;
+                    }
+                    case "Twitter": {
+                        int color = Color.parseColor(priorityColor);
+                        imageViewSource.setImageResource(R.drawable.twitter);
+                        imageViewSource.setColorFilter(color);
+                        break;
+                    }
+                    case "Call": {
+                        int color = Color.parseColor(priorityColor);
+                        imageViewSource.setImageResource(R.drawable.phone);
+                        imageViewSource.setColorFilter(color);
+                        break;
+                    }
+                    default:
+                        imageViewSource.setVisibility(View.GONE);
+                        break;
+                }
                 if (!priorityColor.equals("")||!priorityColor.equals("null")){
                     //viewpriority.setBackgroundColor(Color.parseColor(priorityColor));
                     viewCollapsePriority.setBackgroundColor(Color.parseColor(priorityColor));

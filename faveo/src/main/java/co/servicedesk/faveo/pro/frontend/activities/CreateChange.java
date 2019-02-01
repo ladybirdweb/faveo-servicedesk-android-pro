@@ -83,7 +83,7 @@ public class CreateChange extends AppCompatActivity {
         Window window = CreateChange.this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(CreateChange.this,R.color.faveo));
+        window.setStatusBarColor(ContextCompat.getColor(CreateChange.this,R.color.mainActivityTopBar));
         impactSpinner=findViewById(R.id.impact);
         prioritySpinner=findViewById(R.id.spinner_pri);
         statusSpinner=findViewById(R.id.spinner_status);

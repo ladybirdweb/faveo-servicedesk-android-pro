@@ -10,23 +10,12 @@
         <!--android:title="Search"-->
         <!--app:showAsAction="always" />-->
     <item
-        android:id="@+id/action_delete"
-        android:icon="@drawable/ic_camera"
-        android:orderInCategory="100"
-        android:title="camera"
-        app:showAsAction="always" />
-    <item
-        android:id="@+id/action_copy"
+        android:id="@+id/action_clip"
         android:icon="@drawable/attachment"
         android:orderInCategory="100"
         android:title="attachment"
         app:showAsAction="always" />
-    <item
-        android:id="@+id/action_forward"
-        android:icon="@drawable/add"
-        android:orderInCategory="100"
-        android:title="add"
-        app:showAsAction="always" />
+
 
     <!--<group-->
         <!--android:id="@+id/text_color_group"-->

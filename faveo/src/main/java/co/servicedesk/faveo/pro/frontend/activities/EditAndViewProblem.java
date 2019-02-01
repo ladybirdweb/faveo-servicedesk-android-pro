@@ -132,7 +132,7 @@ public class EditAndViewProblem extends AppCompatActivity implements PermissionC
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
 // finally change the color
-        window.setStatusBarColor(ContextCompat.getColor(EditAndViewProblem.this,R.color.faveo));
+        window.setStatusBarColor(ContextCompat.getColor(EditAndViewProblem.this,R.color.mainActivityTopBar));
         imageView=findViewById(R.id.imageViewBack);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override

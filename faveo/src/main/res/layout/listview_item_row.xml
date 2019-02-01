@@ -18,7 +18,8 @@
              android:layout_height="wrap_content"
             android:layout_width="match_parent"
     android:padding="10dip"
-    android:textSize="16dip"
+    android:fontFamily="@font/hintedlainesansregular"
+    android:textSize="14dp"
     >
 
         </TextView>

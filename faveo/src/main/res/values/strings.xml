@@ -86,7 +86,7 @@
     <string name="last_response_date">Last Response Date</string>
     <string name="assign_to" translatable="false">Assigned To</string>
     <string name="assigneeName">Agent Name</string>
-    <string name="save">Save</string>
+    <string name="save">SAVE</string>
     <string name="trash">Trash</string>
     <string name="logout">Logout</string>
     <string name="ticket_list"> Show ticket list</string>
@@ -528,6 +528,9 @@
     <string name="welcome_faveo">Welcome to FAVEO</string>
     <string name="welcome_back">Welcome back</string>
     <string name="notification">Notifications</string>
+    <string name="save_changes">SAVE CHANGES</string>
+    <string name="help_section">Help Section</string>
+    <string name="list_collaborator">List of collaborator of this ticket</string>
     <string-array name="CountryCodes">
 
         <item>93,AF</item>

@@ -92,7 +92,7 @@ public class ExistingProblems extends AppCompatActivity {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
 // finally change the color
-        window.setStatusBarColor(ContextCompat.getColor(ExistingProblems.this,R.color.faveo));
+        window.setStatusBarColor(ContextCompat.getColor(ExistingProblems.this,R.color.mainActivityTopBar));
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -270,8 +270,9 @@ public class ExistingProblems extends AppCompatActivity {
                     }
                 });
                 mAdapter = new ProblemAdpter(ExistingProblems.this,problemList);
+                runLayoutAnimation(recyclerView);
                     recyclerView.setAdapter(mAdapter);
-                textView.setText("" + total + " clients");
+                textView.setText("" + total + " problems");
                     //recyclerView.getAdapter().notifyDataSetChanged();
                 } catch (JSONException e1) {
                 e1.printStackTrace();
@@ -332,7 +333,15 @@ public class ExistingProblems extends AppCompatActivity {
             loading = true;
         }
     }
+    private void runLayoutAnimation(final RecyclerView recyclerView) {
+        final Context context = recyclerView.getContext();
+        final LayoutAnimationController controller =
+                AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_from_bottom);
 
+        recyclerView.setLayoutAnimation(controller);
+        mAdapter.notifyDataSetChanged();
+        recyclerView.scheduleLayoutAnimation();
+    }
 
 
 
@@ -346,6 +355,7 @@ public class ExistingProblems extends AppCompatActivity {
             ImageView options;
             RelativeTimeTextView relativeTimeTextView;
             RelativeLayout relativeLayout;
+            TextView textViewId;
             public MyViewHolder(View view) {
                 super(view);
                 email = view.findViewById(R.id.textView_client_email);
@@ -353,7 +363,7 @@ public class ExistingProblems extends AppCompatActivity {
                 options=view.findViewById(R.id.textViewOptions);
                 relativeTimeTextView=view.findViewById(R.id.textView_ticket_time);
                 relativeLayout=view.findViewById(R.id.problemList);
-
+                textViewId=view.findViewById(R.id.problemId);
 
             }
         }
@@ -375,6 +385,9 @@ public class ExistingProblems extends AppCompatActivity {
              final ProblemModel movie = moviesList.get(position);
              holder.options.setColorFilter(getColor(R.color.faveo));
              holder.options.setImageDrawable(getDrawable(R.drawable.menudot));
+
+             holder.textViewId.setText("#PRB-"+movie.getId());
+
             if (!movie.getEmail().equals("")) {
                 Log.d("cameHere","true");
                 //holder.email.setText("From :  " +movie.getEmail());

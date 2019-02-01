@@ -153,7 +153,7 @@ public class NewProblem extends AppCompatActivity implements PermissionCallback,
         Window window = NewProblem.this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(NewProblem.this,R.color.faveo));
+        window.setStatusBarColor(ContextCompat.getColor(NewProblem.this,R.color.mainActivityTopBar));
         bottomSheet= (BottomSheetLayout) findViewById(R.id.bottomsheet);
         ImageButton imageButton= (ImageButton) findViewById( R.id.attachment_close);
         button= (Button) findViewById(R.id.attachment);

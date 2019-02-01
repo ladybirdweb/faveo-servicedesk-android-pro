@@ -53,7 +53,7 @@ public class InternalNoteActivity extends AppCompatActivity {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
 // finally change the color
-        window.setStatusBarColor(ContextCompat.getColor(InternalNoteActivity.this,R.color.faveo));
+        window.setStatusBarColor(ContextCompat.getColor(InternalNoteActivity.this,R.color.mainActivityTopBar));
 //        final Handler handler = new Handler();
 //        Runnable runnable = new Runnable() {
 //            public void run() {

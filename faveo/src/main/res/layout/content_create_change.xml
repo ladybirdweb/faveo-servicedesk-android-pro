@@ -24,7 +24,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
-                android:background="#f2f2f2">
+                android:background="@color/colorAccent">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -36,7 +36,8 @@
                     android:layout_marginLeft="17dp"
                     android:layout_marginStart="17dp"
                     android:text="@string/requester"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/hintedlainesansregular"
                     android:textStyle="bold" />
 
             </RelativeLayout>
@@ -56,6 +57,7 @@
                     android:layout_marginRight="16dp"
                     android:background="@android:color/transparent"
                     android:cursorVisible="true"
+                    android:fontFamily="@font/hintedlainesansregular"
                     android:hint="Search for users"
                     android:imeOptions="actionNext"
                     android:inputType="textEmailAddress"
@@ -65,13 +67,21 @@
                     />
 
             </RelativeLayout>
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/grey_500"
+                android:alpha=".3">
+            </View>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
-                android:background="#f2f2f2">
+                android:background="@color/colorAccent">
 
                 <TextView
+                    android:id="@+id/subjectview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
@@ -81,16 +91,16 @@
                     android:layout_marginLeft="17dp"
                     android:layout_marginStart="17dp"
                     android:text="@string/subject"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/hintedlainesansregular"
                     android:textStyle="bold" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
+                <ImageView
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_alignTop="@+id/subjectview"
+                    android:layout_toEndOf="@+id/subjectview"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:src="@drawable/ic_star_black_24dp"
                     android:text="@string/required"
                     android:textSize="12sp" />
 
@@ -107,6 +117,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginLeft="16dp"
+                    android:fontFamily="@font/hintedlainesansregular"
                     android:layout_marginRight="16dp"
                     android:background="@android:color/transparent"
                     android:imeOptions="actionNext"
@@ -116,13 +127,21 @@
                     android:textCursorDrawable="@drawable/color_cursor"
                     android:textSize="16sp" />
             </LinearLayout>
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/grey_500"
+                android:alpha=".3">
+            </View>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
-                android:background="#f2f2f2">
+                android:background="@color/colorAccent">
 
                 <TextView
+                    android:id="@+id/priorityview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
@@ -132,16 +151,16 @@
                     android:layout_marginLeft="17dp"
                     android:layout_marginStart="17dp"
                     android:text="@string/priority"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/hintedlainesansregular"
                     android:textStyle="bold" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
+                <ImageView
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_alignTop="@+id/priorityview"
+                    android:layout_toEndOf="@+id/priorityview"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:src="@drawable/ic_star_black_24dp"
                     android:text="@string/required"
                     android:textSize="12sp" />
             </RelativeLayout>
@@ -160,13 +179,21 @@
                     android:nextFocusForward="@+id/spinner_help"
                     android:hint="@string/SelectPriority"/>
             </LinearLayout>
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/grey_500"
+                android:alpha=".3">
+            </View>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
-                android:background="#f2f2f2">
+                android:background="@color/colorAccent">
 
                 <TextView
+                    android:id="@+id/changetype"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
@@ -176,16 +203,16 @@
                     android:layout_marginLeft="17dp"
                     android:layout_marginStart="17dp"
                     android:text="@string/change_type"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/hintedlainesansregular"
                     android:textStyle="bold" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
+                <ImageView
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_alignTop="@+id/changetype"
+                    android:layout_toEndOf="@+id/changetype"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:src="@drawable/ic_star_black_24dp"
                     android:text="@string/required"
                     android:textSize="12sp" />
             </RelativeLayout>
@@ -205,7 +232,14 @@
                     android:hint="@string/SelectPriority"/>
             </LinearLayout>
 
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/grey_500"
+                android:alpha=".3">
+            </View>
 
             <!--<RelativeLayout-->
             <!--android:layout_width="match_parent"-->
@@ -254,9 +288,10 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
-                android:background="#f2f2f2">
+                android:background="@color/colorAccent">
 
                 <TextView
+                    android:id="@+id/statusview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
@@ -266,16 +301,16 @@
                     android:layout_marginLeft="17dp"
                     android:layout_marginStart="17dp"
                     android:text="@string/status"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/hintedlainesansregular"
                     android:textStyle="bold" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
+                <ImageView
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_alignTop="@+id/statusview"
+                    android:layout_toEndOf="@+id/statusview"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:src="@drawable/ic_star_black_24dp"
                     android:text="@string/required"
                     android:textSize="12sp" />
             </RelativeLayout>
@@ -293,12 +328,21 @@
                     android:nextFocusForward="@+id/msg_edittext"
                     android:hint="@string/SelectHelptopic"/>
             </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/grey_500"
+                android:alpha=".3">
+            </View>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
-                android:background="#f2f2f2">
+                android:background="@color/colorAccent">
 
                 <TextView
+                    android:id="@+id/impctview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
@@ -308,16 +352,16 @@
                     android:layout_marginLeft="17dp"
                     android:layout_marginStart="17dp"
                     android:text="@string/impact_type"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/hintedlainesansregular"
                     android:textStyle="bold" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
+                <ImageView
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_alignTop="@+id/impctview"
+                    android:layout_toEndOf="@+id/impctview"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:src="@drawable/ic_star_black_24dp"
                     android:text="@string/required"
                     android:textSize="12sp" />
 
@@ -336,10 +380,18 @@
                     android:nextFocusForward="@+id/msg_edittext"
                     android:hint="@string/SelectHelptopic"/>
             </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/grey_500"
+                android:alpha=".3">
+            </View>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
-                android:background="#f2f2f2">
+                android:background="@color/colorAccent">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -351,7 +403,8 @@
                     android:layout_marginLeft="17dp"
                     android:layout_marginStart="17dp"
                     android:text="@string/addAsset"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/hintedlainesansregular"
                     android:textStyle="bold" />
             </RelativeLayout>
 
@@ -367,6 +420,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginLeft="16dp"
+                    android:fontFamily="@font/hintedlainesansregular"
                     android:layout_marginRight="16dp"
                     android:background="@android:color/transparent"
                     android:cursorVisible="true"
@@ -379,12 +433,21 @@
                     />
 
             </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/grey_500"
+                android:alpha=".3">
+            </View>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
-                android:background="#f2f2f2">
+                android:background="@color/colorAccent">
 
                 <TextView
+                    android:id="@+id/descriptionview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
@@ -394,20 +457,19 @@
                     android:layout_marginLeft="17dp"
                     android:layout_marginStart="17dp"
                     android:text="@string/description"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/hintedlainesansregular"
                     android:textStyle="bold" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
+                <ImageView
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_alignTop="@+id/descriptionview"
+                    android:layout_toEndOf="@+id/descriptionview"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:src="@drawable/ic_star_black_24dp"
                     android:text="@string/required"
                     android:textSize="12sp" />
             </RelativeLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -425,6 +487,7 @@
                     android:ems="10"
                     android:enabled="true"
                     android:gravity="top"
+                    android:fontFamily="@font/hintedlainesansregular"
                     android:imeOptions="actionDone"
                     android:inputType="textMultiLine"
                     android:isScrollContainer="true"
@@ -433,7 +496,14 @@
                     android:textCursorDrawable="@drawable/color_cursor"
                     android:textSize="16sp" />
             </LinearLayout>
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/grey_500"
+                android:alpha=".3">
+            </View>
 
             <RelativeLayout
                 android:id="@+id/attachment_layout"

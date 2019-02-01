@@ -23,10 +23,9 @@
             android:id="@+id/textView_client_email"
             android:layout_width="220dp"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/collaboratorname"
             android:layout_centerVertical="true"
             android:alpha=".54"
-            android:fontFamily="monospace"
+            android:fontFamily="@font/hintedlainesansregular"
             android:maxLines="1"
             android:text="From :"
             android:textColor="@color/black"
@@ -36,13 +35,12 @@
             android:id="@+id/collaboratorname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
+            android:layout_alignEnd="@+id/impact"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="44dp"
-            android:fontFamily="sans-serif-condensed"
-            android:text="@string/subject"
-            android:textSize="16sp"
+            android:fontFamily="@font/hintedlainesansregular"
             android:maxLines="1"
+            android:text="@string/subject"
+            android:textSize="14sp"
             android:textStyle="bold"
             android:visibility="visible" />
 
@@ -63,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignStart="@+id/textView_client_email"
-            android:fontFamily="sans-serif-condensed"
+            android:fontFamily="@font/hintedlainesansregular"
             android:text="@string/Impact"
             android:textSize="16sp"
             android:visibility="visible" />
@@ -75,9 +73,10 @@
             android:layout_height="30dp"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
+            android:layout_marginStart="303dp"
             android:background="@drawable/rounded_button"
             android:src="@drawable/ic_close_black_24dp"
-            android:tint="@color/faveo"/>
+            android:tint="@color/faveo" />
 
 
 

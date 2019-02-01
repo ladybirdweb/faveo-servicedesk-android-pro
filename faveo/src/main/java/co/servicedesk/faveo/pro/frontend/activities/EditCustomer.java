@@ -97,7 +97,7 @@ public class EditCustomer extends AppCompatActivity implements PermissionCallbac
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
 // finally change the color
-        window.setStatusBarColor(ContextCompat.getColor(EditCustomer.this, R.color.faveo));
+        window.setStatusBarColor(ContextCompat.getColor(EditCustomer.this, R.color.mainActivityTopBar));
         GetCountryZipCode();
         countryCodePicker = (CountryCodePicker) findViewById(R.id.countrycoode);
         imageViewCallMobile = (ImageView) findViewById(R.id.forCalling);

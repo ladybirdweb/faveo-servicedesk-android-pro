@@ -1,140 +1,147 @@
 <ScrollView android:layout_height="match_parent"
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/colorAccent"
-    tools:context="co.helpdesk.faveo.pro.frontend.activities.HelpSection">
-
-    <android.support.design.widget.AppBarLayout
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/MyMaterialTheme.AppBarOverlay">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/colorAccent"
+        tools:context="co.helpdesk.faveo.pro.frontend.activities.HelpSection">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+        <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/MyMaterialTheme.PopupOverlay">
+            android:layout_height="60dp"
+            android:theme="@style/MyMaterialTheme.AppBarOverlay">
 
-            <RelativeLayout
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize">
+                android:layout_height="60dp"
+                android:background="#154c66"
+                app:popupTheme="@style/MyMaterialTheme.PopupOverlay">
 
-                <ImageView
-                    android:id="@+id/imageViewBack"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:background="@drawable/ic_arrow_back_black_24dp" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize">
 
-                <TextView
-                    android:id="@+id/titlesave"
-                    android:layout_width="150dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="24dp"
-                    android:layout_marginStart="24dp"
-                    android:text="@string/login"
-                    android:textColor="@color/theme"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textAllCaps="true"
-                    android:layout_alignTop="@+id/imageViewBack"
-                    android:layout_toRightOf="@+id/imageViewBack"
-                    android:layout_toEndOf="@+id/imageViewBack" />
+                    <ImageView
+                        android:id="@+id/imageViewBack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:backgroundTint="@color/colorAccent"
+                        android:background="@drawable/ic_arrow_back_black_24dp" />
 
-            </RelativeLayout>
-        </android.support.v7.widget.Toolbar>
-        <View
+                    <TextView
+                        android:id="@+id/titlesave"
+                        android:layout_width="150dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="24dp"
+                        android:layout_marginStart="24dp"
+                        android:text="@string/login"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/hintedlainesansregular"
+                        android:textStyle="bold"
+                        android:textAllCaps="true"
+                        android:layout_alignTop="@+id/imageViewBack"
+                        android:layout_toRightOf="@+id/imageViewBack"
+                        android:layout_toEndOf="@+id/imageViewBack" />
+
+                </RelativeLayout>
+            </android.support.v7.widget.Toolbar>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/faveo">
+
+            </View>
+        </android.support.design.widget.AppBarLayout>
+        <TextView
+            android:padding="9dp"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@color/faveo">
+            android:layout_height="wrap_content"
+            android:text="@string/logginginandout"
+            android:textSize="16sp"
+            android:fontFamily="@font/hintedlainesansregular"
+            android:textStyle="bold"/>
 
-        </View>
-    </android.support.design.widget.AppBarLayout>
-    <TextView
-        android:padding="9dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/logginginandout"
-        android:textSize="20sp"
-        android:textStyle="bold"/>
+        <TextView
+            android:padding="9dp"
+            android:layout_marginTop="25dp"
+            android:lineSpacingExtra="9.2dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/logincontent"
+            android:textSize="16sp"
+            android:fontFamily="@font/hintedlainesansregular"/>
 
-    <TextView
-        android:padding="9dp"
-        android:layout_marginTop="25dp"
-        android:lineSpacingExtra="9.2dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/logincontent"
-        android:textSize="18sp"/>
-
-    <TextView
-        android:padding="9dp"
-        android:layout_marginTop="25dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/LoggingIn"
-        android:textSize="18sp"/>
+        <TextView
+            android:padding="9dp"
+            android:layout_marginTop="25dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/LoggingIn"
+            android:textSize="16sp"
+            android:fontFamily="@font/hintedlainesansregular"/>
 
 
-    <ImageView
-        android:padding="9dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="25dp"
-        android:layout_width="300dp"
-        android:layout_height="500dp"
-        android:src="@drawable/loginurl"
-        android:scaleType="fitXY"
-        android:background="@drawable/rectanglenew"
-        />
-    <ImageView
-        android:scaleType="fitXY"
-        android:padding="9dp"
-        android:layout_gravity="center"
-        android:layout_width="300dp"
-        android:layout_height="500dp"
-        android:layout_marginTop="35dp"
-        android:src="@drawable/loginusername"
-        android:background="@drawable/rectanglenew"
-        />
+        <ImageView
+            android:padding="9dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="25dp"
+            android:layout_width="300dp"
+            android:layout_height="500dp"
+            android:src="@drawable/loginurl"
+            android:scaleType="fitXY"
+            android:background="@drawable/rectanglenew"
+            />
+        <ImageView
+            android:scaleType="fitXY"
+            android:padding="9dp"
+            android:layout_gravity="center"
+            android:layout_width="300dp"
+            android:layout_height="500dp"
+            android:layout_marginTop="35dp"
+            android:src="@drawable/loginusername"
+            android:background="@drawable/rectanglenew"
+            />
 
-    <TextView
-        android:padding="9dp"
-        android:lineSpacingExtra="9.2dp"
-        android:layout_marginTop="25dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:text="@string/toLogIn"/>
-    <ImageView
-        android:scaleType="fitXY"
-        android:padding="1dp"
-        android:layout_gravity="center"
-        android:layout_width="300dp"
-        android:layout_height="500dp"
-        android:layout_marginTop="35dp"
-        android:src="@drawable/logout"
-        android:background="@drawable/rectanglenew"
-        />
+        <TextView
+            android:padding="9dp"
+            android:lineSpacingExtra="9.2dp"
+            android:layout_marginTop="25dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:fontFamily="@font/hintedlainesansregular"
+            android:text="@string/toLogIn"/>
+        <ImageView
+            android:scaleType="fitXY"
+            android:padding="1dp"
+            android:layout_gravity="center"
+            android:layout_width="300dp"
+            android:layout_height="500dp"
+            android:layout_marginTop="35dp"
+            android:src="@drawable/logout"
+            android:background="@drawable/rectanglenew"
+            />
 
-    <TextView
-        android:padding="9dp"
-        android:layout_marginTop="25dp"
-        android:lineSpacingExtra="9.2dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:text="@string/toLogOut"/>
+        <TextView
+            android:padding="9dp"
+            android:layout_marginTop="25dp"
+            android:lineSpacingExtra="9.2dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:fontFamily="@font/hintedlainesansregular"
+            android:text="@string/toLogOut"/>
 
 
 
-</LinearLayout>
+    </LinearLayout>
 </ScrollView>
