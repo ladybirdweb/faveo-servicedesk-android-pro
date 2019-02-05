@@ -3,16 +3,27 @@
     android:layout_width="match_parent"
     android:layout_height="60dp"
     android:padding="6dp"
+    android:background="@color/colorAccent"
     android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Associated Tickets"
+        android:text="Associated Tickets :"
         android:textStyle="bold"
-        android:textSize="16sp"
+        android:textSize="15sp"
+        android:fontFamily="@font/hintedlainesansregular"
         android:paddingLeft="4dp"
-        android:background="@color/grey_200"/>
+        android:background="@color/colorAccent"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/grey_500"
+        android:alpha=".3">
+
+    </View>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -31,7 +42,7 @@
         android:layout_centerInParent="true"
         android:layout_gravity="center"
         android:drawableTint="@color/dark_translucent"
-        android:drawableTop="@drawable/ic_inbox_black_48dp"
+        android:drawableTop="@drawable/norecords"
         android:text="@string/no_records"
         android:textColor="@color/dark_translucent"
         android:textSize="28sp"

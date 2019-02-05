@@ -81,9 +81,10 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
     AHBottomNavigation bottomNavigation;
     ProgressDialog progressDialog;
     SpotsDialog dialog1;
-    TextView textViewTicketTitle;
+    TextView textViewTicketTitle,textViewSubject;
     String ticketId;
-    LoaderTextView loaderTextViewFrom,loaderTextViewstatus,loaderTextViewdepartment;
+    LoaderTextView loaderTextViewstatus,loaderTextViewdepartment;
+    TextView loaderTextViewFrom;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,7 +98,7 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
 // finally change the color
-        window.setStatusBarColor(ContextCompat.getColor(ProblemViewPage.this, R.color.faveo));
+        window.setStatusBarColor(ContextCompat.getColor(ProblemViewPage.this, R.color.mainActivityTopBar));
         context = this;
         vpPager = (ViewPager) findViewById(R.id.viewpager);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -109,18 +110,19 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
         tabLayout.setupWithViewPager(vpPager);
         setupViewPager(vpPager);
         imageView=findViewById(R.id.editProblem);
-        textViewTicketTitle=findViewById(R.id.ticketNumberDemo);
+        textViewTicketTitle=findViewById(R.id.subject);
         AppBarLayout mAppBarLayout = (AppBarLayout) findViewById(R.id.appbarProblem);
-        loaderTextViewdepartment=mAppBarLayout.findViewById(R.id.problemdepartment);
-        loaderTextViewFrom=mAppBarLayout.findViewById(R.id.fromProblem);
-        loaderTextViewstatus=mAppBarLayout.findViewById(R.id.problemstatus);
+        loaderTextViewdepartment=mAppBarLayout.findViewById(R.id.department);
+        loaderTextViewFrom=mAppBarLayout.findViewById(R.id.agentassigned);
+        loaderTextViewstatus=mAppBarLayout.findViewById(R.id.status);
+        textViewSubject=mAppBarLayout.findViewById(R.id.title);
         final Intent intent = getIntent();
         problemId= intent.getIntExtra("problemId",0);
         ticketId=intent.getStringExtra("ticket_id");
         problemTitle=intent.getStringExtra("problemTitle");
-        textViewTicketTitle.setText(problemTitle);
-        imageViewBack=findViewById(R.id.imageViewBackProblemDetail);
-
+        textViewTicketTitle.setText("#PRB-"+""+problemId);
+        imageViewBack=findViewById(R.id.imageViewBackTicketDetail);
+        textViewSubject.setText(problemTitle);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -160,7 +162,7 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
         bottomNavigation.setAccentColor(getResources().getColor(R.color.white));
         bottomNavigation.setInactiveColor(getResources().getColor(R.color.white));
 
-        bottomNavigation.setDefaultBackgroundColor(getResources().getColor(R.color.faveo));
+        bottomNavigation.setDefaultBackgroundColor(getResources().getColor(R.color.toolbarColor));
         bottomNavigation.setNotificationBackgroundColor(Color.parseColor("#F63D2B"));
 
 // Add or remove notification for each item
@@ -238,7 +240,6 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
                     int id=jsonObject2.getInt("id");
                     ProblemAssociatedAssets problemAssociatedTicket=new ProblemAssociatedAssets(1,name1);
                     items.add(problemAssociatedTicket);
-
 
                 }
                 JSONArray jsonArray1=jsonObject1.getJSONArray("tickets");

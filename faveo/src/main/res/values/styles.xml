@@ -26,7 +26,7 @@
     </style>
     <style name="MenuItems" parent="AppTheme">
         <item name="android:textSize">30sp</item>
-        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:fontFamily">@font/hintedlainesansregular</item>
     </style>
     <style name="myActionButtonStyle" parent="Widget.AppCompat.ActionButton">
         <item name="android:minWidth">24dp</item>

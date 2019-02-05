@@ -3,6 +3,7 @@ package co.servicedesk.faveo.pro.frontend.activities;
 import android.app.ProgressDialog;
 //import android.content.DialogInterface;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -25,6 +26,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 //import android.support.v7.app.AlertDialog;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -155,7 +157,7 @@ public class TicketDetailActivity extends AppCompatActivity implements
 
 // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(TicketDetailActivity.this,R.color.faveo));
+        window.setStatusBarColor(ContextCompat.getColor(TicketDetailActivity.this,R.color.mainActivityTopBar));
        // imageView=findViewById(R.id.collaboratorview);
         //view=findViewById(R.id.overlay);
         Prefs.putString("cameFromNewProblem","false");
@@ -178,9 +180,9 @@ public class TicketDetailActivity extends AppCompatActivity implements
         bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottomMenu);
         AHBottomNavigationItem item1 = new AHBottomNavigationItem("Problems", R.drawable.problemimage, R.color.white);
         //AHBottomNavigationItem item2 = new AHBottomNavigationItem("Assets", R.drawable.ic_local_grocery_store_black_24dp, R.color.white);
-        AHBottomNavigationItem item3 = new AHBottomNavigationItem("Edit", R.drawable.ic_edit_black_24dp, R.color.white);
+        AHBottomNavigationItem item3 = new AHBottomNavigationItem("Reply", R.drawable.ic_reply_black_24dp, R.color.white);
         //AHBottomNavigationItem item4 = new AHBottomNavigationItem("Reply", R.drawable.ic_reply_black_24dp, R.color.white);
-        AHBottomNavigationItem item5 = new AHBottomNavigationItem("More", R.drawable.menudot, R.color.white);
+        AHBottomNavigationItem item5 = new AHBottomNavigationItem("Internal note", R.drawable.ic_note_black_24dp, R.color.white);
 
 
 // Add items
@@ -212,7 +214,8 @@ public class TicketDetailActivity extends AppCompatActivity implements
                 }
 
                 if (position == 1) {
-                    Intent intent=new Intent(TicketDetailActivity.this,TicketSaveActivity.class);
+                    Intent intent=new Intent(TicketDetailActivity.this,TicketReplyActivity.class);
+                    intent.putExtra("ticket_id", ticketID);
                     startActivity(intent);
                 }
 //                if (position == 2) {
@@ -220,8 +223,9 @@ public class TicketDetailActivity extends AppCompatActivity implements
 //                    myBottomSheetDialog.show();
 //                }
                 if (position ==2) {
-                    MyBottomSheetDialogChangeStatus myBottomSheetDialog = new MyBottomSheetDialogChangeStatus(TicketDetailActivity.this);
-                    myBottomSheetDialog.show();
+                    Intent intent=new Intent(TicketDetailActivity.this,InternalNoteActivity.class);
+                    intent.putExtra("ticket_id", ticketID);
+                    startActivity(intent);
                 }
                 if (position==4){
 
@@ -662,6 +666,7 @@ public class TicketDetailActivity extends AppCompatActivity implements
             public TextView subject,impact;
             RelativeLayout relativeLayout;
             ImageButton imageButton;
+            TextView department,textViewStatus,problemIdView;
             public MyViewHolder(View view) {
                 super(view);
                 email = (TextView) view.findViewById(R.id.textView_client_email);
@@ -669,6 +674,9 @@ public class TicketDetailActivity extends AppCompatActivity implements
                 impact=view.findViewById(R.id.impact);
                 relativeLayout=view.findViewById(R.id.problemList);
                 imageButton=view.findViewById(R.id.detach);
+                department=view.findViewById(R.id.textViewDepartmentName);
+                textViewStatus=view.findViewById(R.id.statusView);
+                problemIdView=view.findViewById(R.id.problemId);
             }
         }
 
@@ -688,18 +696,24 @@ public class TicketDetailActivity extends AppCompatActivity implements
         public void onBindViewHolder(final ProblemAdpterAttached.MyViewHolder holder, int position) {
             final Attachedproblem movie = moviesList.get(position);
 
-            if (!movie.getFrom().equals("")||!movie.getFrom().equals(null)){
-                holder.email.setText("From :"+ movie.getFrom());
+            holder.problemIdView.setText("#PRB-"+movie.getId());
+
+            holder.email.setText(movie.getFrom());
+
+            holder.impact.setText(movie.getImpact());
+
+            holder.subject.setText(movie.getSubject());
+
+
+            if (!movie.getStatus().equals("")){
+                holder.textViewStatus.setText(movie.getStatus());
             }
 
-            if (!movie.getImpact().equals("")||!movie.getImpact().equals(null)){
-                holder.impact.setText("Impact :"+ movie.getImpact());
-            }
 
-            if (!movie.getSubject().equals(null)||!movie.getSubject().equals("")){
-                holder.subject.setText(movie.getSubject());
-            }
 
+            if (!movie.getDepartment().equals("")){
+                holder.department.setText(movie.getDepartment());
+            }
 
             holder.imageButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -975,7 +989,8 @@ public class TicketDetailActivity extends AppCompatActivity implements
                             String subject=jsonObject2.getString("subject");
                             String email=jsonObject2.getString("from");
                             String createdDate=jsonObject2.getString("created_at");
-                            ProblemModel problemModel=new ProblemModel(email,subject,createdDate,id);
+                            String priority=jsonObject2.getString("priority");
+                            ProblemModel problemModel=new ProblemModel(email,subject,createdDate,id,priority);
                             problemList.add(problemModel);
                         }
                         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -1059,7 +1074,8 @@ public class TicketDetailActivity extends AppCompatActivity implements
                     String subject=jsonObject2.getString("subject");
                     String email=jsonObject2.getString("from");
                     String createdDate=jsonObject2.getString("created_at");
-                    ProblemModel problemModel=new ProblemModel(email,subject,createdDate,id);
+                    String priority=jsonObject2.getString("priority");
+                    ProblemModel problemModel=new ProblemModel(email,subject,createdDate,id,priority);
                     problemList.add(problemModel);
 
                 }
@@ -1312,7 +1328,11 @@ public class MyBottomSheetDialogReply extends BottomSheetDialog {
                 String from=jsonObject1.getString("from");
                 JSONObject jsonObject2=jsonObject1.getJSONObject("impact_id");
                 String impact=jsonObject2.getString("name");
-                Attachedproblem attachedproblem=new Attachedproblem(problemId,subject,from,impact);
+                JSONObject jsonObjectDepartment=jsonObject1.getJSONObject("department");
+                String departmentname=jsonObjectDepartment.getString("name");
+                JSONObject jsonObjectStatus=jsonObject1.getJSONObject("status_type_id");
+                String statusName=jsonObjectStatus.getString("name");
+                Attachedproblem attachedproblem=new Attachedproblem(problemId,subject,from,impact,statusName,departmentname);
                 problemListAttached.add(attachedproblem);
                 bottomNavigation.setNotification(problemcount+"",0);
                 //String data=jsonObject.getString("data");
@@ -1363,177 +1383,80 @@ public class MyBottomSheetDialogReply extends BottomSheetDialog {
         // Inflate the menu; this adds items to the action bar if it is present.
         this.menu = menu;
         getMenuInflater().inflate(R.menu.menu_main_new, menu);
-
+        for (int i=0;i<statusItems.size();i++){
+            Data data=statusItems.get(i);
+            menu.add(data.getName());
+        }
 
 //        mToolbar.getMenu();
 
 
         return true;
     }
-    private void setupDrawerContent(NavigationView navigationView) {
 
-
-    }
-
-    /**
-     * Handle action bar item clicks here. The action bar will
-     * automatically handle clicks on the Home/Up button, so long
-     * as you specify a parent activity in AndroidManifest.xml.
-     *
-     * @param item items refer to the menu items.
-     * @return
-     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id1 = item.getItemId();
-        if (item.getItemId() == android.R.id.home) {
-            Log.d("camehere","true");
-            onBackPressed(); // close this activity and return to preview activity (if there is any)
+        if (id1 == R.id.buttonsave) {
+            Intent intent = new Intent(TicketDetailActivity.this, TicketSaveActivity.class);
+            intent.putExtra("ticket_id", ticketID);
+            startActivity(intent);
         }
-        else if (item.getItemId()==R.id.problem){
-            //mDrawerLayout.openDrawer(GravityCompat.END);
-        }
-//
-//        try {
-//            if (item != null) {
-//                item.getSubMenu().clearHeader();
-//            }
-//        } catch (NullPointerException e) {
-//            e.printStackTrace();
-//        }
+        else{
+            for (int i=0;i<statusItems.size();i++){
+                Data data=statusItems.get(i);
+                if (data.getName().equals(item.toString())){
+                    id=data.getID();
+                    Log.d("ID",""+id);
+                }
+            }
+            try {
+                status = Prefs.getString("ticketstatus", null);
+                if (status.equalsIgnoreCase(item.toString())) {
+                    Toasty.warning(TicketDetailActivity.this, "Ticket is already in " + item.toString() + " state", Toast.LENGTH_SHORT).show();
+                } else {
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(TicketDetailActivity.this);
 
-//        else{
-//
-//            for (int i=0;i<statusItems.size();i++){
-//                Data data=statusItems.get(i);
-//                if (data.getName().equals(item.toString())){
-//                    id=data.getID();
-//                    Log.d("ID",""+id);
-//                }
-//            }
-//            status = Prefs.getString("ticketstatus", null);
-//
-//            if (status.equalsIgnoreCase(item.toString())){
-//                Toasty.warning(TicketDetailActivity.this, "Ticket is already in "+item.toString()+" state", Toast.LENGTH_SHORT).show();
-//            }
-//            else {
-//                new BottomDialog.Builder(TicketDetailActivity.this)
-//                        .setTitle(getString(R.string.changingStatus))
-//                        .setContent(getString(R.string.statusConfirmation))
-//                        .setPositiveText("YES")
-//                        .setNegativeText("NO")
-//                        .setPositiveBackgroundColorResource(R.color.white)
-//                        //.setPositiveBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary)
-//                        .setPositiveTextColorResource(R.color.faveo)
-//                        .setNegativeTextColor(R.color.black)
-//                        //.setPositiveTextColor(ContextCompat.getColor(this, android.R.color.colorPrimary)
-//                        .onPositive(new BottomDialog.ButtonCallback() {
-//                            @Override
-//                            public void onClick(BottomDialog dialog) {
-//                                if (InternetReceiver.isConnected()){
-//                                    new StatusChange(Integer.parseInt(ticketID), id).execute();
-//                                    dialog1= new SpotsDialog(TicketDetailActivity.this, getString(R.string.changingStatus));
-//                                    dialog1.show();
-//                                }
-//                            }
-//                        }).onNegative(new BottomDialog.ButtonCallback() {
-//                    @Override
-//                    public void onClick(@NonNull BottomDialog bottomDialog) {
-//                        bottomDialog.dismiss();
-//                    }
-//                })
-//                        .show();
-//            }
-//        }
+                    // Setting Dialog Title
+                    alertDialog.setTitle(getString(R.string.changingStatus));
+
+                    // Setting Dialog Message
+                    alertDialog.setMessage(getString(R.string.statusConfirmation));
+
+                    // Setting Icon to Dialog
+                    alertDialog.setIcon(R.mipmap.ic_launcher);
+
+                    // Setting Positive "Yes" Button
+                    alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Write your code here to invoke YES event
+                            //Toast.makeText(getApplicationContext(), "You clicked on YES", Toast.LENGTH_SHORT).show();
+                            new StatusChange(Integer.parseInt(ticketID), id).execute();
+                            progressDialog.show();
+                            progressDialog.setMessage(getString(R.string.pleasewait));
+
+                        }
+                    });
+
+                    // Setting Negative "NO" Button
+                    alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Write your code here to invoke NO event
+                            //Toast.makeText(getApplicationContext(), "You clicked on NO", Toast.LENGTH_SHORT).show();
+                            dialog.cancel();
+                        }
+                    });
+
+                    // Showing Alert Message
+                    alertDialog.show();
+                }
+            }catch (NullPointerException e){
+                e.printStackTrace();
+            }
+        }
         Log.d("item", String.valueOf(item));
-
-//        Fragment fragment = null;
-//        title = getString(R.string.app_name);
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-
-
         return super.onOptionsItemSelected(item);
     }
-
-    /**
-     * Sets up the Floating action button.
-     */
-//    private void setupFab() {
-//
-//        fab = (Fab) findViewById(R.id.fab);
-//        fab.setVisibility(View.VISIBLE);
-//        fab.show();
-//        View sheetView = findViewById(R.id.fab_sheet);
-//        View overlay1 = findViewById(R.id.overlay1);
-//        int sheetColor = getResources().getColor(R.color.background_card);
-//        int fabColor = getResources().getColor(R.color.theme_accent);
-//
-//        /**
-//         * Create material sheet FAB.
-//         */
-//        materialSheetFab = new MaterialSheetFab<>(fab, sheetView, overlay1, sheetColor, fabColor);
-//
-//        /**
-//         * Set material sheet event listener.
-//         */
-//        materialSheetFab.setEventListener(new MaterialSheetFabEventListener() {
-//            @Override
-//            public void onShowSheet() {
-//                // Save current status bar color
-//                statusBarColor = getStatusBarColor();
-//                // Set darker status bar color to match the dim overlay
-//                setStatusBarColor(getResources().getColor(R.color.theme_primary_dark2));
-//            }
-//
-//            @Override
-//            public void onHideSheet() {
-//                // Restore status bar color
-//                setStatusBarColor(statusBarColor);
-//            }
-//        });
-
-        /**
-         * Set material sheet item click listeners.
-         */
-//        findViewById(R.id.fab_sheet_item_reply).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                materialSheetFab.hideSheetThenFab();
-//                Intent intent=new Intent(TicketDetailActivity.this,TicketReplyActivity.class);
-//                startActivity(intent);
-//                exitReveal();
-//                //enterReveal("Reply");
-//            }
-//        });
-//        findViewById(R.id.fab_sheet_item_note).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                materialSheetFab.hideSheetThenFab();
-//                Intent intent=new Intent(TicketDetailActivity.this,InternalNoteActivity.class);
-//                startActivity(intent);
-//                exitReveal();
-//                //enterReveal("Internal notes");
-//            }
-//        });
-//
-//        findViewById(R.id.fab_sheet_exit).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                materialSheetFab.hideSheet();
-//            }
-//        });
-
-//        findViewById(R.id.closeFab).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                materialSheetFab.hideSheet();
-//            }
-//        });
-//        findViewById(R.id.fab_sheet_item_photo).setOnClickListener(this);
-//        findViewById(R.id.fab_sheet_item_note).setOnClickListener(this);
-    //}
 
     @Override
     public void onClick(View view) {

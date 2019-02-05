@@ -2,13 +2,31 @@ package co.servicedesk.faveo.pro.model;
 
 public class Attachedproblem {
     int id;
-    String subject,from,impact;
+    String subject,from,impact,status,department;
 
-    public Attachedproblem(int id, String subject, String from, String impact) {
+    public Attachedproblem(int id, String subject, String from, String impact,String status,String department) {
         this.id = id;
         this.subject = subject;
         this.from = from;
         this.impact = impact;
+        this.status=status;
+        this.department=department;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
     }
 
     public int getId() {

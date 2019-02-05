@@ -237,7 +237,8 @@ public class ExistingProblems extends AppCompatActivity {
                             String email=jsonObject2.getString("from");
                             Log.d("email",email);
                             String createdDate=jsonObject2.getString("created_at");
-                            ProblemModel problemModel=new ProblemModel(email,subject,createdDate,id);
+                            String priority=jsonObject2.getString("priority");
+                            ProblemModel problemModel=new ProblemModel(email,subject,createdDate,id,priority);
                             problemList.add(problemModel);
                         }
 
@@ -308,7 +309,8 @@ public class ExistingProblems extends AppCompatActivity {
                     String subject=jsonObject2.getString("subject");
                     String email=jsonObject2.getString("from");
                     String createdDate=jsonObject2.getString("created_at");
-                    ProblemModel problemModel=new ProblemModel(email,subject,createdDate,id);
+                    String priority=jsonObject2.getString("priority");
+                    ProblemModel problemModel=new ProblemModel(email,subject,createdDate,id,priority);
                     problemList.add(problemModel);
 
                 }
@@ -355,6 +357,7 @@ public class ExistingProblems extends AppCompatActivity {
             ImageView options;
             RelativeTimeTextView relativeTimeTextView;
             RelativeLayout relativeLayout;
+            TextView textViewPriority;
             TextView textViewId;
             public MyViewHolder(View view) {
                 super(view);
@@ -364,6 +367,7 @@ public class ExistingProblems extends AppCompatActivity {
                 relativeTimeTextView=view.findViewById(R.id.textView_ticket_time);
                 relativeLayout=view.findViewById(R.id.problemList);
                 textViewId=view.findViewById(R.id.problemId);
+                textViewPriority=view.findViewById(R.id.priority);
 
             }
         }
@@ -403,6 +407,10 @@ public class ExistingProblems extends AppCompatActivity {
             }
 
             holder.relativeTimeTextView.setReferenceTime(Helper.relativeTime(movie.getCreatedDate()));
+
+            if (!movie.getPriority().equals("")){
+                holder.textViewPriority.setText(movie.getPriority());
+            }
 
             holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
                 @Override

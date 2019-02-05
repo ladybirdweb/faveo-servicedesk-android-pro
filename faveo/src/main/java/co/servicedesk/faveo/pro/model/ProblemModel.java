@@ -1,7 +1,7 @@
 package co.servicedesk.faveo.pro.model;
 
 public class ProblemModel {
-    private String email,subject,createdDate;
+    private String email,subject,createdDate,priority;
     private int id;
 
     public int getId() {
@@ -13,11 +13,21 @@ public class ProblemModel {
     }
 
 
-    public ProblemModel(String email, String subject, String createdDate, int id) {
+    public ProblemModel(String email, String subject, String createdDate, int id,String priority) {
         this.email = email;
         this.subject = subject;
         this.createdDate = createdDate;
         this.id = id;
+        this.priority=priority;
+    }
+
+
+    public String getPriority() {
+        return priority;
+    }
+
+    public void setPriority(String priority) {
+        this.priority = priority;
     }
 
     public String getCreatedDate() {

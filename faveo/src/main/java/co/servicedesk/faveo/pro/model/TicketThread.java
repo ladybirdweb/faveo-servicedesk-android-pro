@@ -16,6 +16,7 @@ public class TicketThread {
     public String name;
     public String file;
     public String type;
+    String ticketId;
     public String noOfAttachments;
 
 
@@ -26,7 +27,7 @@ public class TicketThread {
 //        this.clientName = clientName;
 //    }
 
-    public TicketThread(String clientPicture, String clientName, String messageTime, String messageTitle, String message, String isReply, String placeholder,String name,String file,String type,String noOfAttachments) {
+    public TicketThread(String clientPicture, String clientName, String messageTime, String messageTitle, String message, String isReply, String placeholder,String name,String file,String type,String ticketId,String noOfAttachments) {
         this.clientPicture = clientPicture;
         this.clientName = clientName;
         this.messageTime = messageTime;
@@ -37,7 +38,16 @@ public class TicketThread {
         this.name=name;
         this.file=file;
         this.type=type;
+        this.ticketId=ticketId;
         this.noOfAttachments=noOfAttachments;
+    }
+
+    public String getTicketId() {
+        return ticketId;
+    }
+
+    public void setTicketId(String ticketId) {
+        this.ticketId = ticketId;
     }
 
     public String getNoOfAttachments() {

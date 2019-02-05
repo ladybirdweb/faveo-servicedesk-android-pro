@@ -531,6 +531,7 @@
     <string name="save_changes">SAVE CHANGES</string>
     <string name="help_section">Help Section</string>
     <string name="list_collaborator">List of collaborator of this ticket</string>
+    <string name="problem_initialier">#PRB-</string>
     <string-array name="CountryCodes">
 
         <item>93,AF</item>

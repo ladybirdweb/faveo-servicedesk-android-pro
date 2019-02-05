@@ -1,6 +1,7 @@
 package co.servicedesk.faveo.pro.frontend.services;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -14,7 +15,9 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -41,6 +44,9 @@ import co.servicedesk.faveo.pro.frontend.activities.TicketDetailActivity;
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "MyFirebaseMsgService";
     String by;
+    private NotificationChannel mChannel;
+    private NotificationManager notifManager;
+    Bitmap bitmap1;
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
@@ -94,6 +100,75 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         //Log.d("Data",remoteMessage.getNotification().);
 
+    }
+    private void displayCustomNotificationForOrders(Context context,String messageBody, String ID, String noti_tittle, String profilePic) {
+        String channelId = "Channel_id";
+        int id = (int) System.currentTimeMillis();
+        if (notifManager == null) {
+            notifManager = (NotificationManager) getSystemService
+                    (Context.NOTIFICATION_SERVICE);
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Log.d("Ore","True");
+            NotificationCompat.Builder builder;
+            Intent intent = new Intent(this, ClientDetailActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            PendingIntent pendingIntent;
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel mChannel = notifManager.getNotificationChannel(channelId);
+            if (mChannel == null) {
+                mChannel = new NotificationChannel
+                        ("0", noti_tittle, importance);
+                mChannel.setDescription(messageBody);
+                mChannel.enableVibration(true);
+                notifManager.createNotificationChannel(mChannel);
+            }
+            assert channelId != null;
+            builder = new NotificationCompat.Builder(this, channelId);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                    Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+            if (!profilePic.equals("")&&!profilePic.equals("null"))
+            {
+                Bitmap bitmap=getBitmapFromURL(profilePic);
+                bitmap1=getCircleBitmap(bitmap);
+                //notificationBuilder.setLargeIcon(bitmap1);
+            }
+            pendingIntent = PendingIntent.getActivity(this, 1251, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            builder.setContentTitle(noti_tittle)
+                    .setSmallIcon(R.mipmap.ic_stat_f1) // required
+                    .setContentText(messageBody)  // required
+                    .setDefaults(Notification.DEFAULT_ALL)
+                    .setAutoCancel(true)
+                    .setLargeIcon(bitmap1)
+                    .setContentIntent(pendingIntent)
+                    .setSound(RingtoneManager.getDefaultUri
+                            (RingtoneManager.TYPE_NOTIFICATION));
+            Notification notification = builder.build();
+            notifManager.notify(id, notification);
+        } else {
+
+            Intent intent = new Intent(this, ClientDetailActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            PendingIntent pendingIntent = null;
+
+            pendingIntent = PendingIntent.getActivity(this, 1251, intent, PendingIntent.FLAG_ONE_SHOT);
+
+            Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
+                    .setContentTitle(noti_tittle)
+                    .setContentText(messageBody)
+                    .setAutoCancel(true)
+                    .setColor(ContextCompat.getColor(getBaseContext(), R.color.colorPrimary))
+                    .setSound(defaultSoundUri)
+                    .setSmallIcon(R.mipmap.ic_stat_f1)
+                    .setLargeIcon(bitmap1)
+                    .setContentIntent(pendingIntent)
+                    .setStyle(new NotificationCompat.BigTextStyle().setBigContentTitle(noti_tittle).bigText(messageBody));
+
+            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.notify(id, notificationBuilder.build());
+        }
     }
 
     /**

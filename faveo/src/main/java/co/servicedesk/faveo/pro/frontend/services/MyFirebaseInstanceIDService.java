@@ -21,7 +21,7 @@ import okhttp3.Response;
  * Created by narendra on 11/07/16.
  * This is for getting push notification from the server.
  */
-public class  MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
+public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 
     private static final String TAG = "MyFirebaseIIDService";
     public static String refreshedToken;

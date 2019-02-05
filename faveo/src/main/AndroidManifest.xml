@@ -240,7 +240,6 @@
         <activity android:name=".frontend.activities.ExistingProblems" />
         <activity android:name=".frontend.activities.NewProblem"
             android:launchMode="singleTask"/>
-        <activity android:name=".frontend.activities.AssociatedProblem" />
         <activity android:name=".frontend.activities.EditAndViewProblem"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>

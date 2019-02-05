@@ -12,7 +12,7 @@
         android:id="@+id/heading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Options :"
+        android:text="Associated problem :"
         android:textSize="15sp"
         android:fontFamily="@font/hintedlainesansregular"
         android:layout_marginLeft="5dp"
@@ -29,7 +29,6 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/listAttached"
-        android:layout_marginTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="8"

@@ -21,18 +21,33 @@ android:background="@drawable/rectanglenew"
 
         <TextView
             android:id="@+id/problemId"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="20dp"
             android:layout_alignStart="@+id/textView_client_email"
             android:layout_alignParentTop="true"
             android:layout_marginStart="0dp"
             android:fontFamily="@font/hintedlainesansregular"
-            android:text="#PRB-1"
+            android:text="#PRB-10"
             android:gravity="center"
             android:textColor="@color/black"
             android:textSize="10sp"
             android:background="@drawable/rectangle1"
             />
+
+        <TextView
+            android:id="@+id/priority"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_alignTop="@+id/problemId"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="61dp"
+            android:layout_marginTop="0dp"
+            android:background="@drawable/rectangle1"
+            android:fontFamily="@font/hintedlainesansregular"
+            android:gravity="center"
+            android:text="Low"
+            android:textColor="@color/black"
+            android:textSize="10sp" />
 
         <TextView
             android:id="@+id/textView_client_email"
@@ -51,7 +66,7 @@ android:background="@drawable/rectanglenew"
 
         <TextView
             android:id="@+id/collaboratorname"
-            android:layout_width="200dp"
+            android:layout_width="290dp"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/textViewOptions"
             android:layout_alignParentStart="true"
