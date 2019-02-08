@@ -70,7 +70,8 @@
         android:fontFamily="@font/hintedlainesansregular"
         android:textColor="@color/colorAccent"
         android:textSize="14sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:visibility="gone"/>
 
     <RelativeLayout
         android:layout_width="match_parent"

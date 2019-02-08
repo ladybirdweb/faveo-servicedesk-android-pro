@@ -375,9 +375,11 @@ public class SplashActivity extends AppCompatActivity {
                     Prefs.putString("unassignedTickets", unasigned + "");
 
                 if (sharedPreferenceObj.getApp_runFirst().equals("FIRST")) {
+                    loading.setVisibility(View.VISIBLE);
                     loading.setText(R.string.welcome_faveo);
                 }else{
-                    loading.setText(getString(R.string.welcome_back)+Prefs.getString("PROFILE_NAME",""));
+                    loading.setVisibility(View.VISIBLE);
+                    loading.setText(getString(R.string.welcome_back)+" "+Prefs.getString("PROFILE_NAME",""));
                 }
                 //loading.setText(R.string.done_loading);
 

@@ -480,7 +480,6 @@ public class ClientList extends Fragment implements View.OnClickListener {
                     }
                 });
                 clientOverviewAdapter = new ClientOverviewAdapter(getContext(), clientOverviewList);
-                runLayoutAnimation(recyclerView);
                 recyclerView.setAdapter(clientOverviewAdapter);
                 if (clientOverviewAdapter.getItemCount() == 0) {
                     empty_view.setVisibility(View.VISIBLE);
@@ -611,7 +610,6 @@ public class ClientList extends Fragment implements View.OnClickListener {
                 }
             });
             clientOverviewAdapter = new ClientOverviewAdapter(getContext(),clientOverviewList);
-            runLayoutAnimation(recyclerView);
             recyclerView.setAdapter(clientOverviewAdapter);
             if (clientOverviewAdapter.getItemCount() == 0) {
                 empty_view.setVisibility(View.VISIBLE);
@@ -663,15 +661,6 @@ public class ClientList extends Fragment implements View.OnClickListener {
             clientOverviewAdapter.notifyDataSetChanged();
             loading = true;
         }
-    }
-    private void runLayoutAnimation(final RecyclerView recyclerView) {
-        final Context context = recyclerView.getContext();
-        final LayoutAnimationController controller =
-                AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_from_bottom);
-
-        recyclerView.setLayoutAnimation(controller);
-        clientOverviewAdapter.notifyDataSetChanged();
-        recyclerView.scheduleLayoutAnimation();
     }
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {

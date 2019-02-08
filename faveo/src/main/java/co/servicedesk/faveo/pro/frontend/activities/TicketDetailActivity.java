@@ -371,6 +371,7 @@ public class TicketDetailActivity extends AppCompatActivity implements
         viewCollapsePriority=mAppBarLayout.findViewById(R.id.viewPriority1);
         //viewCollapsePriority.setBackgroundColor(Color.parseColor("#FF0000"));
         textViewDemo=findViewById(R.id.subject);
+        dialog1= new SpotsDialog(TicketDetailActivity.this);
         mToolbar.inflateMenu(R.menu.menu_main_new);
         isShowing=true;
         //Log.d("came into ticket detail","true");

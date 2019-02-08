@@ -763,7 +763,6 @@ public class MyTickets extends Fragment {
             });
 
             ticketOverviewAdapter = new TicketOverviewAdapter(getContext(), ticketOverviewList);
-            runLayoutAnimation(recyclerView);
             recyclerView.setAdapter(ticketOverviewAdapter);
 
             if (ticketOverviewAdapter.getItemCount() == 0) {
@@ -844,15 +843,6 @@ public class MyTickets extends Fragment {
             ticketOverviewAdapter.notifyDataSetChanged();
             loading = true;
         }
-    }
-    private void runLayoutAnimation(final RecyclerView recyclerView) {
-        final Context context = recyclerView.getContext();
-        final LayoutAnimationController controller =
-                AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_from_bottom);
-
-        recyclerView.setLayoutAnimation(controller);
-        ticketOverviewAdapter.notifyDataSetChanged();
-        recyclerView.scheduleLayoutAnimation();
     }
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {

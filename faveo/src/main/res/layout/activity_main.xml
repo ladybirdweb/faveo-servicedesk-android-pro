@@ -78,22 +78,18 @@
             android:id="@+id/dimOverlay">
 
         </com.gordonwong.materialsheetfab.DimOverlayFrameLayout>
-        <io.github.yavski.fabspeeddial.FabSpeedDial
+        <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_main"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_gravity="bottom|end"
-            app:fabGravity="bottom_end"
-            app:fabMenu="@menu/main_fab"
-            app:touchGuardDrawable="#7FFFFFFF"
-            app:miniFabBackgroundTint="@color/faveo"
-            app:miniFabDrawableTint="@color/white"
-            app:itemTextAppearance="@style/MenuItems"
-            app:miniFabTitleBackgroundTint="@color/faveo"
-            app:miniFabTitleTextColor="@color/white"
-            android:visibility="gone"
-            />
-
+            android:visibility="visible"
+            app:backgroundTint="@color/faveo"
+            app:tint="@color/colorAccent"
+            android:src="@drawable/ic_if_filter_383135"
+            android:layout_marginBottom="20dp"
+            android:elevation="8dp"
+            android:layout_marginRight="10dp"/>
     </android.support.design.widget.CoordinatorLayout>
 
 

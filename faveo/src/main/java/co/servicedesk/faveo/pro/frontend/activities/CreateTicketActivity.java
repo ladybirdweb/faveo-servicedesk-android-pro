@@ -533,6 +533,31 @@ public class CreateTicketActivity extends AppCompatActivity implements Permissio
         autoCompletePriority= (Spinner) findViewById(R.id.spinner_pri);
         setUpViews();
 
+        autoCompleteHelpTopic.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                InputMethodManager imm=(InputMethodManager)getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(subEdittext.getWindowToken(), 0);
+                return false;
+            }
+        });
+        autoCompletePriority.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                InputMethodManager imm=(InputMethodManager)getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(subEdittext.getWindowToken(), 0);
+                return false;
+            }
+        });
+        autoCompleteTextView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                InputMethodManager imm=(InputMethodManager)getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(subEdittext.getWindowToken(), 0);
+                return false;
+            }
+        });
+
         try {
             firstname = Prefs.getString("firstusername", null);
             lastname = Prefs.getString("lastusername", null);

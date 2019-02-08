@@ -29,7 +29,8 @@
         android:theme="@style/MyMaterialTheme"
         tools:replace="allowBackup, label"
         tools:ignore="GoogleAppIndexingWarning">
-
+        <meta-data android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
         <!-- <provider -->
         <!-- android:name="android.support.v4.content.FileProvider" -->
         <!-- android:authorities="${applicationId}.provider" -->

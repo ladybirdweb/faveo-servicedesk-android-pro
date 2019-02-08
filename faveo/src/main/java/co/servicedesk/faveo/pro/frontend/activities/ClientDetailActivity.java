@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -98,6 +99,7 @@ public class ClientDetailActivity extends AppCompatActivity implements
     ImageView imageViewClientEdit;
     ImageView imageViewBack;
     SpotsDialog dialog;
+    FloatingActionButton floatingActionButton;
     @Override
     public void onPause() {
         if (task != null && task.getStatus() == AsyncTask.Status.RUNNING) {
@@ -129,7 +131,7 @@ public class ClientDetailActivity extends AppCompatActivity implements
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         StrictMode.setThreadPolicy(policy);
-
+        floatingActionButton=findViewById(R.id.create_ticket);
         imageViewBack= (ImageView) findViewById(R.id.imageViewBackClient);
         imageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,7 +165,13 @@ public class ClientDetailActivity extends AppCompatActivity implements
             startActivity(intent1);
             }
         });
-
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1=new Intent(ClientDetailActivity.this,CreateTicketActivity.class);
+                startActivity(intent1);
+            }
+        });
         if (InternetReceiver.isConnected()) {
 
             dialog.show();
@@ -282,6 +290,7 @@ public class ClientDetailActivity extends AppCompatActivity implements
                 String firstname = requester.getString("first_name");
                 String lastName = requester.getString("last_name");
                 String username = requester.getString("user_name");
+                String email=requester.getString("email");
                 String clientname;
                 String letter="A";
                 if (firstname.equals("")&&lastName.equals("")){
@@ -306,6 +315,14 @@ public class ClientDetailActivity extends AppCompatActivity implements
 
                 String phone = "";
                 String mobile="";
+
+
+                if (!mobile.equals("Not available")){
+                    Prefs.putString("firstusermobile",mobile);
+                }
+                else{
+                    Prefs.putString("firstusermobile",mobile);
+                }
 //                if (requester.getString("mobile") == null || requester.getString("mobile").equals(""))
 //                    textViewClientPhone.setVisibility(View.INVISIBLE);
 //
@@ -359,6 +376,10 @@ public class ClientDetailActivity extends AppCompatActivity implements
                 }
 //                IImageLoader imageLoader = new PicassoLoader();
 //                imageLoader.loadImage(imageViewClientPicture, clientPictureUrl, clientname);
+
+                Prefs.putString("firstusername",firstname);
+                Prefs.putString("lastusername",lastName);
+                Prefs.putString("firstuseremail",email);
 
                 JSONArray jsonArray = jsonObject.getJSONArray("tickets");
                 for (int i = 0; i < jsonArray.length(); i++) {
