@@ -240,8 +240,8 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
                     // to the sequence
                     @Override
                     public void onSequenceFinish() {
-                        final AlertDialog dialog = new AlertDialog.Builder(MainActivity.this)
-                                //.setMessage(getString(R.string.intro))
+                        final AlertDialog dialog = new AlertDialog.Builder(MainActivity.this,R.style.MyDialogTheme)
+                                //.setMessage(getString(R.string.intro);
                                 .setPositiveButton("Ok", null).show();
                         TapTargetView.showFor(dialog,
                                 TapTarget.forView(dialog.getButton(DialogInterface.BUTTON_POSITIVE), getString(R.string.intro))
@@ -257,6 +257,8 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
                                         dialog.dismiss();
                                     }
                                 });
+
+
 
 //                        final BottomSheetDialog dialog = new BottomSheetDialog(MainActivity.this);
 //                        dialog.setContentView(R.layout.bottom_custom_view);
