@@ -58,10 +58,6 @@ public class EditAndViewChange extends AppCompatActivity {
     int id1=0;
     boolean allCorrect;
     EditText editTextSubject,editTextDescrip;
-    String assetListFinal;
-    String email1="";
-    StringBuilder sb1 = new StringBuilder();
-    int idForequester=0;
     int changeID=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +66,7 @@ public class EditAndViewChange extends AppCompatActivity {
         Window window = EditAndViewChange.this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(EditAndViewChange.this,R.color.faveo));
+        window.setStatusBarColor(ContextCompat.getColor(EditAndViewChange.this,R.color.mainActivityTopBar));
 
         impactSpinner=findViewById(R.id.impact);
         prioritySpinner=findViewById(R.id.spinner_pri);

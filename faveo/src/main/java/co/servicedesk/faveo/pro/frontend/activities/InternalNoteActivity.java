@@ -64,9 +64,9 @@ public class InternalNoteActivity extends AppCompatActivity {
 //                try {
 //                    JSONObject jsonObject = new JSONObject(result);
 //                    JSONObject jsonObject1=jsonObject.getJSONObject("data");
-//                    JSONObject jsonObject2=jsonObject1.getJSONObject("user");
+//                    JSONObject jsonObject2=jsonObject1.getJSONObject("User");
 //                    String role1=jsonObject2.getString("role");
-//                    if (role1.equals("user")){
+//                    if (role1.equals("User")){
 //                        Prefs.clear();
 //                        //Prefs.putString("role",role);
 //                        Intent intent=new Intent(InternalNoteActivity.this,LoginActivity.class);

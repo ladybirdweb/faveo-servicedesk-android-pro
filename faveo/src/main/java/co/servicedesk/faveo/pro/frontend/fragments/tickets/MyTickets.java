@@ -183,6 +183,7 @@ public class MyTickets extends Fragment {
                              Bundle savedInstanceState) {
         if (rootView == null) {
             rootView = inflater.inflate(R.layout.fragment_recycler, container, false);
+            progressDialog=new ProgressDialog(getActivity());
             try {
                 String methodNotAllowed = Prefs.getString("MethodNotAllowed", null);
 
@@ -1109,8 +1110,11 @@ public class MyTickets extends Fragment {
 //                ticketViewHolder.attachementView.setColorFilter(color);
 //
 //            }
-                if (!ticketOverview.priorityname.equals("")) {
-                    ticketViewHolder.textViewpriorityName.setText(ticketOverview.priorityname);
+                if (!ticketOverview.departmentname.equals("")) {
+                    ticketViewHolder.textViewDepartment.setText(ticketOverview.getDepartmentname());
+                }
+                if (!ticketOverview.priorityName.equals("")) {
+                    ticketViewHolder.textViewpriorityName.setText(ticketOverview.priorityName);
                 } else {
                     ticketViewHolder.textViewpriorityName.setText(R.string.not_available);
                 }

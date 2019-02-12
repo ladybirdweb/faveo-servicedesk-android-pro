@@ -232,6 +232,7 @@
 
             </LinearLayout>
             <View
+                android:id="@+id/problemView"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/grey_200" />
@@ -248,6 +249,50 @@
                 tools:ignore="NestedScrolling">
             </ListView>
         </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/change"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:background="@color/colorAccent">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_margin="22dp"
+                    android:src="@drawable/change"
+                    android:tint="@color/grey_500"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/hintedlaineansedium"
+                    android:gravity="center"
+                    android:text="@string/changes"
+                    android:alpha=".7"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+            <View
+                android:id="@+id/changeView"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey_200" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <ListView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/listviewchange"
+                    android:nestedScrollingEnabled="true"
+                    android:visibility="gone"
+                    tools:ignore="NestedScrolling">
+                </ListView>
+            </LinearLayout>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"

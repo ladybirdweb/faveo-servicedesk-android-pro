@@ -74,6 +74,14 @@
                 android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
         </activity>
+
+        <activity android:name=".frontend.activities.ExistingChanges">
+
+        </activity>
+
+        <activity android:name=".frontend.activities.CreateChange">
+
+        </activity>
         <activity
             android:name=".frontend.activities.ClientDetailActivity"
             android:label="@string/title_activity_client_profile"
@@ -84,6 +92,14 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+        </activity>
+
+        <activity android:name=".frontend.activities.EditAndViewChange">
+
+        </activity>
+
+        <activity android:name=".frontend.activities.ChangeViewPage">
+
         </activity>
         <!-- <activity -->
         <!-- android:name=".frontend.activities.ForgotPasswordActivity" -->

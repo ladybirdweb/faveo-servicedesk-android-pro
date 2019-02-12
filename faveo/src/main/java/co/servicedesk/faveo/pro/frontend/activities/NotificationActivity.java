@@ -52,7 +52,7 @@ import es.dmoral.toasty.Toasty;
 
 /**
  * This activity is for getting the notification.We have used recycler view for showing the
- * notification to the user.We have used swipe refresh layout here,so when ever we are going to scroll down
+ * notification to the User.We have used swipe refresh layout here,so when ever we are going to scroll down
  * we will make call to fetch first async task.
  */
 public class NotificationActivity extends AppCompatActivity {
@@ -112,9 +112,9 @@ public class NotificationActivity extends AppCompatActivity {
 //                try {
 //                    JSONObject jsonObject = new JSONObject(result);
 //                    JSONObject jsonObject1=jsonObject.getJSONObject("data");
-//                    JSONObject jsonObject2=jsonObject1.getJSONObject("user");
+//                    JSONObject jsonObject2=jsonObject1.getJSONObject("User");
 //                    String role1=jsonObject2.getString("role");
-//                    if (role1.equals("user")){
+//                    if (role1.equals("User")){
 //                        Prefs.clear();
 //                        //Prefs.putString("role",role);
 //                        Intent intent=new Intent(NotificationActivity.this,LoginActivity.class);

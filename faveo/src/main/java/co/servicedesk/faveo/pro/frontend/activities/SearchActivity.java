@@ -84,7 +84,7 @@ public class SearchActivity extends AppCompatActivity implements
         isShowing = true;
         tabLayout.setTabTextColors(
                 ContextCompat.getColor(this, R.color.grey_500),
-                ContextCompat.getColor(this, R.color.faveo)
+                ContextCompat.getColor(this, R.color.colorAccent)
         );
         try {
             if (Prefs.getString("cameFromClientList", null).equals("true")) {

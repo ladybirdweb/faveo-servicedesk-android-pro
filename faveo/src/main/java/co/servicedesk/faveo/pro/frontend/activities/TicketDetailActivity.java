@@ -185,9 +185,8 @@ public class TicketDetailActivity extends AppCompatActivity implements
         AHBottomNavigationItem item5 = new AHBottomNavigationItem("Internal note", R.drawable.ic_note_black_24dp, R.color.white);
 
 
-// Add items
         bottomNavigation.addItem(item1);
-       // bottomNavigation.addItem(item2);
+       //bottomNavigation.addItem(item2);
         bottomNavigation.addItem(item3);
         //bottomNavigation.addItem(item4);
         bottomNavigation.addItem(item5);
@@ -235,6 +234,21 @@ public class TicketDetailActivity extends AppCompatActivity implements
                 return true;
             }
         });
+
+        try {
+
+            if (Prefs.getString("activated", null).equals("True")) {
+                bottomNavigation.setVisibility(View.VISIBLE);
+                fabSpeedDial.setVisibility(View.GONE);
+
+            } else {
+                bottomNavigation.setVisibility(View.GONE);
+                fabSpeedDial.setVisibility(View.VISIBLE);
+            }
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
+
 
 
         imageView.setOnClickListener(new View.OnClickListener() {

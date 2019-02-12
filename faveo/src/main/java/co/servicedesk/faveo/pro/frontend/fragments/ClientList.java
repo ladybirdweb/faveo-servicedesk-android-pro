@@ -176,7 +176,7 @@ public class ClientList extends Fragment implements View.OnClickListener {
             else if (heading.equals("agent")){
                 toolbarTextview.setText(getString(R.string.roleAgent));
             }
-            else if (heading.equals("user")){
+            else if (heading.equals("User")){
                 toolbarTextview.setText(getString(R.string.roleUser));
             }
             else{
@@ -269,9 +269,9 @@ public class ClientList extends Fragment implements View.OnClickListener {
                         return true;
                     }
                     if (item.getItemId() == R.id.user) {
-                        Prefs.putString("filtercustomer","user");
+                        Prefs.putString("filtercustomer","User");
                         Prefs.putString("normalclientlist","false");
-                        url="role=user";
+                        url="role=User";
                         Prefs.putString("customerfilter",url);
                         title = getString(R.string.client_list);
                         fragmentController(title);

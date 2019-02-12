@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout android:layout_width="match_parent"
+<LinearLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
@@ -7,14 +7,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:theme="@style/AppThemeOverlay.ActionBar">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:layout_height="60dp"
+            android:background="@color/toolbarColor"
             app:popupTheme="@style/AppThemeOverlay.ActionBar">
 
             <!--<TextView-->
@@ -54,14 +54,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_alignTop="@+id/imageViewBackChange"
-                    android:layout_marginLeft="24dp"
                     android:layout_marginStart="24dp"
+                    android:layout_marginLeft="24dp"
                     android:layout_toEndOf="@+id/imageViewBackChange"
                     android:layout_toRightOf="@+id/imageViewBackChange"
-                    android:text="Changes"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:text="@string/changes"
                     android:textAllCaps="true"
-                    android:textColor="@color/theme"
-                    android:textSize="19sp"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
 
                 <Button
@@ -70,9 +71,9 @@
                     android:layout_height="30dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="14dp"
+                    android:layout_marginEnd="15dp"
                     android:background="@drawable/ic_add_black_24dp"
-                    android:backgroundTint="@color/faveo" />
+                    android:backgroundTint="@color/colorAccent" />
 
             </RelativeLayout>
         </android.support.v7.widget.Toolbar>
@@ -91,7 +92,7 @@
         android:layout_height="match_parent"
         android:layout_weight="7"
         android:clickable="true"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="10dp"
         >
 
         <com.cooltechworks.views.shimmer.ShimmerRecyclerView
@@ -103,6 +104,15 @@
 
 
     </android.support.v4.widget.SwipeRefreshLayout>
+    <TextView
+        android:layout_width="380dp"
+        android:layout_height="50dp"
+        android:text="Total Count"
+        android:id="@+id/totalcount"
+        android:fontFamily="@font/hintedlainesansregular"
+        android:textColor="@color/faveo"
+        android:gravity="center"
+        android:visibility="visible"/>
 
     <!--<android.support.design.widget.FloatingActionButton-->
     <!--android:id="@+id/fabProblem"-->
@@ -112,5 +122,5 @@
     <!--android:layout_margin="@dimen/fab_margin"-->
     <!--android:src="@drawable/ic_add_black_24dp"-->
     <!--android:tint="@color/white"/>-->
-</android.support.design.widget.CoordinatorLayout>
+</LinearLayout>
 

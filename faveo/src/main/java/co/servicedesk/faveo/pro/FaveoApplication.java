@@ -23,7 +23,7 @@ import co.servicedesk.faveo.pro.frontend.receivers.InternetReceiver;
 /**
  * In this class we are adding fabric to our application.
  * This is for crash reporting ,whenever we will have any issue in
- * the user system this will give the error message for the issue
+ * the User system this will give the error message for the issue
  * to us.
  */
 public class FaveoApplication extends MultiDexApplication {
@@ -138,7 +138,7 @@ public class FaveoApplication extends MultiDexApplication {
 
 
     /**
-     * Deleting the user data while logging out from app.
+     * Deleting the User data while logging out from app.
      */
     public void clearApplicationData() {
         File cache = getCacheDir();

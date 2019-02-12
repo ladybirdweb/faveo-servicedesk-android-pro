@@ -1,10 +1,16 @@
+<!--<layout xmlns:app="http://schemas.android.com/apk/res-auto">-->
+
+    <!--<data>-->
+
+        <!--<variable-->
+            <!--name="user"-->
+            <!--type="co.servicedesk.faveo.pro.model.User" />-->
+    <!--</data>-->
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorAccent"
-    tools:context=".frontend.activities.ClientDetailActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorAccent">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
@@ -106,7 +112,7 @@
                         android:layout_marginTop="8dp"
                         android:fontFamily="monospace"
                         android:maxLines="1"
-                        android:text="Demo Admin"
+                        android:text=""
                         android:textColor="@color/white"
                         android:textSize="18sp"
                         app:use_gradient="true"/>
@@ -124,11 +130,10 @@
                         android:fontFamily="monospace"
                         android:maxLines="1"
                         android:visibility="visible"
-                        android:text="@string/dummy_mail_id"
+                        android:text=""
                         android:textColor="@color/white"
                         android:textSize="16sp"
                         app:use_gradient="true"/>
-                    // android:alpha=".54"
                     <com.elyeproj.loaderviewlibrary.LoaderTextView
                         android:id="@+id/textView_client_phone"
                         android:layout_width="wrap_content"
@@ -233,3 +238,4 @@
         android:layout_marginRight="20dp"/>
 
 </android.support.design.widget.CoordinatorLayout>
+<!--</layout>-->

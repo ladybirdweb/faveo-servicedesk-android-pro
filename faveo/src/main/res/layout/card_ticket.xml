@@ -120,7 +120,7 @@
 
 
         <!--<ImageView-->
-        <!--android:id="@+id/user"-->
+        <!--android:id="@+id/User"-->
         <!--android:layout_width="16dp"-->
         <!--android:layout_height="16dp"-->
         <!--android:layout_alignTop="@+id/textView_client_name"-->

@@ -205,6 +205,7 @@ public class UnassignedTickets extends Fragment {
             Prefs.putString("cameFromSearch","false");
             Prefs.putString("cameFromNotification","false");
             rootView = inflater.inflate(R.layout.fragment_recycler, container, false);
+            progressDialog=new ProgressDialog(getActivity());
             ButterKnife.bind(this, rootView);
             Prefs.putString("source","2");
             statusItems=new ArrayList<>();
@@ -1312,8 +1313,12 @@ public class UnassignedTickets extends Fragment {
 //                ticketViewHolder.attachementView.setColorFilter(color);
 //
 //            }
-                if (!ticketOverview.priorityname.equals("")) {
-                    ticketViewHolder.textViewpriorityName.setText(ticketOverview.priorityname);
+
+                if (!ticketOverview.departmentname.equals("")) {
+                    ticketViewHolder.textViewDepartment.setText(ticketOverview.getDepartmentname());
+                }
+                if (!ticketOverview.priorityName.equals("")) {
+                    ticketViewHolder.textViewpriorityName.setText(ticketOverview.priorityName);
                 } else {
                     ticketViewHolder.textViewpriorityName.setText(R.string.not_available);
                 }

@@ -198,14 +198,14 @@ public class CollaboratorAdd extends AppCompatActivity {
                     alertDialog.setTitle("Adding collaborator...");
                     // Setting Dialog Message
                     alertDialog.setMessage("Are you sure you want to " +
-                            "add this user as collaborator?");
+                            "add this User as collaborator?");
                     // Setting Icon to Dialog
                     alertDialog.setIcon(R.mipmap.ic_launcher);
                     // Setting Positive "Yes" Button
                     alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             // Write your code here to invoke YES event
-                            Log.d("id of the user", String.valueOf(id));
+                            Log.d("id of the User", String.valueOf(id));
                             if (id1==0){
                                 Toasty.error(CollaboratorAdd.this, getString(R.string.collaboratorNotFound), Toast.LENGTH_SHORT).show();
                                 return;
@@ -437,7 +437,7 @@ public class CollaboratorAdd extends AppCompatActivity {
 
                 if (state.equals("badRequest")) {
                     progressDialog.dismiss();
-                    Toasty.info(CollaboratorAdd.this, "The user is already registered", Toast.LENGTH_LONG).show();
+                    Toasty.info(CollaboratorAdd.this, "The User is already registered", Toast.LENGTH_LONG).show();
                     return;
                 }
             } catch (NullPointerException e) {
@@ -448,7 +448,7 @@ public class CollaboratorAdd extends AppCompatActivity {
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
                     String message = jsonObject.getString("message");
-                    JSONObject jsonObject2 = jsonObject.getJSONObject("user");
+                    JSONObject jsonObject2 = jsonObject.getJSONObject("User");
                     email = jsonObject2.getString("email");
                     int id = jsonObject2.getInt("id");
                     Log.d("idNew", id + "");

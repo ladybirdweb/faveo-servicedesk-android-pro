@@ -54,7 +54,7 @@
                     android:contentDescription="Back"
                     android:padding="8dp"
                     android:src="@drawable/ic_arrow_back_black_24dp"
-                    android:tint="@color/faveo"
+                    android:tint="@color/toolbarColor"
                     />
 
                 <android.support.v7.widget.AppCompatAutoCompleteTextView
@@ -113,9 +113,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:tabGravity="fill"
-            app:tabIndicatorColor="@color/faveo"
+            app:tabTextColor="@color/grey_500"
             app:tabMode="fixed"
-            />
+            android:background="@color/toolbarColor"
+            app:tabIndicatorColor="@color/faveo"
+            app:tabIndicatorHeight="2dp"
+            app:tabSelectedTextColor="@color/white"/>
         <!--<View-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="2dp"-->

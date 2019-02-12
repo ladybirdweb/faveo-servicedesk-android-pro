@@ -125,6 +125,8 @@ public class SplashActivity extends AppCompatActivity {
         Prefs.putString("cameFromSearch","false");
         Prefs.putString("cameFromNotification","false");
 
+
+
         uptodown.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -135,6 +137,7 @@ public class SplashActivity extends AppCompatActivity {
             public void onAnimationEnd(Animation animation) {
                 if (InternetReceiver.isConnected()) {
                     progressDialog.setVisibility(View.VISIBLE);
+
                     new FetchDependency().execute();
                     Prefs.putString("came from filter", "false");
 
@@ -164,6 +167,42 @@ public class SplashActivity extends AppCompatActivity {
             }
         });
         Prefs.putString("tickets", "null");
+    }
+
+
+    //API to check whether Service Desk is activated or  not
+
+    private class ServiceActive extends AsyncTask<String,Void,String>{
+
+
+
+        @Override
+        protected String doInBackground(String... strings) {
+            return new Helpdesk().isSeriveDeskActivate();
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            try {
+                Log.d("response", s);
+
+                JSONObject jsonObject=new JSONObject(s);
+                JSONObject data=jsonObject.getJSONObject("data");
+                String plugin_status=data.getString("plugin_status");
+                if (plugin_status.equals("true")){
+                    Prefs.putString("activated","True");
+                }
+                else{
+                    Prefs.putString("activated","False");
+                }
+                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                startActivity(intent);
+            }catch (NullPointerException e){
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -374,6 +413,8 @@ public class SplashActivity extends AppCompatActivity {
                 else
                     Prefs.putString("unassignedTickets", unasigned + "");
 
+                new ServiceActive().execute();
+
                 if (sharedPreferenceObj.getApp_runFirst().equals("FIRST")) {
                     loading.setVisibility(View.VISIBLE);
                     loading.setText(R.string.welcome_faveo);
@@ -383,8 +424,7 @@ public class SplashActivity extends AppCompatActivity {
                 }
                 //loading.setText(R.string.done_loading);
 
-                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                startActivity(intent);
+
 
             } catch (JSONException | NullPointerException e) {
                 //Toasty.error(SplashActivity.this, "Parsing Error!", Toast.LENGTH_LONG).show();

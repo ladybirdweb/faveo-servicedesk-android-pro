@@ -3,6 +3,7 @@ package co.servicedesk.faveo.pro.frontend.activities;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.Uri;
@@ -36,6 +37,7 @@ import com.squareup.picasso.Picasso;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.jetbrains.annotations.Nullable;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -49,16 +51,18 @@ import co.servicedesk.faveo.pro.CircleTransform;
 import co.servicedesk.faveo.pro.Constants;
 import co.servicedesk.faveo.pro.R;
 import co.servicedesk.faveo.pro.backend.api.v1.Helpdesk;
+import co.servicedesk.faveo.pro.databinding.ActivityClientProfileBinding;
 import co.servicedesk.faveo.pro.frontend.fragments.client.Profile;
 import co.servicedesk.faveo.pro.frontend.fragments.client.Tickets;
 import co.servicedesk.faveo.pro.frontend.receivers.InternetReceiver;
 import co.servicedesk.faveo.pro.model.MessageEvent;
 import co.servicedesk.faveo.pro.model.TicketGlimpse;
+import co.servicedesk.faveo.pro.model.User;
 import dmax.dialog.SpotsDialog;
 import es.dmoral.toasty.Toasty;
 
 /**
- * In this activity we are showing the client details to the user.
+ * In this activity we are showing the client details to the User.
  * We have used view pager for showing the open and closed tickets
  * so we are loading the view pager here.
  */
@@ -68,12 +72,14 @@ public class ClientDetailActivity extends AppCompatActivity implements
 
 
     AsyncTask<String, Void, String> task;
+
+    @Nullable
     @BindView(R.id.imageView_default_profile)
     ImageView imageViewClientPicture;
-
+    @Nullable
     @BindView(R.id.textView_client_name)
     TextView textViewClientName;
-
+    @Nullable
     @BindView(R.id.textView_client_email)
     TextView textViewClientEmail;
 
@@ -82,13 +88,15 @@ public class ClientDetailActivity extends AppCompatActivity implements
 //
 //    @BindView(R.id.textView_client_mobile)
 //    TextView textViewClientMobile;
-
+    @Nullable
     @BindView(R.id.textView_client_status)
     TextView textViewClientStatus;
 
-
+    @Nullable
     @BindView(R.id.viewpager)
     ViewPager viewPager;
+
+    User user;
 
     ViewPagerAdapter adapter;
     Tickets fragmentOpenTickets;
@@ -100,6 +108,8 @@ public class ClientDetailActivity extends AppCompatActivity implements
     ImageView imageViewBack;
     SpotsDialog dialog;
     FloatingActionButton floatingActionButton;
+    ActivityClientProfileBinding activityClientProfileBinding;
+
     @Override
     public void onPause() {
         if (task != null && task.getStatus() == AsyncTask.Status.RUNNING) {
@@ -116,8 +126,12 @@ public class ClientDetailActivity extends AppCompatActivity implements
 //        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 //                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_client_profile);
-        Window window = ClientDetailActivity.this.getWindow();
 
+        //activityClientProfileBinding=DataBindingUtil.setContentView(this, R.layout.activity_client_profile);
+
+
+
+        Window window = ClientDetailActivity.this.getWindow();
 // clear FLAG_TRANSLUCENT_STATUS flag:
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
@@ -132,29 +146,33 @@ public class ClientDetailActivity extends AppCompatActivity implements
 
         StrictMode.setThreadPolicy(policy);
         floatingActionButton=findViewById(R.id.create_ticket);
-        imageViewBack= (ImageView) findViewById(R.id.imageViewBackClient);
+        //imageViewBack= activityClientProfileBinding.imageViewBackClient;
+        imageViewBack=findViewById(R.id.imageViewBackClient);
         imageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
-        imageViewClientEdit= (ImageView) findViewById(R.id.clientedit);
+        //imageViewClientEdit= activityClientProfileBinding.clientedit;
+        imageViewClientEdit=findViewById(R.id.clientedit);
         Constants.URL = Prefs.getString("COMPANY_URL", "");
-        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar mToolbar=findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
+        //setSupportActionBar(activityClientProfileBinding.toolbar);
 //        if (getSupportActionBar() != null) {
 //            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 //            getSupportActionBar().setDisplayShowHomeEnabled(true);
 //            getSupportActionBar().setDisplayShowTitleEnabled(false);
 //        }
-        TextView mTitle = (TextView) mToolbar.findViewById(R.id.title);
+        //TextView mTitle =activityClientProfileBinding.title;
+        TextView mTitle=mToolbar.findViewById(R.id.title);
         mTitle.setText(R.string.profile);
 
         setUpViews();
 
 
-        textViewClientStatus= (TextView) findViewById(R.id.textView_client_status);
+        textViewClientStatus=findViewById(R.id.textView_client_status);
         final Intent intent = getIntent();
         clientID = intent.getStringExtra("CLIENT_ID");
 
@@ -300,6 +318,8 @@ public class ClientDetailActivity extends AppCompatActivity implements
                     letter= String.valueOf(firstname.toUpperCase().charAt(0));
                 }
 
+
+
 //                try {
 //                    letter = String.valueOf(firstname.charAt(0)).toUpperCase();
 //                }catch (StringIndexOutOfBoundsException e){
@@ -309,6 +329,10 @@ public class ClientDetailActivity extends AppCompatActivity implements
                     clientname = username;
                 else
                     clientname = firstname + " " + lastName;
+
+//                user=new User(clientname,email);
+//                activityClientProfileBinding.setUser(user);
+
 
                 textViewClientName.setText(clientname);
                 textViewClientEmail.setText(requester.getString("email"));

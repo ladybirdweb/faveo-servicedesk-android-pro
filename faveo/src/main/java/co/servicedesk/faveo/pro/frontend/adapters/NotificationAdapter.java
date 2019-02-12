@@ -56,16 +56,16 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         String letter = String.valueOf(notiThread.getRequesterName().charAt(0)).toUpperCase();
         TextDrawable.IBuilder mDrawableBuilder;
         viewHolder.textNotificationtime.setReferenceTime(Helper.relativeTime(notiThread.noti_time));
-        viewHolder.textSub.setText(notiThread.getRequesterName().trim()+", "+notiThread.getTicket_subject());
-        if (notiThread.getProfiel_pic().equals("")){
+        viewHolder.textSub.setText(notiThread.getRequesterName().trim()+", "+notiThread.getTicketsubject());
+        if (notiThread.getProfielpic().equals("")){
             viewHolder.roundedImageViewProfilePic.setVisibility(View.GONE);
 
         }
-        else if (notiThread.getProfiel_pic().contains(".jpg")||notiThread.getProfiel_pic().contains(".jpeg")||notiThread.getProfiel_pic().contains(".png")){
+        else if (notiThread.getProfielpic().contains(".jpg")||notiThread.getProfielpic().contains(".jpeg")||notiThread.getProfielpic().contains(".png")){
             mDrawableBuilder = TextDrawable.builder()
                     .round();
 //    TextDrawable drawable1 = mDrawableBuilder.build(generator.getRandomColor());
-            Picasso.with(context).load(notiThread.getProfiel_pic()).transform(new CircleTransform()).into(viewHolder.roundedImageViewProfilePic);
+            Picasso.with(context).load(notiThread.getProfielpic()).transform(new CircleTransform()).into(viewHolder.roundedImageViewProfilePic);
 //        Glide.with(context)
 //            .load(ticketOverview.getClientPicture())
 //            .into(ticketViewHolder.roundedImageViewProfilePic);
@@ -93,24 +93,24 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             public void onClick(View view) {
 
                 //updateNotification(notiThread.getTicket_id() + "");
-                new UpdateNotificationSeen(notiThread.getNoti_id()).execute();
+                new UpdateNotificationSeen(notiThread.noti_id).execute();
 
 
-                if (notiThread.getNoti_scenario().equals("tickets")) {
+                if (notiThread.getNotiscenario().equals("tickets")) {
 
                     Intent intent = new Intent(view.getContext(), TicketDetailActivity.class);
-                    Log.d("ticket_id", notiThread.getTicket_id() + "");
-                    Prefs.putString("TICKETid",notiThread.getTicket_id()+"");
+                    Log.d("ticket_id", notiThread.getTicketid() + "");
+                    Prefs.putString("TICKETid",notiThread.getTicketid()+"");
                     Prefs.putString("cameFromNotification","true");
                     // intent.putExtra("ticket_id", notiThread.getTicket_id() + "");
                     view.getContext().startActivity(intent);
                 } else {
 
                     Intent intent = new Intent(view.getContext(), ClientDetailActivity.class);
-                    intent.putExtra("CLIENT_ID", notiThread.getClient_id() + "");
+                    intent.putExtra("CLIENT_ID", notiThread.getClientid() + "");
                     view.getContext().startActivity(intent);
                 }
-                notiThread.setNoti_seen("1");
+                notiThread.setNotiseen("1");
                 notifyDataSetChanged();
             }
         });

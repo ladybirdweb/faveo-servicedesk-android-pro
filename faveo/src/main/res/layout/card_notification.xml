@@ -2,6 +2,7 @@
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/notification_cardview"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -22,41 +23,40 @@
 
         <ImageView
             android:id="@+id/dthumbnail"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:src="@drawable/default_pic"
             android:background="@drawable/rounded_textview"
             />
-
         <TextView
             android:id="@+id/noti_subject"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:layout_toEndOf="@+id/dthumbnail"
             android:layout_toRightOf="@+id/dthumbnail"
-            android:alpha=".7"
             android:fontFamily="@font/hintedlainesansregular"
+            android:alpha=".7"
+            android:textStyle="normal"
             android:maxLines="2"
-            android:text="@string/send_crash_reports"
-            android:textSize="14sp"
-            android:textStyle="normal" />
+            android:textSize="14sp" />
 
         <com.github.curioustechizen.ago.RelativeTimeTextView
             android:id="@+id/noti_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/noti_subject"
-            android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="2dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="6dp"
+            android:fontFamily="@font/hintedlainesansregular"
             android:layout_toEndOf="@+id/dthumbnail"
             android:layout_toRightOf="@+id/dthumbnail"
-            android:fontFamily="@font/hintedlainesansregular"
             android:text="@string/dummy_date"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textSize="12sp" />

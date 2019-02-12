@@ -82,7 +82,11 @@ public class ClientOverviewAdapter extends RecyclerView.Adapter<ClientOverviewAd
             @Override
             public void onClick(View view) {
                 int pos=clientViewHolder.getAdapterPosition();
-                clientOverview= clientOverviewList.get(pos);
+                try {
+                    clientOverview = clientOverviewList.get(pos);
+                }catch (IndexOutOfBoundsException e){
+                    e.printStackTrace();
+                }
                 Intent intent = new Intent(view.getContext(), ClientDetailActivity.class);
                 intent.putExtra("CLIENT_ID", clientOverview.clientID + "");
                 Log.d("clientid",clientOverview.clientID + "");

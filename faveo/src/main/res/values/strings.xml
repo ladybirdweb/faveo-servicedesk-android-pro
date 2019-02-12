@@ -534,6 +534,7 @@
     <string name="problem_initialier">#PRB-</string>
     <string name="please_enter_yes_or_no">please enter yes or no</string>
     <string name="intro">Welcome to faveo servicedesk android app. Lets explore it.</string>
+    <string name="no_tickets">No tickets found!</string>
     <string-array name="CountryCodes">
 
         <item>93,AF</item>

@@ -304,7 +304,7 @@ public class RegisterUser extends AppCompatActivity {
                 for (int i=0;i<jsonArray.length();i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
                     String message=jsonObject.getString("message");
-                    JSONObject jsonObject2=jsonObject.getJSONObject("user");
+                    JSONObject jsonObject2=jsonObject.getJSONObject("User");
                     email=jsonObject2.getString("email");
 
                     if (message.contains("Activate your account! Click on the link that we've sent to your mail")){

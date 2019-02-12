@@ -192,6 +192,7 @@ public class TrashTickets extends Fragment {
             Prefs.putString("querry","null");
             Prefs.putString("cameFromNotification","false");
             rootView = inflater.inflate(R.layout.fragment_recycler, container, false);
+            progressDialog=new ProgressDialog(getActivity());
             ButterKnife.bind(this, rootView);
             Prefs.putString("source","4");
             Prefs.putString("Show","trash");
@@ -1379,8 +1380,12 @@ public class TrashTickets extends Fragment {
 //                ticketViewHolder.attachementView.setColorFilter(color);
 //
 //            }
-                if (!ticketOverview.priorityname.equals("")) {
-                    ticketViewHolder.textViewpriorityName.setText(ticketOverview.priorityname);
+
+                if (!ticketOverview.departmentname.equals("")) {
+                    ticketViewHolder.textViewDepartment.setText(ticketOverview.getDepartmentname());
+                }
+                if (!ticketOverview.priorityName.equals("")) {
+                    ticketViewHolder.textViewpriorityName.setText(ticketOverview.priorityName);
                 } else {
                     ticketViewHolder.textViewpriorityName.setText(R.string.not_available);
                 }

@@ -71,11 +71,10 @@ public class ExistingChanges extends AppCompatActivity {
         Window window = ExistingChanges.this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(ExistingChanges.this, R.color.faveo));
+        window.setStatusBarColor(ContextCompat.getColor(ExistingChanges.this, R.color.mainActivityTopBar));
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         swipeRefresh = findViewById(R.id.swipeRefresh);
         button = findViewById(R.id.createNewChange);
         button.setOnClickListener(new View.OnClickListener() {
@@ -159,7 +158,9 @@ public class ExistingChanges extends AppCompatActivity {
                     int id = jsonObject2.getInt("id");
                     String subject = jsonObject2.getString("subject");
                     String createdDate = jsonObject2.getString("created_at");
-                    ChangeModel problemModel = new ChangeModel(subject, createdDate, id);
+                    String email=jsonObject2.getString("requester");
+                    String priority=jsonObject2.getString("priority");
+                    ChangeModel problemModel = new ChangeModel(subject, createdDate,email,priority,id);
                     problemList.add(problemModel);
                 }
                 recyclerView.setHasFixedSize(false);
@@ -226,10 +227,11 @@ public class ExistingChanges extends AppCompatActivity {
                     JSONObject jsonObject2 = jsonArray.getJSONObject(i);
                     int id = jsonObject2.getInt("id");
                     String subject = jsonObject2.getString("subject");
-                    String email = jsonObject2.getString("from");
+                    String email = jsonObject2.getString("requester");
                     String createdDate = jsonObject2.getString("created_at");
-                    ChangeModel changeModel = new ChangeModel(subject, createdDate, id);
-                    problemList.add(changeModel);
+                    String priority=jsonObject2.getString("priority");
+                    ChangeModel problemModel = new ChangeModel(subject, createdDate,email,priority,id);
+                    problemList.add(problemModel);
 
                 }
             } catch (JSONException e) {
@@ -265,15 +267,18 @@ public class ExistingChanges extends AppCompatActivity {
             ImageView options;
             RelativeTimeTextView relativeTimeTextView;
             RelativeLayout relativeLayout;
+            TextView priorityText;
+            TextView textViewId;
 
             public MyViewHolder(View view) {
                 super(view);
-                email = view.findViewById(R.id.textView_client_email);
-                subject = view.findViewById(R.id.collaboratorname);
+                email = view.findViewById(R.id.textViewChangeuser);
+                subject = view.findViewById(R.id.messageChange);
                 options = view.findViewById(R.id.textViewOptions);
                 relativeTimeTextView = view.findViewById(R.id.textView_ticket_time);
                 relativeLayout = view.findViewById(R.id.problemList);
-
+                priorityText=view.findViewById(R.id.priorityChange);
+                textViewId=view.findViewById(R.id.changeId);
 
             }
         }
@@ -296,9 +301,23 @@ public class ExistingChanges extends AppCompatActivity {
             final ChangeModel changeModel = moviesList.get(position);
 //             holder.options.setColorFilter(getColor(R.color.faveo));
             holder.options.setImageDrawable(getDrawable(R.drawable.menudot));
+            holder.textViewId.setText("#CHN-"+changeModel.getId());
+
+            if (!changeModel.getPriority().equals("")){
+                holder.priorityText.setText(changeModel.getPriority());
+            }
+
+            if (changeModel.getEmail().equals("")){
+                holder.email.setText(getString(R.string.not_available));
+
+            }
+            else{
+                holder.email.setText(changeModel.getEmail());
+            }
 
             if (changeModel.getSubject().equals("")) {
-                holder.subject.setVisibility(View.GONE);
+                holder.subject.setText(getString(R.string.not_available));
+                holder.subject.setVisibility(View.VISIBLE);
             } else {
                 holder.subject.setVisibility(View.VISIBLE);
                 holder.subject.setText(changeModel.getSubject());

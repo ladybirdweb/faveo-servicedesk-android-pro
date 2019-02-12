@@ -553,6 +553,16 @@
                     android:background="@color/grey_200"
                     android:src="@drawable/ic_clear_black_18dp" />
             </RelativeLayout>
+            <Button
+                android:id="@+id/buttonSubmit"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:textColor="#ffffff"
+                android:backgroundTint="@color/faveo_blue"
+                android:textSize="14sp"
+                android:layout_margin="7dp"
+                android:background="@drawable/button_background"
+                android:text="@string/save_changes"/>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </FrameLayout>

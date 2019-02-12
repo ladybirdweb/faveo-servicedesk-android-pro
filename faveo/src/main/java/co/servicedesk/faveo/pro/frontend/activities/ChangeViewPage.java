@@ -37,6 +37,7 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.elyeproj.loaderviewlibrary.LoaderTextView;
 import com.github.javiersantos.bottomdialogs.BottomDialog;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.pixplicity.easyprefs.library.Prefs;
 
@@ -63,12 +64,13 @@ public class ChangeViewPage extends AppCompatActivity implements ChangeDescripti
     Context context;
     ViewPager vpPager;
     TabLayout tabLayout;
-    TextView textViewTicketTitle;
-    LoaderTextView loaderTextViewImpact,loaderTextViewRequester,loaderTextViewstatus;
+    TextView textViewTicketTitle,textViewChangeID;
+    TextView loaderTextViewRequester,loaderTextViewstatus;
+    LoaderTextView loaderTextViewPriority;
     int changeId;
     String changeTitle;
     SpotsDialog dialog1;
-    ImageView imageViewEdit;
+    ImageView imageViewEdit,imageViewBack;
     AHBottomNavigation bottomNavigation;
     String table="sd_changes";
     String parameterName="";
@@ -87,7 +89,7 @@ public class ChangeViewPage extends AppCompatActivity implements ChangeDescripti
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
 // finally change the color
-        window.setStatusBarColor(ContextCompat.getColor(ChangeViewPage.this, R.color.faveo));
+        window.setStatusBarColor(ContextCompat.getColor(ChangeViewPage.this, R.color.mainActivityTopBar));
         context = this;
         vpPager = (ViewPager) findViewById(R.id.viewpager);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -95,19 +97,25 @@ public class ChangeViewPage extends AppCompatActivity implements ChangeDescripti
                 ContextCompat.getColor(this, R.color.white),
                 ContextCompat.getColor(this, R.color.white)
         );
+
+
         tabLayout.setSelectedTabIndicatorHeight(0);
         tabLayout.setupWithViewPager(vpPager);
         setupViewPager(vpPager);
-        textViewTicketTitle=findViewById(R.id.changeTitleView);
+        textViewTicketTitle=findViewById(R.id.title);
+        imageViewBack=findViewById(R.id.imageViewBackTicketDetail);
         AppBarLayout mAppBarLayout = (AppBarLayout) findViewById(R.id.appbarProblem);
-        loaderTextViewImpact=mAppBarLayout.findViewById(R.id.changeImpact);
-        loaderTextViewRequester=mAppBarLayout.findViewById(R.id.changeRequester);
-        loaderTextViewstatus=mAppBarLayout.findViewById(R.id.statusChange);
+        loaderTextViewRequester=mAppBarLayout.findViewById(R.id.agentassigned);
+        loaderTextViewstatus=mAppBarLayout.findViewById(R.id.status);
+        textViewChangeID=findViewById(R.id.subject);
         imageViewEdit=findViewById(R.id.editChange);
+        loaderTextViewPriority=findViewById(R.id.priority);
         final Intent intent = getIntent();
         changeId= intent.getIntExtra("changeId",0);
         changeTitle=intent.getStringExtra("changeTitle");
         textViewTicketTitle.setText(changeTitle);
+        textViewChangeID.setText("#CHN-"+changeId);
+
         bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottomMenu);
 
 
@@ -130,6 +138,13 @@ public class ChangeViewPage extends AppCompatActivity implements ChangeDescripti
                 Intent intent1=new Intent(ChangeViewPage.this,EditAndViewChange.class);
                 intent1.putExtra("changeId",changeId);
                 startActivity(intent1);
+            }
+        });
+
+        imageViewBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
 
@@ -627,13 +642,31 @@ public class ChangeViewPage extends AppCompatActivity implements ChangeDescripti
                 JSONObject jsonObject1=jsonObject.getJSONObject("data");
                 JSONObject jsonObject2=jsonObject1.getJSONObject("status");
                 String statusName=jsonObject2.getString("name");
-                JSONObject jsonObject3=jsonObject1.getJSONObject("impactType");
-                String impactName=jsonObject3.getString("name");
-                loaderTextViewImpact.setText(impactName);
-                loaderTextViewstatus.setText(statusName);
-                JSONObject jsonObject4 =jsonObject2.getJSONObject("requester");
+                JSONObject jsonObject3=jsonObject1.getJSONObject("priority");
+                String priorityName=jsonObject3.getString("name");
+                loaderTextViewPriority.setText(priorityName);
 
-                //loaderTextViewstatus.setText(name);
+                loaderTextViewstatus.setText(statusName);
+                JSONArray jsonArray =jsonObject1.getJSONArray("requester");
+                String requester="";
+                if (jsonArray.length()==0){
+                    requester=getString(R.string.not_available);
+                }
+                else{
+                    JSONObject jsonObject4=jsonArray.getJSONObject(0);
+                    String first_name=jsonObject4.getString("first_name");
+                    String last_name=jsonObject4.getString("last_name");
+                    String user_name=jsonObject4.getString("user_name");
+
+                    if (user_name.equals("")){
+                        requester=first_name+" "+last_name;
+                    }
+                    else if (first_name.equals(""))
+                        requester=user_name;
+                }
+
+                loaderTextViewRequester.setText(requester);
+
 
                 } catch (JSONException | NullPointerException e) {
                 e.printStackTrace();

@@ -59,6 +59,7 @@ import co.servicedesk.faveo.pro.UiUtilsServicedesk;
 import co.servicedesk.faveo.pro.backend.api.v1.Helpdesk;
 import co.servicedesk.faveo.pro.frontend.activities.CreateChange;
 import co.servicedesk.faveo.pro.frontend.activities.CreateTicketActivity;
+import co.servicedesk.faveo.pro.frontend.activities.ExistingChanges;
 import co.servicedesk.faveo.pro.frontend.activities.ExistingProblems;
 import co.servicedesk.faveo.pro.frontend.activities.LoginActivity;
 import co.servicedesk.faveo.pro.frontend.activities.MainActivity;
@@ -125,9 +126,11 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
     @BindView(R.id.ticket_list)
     LinearLayout ticketList;
     ListView listViewProblem;
-    //ListView listViewChange;
-    LinearLayout linearLayout;
-
+    ListView listViewChanges;
+    ListView listViewChange;
+    LinearLayout linearLayoutChange;
+    LinearLayout linearLayoutProblem;
+    View viewProblem,viewChange;
     ProblemListAdapter problemListAdapter,changeListAdapter;
 
 
@@ -163,6 +166,11 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
         layout = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
         listView= (ListView) layout.findViewById(R.id.listviewNavigation);
         listViewProblem=layout.findViewById(R.id.listviewProblems);
+        listViewChange=layout.findViewById(R.id.listviewchange);
+        linearLayoutChange=layout.findViewById(R.id.change);
+        linearLayoutProblem=layout.findViewById(R.id.problems);
+        viewProblem=layout.findViewById(R.id.problemView);
+        viewChange=layout.findViewById(R.id.changeView);
         //listViewChange=layout.findViewById(R.id.listviewChanges);
         layout.findViewById(R.id.create_ticket).setOnClickListener(this);
         layout.findViewById(R.id.client_list).setOnClickListener(this);
@@ -178,9 +186,9 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
         servicedeskModulesProblem[1]=new ServicedeskModule(R.drawable.circle_name,getString(R.string.new_prob));
         servicedeskModulesChanges[0]=new ServicedeskModule(R.drawable.circle_name,getString(R.string.all_change));
         servicedeskModulesChanges[1]=new ServicedeskModule(R.drawable.circle_name,getString(R.string.new_change));
-       problemListAdapter =new ProblemListAdapter(getActivity(),R.layout.list_servicedesk_row,servicedeskModulesProblem);
+        problemListAdapter =new ProblemListAdapter(getActivity(),R.layout.list_servicedesk_row,servicedeskModulesProblem);
         changeListAdapter=new ProblemListAdapter(getActivity(),R.layout.list_servicedesk_row,servicedeskModulesChanges);
-        //listViewChange.setAdapter(changeListAdapter);
+        listViewChange.setAdapter(changeListAdapter);
         changeListAdapter.notifyDataSetChanged();
         listViewProblem.setAdapter(problemListAdapter);
         progressDialog=new ProgressDialog(getActivity());
@@ -196,12 +204,18 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
         listView.setAdapter(drawerItemCustomAdapter);
         progressDialog=new ProgressDialog(getActivity());
         drawerItemCustomAdapter.notifyDataSetChanged();
+        UIUtils.setListViewHeightBasedOnItems(listView);
+
+        checkingServicePlugin();
+
+
+
 /**
  * This is dynamic height adjusting on the basis of item in list view
  */
-        UIUtils.setListViewHeightBasedOnItems(listView);
+        //UIUtils.setListViewHeightBasedOnItems(listView);
         UiUtilsServicedesk.setListViewHeightBasedOnItems(listViewProblem);
-        //UiUtilsServicedesk.setListViewHeightBasedOnItems(listViewChange);
+        UiUtilsServicedesk.setListViewHeightBasedOnItems(listViewChange);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -298,24 +312,33 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
             }
         });
 
-//        listViewChange.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                if (i==0){
-////                    Intent intent=new Intent(getContext(),ExistingChanges.class);
-////                    Prefs.putString("cameFromMainChange","True");
-////                    startActivity(intent);
-//                }
-//                else if (i==1){
-//                    Intent intent=new Intent(getContext(),CreateChange.class);
-//                    Prefs.putString("cameFromMainChange","True");
-//                    startActivity(intent);
-//
-//                }
-//            }
-//        });
-//        IImageLoader imageLoader = new PicassoLoader();
-//        imageLoader.loadImage(profilePic, Prefs.getString("PROFILE_PIC", null), Prefs.getString("USERNAME", " ").charAt(0) + "");
+        linearLayoutChange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (listViewChange.getVisibility()==View.VISIBLE){
+                    listViewChange.setVisibility(View.GONE);
+                }
+                else{
+                    listViewChange.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        listViewChange.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i==0){
+                    Intent intent1=new Intent(getContext(), ExistingChanges.class);
+                    Prefs.putString("cameFromMain","True");
+                    startActivity(intent1);
+                }
+                else{
+                    Intent intent1=new Intent(getContext(), CreateChange.class);
+                    Prefs.putString("cameFromMain","True");
+                    startActivity(intent1);
+                }
+            }
+        });
         try {
             String letter = Prefs.getString("profilePicture", null);
             Log.d("profilePicture", letter);
@@ -360,6 +383,21 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
         return layout;
     }
 
+    public void checkingServicePlugin(){
+        if (Prefs.getString("activated",null).equals("True")){
+            viewProblem.setVisibility(View.VISIBLE);
+            viewChange.setVisibility(View.VISIBLE);
+            linearLayoutProblem.setVisibility(View.VISIBLE);
+            linearLayoutChange.setVisibility(View.VISIBLE);
+
+        }else{
+            viewProblem.setVisibility(View.GONE);
+            viewChange.setVisibility(View.GONE);
+            linearLayoutProblem.setVisibility(View.GONE);
+            linearLayoutChange.setVisibility(View.GONE);
+        }
+    }
+
 
     @Override
     public void onStart() {
@@ -386,6 +424,7 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
+                new ServiceActive().execute();
                 new SendPostRequest().execute();
                 new FetchDependency().execute();
                 getActivity().invalidateOptionsMenu();
@@ -414,6 +453,47 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
         });
 
     }
+
+    private class ServiceActive extends AsyncTask<String,Void,String>{
+
+
+
+        @Override
+        protected String doInBackground(String... strings) {
+            return new Helpdesk().isSeriveDeskActivate();
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            try {
+                Log.d("response", s);
+                JSONObject jsonObject=new JSONObject(s);
+                JSONObject data=jsonObject.getJSONObject("data");
+                String plugin_status=data.getString("plugin_status");
+                if (plugin_status.equals("true")){
+                    Prefs.putString("activated","True");
+                    viewProblem.setVisibility(View.VISIBLE);
+                    viewChange.setVisibility(View.VISIBLE);
+                    linearLayoutProblem.setVisibility(View.VISIBLE);
+                    linearLayoutChange.setVisibility(View.VISIBLE);
+                }
+                else{
+                    Prefs.putString("activated","False");
+                    viewProblem.setVisibility(View.GONE);
+                    viewChange.setVisibility(View.GONE);
+                    linearLayoutProblem.setVisibility(View.GONE);
+                    linearLayoutChange.setVisibility(View.GONE);
+                }
+
+                //checkingServicePlugin();
+            }catch (NullPointerException e){
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public class SendPostRequest extends AsyncTask<String, Void, String> {
 
         protected void onPreExecute(){}
@@ -567,9 +647,9 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
                 JSONObject jsonObject=new JSONObject(result);
                 JSONObject jsonObject1=jsonObject.getJSONObject("data");
                 token = jsonObject1.getString("token");
-                JSONObject jsonObject2=jsonObject1.getJSONObject("user");
+                JSONObject jsonObject2=jsonObject1.getJSONObject("User");
                 String role=jsonObject2.getString("role");
-                if (role.equals("user")){
+                if (role.equals("User")){
                     final Toast toast = Toasty.info(getActivity(), getString(R.string.roleChanged),Toast.LENGTH_SHORT);
                     toast.show();
                     new CountDownTimer(10000, 1000)
@@ -783,22 +863,22 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
                 break;
             case R.id.problems:
                 if (listViewProblem.getVisibility()==View.VISIBLE){
-                    listViewProblem.setVisibility(View.GONE);
-                }
-                else{
-                    listViewProblem.setVisibility(View.VISIBLE);
-                }
+                listViewProblem.setVisibility(View.GONE);
+            }
+            else{
+                listViewProblem.setVisibility(View.VISIBLE);
+            }
 
                 break;
-//            case R.id.changesModule:
-//                Log.d("clicked","true");
-//                if (listViewChange.getVisibility()==View.VISIBLE){
-//                    listViewChange.setVisibility(View.GONE);
-//                }
-//                else{
-//                    listViewChange.setVisibility(View.VISIBLE);
-//                }
-//                break;
+            case R.id.change:
+                Log.d("clicked","true");
+                if (listViewChange.getVisibility()==View.VISIBLE){
+                    listViewChange.setVisibility(View.GONE);
+                }
+                else{
+                    listViewChange.setVisibility(View.VISIBLE);
+                }
+                break;
             case R.id.about:
                 title = getString(R.string.about);
                 fragment = getActivity().getSupportFragmentManager().findFragmentByTag(title);
