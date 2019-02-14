@@ -18,6 +18,7 @@ import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -462,7 +463,20 @@ public class TrashTickets extends Fragment {
     }
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        getActivity().getMenuInflater().inflate(R.menu.menu_trash, menu);
+        getActivity().getMenuInflater().inflate(R.menu.menu_inbox, menu);
+        final MenuItem menuItem = menu.findItem(R.id.action_noti);
+
+        View actionView = MenuItemCompat.getActionView(menuItem);
+        //textCartItemCount = (TextView) actionView.findViewById(R.id.cart_badge);
+
+        //setupBadge();
+
+        actionView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onOptionsItemSelected(menuItem);
+            }
+        });
 
     }
 

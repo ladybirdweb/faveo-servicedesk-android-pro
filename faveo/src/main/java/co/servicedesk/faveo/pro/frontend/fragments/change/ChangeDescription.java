@@ -1,4 +1,4 @@
-package co.servicedesk.faveo.pro.frontend.fragments;
+package co.servicedesk.faveo.pro.frontend.fragments.change;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -33,7 +33,6 @@ import java.net.URLEncoder;
 
 import co.servicedesk.faveo.pro.R;
 import co.servicedesk.faveo.pro.backend.api.v1.Helpdesk;
-import co.servicedesk.faveo.pro.frontend.activities.ChangeViewPage;
 import co.servicedesk.faveo.pro.frontend.receivers.InternetReceiver;
 import es.dmoral.toasty.Toasty;
 

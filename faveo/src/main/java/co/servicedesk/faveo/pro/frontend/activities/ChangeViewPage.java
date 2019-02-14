@@ -22,14 +22,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,9 +35,6 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.elyeproj.loaderviewlibrary.LoaderTextView;
 import com.github.javiersantos.bottomdialogs.BottomDialog;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,10 +47,8 @@ import java.util.List;
 
 import co.servicedesk.faveo.pro.R;
 import co.servicedesk.faveo.pro.backend.api.v1.Helpdesk;
-import co.servicedesk.faveo.pro.frontend.fragments.ChangeDescription;
-import co.servicedesk.faveo.pro.frontend.fragments.ChangeSpecific;
-import co.servicedesk.faveo.pro.frontend.fragments.ProblemDescription;
-import co.servicedesk.faveo.pro.frontend.fragments.ProblemSpecific;
+import co.servicedesk.faveo.pro.frontend.fragments.change.ChangeDescription;
+import co.servicedesk.faveo.pro.frontend.fragments.change.ChangeSpecific;
 import co.servicedesk.faveo.pro.frontend.receivers.InternetReceiver;
 import dmax.dialog.SpotsDialog;
 import es.dmoral.toasty.Toasty;
@@ -112,12 +105,12 @@ public class ChangeViewPage extends AppCompatActivity implements ChangeDescripti
         loaderTextViewPriority=findViewById(R.id.priority);
         final Intent intent = getIntent();
         changeId= intent.getIntExtra("changeId",0);
+        Log.d("changeId",""+changeId);
         changeTitle=intent.getStringExtra("changeTitle");
         textViewTicketTitle.setText(changeTitle);
         textViewChangeID.setText("#CHN-"+changeId);
 
         bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottomMenu);
-
 
         AHBottomNavigationItem item1 = new AHBottomNavigationItem("Update", R.drawable.ic_update_black_24dp, R.color.white);
         AHBottomNavigationItem item2=new AHBottomNavigationItem("Release",R.drawable.ic_new_releases_black_24dp,R.color.white);
@@ -130,7 +123,7 @@ public class ChangeViewPage extends AppCompatActivity implements ChangeDescripti
         bottomNavigation.setAccentColor(getResources().getColor(R.color.white));
         bottomNavigation.setInactiveColor(getResources().getColor(R.color.white));
 
-        bottomNavigation.setDefaultBackgroundColor(getResources().getColor(R.color.faveo));
+        bottomNavigation.setDefaultBackgroundColor(getResources().getColor(R.color.toolbarColor));
         bottomNavigation.setNotificationBackgroundColor(Color.parseColor("#F63D2B"));
         imageViewEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -657,6 +650,8 @@ public class ChangeViewPage extends AppCompatActivity implements ChangeDescripti
                     String first_name=jsonObject4.getString("first_name");
                     String last_name=jsonObject4.getString("last_name");
                     String user_name=jsonObject4.getString("user_name");
+
+
 
                     if (user_name.equals("")){
                         requester=first_name+" "+last_name;

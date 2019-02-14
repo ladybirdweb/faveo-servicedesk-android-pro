@@ -77,8 +77,10 @@ import co.servicedesk.faveo.pro.frontend.activities.NotificationActivity;
 import co.servicedesk.faveo.pro.frontend.activities.SearchActivity;
 import co.servicedesk.faveo.pro.frontend.activities.TicketDetailActivity;
 import co.servicedesk.faveo.pro.frontend.activities.TicketFilter;
+import co.servicedesk.faveo.pro.frontend.adapters.NotificationAdapter;
 import co.servicedesk.faveo.pro.frontend.receivers.InternetReceiver;
 import co.servicedesk.faveo.pro.model.Data;
+import co.servicedesk.faveo.pro.model.NotificationThread;
 import co.servicedesk.faveo.pro.model.TicketOverview;
 import dmax.dialog.SpotsDialog;
 import es.dmoral.toasty.Toasty;
@@ -139,7 +141,7 @@ public class InboxTickets extends Fragment {
     private OnFragmentInteractionListener mListener;
     String status;
     int id = 0;
-    TextView textViewShowingCount;
+    TextView textViewShowingCount,textCartItemCount;
     ImageView imageViewssignTicket,imageViewChangingStatus;
     public static InboxTickets newInstance(String param1, String param2) {
         InboxTickets fragment = new InboxTickets();
@@ -230,7 +232,6 @@ public class InboxTickets extends Fragment {
             rootView = inflater.inflate(R.layout.fragment_recycler, container, false);
             progressDialog=new ProgressDialog(getActivity());
             toolbarmain = (Toolbar) getActivity().findViewById(R.id.toolbar);
-
 //            ActionBar actionBar = getActivity().getActionBar();
 //            if (actionBar != null) {
 //                actionBar.setHomeButtonEnabled(false);
@@ -1237,26 +1238,8 @@ public class InboxTickets extends Fragment {
             }
         }
     }
-//    private void multiSelect(int position) {
-//        TicketOverview data = ticketOverviewAdapter.getItem(position);
-//        if (data != null) {
-//            if (actionMode != null) {
-//                if (checked_items.contains(data.getTicketID()))
-//                    checked_items.remove(Integer.valueOf(data.getTicketID()));
-//                else
-//                    checked_items.add(data.getTicketID());
-//
-//                if (checked_items.size() > 0)
-//                    actionMode.setTitle(String.valueOf(checked_items.size())); //show selected item count on action mode.
-//                else {
-//                    actionMode.setTitle(""); //remove item count from action mode.
-//                    actionMode.finish(); //hide action mode.
-//                }
-//                ticketOverviewAdapter.setSelectedIds(checked_items);
-//
-//            }
-//        }
-//    }
+
+
 
     public void setTitle(String title) {
         toolbar.setTitle(title);
@@ -1266,26 +1249,17 @@ public class InboxTickets extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         getActivity().getMenuInflater().inflate(R.menu.menu_inbox, menu);
 
+        final MenuItem menuItem = menu.findItem(R.id.action_noti);
 
-//        }else{
-//            getActivity().getMenuInflater().inflate(R.menu.search_menu, menu);
-//            //toolbarmain.inflateMenu(R.menu.search_menu);
-//            toolbarmain.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-//                @Override
-//                public boolean onMenuItemClick(MenuItem item) {
-//                    int id=item.getItemId();
-//                    if (id==R.id.action_noti){
-//                        Intent intent = new Intent(getActivity(), NotificationActivity.class);
-//                        startActivity(intent);
-//                        return true;
-//                    }
-//                    if (id==R.id.action_statusClosed){
-//                        Toast.makeText(getActivity(), "clicked", Toast.LENGTH_SHORT).show();
-//                        return true;
-//                    }
-//                    return false;
-//                }
-//            });
+        View actionView = MenuItemCompat.getActionView(menuItem);
+
+        actionView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onOptionsItemSelected(menuItem);
+            }
+        });
+
 
 
     }
@@ -1553,6 +1527,7 @@ public class InboxTickets extends Fragment {
             });
 
             ticketOverviewAdapter = new TicketOverviewAdapter(getContext(), ticketOverviewList);
+
             recyclerView.setAdapter(ticketOverviewAdapter);
 
             if (ticketOverviewAdapter.getItemCount() == 0) {

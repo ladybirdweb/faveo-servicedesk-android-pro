@@ -108,7 +108,7 @@
         android:layout_width="380dp"
         android:layout_height="50dp"
         android:text="Total Count"
-        android:id="@+id/totalcount"
+        android:id="@+id/totalcountChange"
         android:fontFamily="@font/hintedlainesansregular"
         android:textColor="@color/faveo"
         android:gravity="center"

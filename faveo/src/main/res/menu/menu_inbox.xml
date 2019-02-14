@@ -14,7 +14,9 @@
         android:icon="@drawable/ic_notifications_none_black_24dp"
         android:orderInCategory="100"
         android:title="Notifications"
+        app:actionLayout="@layout/custom_action_item_layout"
         app:showAsAction="always" />
+
         <!--<item-->
             <!--android:id="@+id/spinner"-->
             <!--app:actionViewClass="android.widget.Spinner"-->

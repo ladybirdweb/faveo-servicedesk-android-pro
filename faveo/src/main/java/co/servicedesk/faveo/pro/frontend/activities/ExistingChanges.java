@@ -63,7 +63,7 @@ public class ExistingChanges extends AppCompatActivity {
     public int ticketId;
     int changeId;
     String changeTitle;
-
+    TextView totalCount;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,11 +76,12 @@ public class ExistingChanges extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         swipeRefresh = findViewById(R.id.swipeRefresh);
+        totalCount=findViewById(R.id.totalcountChange);
         button = findViewById(R.id.createNewChange);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent1 = new Intent(ExistingChanges.this, NewProblem.class);
+                Intent intent1 = new Intent(ExistingChanges.this, CreateChange.class);
                 startActivity(intent1);
             }
         });
@@ -135,6 +136,7 @@ public class ExistingChanges extends AppCompatActivity {
         }
 
         protected void onPostExecute(String result) {
+            String email;
             if (dialog1 != null && dialog1.isShowing()) {
                 dialog1.dismiss();
             }
@@ -151,6 +153,7 @@ public class ExistingChanges extends AppCompatActivity {
 
             try {
                 JSONObject jsonObject = new JSONObject(result);
+                String total=jsonObject.getString("total");
                 nextPageURL = jsonObject.getString("next_page_url");
                 JSONArray jsonArray = jsonObject.getJSONArray("data");
                 for (int i = 0; i < jsonArray.length(); i++) {
@@ -158,11 +161,17 @@ public class ExistingChanges extends AppCompatActivity {
                     int id = jsonObject2.getInt("id");
                     String subject = jsonObject2.getString("subject");
                     String createdDate = jsonObject2.getString("created_at");
-                    String email=jsonObject2.getString("requester");
+                    if (jsonObject2.isNull("requester")){
+                        email=getString(R.string.not_available);
+                    }
+                    else{
+                        email=jsonObject2.getString("requester");
+                    }
                     String priority=jsonObject2.getString("priority");
                     ChangeModel problemModel = new ChangeModel(subject, createdDate,email,priority,id);
                     problemList.add(problemModel);
                 }
+                totalCount.setText(total+" changes");
                 recyclerView.setHasFixedSize(false);
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
                 final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ExistingChanges.this);
@@ -210,6 +219,7 @@ public class ExistingChanges extends AppCompatActivity {
         }
 
         protected String doInBackground(String... urls) {
+            String email;
             if (nextPageURL.equals("null")) {
                 return "all done";
             }
@@ -227,7 +237,12 @@ public class ExistingChanges extends AppCompatActivity {
                     JSONObject jsonObject2 = jsonArray.getJSONObject(i);
                     int id = jsonObject2.getInt("id");
                     String subject = jsonObject2.getString("subject");
-                    String email = jsonObject2.getString("requester");
+                    if (jsonObject2.isNull("requester")){
+                        email=getString(R.string.not_available);
+                    }
+                    else{
+                        email=jsonObject2.getString("requester");
+                    }
                     String createdDate = jsonObject2.getString("created_at");
                     String priority=jsonObject2.getString("priority");
                     ChangeModel problemModel = new ChangeModel(subject, createdDate,email,priority,id);
@@ -248,7 +263,7 @@ public class ExistingChanges extends AppCompatActivity {
                 return;
             }
             if (result.equals("all done")) {
-                Toasty.info(context, getString(R.string.all_problem_loaded), Toast.LENGTH_SHORT).show();
+                Toasty.info(context, getString(R.string.all_changes_are_loaded), Toast.LENGTH_SHORT).show();
                 return;
             }
             mAdapter.notifyDataSetChanged();

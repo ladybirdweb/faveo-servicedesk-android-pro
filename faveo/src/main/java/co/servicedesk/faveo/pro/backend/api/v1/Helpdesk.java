@@ -875,6 +875,16 @@ public class Helpdesk {
         return result;
     }
 
+    public String detachChangeFromProblem(int problemId){
+        Log.d("detachChangeFromproblem",Constants.URL+"servicedesk/detach/change/problem?token="+token+"&problemid="+problemId);
+        String result = new HTTPConnection().hTTPResponseGet(Constants.URL+"servicedesk/detach/change/problem?token="+token+"&problemid="+problemId);
+
+        if (result != null && result.equals("tokenRefreshed")) {
+            return new HTTPConnection().hTTPResponseGet(Constants.URL+"servicedesk/detach/change/problem?token="+token+"&problemid="+problemId);
+        }
+        return result;
+    }
+
 
     public String createProblemAndAttach(int ticketId, String from, String subject,
                                          int statusId, int priorityId, int impactId, int departmentId, int assignedId, String description) {
@@ -891,12 +901,30 @@ public class Helpdesk {
 
     }
 
+    public String existingChangeAndAttach(int changeId){
+        Log.d("attachingChange",Constants.URL+"servicedesk/problem/change/attach/"+changeId+"?&token="+token+"&change="+changeId);
+        String result=new HTTPConnection().hTTPResponsePost(Constants.URL+"servicedesk/problem/change/attach/"+changeId+"?&token="+token+"&change="+changeId,null);
+        if (result!=null&&result.equals("tokenRefreshed")){
+            return new HTTPConnection().hTTPResponsePost(Constants.URL+"servicedesk/problem/change/attach/"+changeId+"?&token="+token+"&change="+changeId,null);
+        }
+        return result;
+
+    }
+
+    public String attachedChangeWithProblem(int problemId){
+        Log.d("gettingAttachedChange",Constants.URL+"servicedesk/get/attached/change/"+problemId+"?token="+token+"&problemid="+problemId);
+        String result=new HTTPConnection().hTTPResponseGet(Constants.URL+"servicedesk/get/attached/change/"+problemId+"?token="+token+"&problemid="+problemId);
+        if (result!=null&&result.equals("tokenRefreshed")){
+            return new HTTPConnection().hTTPResponseGet(Constants.URL+"servicedesk/get/attached/change/"+problemId+"?token="+token+"&problemid="+problemId);
+        }
+    return result;
+    }
+
     public String workaroundModule(int problemId, String tableModule, String identifier, String solution, String body) {
         Log.d("mentionModule", Constants.URL + "servicedesk/general/updates/" + problemId + "/" + tableModule + "?token=" + token + "&identifier=" + identifier + "&" + solution + "=" + body);
         String result = new HTTPConnection().hTTPResponsePost(Constants.URL + "servicedesk/general/updates/" + problemId + "/" + tableModule + "?token=" + token + "&identifier=" + identifier + "&" + solution + "=" + body, null);
         if (result != null && result.equals("tokenRefreshed")) {
             return new HTTPConnection().hTTPResponsePost(Constants.URL + "servicedesk/general/updates/" + problemId + "/" + tableModule + "?token=" + token + "&identifier=" + identifier + "&" + solution + "=" + body, null);
-
         }
         return result;
     }

@@ -487,6 +487,7 @@
     <string name="description">Description</string>
     <string name="addAsset">Attach asset</string>
     <string name="associating">associating with the ticket</string>
+    <string name="associatingWithProblem">associating with the problem</string>
     <string name="no_problems_found">No problems found</string>
     <string name="selectUser">Please select a user to create the problem</string>
     <string name="descriptionEmpty">Description must not be empty</string>
@@ -496,6 +497,7 @@
     <string name="creating_problem">Creating problem</string>
     <string name="problem_confirm">Are you sure you want to create this problem?</string>
     <string name="all_problem_loaded">All problems are loaded</string>
+    <string name="all_changes_are_loaded">All changes are loaded</string>
     <string name="problem_deleted">Problem Deleted Successfully</string>
     <string name="editingProblem">Editing Problem</string>
     <string name="editProblemConfirm">Are you sure you want to edit the problem?</string>
@@ -525,6 +527,7 @@
     <string name="suredeletingproblem">Are you sure you want to delete the problem?</string>
     <string name="email_taken">The email id has already been taken</string>
     <string name="problem_with_ticket">Are you sure you want to associate this problem with the ticket?</string>
+    <string name="problem_with_change">Are you sure you want to associate this change with the problem?</string>
     <string name="welcome_faveo">Welcome to FAVEO</string>
     <string name="welcome_back">Welcome back</string>
     <string name="notification">Notifications</string>
@@ -535,6 +538,7 @@
     <string name="please_enter_yes_or_no">please enter yes or no</string>
     <string name="intro">Welcome to faveo servicedesk android app. Lets explore it.</string>
     <string name="no_tickets">No tickets found!</string>
+    <string name="existing_changes">Existing changes</string>
     <string-array name="CountryCodes">
 
         <item>93,AF</item>
