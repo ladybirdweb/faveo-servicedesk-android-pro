@@ -28,6 +28,7 @@
                 android:layout_marginStart="11dp"
                 android:padding="5dp"
                 android:text="@string/Impact"
+                android:fontFamily="@font/hintedlainesansregular"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -50,6 +51,7 @@
             android:cursorVisible="true"
             android:hint="describe here"
             android:gravity="bottom"
+            android:fontFamily="@font/hintedlainesansregular"
             android:padding="8dp"
             />
 
@@ -66,8 +68,9 @@
                 android:layout_alignParentTop="true"
                 android:layout_gravity="left"
                 android:layout_marginEnd="19dp"
-                android:background="@drawable/rectangle3"
+                android:background="@drawable/rectanglereachout"
                 android:text="Save"
+                android:fontFamily="@font/hintedlainesansregular"
                 android:textAllCaps="false"
                 android:textColor="@color/colorAccent" />
 
@@ -79,8 +82,9 @@
                 android:layout_alignParentTop="true"
                 android:layout_gravity="left"
                 android:layout_marginStart="21dp"
-                android:background="@drawable/rectangle3"
+                android:background="@drawable/rectanglereachout"
                 android:text="Exit"
+                android:fontFamily="@font/hintedlainesansregular"
                 android:textAllCaps="false"
                 android:textColor="@color/colorAccent" />
         </RelativeLayout>

@@ -528,27 +528,24 @@ public class Conversation extends Fragment {
 //        }
 
             if (i==0){
-                for (int j=0;j<ticketThreadList.size()-1;j++){
-                    ticketViewHolder.relativeLayoutWebView.setVisibility(View.VISIBLE);
-                    //ticketViewHolder.reportAndReply.setVisibility(View.VISIBLE);
-                    //ticketViewHolder.textViewTicketCreatedTime.setVisibility(View.VISIBLE);
-                    ticketViewHolder.textViewMessageTime.setVisibility(View.VISIBLE);
-                    ticketViewHolder.textViewShowingSome.setVisibility(View.GONE);
-                    //ticketViewHolder.relativeLayoutWebView.setVisibility(View.GONE);
-                    ticketViewHolder.linearLayout.setVisibility(View.VISIBLE);
-                }
+                ticketViewHolder.relativeLayoutWebView.setVisibility(View.VISIBLE);
+                //ticketViewHolder.reportAndReply.setVisibility(View.VISIBLE);
+                //ticketViewHolder.textViewTicketCreatedTime.setVisibility(View.VISIBLE);
+                ticketViewHolder.textViewMessageTime.setVisibility(View.VISIBLE);
+                ticketViewHolder.textViewShowingSome.setVisibility(View.GONE);
+                //ticketViewHolder.relativeLayoutWebView.setVisibility(View.GONE);
+                ticketViewHolder.linearLayout.setVisibility(View.VISIBLE);
             }
-            else{
-                for (int j=0;j<ticketThreadList.size()-1;j++){
-                    ticketViewHolder.relativeLayoutWebView.setVisibility(View.VISIBLE);
-                    //ticketViewHolder.reportAndReply.setVisibility(View.VISIBLE);
-                    //ticketViewHolder.textViewTicketCreatedTime.setVisibility(View.VISIBLE);
-                    ticketViewHolder.textViewMessageTime.setVisibility(View.VISIBLE);
-                    ticketViewHolder.textViewShowingSome.setVisibility(View.GONE);
-                    //ticketViewHolder.relativeLayoutWebView.setVisibility(View.GONE);
-                    ticketViewHolder.linearLayout.setVisibility(View.VISIBLE);
-                }
+            for (int j=0;j<ticketThreadList.size()-1;j++){
+                ticketViewHolder.relativeLayoutWebView.setVisibility(View.VISIBLE);
+                //ticketViewHolder.reportAndReply.setVisibility(View.VISIBLE);
+                //ticketViewHolder.textViewTicketCreatedTime.setVisibility(View.VISIBLE);
+                ticketViewHolder.textViewMessageTime.setVisibility(View.VISIBLE);
+                ticketViewHolder.textViewShowingSome.setVisibility(View.GONE);
+                //ticketViewHolder.relativeLayoutWebView.setVisibility(View.GONE);
+                ticketViewHolder.linearLayout.setVisibility(View.VISIBLE);
             }
+
 
             ticketViewHolder.replyIcon.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -321,8 +321,9 @@ public class ProblemDescription extends Fragment {
                 JSONObject jsonObject=new JSONObject(result);
                 String data=jsonObject.getString("data");
                 String data1=data.replaceAll("&nbsp;"," ");
-                Prefs.putString("description",data1);
-                textViewRootCauseDescrip.setText(data1);
+                String data2=data1.replaceAll("&quot;","");
+                Prefs.putString("description",data2);
+                textViewRootCauseDescrip.setText(data2);
                 new FetchProblemDescriptionImpact(getActivity(),problemId,tableNameRoot,identifierImopact).execute();
                 } catch (JSONException | NullPointerException e) {
                 Prefs.putString("description","");
@@ -356,8 +357,9 @@ public class ProblemDescription extends Fragment {
                 JSONObject jsonObject=new JSONObject(result);
                 String data=jsonObject.getString("data");
                 String data1=data.replaceAll("&nbsp;"," ");
-                Prefs.putString("solution",data1);
-                textViewSolutions.setText(data1);
+                String data2=data1.replaceAll("&quot;","");
+                Prefs.putString("solution",data2);
+                textViewSolutions.setText(data2);
 
             } catch (JSONException | NullPointerException e) {
                 Prefs.putString("solution","");
@@ -387,8 +389,9 @@ public class ProblemDescription extends Fragment {
                 JSONObject jsonObject=new JSONObject(result);
                 String data=jsonObject.getString("data");
                 String data1=data.replaceAll("&nbsp;"," ");
-                Prefs.putString("impact",data);
-                textViewImpact.setText(data1);
+                String data2=data1.replaceAll("&quot;","");
+                Prefs.putString("impact",data2);
+                textViewImpact.setText(data2);
                 new FetchProblemDescriptionSymptoms(getActivity(),problemId,tableNameRoot,identifierSymptoms).execute();
             } catch (JSONException | NullPointerException e) {
                 Prefs.putString("impact","");
@@ -421,8 +424,9 @@ public class ProblemDescription extends Fragment {
                 JSONObject jsonObject=new JSONObject(result);
                 String data=jsonObject.getString("data");
                 String data1=data.replaceAll("&nbsp;"," ");
-                textViewSymptoms.setText(data1);
-                Prefs.putString("symptoms",data1);
+                String data2=data1.replaceAll("&quot;","");
+                textViewSymptoms.setText(data2);
+                Prefs.putString("symptoms",data2);
                 new FetchProblemSolution(getActivity(),problemId,tableNameRoot,identifierSolutions).execute();
             } catch (JSONException | NullPointerException e) {
                 Prefs.putString("symptoms","");

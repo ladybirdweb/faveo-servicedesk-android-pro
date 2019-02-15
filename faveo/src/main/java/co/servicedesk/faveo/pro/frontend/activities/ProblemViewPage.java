@@ -671,6 +671,7 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
                 @Override
                 public void onClick(View view) {
                     new BottomDialog.Builder(ProblemViewPage.this)
+                            .setTitle("Detaching change")
                             .setContent("Are you sure you want to detach the change?")
                             .setPositiveText("YES")
                             .setNegativeText("NO")
@@ -684,7 +685,7 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
                                 public void onClick(BottomDialog dialog) {
                                     if (InternetReceiver.isConnected()){
                                         if (InternetReceiver.isConnected()){
-                                            dialog1= new SpotsDialog(ProblemViewPage.this, "Detaching Change..");
+                                            dialog1= new SpotsDialog(ProblemViewPage.this, "Detaching Change");
                                             dialog1.show();
                                             new DetachChange(problemId).execute();
 

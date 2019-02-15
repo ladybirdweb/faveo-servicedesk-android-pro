@@ -313,8 +313,9 @@ public class ChangeDescription extends Fragment {
                 JSONObject jsonObject=new JSONObject(result);
                 String data=jsonObject.getString("data");
                 String data1=data.replaceAll("&nbsp;"," ");
-                Prefs.putString("description",data1);
-                textViewReason.setText(data1);
+                String data2=data1.replaceAll("&quot;","");
+                Prefs.putString("description",data2);
+                textViewReason.setText(data2);
                 new FetchProblemDescriptionImpact(getActivity(),problemId,tableNameRoot,identifierImopact).execute();
             } catch (JSONException | NullPointerException e) {
                 Prefs.putString("description","");
@@ -348,8 +349,9 @@ public class ChangeDescription extends Fragment {
                 JSONObject jsonObject=new JSONObject(result);
                 String data=jsonObject.getString("data");
                 String data1=data.replaceAll("&nbsp;"," ");
-                Prefs.putString("solution",data1);
-                textViewBackout.setText(data1);
+                String data2=data1.replaceAll("&quot;","");
+                Prefs.putString("solution",data2);
+                textViewBackout.setText(data2);
 
             } catch (JSONException | NullPointerException e) {
                 Prefs.putString("solution","");
@@ -379,8 +381,9 @@ public class ChangeDescription extends Fragment {
                 JSONObject jsonObject=new JSONObject(result);
                 String data=jsonObject.getString("data");
                 String data1=data.replaceAll("&nbsp;"," ");
-                Prefs.putString("impact",data);
-                textViewImpact.setText(data1);
+                String data2=data1.replaceAll("&quot;","");
+                Prefs.putString("impact",data2);
+                textViewImpact.setText(data2);
                 new FetchProblemDescriptionSymptoms(getActivity(),changeId,tableNameRoot,identifierSymptoms).execute();
             } catch (JSONException | NullPointerException e) {
                 Prefs.putString("impact","");
@@ -413,8 +416,9 @@ public class ChangeDescription extends Fragment {
                 JSONObject jsonObject=new JSONObject(result);
                 String data=jsonObject.getString("data");
                 String data1=data.replaceAll("&nbsp;"," ");
-                textViewRollout.setText(data1);
-                Prefs.putString("symptoms",data1);
+                String data2=data1.replaceAll("&quot;","");
+                textViewRollout.setText(data2);
+                Prefs.putString("symptoms",data2);
                 new FetchProblemSolution(getActivity(),changeId,tableNameRoot,identifierSolutions).execute();
             } catch (JSONException | NullPointerException e) {
                 Prefs.putString("symptoms","");
@@ -488,7 +492,7 @@ public class ChangeDescription extends Fragment {
             setContentView(R.layout.custom_dialog_reason);
             yes = (Button) findViewById(R.id.btn_yes);
             no = (Button) findViewById(R.id.btn_no);
-            editTextRootCause=findViewById(R.id.rootCause);
+            editTextRootCause=findViewById(R.id.reason);
             yes.setOnClickListener(this);
             no.setOnClickListener(this);
 
@@ -498,23 +502,26 @@ public class ChangeDescription extends Fragment {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.btn_yes:
-                    if (editTextRootCause.getText().toString().equals("")){
-                        Toasty.info(c,"message cannot be empty",Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    else{
-                        String body=editTextRootCause.getText().toString();
-                        try {
-                            body = URLEncoder.encode(body.trim(), "utf-8");
-                        } catch (UnsupportedEncodingException e) {
-                            e.printStackTrace();
+                    try {
+                        if (editTextRootCause.getText().toString().equals("")) {
+                            Toasty.info(c, "message cannot be empty", Toast.LENGTH_SHORT).show();
+                            return;
+                        } else {
+                            String body = editTextRootCause.getText().toString();
+                            try {
+                                body = URLEncoder.encode(body.trim(), "utf-8");
+                            } catch (UnsupportedEncodingException e) {
+                                e.printStackTrace();
+                            }
+                            identifier = "reason";
+                            parameterName = "reason";
+                            progressDialog = new ProgressDialog(getActivity());
+                            progressDialog.setMessage(getString(R.string.pleasewait));
+                            progressDialog.show();
+                            new workAround(changeId, table, identifier, parameterName, body).execute();
                         }
-                        identifier="reason";
-                        parameterName="reason";
-                        progressDialog = new ProgressDialog(getActivity());
-                        progressDialog.setMessage(getString(R.string.pleasewait));
-                        progressDialog.show();
-                        new workAround(changeId,table,identifier,parameterName,body).execute();
+                    }catch (NullPointerException e){
+                        e.printStackTrace();
                     }
 
                     break;
@@ -549,7 +556,7 @@ public class ChangeDescription extends Fragment {
             setContentView(R.layout.custom_dialogimpact);
             yes = (Button) findViewById(R.id.btn_yes);
             no = (Button) findViewById(R.id.btn_no);
-            editTextRootCause=findViewById(R.id.rootCause);
+            editTextRootCause=findViewById(R.id.impactEdit);
             yes.setOnClickListener(this);
             no.setOnClickListener(this);
 
@@ -559,23 +566,26 @@ public class ChangeDescription extends Fragment {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.btn_yes:
-                    if (editTextRootCause.getText().toString().equals("")){
-                        Toasty.info(c,"message cannot be empty",Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    else{
-                        String body=editTextRootCause.getText().toString();
-                        try {
-                            body = URLEncoder.encode(body.trim(), "utf-8");
-                        } catch (UnsupportedEncodingException e) {
-                            e.printStackTrace();
+                    try {
+                        if (editTextRootCause.getText().toString().equals("")) {
+                            Toasty.info(c, "message cannot be empty", Toast.LENGTH_SHORT).show();
+                            return;
+                        } else {
+                            String body = editTextRootCause.getText().toString();
+                            try {
+                                body = URLEncoder.encode(body.trim(), "utf-8");
+                            } catch (UnsupportedEncodingException e) {
+                                e.printStackTrace();
+                            }
+                            identifier = "impact";
+                            parameterName = "impact";
+                            progressDialog = new ProgressDialog(getActivity());
+                            progressDialog.setMessage(getString(R.string.pleasewait));
+                            progressDialog.show();
+                            new workAround(changeId, table, identifier, parameterName, body).execute();
                         }
-                        identifier="impact";
-                        parameterName="impact";
-                        progressDialog = new ProgressDialog(getActivity());
-                        progressDialog.setMessage(getString(R.string.pleasewait));
-                        progressDialog.show();
-                        new workAround(changeId,table,identifier,parameterName,body).execute();
+                    }catch (NullPointerException e){
+                        e.printStackTrace();
                     }
 
                     break;
@@ -609,7 +619,7 @@ public class ChangeDescription extends Fragment {
             setContentView(R.layout.custom_dialog_rolloutplan);
             yes = (Button) findViewById(R.id.btn_yes);
             no = (Button) findViewById(R.id.btn_no);
-            editTextRootCause=findViewById(R.id.rootCause);
+            editTextRootCause=findViewById(R.id.rollout_plan);
             yes.setOnClickListener(this);
             no.setOnClickListener(this);
 
@@ -619,23 +629,26 @@ public class ChangeDescription extends Fragment {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.btn_yes:
-                    if (editTextRootCause.getText().toString().equals("")){
-                        Toasty.info(c,"message cannot be empty",Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    else{
-                        String body=editTextRootCause.getText().toString();
-                        try {
-                            body = URLEncoder.encode(body.trim(), "utf-8");
-                        } catch (UnsupportedEncodingException e) {
-                            e.printStackTrace();
+                    try {
+                        if (editTextRootCause.getText().toString().equals("")) {
+                            Toasty.info(c, "message cannot be empty", Toast.LENGTH_SHORT).show();
+                            return;
+                        } else {
+                            String body = editTextRootCause.getText().toString();
+                            try {
+                                body = URLEncoder.encode(body.trim(), "utf-8");
+                            } catch (UnsupportedEncodingException e) {
+                                e.printStackTrace();
+                            }
+                            identifier = "rollout-plan";
+                            parameterName = "rollout-plan";
+                            progressDialog = new ProgressDialog(getActivity());
+                            progressDialog.setMessage(getString(R.string.pleasewait));
+                            progressDialog.show();
+                            new workAround(changeId, table, identifier, parameterName, body).execute();
                         }
-                        identifier="rollout-plan";
-                        parameterName="rollout-plan";
-                        progressDialog = new ProgressDialog(getActivity());
-                        progressDialog.setMessage(getString(R.string.pleasewait));
-                        progressDialog.show();
-                        new workAround(changeId,table,identifier,parameterName,body).execute();
+                    }catch (NullPointerException e){
+                        e.printStackTrace();
                     }
 
                     break;
@@ -670,7 +683,7 @@ public class ChangeDescription extends Fragment {
             setContentView(R.layout.custom_dialog_backoutplan);
             yes = (Button) findViewById(R.id.btn_yes);
             no = (Button) findViewById(R.id.btn_no);
-            editTextRootCause=findViewById(R.id.rootCause);
+            editTextRootCause=findViewById(R.id.backout_plan);
             yes.setOnClickListener(this);
             no.setOnClickListener(this);
 
@@ -680,23 +693,27 @@ public class ChangeDescription extends Fragment {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.btn_yes:
-                    if (editTextRootCause.getText().toString().equals("")){
-                        Toasty.info(c,"message cannot be empty",Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    else{
-                        String body=editTextRootCause.getText().toString();
-                        try {
-                            body = URLEncoder.encode(body.trim(), "utf-8");
-                        } catch (UnsupportedEncodingException e) {
-                            e.printStackTrace();
+                    try {
+                        if (editTextRootCause.getText().toString().equals("")) {
+                            Toasty.info(c, "message cannot be empty", Toast.LENGTH_SHORT).show();
+                            return;
+                        } else {
+                            String body = editTextRootCause.getText().toString();
+                            try {
+                                body = URLEncoder.encode(body.trim(), "utf-8");
+                            } catch (UnsupportedEncodingException e) {
+                                e.printStackTrace();
+                            }
+                            identifier = "backout-plan";
+                            parameterName = "backout-plan";
+                            progressDialog = new ProgressDialog(getActivity());
+                            progressDialog.setMessage(getString(R.string.pleasewait));
+                            progressDialog.show();
+                            new workAround(changeId, table, identifier, parameterName, body).execute();
+
                         }
-                        identifier="backout-plan ";
-                        parameterName="backout-plan ";
-                        progressDialog = new ProgressDialog(getActivity());
-                        progressDialog.setMessage(getString(R.string.pleasewait));
-                        progressDialog.show();
-                        new workAround(changeId,table,identifier,parameterName,body).execute();
+                    }catch (NullPointerException e){
+                        e.printStackTrace();
                     }
 
                     break;

@@ -1,12 +1,15 @@
 package co.servicedesk.faveo.pro.frontend.activities;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -18,7 +21,9 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.javiersantos.bottomdialogs.BottomDialog;
@@ -40,13 +45,14 @@ import es.dmoral.toasty.Toasty;
 public class MultiAssigningActivity extends AppCompatActivity {
 
     AutoCompleteTextView autoCompleteTextViewselectAssignee;
-    ImageView imageViewback,buttonAssign;
+    ImageView imageViewback;
+    TextView buttonAssign;
     ArrayList<Data> staffItems;
-    ArrayList<Data> staffitemsauto;
     ArrayAdapter<Data> autoAssignAdapyter;
     int agentId;
+    String ticket;
     ProgressDialog progressDialog;
-    SpotsDialog dialog1;
+    StringBuffer stringBuffer;
     public static String
             keyDepartment = "", valueDepartment = "",
             keySLA = "", valueSLA = "",
@@ -70,38 +76,36 @@ public class MultiAssigningActivity extends AppCompatActivity {
 
 // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(MultiAssigningActivity.this,R.color.faveo));
+        window.setStatusBarColor(ContextCompat.getColor(MultiAssigningActivity.this,R.color.mainActivityTopBar));
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        progressDialog = new ProgressDialog(MultiAssigningActivity.this);
         setSupportActionBar(toolbar);
-        staffItems=new ArrayList<>();
-        if (InternetReceiver.isConnected()){
-            new FetchDependency().execute();
-        }
-        Prefs.getString("keyStaff", null);
-        Data data;
-        JSONObject jsonObject;
-        String json = Prefs.getString("DEPENDENCY", "");
-        try {
-            staffItems = new ArrayList<>();
-            jsonObject = new JSONObject(json);
-            staffItems.add(new Data(0, "--"));
-            JSONArray jsonArrayStaffs = jsonObject.getJSONArray("staffs");
-            for (int i = 0; i < jsonArrayStaffs.length(); i++) {
-                if (jsonArrayStaffs.getJSONObject(i).getString("first_name").equals("") && jsonArrayStaffs.getJSONObject(i).getString("last_name").equals("")) {
-                    Log.d("cameHere", "TRUE");
-                    data = new Data(Integer.parseInt(jsonArrayStaffs.getJSONObject(i).getString("id")), jsonArrayStaffs.getJSONObject(i).getString("email"));
-                } else {
-                    data = new Data(Integer.parseInt(jsonArrayStaffs.getJSONObject(i).getString("id")), jsonArrayStaffs.getJSONObject(i).getString("first_name") + " " + jsonArrayStaffs.getJSONObject(i).getString("last_name"));
-                }
-                staffItems.add(data);
+        stringBuffer=new StringBuffer();
+        if (!Prefs.getString("tickets", null).isEmpty()) {
+            String tickets = Prefs.getString("tickets", null);
+            int pos = tickets.indexOf("[");
+            int pos1 = tickets.lastIndexOf("]");
+            String text1 = tickets.substring(pos + 1, pos1);
+            String[] namesList = text1.split(",");
+            for (String name : namesList) {
+                stringBuffer.append(name + ",");
             }
-        }catch (JSONException e){
-            e.printStackTrace();
+            int pos2 = stringBuffer.toString().lastIndexOf(",");
+            ticket = stringBuffer.toString().substring(0, pos2);
+            Log.d("tickets", ticket);
         }
-        buttonAssign= (ImageView) findViewById(R.id.buttonAssign);
-        autoCompleteTextViewselectAssignee= (AutoCompleteTextView) findViewById(R.id.selectAssignee);
-        imageViewback= (ImageView) findViewById(R.id.imageViewBack);
-        autoAssignAdapyter=new ArrayAdapter<Data>(this, android.R.layout.simple_dropdown_item_1line,staffItems);
+        if (InternetReceiver.isConnected()) {
+            progressDialog.setMessage(getString(R.string.pleasewait));
+            progressDialog.show();
+            staffItems = new ArrayList<>();
+            new FetchAgents(ticket).execute();
+            //new FetchDependency().execute();
+        }
+
+        buttonAssign = (TextView) findViewById(R.id.buttonAssign);
+        autoCompleteTextViewselectAssignee = (AutoCompleteTextView) findViewById(R.id.selectAssignee);
+        imageViewback = (ImageView) findViewById(R.id.imageViewBack);
+        autoAssignAdapyter = new ArrayAdapter<Data>(this, android.R.layout.simple_dropdown_item_1line, staffItems);
         autoCompleteTextViewselectAssignee.setAdapter(autoAssignAdapyter);
         autoCompleteTextViewselectAssignee.setThreshold(0);
         autoCompleteTextViewselectAssignee.setDropDownWidth(1500);
@@ -109,69 +113,59 @@ public class MultiAssigningActivity extends AppCompatActivity {
         imageViewback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                Intent intent = new Intent(MultiAssigningActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
         buttonAssign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                StringBuffer stringBuffer = new StringBuffer();
-                final String ticket;
-                try {
-                    if (!Prefs.getString("tickets", null).isEmpty()) {
-                        String tickets = Prefs.getString("tickets", null);
-                        int pos = tickets.indexOf("[");
-                        int pos1 = tickets.lastIndexOf("]");
-                        String text1 = tickets.substring(pos + 1, pos1);
-                        String[] namesList = text1.split(",");
-                        for (String name : namesList) {
-                            stringBuffer.append(name + ",");
+
+
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(MultiAssigningActivity.this);
+
+                // Setting Dialog Title
+                alertDialog.setTitle(getString(R.string.assigningTickets));
+
+                // Setting Dialog Message
+                alertDialog.setMessage(getString(R.string.assigningConfirmation));
+
+                // Setting Icon to Dialog
+                alertDialog.setIcon(R.mipmap.ic_launcher);
+
+                // Setting Positive "Yes" Button
+                alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Write your code here to invoke YES event
+                        //Toast.makeText(getApplicationContext(), "You clicked on YES", Toast.LENGTH_SHORT).show();
+                        if (InternetReceiver.isConnected()) {
+                            progressDialog = new ProgressDialog(MultiAssigningActivity.this);
+                            progressDialog.setMessage("Please wait");
+                            progressDialog.show();
+                            new MultipleAssign(ticket, "" + agentId).execute();
+
+
                         }
-                        int pos2 = stringBuffer.toString().lastIndexOf(",");
-                        ticket = stringBuffer.toString().substring(0, pos2);
-                        Log.d("tickets", ticket);
-
-                        new BottomDialog.Builder(MultiAssigningActivity.this)
-                                .setTitle(getString(R.string.assigningTickets))
-                                .setContent(getString(R.string.assigningConfirmation))
-                                .setPositiveText("YES")
-                                .setNegativeText("NO")
-                                .setPositiveBackgroundColorResource(R.color.white)
-                                //.setPositiveBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary)
-                                .setPositiveTextColorResource(R.color.faveo)
-                                .setNegativeTextColor(R.color.black)
-                                //.setPositiveTextColor(ContextCompat.getColor(this, android.R.color.colorPrimary)
-                                .onPositive(new BottomDialog.ButtonCallback() {
-                                    @Override
-                                    public void onClick(BottomDialog dialog) {
-                                        if (InternetReceiver.isConnected()){
-                                            if (InternetReceiver.isConnected()){
-                                                dialog1= new SpotsDialog(MultiAssigningActivity.this, getString(R.string.assigningTickets));
-                                                dialog1.show();
-                                                new MultipleAssign(ticket,""+agentId).execute();
-
-
-                                            }
-                                        }
-                                    }
-                                }).onNegative(new BottomDialog.ButtonCallback() {
-                            @Override
-                            public void onClick(@NonNull BottomDialog bottomDialog) {
-                                bottomDialog.dismiss();
-                            }
-                        })
-                                .show();
-                        } else {
-                        Toasty.info(MultiAssigningActivity.this, getString(R.string.noticket), Toast.LENGTH_LONG).show();
-
                     }
-                } catch (NullPointerException e) {
-                    Toasty.info(MultiAssigningActivity.this, getString(R.string.noticket), Toast.LENGTH_LONG).show();
-                    e.printStackTrace();
-                }
+                });
+
+                // Setting Negative "NO" Button
+                alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Write your code here to invoke NO event
+                        //Toast.makeText(getApplicationContext(), "You clicked on NO", Toast.LENGTH_SHORT).show();
+                        dialog.cancel();
+                    }
+                });
+
+                // Showing Alert Message
+                alertDialog.show();
+
 
             }
+
         });
+
 
         autoCompleteTextViewselectAssignee.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -188,30 +182,20 @@ public class MultiAssigningActivity extends AppCompatActivity {
                 }
             }
         });
-        }
+    }
     @Override
     public void onBackPressed() {
-        if (!MainActivity.isShowing) {
-            Log.d("isShowing", "false");
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-        } else Log.d("isShowing", "true");
-
-
-        super.onBackPressed();
-
-//        if (fabExpanded)
-//            exitReveal();
-//        else super.onBackPressed();
+        Intent intent=new Intent(MultiAssigningActivity.this,MainActivity.class);
+        startActivity(intent);
     }
 
     @Override
     protected void onResume() {
-//        if (InternetReceiver.isConnected()){
-//            new FetchDependency().execute();
-//        }
         super.onResume();
     }
+
+
+
 
     private class FetchDependency extends AsyncTask<String, Void, String> {
         String unauthorized;
@@ -227,42 +211,9 @@ public class MultiAssigningActivity extends AppCompatActivity {
             Log.d("cameHere","True");
 
             if (result==null) {
-//                try {
-//                    unauthorized = Prefs.getString("unauthorized", null);
-//                    if (unauthorized.equals("true")) {
-//                        loading.setText("Oops! Something went wrong.");
-//                        progressDialog.setVisibility(View.INVISIBLE);
-//                        textViewtryAgain.setVisibility(View.VISIBLE);
-//                        textViewrefresh.setVisibility(View.VISIBLE);
-//                        Prefs.putString("unauthorized", "false");
-//                        textViewrefresh.setOnClickListener(new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View view) {
-//                                Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-//                                startActivity(intent);
-//                            }
-//                        });
-//
-//                    }
-//
-//                } catch (NullPointerException e) {
-//                    e.printStackTrace();
-//                }
+                Toast.makeText(MultiAssigningActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                return;
             }
-//            String state=Prefs.getString("403",null);
-//
-//            try {
-//                if (state.equals("403") && !state.equals(null)) {
-//                    Toasty.info(SplashActivity.this, getString(R.string.roleChanged), Toast.LENGTH_LONG).show();
-//                    Prefs.clear();
-//                    Intent intent=new Intent(SplashActivity.this,LoginActivity.class);
-//                    Prefs.putString("403", "null");
-//                    startActivity(intent);
-//                    return;
-//                }
-//            }catch (NullPointerException e){
-//                e.printStackTrace();
-//            }
 
 
             try {
@@ -304,22 +255,6 @@ public class MultiAssigningActivity extends AppCompatActivity {
                 }
                 Prefs.putString("keyType", keyType);
                 Prefs.putString("valueType", valueType);
-
-//                JSONArray jsonArrayStaffs = jsonObject1.getJSONArray("staffs");
-//                for (int i = 0; i < jsonArrayStaffs.length(); i++) {
-//                    keyStaff += jsonArrayStaffs.getJSONObject(i).getString("id") + ",";
-//                    valueStaff += jsonArrayStaffs.getJSONObject(i).getString("email") + ",";
-//                }
-
-
-//                JSONArray jsonArrayTeams = jsonObject1.getJSONArray("teams");
-//                for (int i = 0; i < jsonArrayTeams.length(); i++) {
-//                    keyTeam += jsonArrayTeams.getJSONObject(i).getString("id") + ",";
-//                    valueTeam += jsonArrayTeams.getJSONObject(i).getString("name") + ",";
-//                }
-
-                //Set<String> keyPri = new LinkedHashSet<>();
-                // Set<String> valuePri = new LinkedHashSet<>();
                 JSONArray jsonArrayPriorities = jsonObject1.getJSONArray("priorities");
                 for (int i = 0; i < jsonArrayPriorities.length(); i++) {
                     // keyPri.add(jsonArrayPriorities.getJSONObject(i).getString("priority_id"));
@@ -424,26 +359,50 @@ public class MultiAssigningActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-//            AlertDialog.Builder builder = new AlertDialog.Builder(SplashActivity.this);
-//            builder.setTitle("Welcome to FAVEO");
-//            //builder.setMessage("After 2 second, this dialog will be closed automatically!");
-//            builder.setCancelable(true);
-//
-//            final AlertDialog dlg = builder.create();
-//
-//            dlg.show();
-//
-//            final Timer t = new Timer();
-//            t.schedule(new TimerTask() {
-//                public void run() {
-//                    dlg.dismiss(); // when the task active then close the dialog
-//                    t.cancel(); // also just top the timer thread, otherwise, you may receive a crash report
-//                }
-//            }, 3000);
         }
     }
+
+    private class FetchAgents extends AsyncTask<String,Void,String>{
+        String ticketId;
+
+        public FetchAgents(String ticketId) {
+            this.ticketId = ticketId;
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            progressDialog.dismiss();
+
+            return new Helpdesk().getAgentbasedOnDepartment(ticketId);
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            Log.d("AgnetsAre",s);
+            staffItems.clear();
+            try {
+
+                JSONObject jsonObject = new JSONObject(s);
+                JSONArray jsonArrayStaffs = jsonObject.getJSONArray("data");
+                for (int i = 0; i < jsonArrayStaffs.length(); i++) {
+                    String name=jsonArrayStaffs.getJSONObject(i).getString("name");
+                    int id=jsonArrayStaffs.getJSONObject(i).getInt("id");
+                    Data data=new Data(id,name);
+                    staffItems.add(data);
+                }
+                autoAssignAdapyter = new ArrayAdapter<Data>(MultiAssigningActivity.this, android.R.layout.simple_dropdown_item_1line, staffItems);
+                autoCompleteTextViewselectAssignee.setAdapter(autoAssignAdapyter);
+                autoCompleteTextViewselectAssignee.setAdapter(autoAssignAdapyter);
+                autoCompleteTextViewselectAssignee.setThreshold(0);
+                autoCompleteTextViewselectAssignee.setDropDownWidth(1500);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    @SuppressLint("StaticFieldLeak")
     private class MultipleAssign extends AsyncTask<String, Void, String> {
-        String ticketid,assignid;
+        private String ticketid,assignid;
 
         MultipleAssign(String ticketid, String assignid) {
             this.ticketid = ticketid;
@@ -456,7 +415,7 @@ public class MultiAssigningActivity extends AppCompatActivity {
         }
         protected void onPostExecute(String result) {
             Log.d("Depen Response : ", result + "");
-            dialog1.dismiss();
+            progressDialog.dismiss();
 
             if (result == null) {
                 Toasty.error(MultiAssigningActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
@@ -488,11 +447,6 @@ public class MultiAssigningActivity extends AppCompatActivity {
                 Toasty.error(MultiAssigningActivity.this, "Parsing Error!", Toast.LENGTH_LONG).show();
                 e.printStackTrace();
             }
-//            finally {
-//                Toasty.success(MultiAssigningActivity.this, getString(R.string.successfullyAssigned), Toast.LENGTH_LONG).show();
-//                Intent intent=new Intent(MultiAssigningActivity.this,MainActivity.class);
-//                startActivity(intent);
-//            }
         }
     }
     TextWatcher passwordWatcheredittextSubject = new TextWatcher() {
