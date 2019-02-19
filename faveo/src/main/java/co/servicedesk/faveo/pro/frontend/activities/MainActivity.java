@@ -32,6 +32,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 //import com.getkeepsafe.taptargetview.TapTarget;
 //import com.getkeepsafe.taptargetview.TapTargetSequence;
@@ -343,6 +344,17 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
 //        }
 
     }
+//    private void receiveData()
+//    {
+//        //RECEIVE DATA VIA INTENT
+//        Intent i = getIntent();
+//        String name = i.getStringExtra("NAME_KEY");
+//        //int year = i.getIntExtra("YEAR_KEY",0);
+//        Log.d("ReceivedName",name);
+//        Toast.makeText(this, "Received"+name, Toast.LENGTH_SHORT).show();
+//
+//        //SET DATA TO TEXTVIEWS
+//    }
 
     @Override
     protected void onDestroy() {
@@ -431,6 +443,19 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
         Prefs.putString("searchResult", "");
         Prefs.putString("searchUser","");
         checkConnection();
+//        try {
+//            //DETERMINE WHO STARTED THIS ACTIVITY
+//            final String sender = this.getIntent().getExtras().getString("SENDER_KEY");
+//
+//            //IF ITS THE FRAGMENT THEN RECEIVE DATA
+//            if (sender != null) {
+//                this.receiveData();
+//                Toast.makeText(this, "Received", Toast.LENGTH_SHORT).show();
+//
+//            }
+//        }catch (NullPointerException e){
+//            e.printStackTrace();
+//        }
         super.onResume();
         // register connection status listener
         //FaveoApplication.getInstance().setInternetListener(this);

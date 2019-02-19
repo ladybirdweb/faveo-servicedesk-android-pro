@@ -495,6 +495,7 @@
     <string name="statusRequired">please select the status</string>
     <string name="departmentRequired">please select the department</string>
     <string name="creating_problem">Creating problem</string>
+    <string name="creating_change">Creating change</string>
     <string name="problem_confirm">Are you sure you want to create this problem?</string>
     <string name="all_problem_loaded">All problems are loaded</string>
     <string name="all_changes_are_loaded">All changes are loaded</string>
@@ -537,7 +538,7 @@
     <string name="problem_initialier">#PRB-</string>
     <string name="please_enter_yes_or_no">please enter yes or no</string>
     <string name="intro">Welcome to faveo servicedesk android app. Lets explore it.</string>
-    <string name="no_tickets">No tickets found!</string>
+    <string name="no_tickets">No records found!</string>
     <string name="existing_changes">Existing changes</string>
     <string-array name="CountryCodes">
 

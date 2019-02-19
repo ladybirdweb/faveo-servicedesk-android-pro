@@ -236,7 +236,7 @@ public class ExistingProblems extends AppCompatActivity {
                             String subject=jsonObject2.getString("subject");
                             String email=jsonObject2.getString("from");
                             Log.d("email",email);
-                            String createdDate=jsonObject2.getString("created_at");
+                            String createdDate=jsonObject2.getString("updated_at");
                             String priority=jsonObject2.getString("priority");
                             ProblemModel problemModel=new ProblemModel(email,subject,createdDate,id,priority);
                             problemList.add(problemModel);
@@ -308,7 +308,7 @@ public class ExistingProblems extends AppCompatActivity {
                     int id=jsonObject2.getInt("id");
                     String subject=jsonObject2.getString("subject");
                     String email=jsonObject2.getString("from");
-                    String createdDate=jsonObject2.getString("created_at");
+                    String createdDate=jsonObject2.getString("updated_at");
                     String priority=jsonObject2.getString("priority");
                     ProblemModel problemModel=new ProblemModel(email,subject,createdDate,id,priority);
                     problemList.add(problemModel);

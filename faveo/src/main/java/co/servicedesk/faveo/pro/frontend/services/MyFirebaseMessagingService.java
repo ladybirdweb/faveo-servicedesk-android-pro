@@ -44,7 +44,7 @@ import co.servicedesk.faveo.pro.frontend.activities.TicketDetailActivity;
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "MyFirebaseMsgService";
     String by;
-    private NotificationChannel mChannel;
+    NotificationChannel mChannel;
     NotificationManager notifManager;
     Bitmap bitmap1;
     @Override

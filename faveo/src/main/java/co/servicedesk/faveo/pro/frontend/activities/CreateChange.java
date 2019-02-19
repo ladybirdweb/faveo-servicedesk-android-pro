@@ -72,6 +72,8 @@ public class CreateChange extends AppCompatActivity {
     String email1="";
     StringBuilder sb1 = new StringBuilder();
     int idForequester=0;
+    String condition;
+    int problemId;
     @SuppressLint("CutPasteId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +86,15 @@ public class CreateChange extends AppCompatActivity {
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(ContextCompat.getColor(CreateChange.this,R.color.mainActivityTopBar));
+        try {
+            condition = Prefs.getString("needToAttachChange", null);
+            problemId=Prefs.getInt("problemId",0);
+            Log.d("condition",condition);
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
+
+
         impactSpinner=findViewById(R.id.impact);
         prioritySpinner=findViewById(R.id.spinner_pri);
         statusSpinner=findViewById(R.id.spinner_status);
@@ -137,6 +148,8 @@ public class CreateChange extends AppCompatActivity {
 
             }
         });
+
+
 
         prioritySpinner.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -220,67 +233,8 @@ public class CreateChange extends AppCompatActivity {
 
                 if (allCorrect) {
                     if (assetList.equals("")) {
-                        String email = email1;
-                        String subjec = editTextSubject.getText().toString();
-                        String descrition = editTextDescrip.getText().toString();
 
-                        try {
-                            email = URLEncoder.encode(email.trim(), "utf-8");
-                            subjec = URLEncoder.encode(subjec.trim(), "utf-8");
-                            descrition = URLEncoder.encode(descrition.trim(), "utf-8");
-
-                        } catch (UnsupportedEncodingException e) {
-                            e.printStackTrace();
-                        }
-                        final String finalEmail = email;
-                        final String finalSubjec = subjec;
-                        final String finalDescrition = descrition;
-
-                        new BottomDialog.Builder(CreateChange.this)
-                                .setTitle("Creating change")
-                                .setContent("Are you sure you want to create the change?")
-                                .setPositiveText("YES")
-                                .setNegativeText("NO")
-                                .setPositiveBackgroundColorResource(R.color.white)
-                                //.setPositiveBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary)
-                                .setPositiveTextColorResource(R.color.faveo)
-                                .setNegativeTextColor(R.color.black)
-                                //.setPositiveTextColor(ContextCompat.getColor(this, android.R.color.colorPrimary)
-                                .onPositive(new BottomDialog.ButtonCallback() {
-                                    @Override
-                                    public void onClick(BottomDialog dialog) {
-                                        if (InternetReceiver.isConnected()) {
-                                            if (InternetReceiver.isConnected()) {
-                                                dialog1 = new SpotsDialog(CreateChange.this, getString(R.string.creating_problem));
-                                                dialog1.show();
-                                                new CreateChangeApi(idForequester, finalSubjec, status.ID, priority.ID, changeTypes.ID, impact.ID, finalDescrition).execute();
-                                            }
-                                        }
-                                    }
-                                }).onNegative(new BottomDialog.ButtonCallback() {
-                            @Override
-                            public void onClick(@NonNull BottomDialog bottomDialog) {
-                                bottomDialog.dismiss();
-
-                            }
-                        })
-                                .show();
-                    } else {
-                        values = assetListFinal.split(",");
-                        for (int i = 0; i < values.length; i++) {
-                            String name = values[i];
-                            for (int j = 0; j < assetItems.size(); j++) {
-                                Data data = assetItems.get(j);
-                                Log.d("beforeCondition", "true");
-                                String finalname = data.getName().replace(" ", "");
-                                if (finalname.equals(name)) {
-                                    Log.d("beforeCondition", "false");
-                                    sb1.append("&asset[]=").append(data.getID());
-                                } else {
-
-                                }
-                            }
-                            Log.d("name", sb1.toString());
+                        if (condition.equals("true")) {
                             String email = email1;
                             String subjec = editTextSubject.getText().toString();
                             String descrition = editTextDescrip.getText().toString();
@@ -312,9 +266,9 @@ public class CreateChange extends AppCompatActivity {
                                         public void onClick(BottomDialog dialog) {
                                             if (InternetReceiver.isConnected()) {
                                                 if (InternetReceiver.isConnected()) {
-                                                    dialog1 = new SpotsDialog(CreateChange.this, getString(R.string.creating_problem));
+                                                    dialog1 = new SpotsDialog(CreateChange.this, getString(R.string.creating_change));
                                                     dialog1.show();
-                                                    new CreateChangeApi(idForequester, finalSubjec, status.ID, priority.ID, changeTypes.ID, impact.ID, finalDescrition+sb1.toString()).execute();
+                                                    new CreateAnDAttach(problemId,idForequester, finalSubjec, status.ID, priority.ID, changeTypes.ID, impact.ID, finalDescrition).execute();
                                                 }
                                             }
                                         }
@@ -326,8 +280,318 @@ public class CreateChange extends AppCompatActivity {
                                 }
                             })
                                     .show();
+                        } else {
+                            String email = email1;
+                            String subjec = editTextSubject.getText().toString();
+                            String descrition = editTextDescrip.getText().toString();
+
+                            try {
+                                email = URLEncoder.encode(email.trim(), "utf-8");
+                                subjec = URLEncoder.encode(subjec.trim(), "utf-8");
+                                descrition = URLEncoder.encode(descrition.trim(), "utf-8");
+
+                            } catch (UnsupportedEncodingException e) {
+                                e.printStackTrace();
+                            }
+                            final String finalEmail = email;
+                            final String finalSubjec = subjec;
+                            final String finalDescrition = descrition;
+
+                            new BottomDialog.Builder(CreateChange.this)
+                                    .setTitle("Creating change")
+                                    .setContent("Are you sure you want to create the change?")
+                                    .setPositiveText("YES")
+                                    .setNegativeText("NO")
+                                    .setPositiveBackgroundColorResource(R.color.white)
+                                    //.setPositiveBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary)
+                                    .setPositiveTextColorResource(R.color.faveo)
+                                    .setNegativeTextColor(R.color.black)
+                                    //.setPositiveTextColor(ContextCompat.getColor(this, android.R.color.colorPrimary)
+                                    .onPositive(new BottomDialog.ButtonCallback() {
+                                        @Override
+                                        public void onClick(BottomDialog dialog) {
+                                            if (InternetReceiver.isConnected()) {
+                                                if (InternetReceiver.isConnected()) {
+                                                    dialog1 = new SpotsDialog(CreateChange.this, getString(R.string.creating_change));
+                                                    dialog1.show();
+                                                    new CreateChangeApi(idForequester, finalSubjec, status.ID, priority.ID, changeTypes.ID, impact.ID, finalDescrition).execute();
+                                                }
+                                            }
+                                        }
+                                    }).onNegative(new BottomDialog.ButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull BottomDialog bottomDialog) {
+                                    bottomDialog.dismiss();
+
+                                }
+                            })
+                                    .show();
+                        }
+                    }
+
+                    else if (assetListFinal.charAt(assetListFinal.length()-1)==','){
+                        if (condition.equals("true")){
+                            values = assetListFinal.split(",");
+                            for (int i = 0; i < values.length; i++) {
+                                String name = values[i];
+                                for (int j = 0; j < assetItems.size(); j++) {
+                                    Data data = assetItems.get(j);
+                                    Log.d("beforeCondition", "true");
+                                    String finalname = data.getName().replace(" ", "");
+                                    if (finalname.equals(name)) {
+                                        Log.d("beforeCondition", "false");
+                                        sb1.append("&asset[]=").append(data.getID());
+                                    } else {
+
+                                    }
+                                }
+                                Log.d("name", sb1.toString());
+                                String email = email1;
+                                String subjec = editTextSubject.getText().toString();
+                                String descrition = editTextDescrip.getText().toString();
+
+                                try {
+                                    email = URLEncoder.encode(email.trim(), "utf-8");
+                                    subjec = URLEncoder.encode(subjec.trim(), "utf-8");
+                                    descrition = URLEncoder.encode(descrition.trim(), "utf-8");
+
+                                } catch (UnsupportedEncodingException e) {
+                                    e.printStackTrace();
+                                }
+                                final String finalEmail = email;
+                                final String finalSubjec = subjec;
+                                final String finalDescrition = descrition;
+
+                                new BottomDialog.Builder(CreateChange.this)
+                                        .setTitle("Creating change")
+                                        .setContent("Are you sure you want to create the change?")
+                                        .setPositiveText("YES")
+                                        .setNegativeText("NO")
+                                        .setPositiveBackgroundColorResource(R.color.white)
+                                        //.setPositiveBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary)
+                                        .setPositiveTextColorResource(R.color.faveo)
+                                        .setNegativeTextColor(R.color.black)
+                                        //.setPositiveTextColor(ContextCompat.getColor(this, android.R.color.colorPrimary)
+                                        .onPositive(new BottomDialog.ButtonCallback() {
+                                            @Override
+                                            public void onClick(BottomDialog dialog) {
+                                                if (InternetReceiver.isConnected()) {
+                                                    if (InternetReceiver.isConnected()) {
+                                                        dialog1 = new SpotsDialog(CreateChange.this, getString(R.string.creating_change));
+                                                        dialog1.show();
+                                                        new CreateAnDAttach(problemId,idForequester, finalSubjec, status.ID, priority.ID, changeTypes.ID, impact.ID, finalDescrition+sb1.toString()).execute();
+                                                    }
+                                                }
+                                            }
+                                        }).onNegative(new BottomDialog.ButtonCallback() {
+                                    @Override
+                                    public void onClick(@NonNull BottomDialog bottomDialog) {
+                                        bottomDialog.dismiss();
+
+                                    }
+                                })
+                                        .show();
 
 
+                            }
+                        }
+                        else{
+                            values = assetListFinal.split(",");
+                            for (int i = 0; i < values.length; i++) {
+                                String name = values[i];
+                                for (int j = 0; j < assetItems.size(); j++) {
+                                    Data data = assetItems.get(j);
+                                    Log.d("beforeCondition", "true");
+                                    String finalname = data.getName().replace(" ", "");
+                                    if (finalname.equals(name)) {
+                                        Log.d("beforeCondition", "false");
+                                        sb1.append("&asset[]=").append(data.getID());
+                                    } else {
+
+                                    }
+                                }
+                                Log.d("name", sb1.toString());
+                                String email = email1;
+                                String subjec = editTextSubject.getText().toString();
+                                String descrition = editTextDescrip.getText().toString();
+
+                                try {
+                                    email = URLEncoder.encode(email.trim(), "utf-8");
+                                    subjec = URLEncoder.encode(subjec.trim(), "utf-8");
+                                    descrition = URLEncoder.encode(descrition.trim(), "utf-8");
+
+                                } catch (UnsupportedEncodingException e) {
+                                    e.printStackTrace();
+                                }
+                                final String finalEmail = email;
+                                final String finalSubjec = subjec;
+                                final String finalDescrition = descrition;
+
+                                new BottomDialog.Builder(CreateChange.this)
+                                        .setTitle("Creating change")
+                                        .setContent("Are you sure you want to create the change?")
+                                        .setPositiveText("YES")
+                                        .setNegativeText("NO")
+                                        .setPositiveBackgroundColorResource(R.color.white)
+                                        //.setPositiveBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary)
+                                        .setPositiveTextColorResource(R.color.faveo)
+                                        .setNegativeTextColor(R.color.black)
+                                        //.setPositiveTextColor(ContextCompat.getColor(this, android.R.color.colorPrimary)
+                                        .onPositive(new BottomDialog.ButtonCallback() {
+                                            @Override
+                                            public void onClick(BottomDialog dialog) {
+                                                if (InternetReceiver.isConnected()) {
+                                                    if (InternetReceiver.isConnected()) {
+                                                        dialog1 = new SpotsDialog(CreateChange.this, getString(R.string.creating_change));
+                                                        dialog1.show();
+                                                        new CreateChangeApi(idForequester, finalSubjec, status.ID, priority.ID, changeTypes.ID, impact.ID, finalDescrition+sb1.toString()).execute();
+                                                    }
+                                                }
+                                            }
+                                        }).onNegative(new BottomDialog.ButtonCallback() {
+                                    @Override
+                                    public void onClick(@NonNull BottomDialog bottomDialog) {
+                                        bottomDialog.dismiss();
+
+                                    }
+                                })
+                                        .show();
+
+
+                            }
+                        }
+
+                    }
+                    else if (!assetListFinal.equals("")){
+                        if (condition.equals("true")){
+                            values = assetListFinal.split(",");
+                            for (int i = 0; i < values.length; i++) {
+                                String name = values[i];
+                                for (int j = 0; j < assetItems.size(); j++) {
+                                    Data data = assetItems.get(j);
+                                    Log.d("beforeCondition", "true");
+                                    String finalname = data.getName().replace(" ", "");
+                                    if (finalname.equals(name)) {
+                                        Log.d("beforeCondition", "false");
+                                        sb1.append("&asset[]=").append(data.getID());
+                                    } else {
+
+                                    }
+                                }
+                                Log.d("name", sb1.toString());
+                                String email = email1;
+                                String subjec = editTextSubject.getText().toString();
+                                String descrition = editTextDescrip.getText().toString();
+
+                                try {
+                                    email = URLEncoder.encode(email.trim(), "utf-8");
+                                    subjec = URLEncoder.encode(subjec.trim(), "utf-8");
+                                    descrition = URLEncoder.encode(descrition.trim(), "utf-8");
+
+                                } catch (UnsupportedEncodingException e) {
+                                    e.printStackTrace();
+                                }
+                                final String finalEmail = email;
+                                final String finalSubjec = subjec;
+                                final String finalDescrition = descrition;
+
+                                new BottomDialog.Builder(CreateChange.this)
+                                        .setTitle("Creating change")
+                                        .setContent("Are you sure you want to create the change?")
+                                        .setPositiveText("YES")
+                                        .setNegativeText("NO")
+                                        .setPositiveBackgroundColorResource(R.color.white)
+                                        //.setPositiveBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary)
+                                        .setPositiveTextColorResource(R.color.faveo)
+                                        .setNegativeTextColor(R.color.black)
+                                        //.setPositiveTextColor(ContextCompat.getColor(this, android.R.color.colorPrimary)
+                                        .onPositive(new BottomDialog.ButtonCallback() {
+                                            @Override
+                                            public void onClick(BottomDialog dialog) {
+                                                if (InternetReceiver.isConnected()) {
+                                                    if (InternetReceiver.isConnected()) {
+                                                        dialog1 = new SpotsDialog(CreateChange.this, getString(R.string.creating_change));
+                                                        dialog1.show();
+                                                        new CreateAnDAttach(problemId,idForequester, finalSubjec, status.ID, priority.ID, changeTypes.ID, impact.ID, finalDescrition+sb1.toString()).execute();
+                                                    }
+                                                }
+                                            }
+                                        }).onNegative(new BottomDialog.ButtonCallback() {
+                                    @Override
+                                    public void onClick(@NonNull BottomDialog bottomDialog) {
+                                        bottomDialog.dismiss();
+
+                                    }
+                                })
+                                        .show();
+
+
+                            }
+                        }
+                        else{
+                            values = assetListFinal.split(",");
+                            for (int i = 0; i < values.length; i++) {
+                                String name = values[i];
+                                for (int j = 0; j < assetItems.size(); j++) {
+                                    Data data = assetItems.get(j);
+                                    Log.d("beforeCondition", "true");
+                                    String finalname = data.getName().replace(" ", "");
+                                    if (finalname.equals(name)) {
+                                        Log.d("beforeCondition", "false");
+                                        sb1.append("&asset[]=").append(data.getID());
+                                    } else {
+
+                                    }
+                                }
+                                Log.d("name", sb1.toString());
+                                String email = email1;
+                                String subjec = editTextSubject.getText().toString();
+                                String descrition = editTextDescrip.getText().toString();
+
+                                try {
+                                    email = URLEncoder.encode(email.trim(), "utf-8");
+                                    subjec = URLEncoder.encode(subjec.trim(), "utf-8");
+                                    descrition = URLEncoder.encode(descrition.trim(), "utf-8");
+
+                                } catch (UnsupportedEncodingException e) {
+                                    e.printStackTrace();
+                                }
+                                final String finalEmail = email;
+                                final String finalSubjec = subjec;
+                                final String finalDescrition = descrition;
+
+                                new BottomDialog.Builder(CreateChange.this)
+                                        .setTitle("Creating change")
+                                        .setContent("Are you sure you want to create the change?")
+                                        .setPositiveText("YES")
+                                        .setNegativeText("NO")
+                                        .setPositiveBackgroundColorResource(R.color.white)
+                                        //.setPositiveBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary)
+                                        .setPositiveTextColorResource(R.color.faveo)
+                                        .setNegativeTextColor(R.color.black)
+                                        //.setPositiveTextColor(ContextCompat.getColor(this, android.R.color.colorPrimary)
+                                        .onPositive(new BottomDialog.ButtonCallback() {
+                                            @Override
+                                            public void onClick(BottomDialog dialog) {
+                                                if (InternetReceiver.isConnected()) {
+                                                    if (InternetReceiver.isConnected()) {
+                                                        dialog1 = new SpotsDialog(CreateChange.this, getString(R.string.creating_change));
+                                                        dialog1.show();
+                                                        new CreateChangeApi(idForequester, finalSubjec, status.ID, priority.ID, changeTypes.ID, impact.ID, finalDescrition+sb1.toString()).execute();
+                                                    }
+                                                }
+                                            }
+                                        }).onNegative(new BottomDialog.ButtonCallback() {
+                                    @Override
+                                    public void onClick(@NonNull BottomDialog bottomDialog) {
+                                        bottomDialog.dismiss();
+
+                                    }
+                                })
+                                        .show();
+
+
+                            }
                         }
                     }
 
@@ -391,7 +655,7 @@ public class CreateChange extends AppCompatActivity {
                 JSONObject jsonObject=new JSONObject(result);
                 String data=jsonObject.getString("data");
                 if (data.equals("Changes Created.")){
-                    Toasty.success(CreateChange.this,"change created successfully",Toast.LENGTH_SHORT).show();
+                    Toasty.success(CreateChange.this,"Change created successfully",Toast.LENGTH_SHORT).show();
                     Intent intent=new Intent(CreateChange.this,ExistingChanges.class);
                     startActivity(intent);
                 }
@@ -403,6 +667,54 @@ public class CreateChange extends AppCompatActivity {
         }
 
 
+    }
+
+    private class CreateAnDAttach extends AsyncTask<String,Void,String>{
+        int problemId;
+        int from;
+        String subject;
+        String description;
+        int status;
+        int priority;
+        int changeTypes;
+        int impact;
+
+        public CreateAnDAttach(int problemId, int from, String subject, int status, int priority, int changeTypes, int impact,String description) {
+            this.problemId = problemId;
+            this.from = from;
+            this.subject = subject;
+            this.description = description;
+            this.status = status;
+            this.priority = priority;
+            this.changeTypes = changeTypes;
+            this.impact = impact;
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            return new Helpdesk().associateChangeWithProblem(problemId,idForequester, subject,status, priority,changeTypes,impact,description);
+
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+
+
+            try {
+                JSONObject jsonObject=new JSONObject(s);
+                Log.d("jsoObject",jsonObject.toString());
+                JSONObject jsonObject1=jsonObject.getJSONObject("data");
+                    String success=jsonObject1.getString("success");
+                    if (success.equals("Changes Created.")){
+                        Toasty.success(CreateChange.this,"Successfully created and attached to the problem",Toast.LENGTH_SHORT).show();
+                        Intent intent=new Intent(CreateChange.this,ProblemViewPage.class);
+                        intent.putExtra("problemId",problemId);
+                        startActivity(intent);
+                    }
+            } catch (JSONException |NullPointerException e) {
+                e.printStackTrace();
+            }
+        }
     }
     private class FetchDependency extends AsyncTask<String,Void,String> {
         String type;

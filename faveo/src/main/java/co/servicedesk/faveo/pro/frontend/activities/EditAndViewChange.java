@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -24,13 +26,18 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.github.javiersantos.bottomdialogs.BottomDialog;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import co.servicedesk.faveo.pro.R;
@@ -40,6 +47,7 @@ import co.servicedesk.faveo.pro.frontend.receivers.InternetReceiver;
 import co.servicedesk.faveo.pro.model.CollaboratorSuggestion;
 import co.servicedesk.faveo.pro.model.Data;
 import dmax.dialog.SpotsDialog;
+import es.dmoral.toasty.Toasty;
 
 public class EditAndViewChange extends AppCompatActivity {
 
@@ -59,6 +67,10 @@ public class EditAndViewChange extends AppCompatActivity {
     boolean allCorrect;
     EditText editTextSubject,editTextDescrip;
     int changeID=0;
+    String assetListFinal;
+    String email1="";
+    StringBuilder sb1 = new StringBuilder();
+    int idForequester=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -127,6 +139,345 @@ public class EditAndViewChange extends AppCompatActivity {
         if (InternetReceiver.isConnected()){
             refresh.startAnimation(rotation);
             new FetchDependency("change").execute();
+        }
+
+        editTextEmail.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String name1=editTextEmail.getText().toString();
+
+                for (int i1=0;i1<emailHint.size();i1++){
+                    CollaboratorSuggestion data1=emailHint.get(i1);
+                    if (data1.getEmail().equals(name1)){
+                        CollaboratorSuggestion data2=emailHint.get(i1);
+                        email1=data2.getEmail();
+                        idForequester=data2.getId();
+                        Log.d("email1",email1);
+                        editTextEmail.setText(email1);
+                    }
+                    else{
+                        email1="";
+                        idForequester=0;
+                    }
+                }
+
+            }
+        });
+
+
+        buttonsubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                final Data priority= (Data) prioritySpinner.getSelectedItem();
+                final Data status= (Data) statusSpinner.getSelectedItem();
+                final Data impact= (Data) impactSpinner.getSelectedItem();
+                final Data changeTypes= (Data) changeTypeSpinner.getSelectedItem();
+                allCorrect = true;
+
+                if (editTextSubject.getText().toString().equals("")){
+                    Toasty.warning(EditAndViewChange.this, getString(R.string.sub_must_not_be_empty), Toast.LENGTH_SHORT).show();
+                    allCorrect = false;
+                }
+                if (priority.ID==0){
+                    Toasty.warning(EditAndViewChange.this, getString(R.string.please_select_some_priority), Toast.LENGTH_SHORT).show();
+                    allCorrect = false;
+                }
+                if (changeTypes.ID==0){
+                    Toasty.warning(EditAndViewChange.this, getString(R.string.select_changeType), Toast.LENGTH_SHORT).show();
+                    allCorrect = false;
+                }
+                if (status.ID==0){
+                    Toasty.warning(EditAndViewChange.this, getString(R.string.statusRequired), Toast.LENGTH_SHORT).show();
+                    allCorrect = false;
+                }
+                if (impact.ID==0){
+                    Toasty.warning(EditAndViewChange.this, getString(R.string.impactrequired), Toast.LENGTH_SHORT).show();
+                    allCorrect = false;
+                }
+                if (editTextDescrip.getText().toString().equals("")){
+                    Toasty.warning(EditAndViewChange.this, getString(R.string.descriptionEmpty), Toast.LENGTH_SHORT).show();
+                    allCorrect = false;
+                }
+
+                String assetList=assetItem.getText().toString();
+                String[] values = new String[0];
+                assetListFinal = assetList.replaceAll("\\s+,$", "");
+                assetListFinal = assetList.replaceAll(" ", "");
+                sb1 = new StringBuilder();
+
+                if (allCorrect) {
+                    if (assetList.equals("")) {
+                            String email = email1;
+                            String subjec = editTextSubject.getText().toString();
+                            String descrition = editTextDescrip.getText().toString();
+
+                            try {
+                                email = URLEncoder.encode(email.trim(), "utf-8");
+                                subjec = URLEncoder.encode(subjec.trim(), "utf-8");
+                                descrition = URLEncoder.encode(descrition.trim(), "utf-8");
+
+                            } catch (UnsupportedEncodingException e) {
+                                e.printStackTrace();
+                            }
+                            final String finalEmail = email;
+                            final String finalSubjec = subjec;
+                            final String finalDescrition = descrition;
+
+                        final String finalSubjec1 = subjec;
+                        new BottomDialog.Builder(EditAndViewChange.this)
+                                .setTitle("Editing change")
+                                .setContent("Are you sure you want to edit the change?")
+                                    .setPositiveText("YES")
+                                    .setNegativeText("NO")
+                                    .setPositiveBackgroundColorResource(R.color.white)
+                                    //.setPositiveBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary)
+                                    .setPositiveTextColorResource(R.color.faveo)
+                                    .setNegativeTextColor(R.color.black)
+                                    //.setPositiveTextColor(ContextCompat.getColor(this, android.R.color.colorPrimary)
+                                    .onPositive(new BottomDialog.ButtonCallback() {
+                                        @Override
+                                        public void onClick(BottomDialog dialog) {
+                                            if (InternetReceiver.isConnected()) {
+                                                if (InternetReceiver.isConnected()) {
+                                                    dialog1 = new SpotsDialog(EditAndViewChange.this, getString(R.string.creating_change));
+                                                    dialog1.show();
+                                                    new EditChange(changeID,idForequester, finalSubjec1,status.ID,priority.ID,impact.ID,changeTypes.ID,finalDescrition).execute();
+
+
+                                                }
+                                            }
+                                        }
+                                    }).onNegative(new BottomDialog.ButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull BottomDialog bottomDialog) {
+                                    bottomDialog.dismiss();
+
+                                }
+                            })
+                                    .show();
+                    }
+
+                    else if (assetListFinal.charAt(assetListFinal.length()-1)==','){
+                            values = assetListFinal.split(",");
+                            for (int i = 0; i < values.length; i++) {
+                                String name = values[i];
+                                for (int j = 0; j < assetItems.size(); j++) {
+                                    Data data = assetItems.get(j);
+                                    Log.d("beforeCondition", "true");
+                                    String finalname = data.getName().replace(" ", "");
+                                    if (finalname.equals(name)) {
+                                        Log.d("beforeCondition", "false");
+                                        sb1.append("&asset[]=").append(data.getID());
+                                    } else {
+
+                                    }
+                                }
+                                Log.d("name", sb1.toString());
+                                String email = email1;
+                                String subjec = editTextSubject.getText().toString();
+                                String descrition = editTextDescrip.getText().toString();
+
+                                try {
+                                    email = URLEncoder.encode(email.trim(), "utf-8");
+                                    subjec = URLEncoder.encode(subjec.trim(), "utf-8");
+                                    descrition = URLEncoder.encode(descrition.trim(), "utf-8");
+
+                                } catch (UnsupportedEncodingException e) {
+                                    e.printStackTrace();
+                                }
+                                final String finalEmail = email;
+                                final String finalSubjec = subjec;
+                                final String finalDescrition = descrition;
+
+                                new BottomDialog.Builder(EditAndViewChange.this)
+                                        .setTitle("Editing change")
+                                        .setContent("Are you sure you want to edit the change?")
+                                        .setPositiveText("YES")
+                                        .setNegativeText("NO")
+                                        .setPositiveBackgroundColorResource(R.color.white)
+                                        //.setPositiveBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary)
+                                        .setPositiveTextColorResource(R.color.faveo)
+                                        .setNegativeTextColor(R.color.black)
+                                        //.setPositiveTextColor(ContextCompat.getColor(this, android.R.color.colorPrimary)
+                                        .onPositive(new BottomDialog.ButtonCallback() {
+                                            @Override
+                                            public void onClick(BottomDialog dialog) {
+                                                if (InternetReceiver.isConnected()) {
+                                                    if (InternetReceiver.isConnected()) {
+                                                        dialog1 = new SpotsDialog(EditAndViewChange.this, getString(R.string.creating_change));
+                                                        dialog1.show();
+                                                        new EditChange(changeID,idForequester, finalSubjec,status.ID,priority.ID,impact.ID,changeTypes.ID,finalDescrition+sb1.toString()).execute();
+                                                    }
+                                                }
+                                            }
+                                        }).onNegative(new BottomDialog.ButtonCallback() {
+                                    @Override
+                                    public void onClick(@NonNull BottomDialog bottomDialog) {
+                                        bottomDialog.dismiss();
+
+                                    }
+                                })
+                                        .show();
+
+
+                            }
+
+                    }
+                    else{
+                        String assetSelection=assetListFinal.replace(assetListFinal.charAt(assetListFinal.length()-1),',');
+                        values = assetSelection.split(",");
+                        for (int i=0;i<values.length;i++){
+                            String name=values[i];
+                            for (int j=0;j<assetItems.size();j++){
+                                Data data=assetItems.get(j);
+                                Log.d("beforeCondition","true");
+                                String finalname=data.getName().replace(" ","");
+                                if (finalname.equals(name)){
+                                    Log.d("beforeCondition","false");
+                                    sb1.append("&asset[]=").append(data.getID());
+                                }
+                                else{
+                                    //Toasty.info(EditAndViewProblem.this,"selected asset is invalid",Toast.LENGTH_SHORT).show();
+
+                                }
+                            }
+                            String email = email1;
+                            String subjec = editTextSubject.getText().toString();
+                            String descrition = editTextDescrip.getText().toString();
+
+                            try {
+                                email = URLEncoder.encode(email.trim(), "utf-8");
+                                subjec = URLEncoder.encode(subjec.trim(), "utf-8");
+                                descrition = URLEncoder.encode(descrition.trim(), "utf-8");
+
+                            } catch (UnsupportedEncodingException e) {
+                                e.printStackTrace();
+                            }
+                            final String finalEmail = email;
+                            final String finalSubjec = subjec;
+                            final String finalDescrition = descrition;
+
+                            Log.d("name",sb1.toString());
+
+                            new BottomDialog.Builder(EditAndViewChange.this)
+                                    .setTitle("Editing change")
+                                    .setContent("Are you sure you want to edit the change?")
+                                    .setPositiveText("YES")
+                                    .setNegativeText("NO")
+                                    .setPositiveBackgroundColorResource(R.color.white)
+                                    //.setPositiveBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary)
+                                    .setPositiveTextColorResource(R.color.faveo)
+                                    .setNegativeTextColor(R.color.black)
+                                    //.setPositiveTextColor(ContextCompat.getColor(this, android.R.color.colorPrimary)
+                                    .onPositive(new BottomDialog.ButtonCallback() {
+                                        @Override
+                                        public void onClick(BottomDialog dialog) {
+                                            if (InternetReceiver.isConnected()) {
+                                                if (InternetReceiver.isConnected()) {
+                                                    dialog1 = new SpotsDialog(EditAndViewChange.this, getString(R.string.creating_change));
+                                                    dialog1.show();
+                                                    new EditChange(changeID,idForequester, finalSubjec,status.ID,priority.ID,impact.ID,changeTypes.ID,finalDescrition+sb1.toString()).execute();
+                                                }
+                                            }
+                                        }
+                                    }).onNegative(new BottomDialog.ButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull BottomDialog bottomDialog) {
+                                    bottomDialog.dismiss();
+
+                                }
+                            })
+                                    .show();
+
+
+                        }
+
+
+
+                        Log.d("assetList",sb1.toString());
+
+                        String email=email1;
+                        String subjec=editTextSubject.getText().toString();
+                        String descrition=editTextDescrip.getText().toString();
+
+                        try {
+                            email = URLEncoder.encode(email.trim(), "utf-8");
+                            subjec = URLEncoder.encode(subjec.trim(), "utf-8");
+                            descrition = URLEncoder.encode(descrition.trim(), "utf-8");
+
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
+                        final String finalEmail = email;
+                        final String finalSubjec = subjec;
+                        final String finalDescrition = descrition;
+
+
+                    }
+
+                }
+
+            }
+        });
+
+
+
+    }
+
+
+
+    private class EditChange extends AsyncTask<File, Void, String> {
+        int changeId;
+        int from;
+        String subject;
+        String description;
+        int status;
+        int priority;
+        int changeTypes;
+        int impact;
+        EditChange(int changeId,int form, String subject,int status,
+                        int priority,int impact,int changeTypes,String description) {
+            this.changeId=changeId;
+            this.from=form;
+            this.subject = subject;
+            this.status = status;
+            this.priority = priority;
+            this.changeTypes=changeTypes;
+            this.impact = impact;
+            this.description = description;
+
+        }
+
+
+        @Override
+        protected String doInBackground(File... params) {
+
+
+            return new Helpdesk().editChange(changeID,idForequester,subject,status,priority,changeTypes,impact,description);
+        }
+
+        protected void onPostExecute(String result) {
+            //Toast.makeText(CreateTicketActivity.this, "api called", Toast.LENGTH_SHORT).show();
+            dialog1.dismiss();
+            Log.d("result",result);
+            try{
+                JSONObject jsonObject=new JSONObject(result);
+                Log.d("jsonResponse",jsonObject.toString());
+                JSONObject jsonObject1=jsonObject.getJSONObject("data");
+                String success=jsonObject1.getString("success");
+                if (success.equals("Changes Updated.")){
+                    Toasty.success(EditAndViewChange.this,"Successfully updated the change",Toast.LENGTH_SHORT).show();
+                    Intent intent=new Intent(EditAndViewChange.this,ExistingChanges.class);
+                    startActivity(intent);
+
+                }
+
+            }catch (JSONException e){
+                e.printStackTrace();
+            }
+
+
         }
 
 
@@ -330,6 +681,9 @@ public class EditAndViewChange extends AppCompatActivity {
                     editTextEmail.setText("");
                 }
                 else{
+                    JSONObject jsonObject2=requester.getJSONObject(0);
+                    String email=jsonObject2.getString("email");
+                    editTextEmail.setText(email);
 
 
                 }

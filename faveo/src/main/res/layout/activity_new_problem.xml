@@ -72,27 +72,27 @@
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
-                    <Button
-                        android:id="@+id/buttonSubmit"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignTop="@id/titlesave"
-                        android:layout_marginEnd="12dp"
-                        android:background="@drawable/ic_action_done"
-                        android:textColor="#ffffff"
-                        android:backgroundTint="@color/colorAccent"
-                        android:textSize="12sp" />
+                    <!--<Button-->
+                        <!--android:id="@+id/buttonSubmit"-->
+                        <!--android:layout_width="25dp"-->
+                        <!--android:layout_height="25dp"-->
+                        <!--android:layout_alignParentEnd="true"-->
+                        <!--android:layout_alignTop="@id/titlesave"-->
+                        <!--android:layout_marginEnd="12dp"-->
+                        <!--android:background="@drawable/ic_action_done"-->
+                        <!--android:textColor="#ffffff"-->
+                        <!--android:backgroundTint="@color/colorAccent"-->
+                        <!--android:textSize="12sp" />-->
 
                     <ImageView
                         android:id="@+id/imageRefresh"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
+                        android:layout_alignTop="@+id/imageViewBack"
                         android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="50dp"
-                        android:backgroundTint="@color/colorAccent"
-                        android:background="@drawable/ic_refresh_black_24dp" />
+                        android:layout_marginEnd="7dp"
+                        android:background="@drawable/ic_refresh_black_24dp"
+                        android:backgroundTint="@color/colorAccent" />
 
 
                 </RelativeLayout>

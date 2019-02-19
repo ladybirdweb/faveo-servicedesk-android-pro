@@ -329,12 +329,11 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if (i==0){
                     Intent intent1=new Intent(getContext(), ExistingChanges.class);
-                    Prefs.putString("cameFromMain","True");
                     startActivity(intent1);
                 }
                 else{
                     Intent intent1=new Intent(getContext(), CreateChange.class);
-                    Prefs.putString("cameFromMain","True");
+                    Prefs.putString("needToAttachChange","false");
                     startActivity(intent1);
                 }
             }

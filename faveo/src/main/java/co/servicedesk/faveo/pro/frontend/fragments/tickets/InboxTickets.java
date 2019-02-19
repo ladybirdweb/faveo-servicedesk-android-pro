@@ -1287,6 +1287,21 @@ public class InboxTickets extends Fragment {
         }
         if (id == R.id.actionsearch) {
 
+//            Intent i = new Intent(getActivity().getBaseContext(),
+//                    MainActivity.class);
+//
+//            //PACK DATA
+//            i.putExtra("SENDER_KEY", "MyFragment");
+//            i.putExtra("NAME_KEY", "RogerCameFromFragment");
+//            //i.putExtra("YEAR_KEY", Integer.valueOf(launchYearSpinner.getSelectedItem().toString()));
+//
+//            //RESET WIDGETS
+//            //nameFragTxt.setText("");
+//            //launchYearSpinner.setSelection(0);
+//
+//            //START ACTIVITY
+//            getActivity().startActivity(i);
+
             Intent intent = new Intent(getActivity(), SearchActivity.class);
             startActivity(intent);
             return true;
@@ -2609,6 +2624,11 @@ public class InboxTickets extends Fragment {
             });
 
         }
+
+    }
+    private void sendData()
+    {
+        //INTENT OBJ
 
     }
 }

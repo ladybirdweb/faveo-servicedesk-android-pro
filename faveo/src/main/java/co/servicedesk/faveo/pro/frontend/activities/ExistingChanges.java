@@ -29,6 +29,7 @@ import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
 import com.github.javiersantos.bottomdialogs.BottomDialog;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -82,6 +83,7 @@ public class ExistingChanges extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent1 = new Intent(ExistingChanges.this, CreateChange.class);
+                Prefs.putString("needToAttachChange","false");
                 startActivity(intent1);
             }
         });
@@ -160,7 +162,7 @@ public class ExistingChanges extends AppCompatActivity {
                     JSONObject jsonObject2 = jsonArray.getJSONObject(i);
                     int id = jsonObject2.getInt("id");
                     String subject = jsonObject2.getString("subject");
-                    String createdDate = jsonObject2.getString("created_at");
+                    String createdDate = jsonObject2.getString("updated_at");
                     if (jsonObject2.isNull("requester")){
                         email=getString(R.string.not_available);
                     }
@@ -243,7 +245,7 @@ public class ExistingChanges extends AppCompatActivity {
                     else{
                         email=jsonObject2.getString("requester");
                     }
-                    String createdDate = jsonObject2.getString("created_at");
+                    String createdDate = jsonObject2.getString("updated_at");
                     String priority=jsonObject2.getString("priority");
                     ChangeModel problemModel = new ChangeModel(subject, createdDate,email,priority,id);
                     problemList.add(problemModel);
@@ -315,7 +317,8 @@ public class ExistingChanges extends AppCompatActivity {
         public void onBindViewHolder(final ProblemAdpter.MyViewHolder holder, int position) {
             final ChangeModel changeModel = moviesList.get(position);
 //             holder.options.setColorFilter(getColor(R.color.faveo));
-            holder.options.setImageDrawable(getDrawable(R.drawable.menudot));
+            holder.options.setImageDrawable(getDrawable(R.drawable.ic_expand_more_black_24dp));
+            holder.options.setColorFilter(Color.parseColor("#04aaf7"));
             holder.textViewId.setText("#CHN-"+changeModel.getId());
 
             if (!changeModel.getPriority().equals("")){

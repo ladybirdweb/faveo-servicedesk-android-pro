@@ -65,8 +65,6 @@ public class SplashActivity extends AppCompatActivity {
     String error;
     Context context;
     Button button;
-    Animation animationSlideUp;
-    ImageView imageViewSplash;
     ImageView imageViewFaveo;
     TextView textViewTag;
     Animation uptodown,downtoup;

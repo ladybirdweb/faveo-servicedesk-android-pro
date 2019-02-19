@@ -158,7 +158,6 @@ public class TicketFragment extends Fragment {
                             Log.d("QUERRY","No Querry");
                             recyclerView.setVisibility(View.GONE);
                             empty_view.setVisibility(View.VISIBLE);
-                            empty_view.setText(getString(R.string.noTicket));
                             swipeRefresh.setRefreshing(false);
                         }
                         else{

@@ -827,6 +827,19 @@ public class Helpdesk {
 
     }
 
+    public String editChange(int changeId,int from,String subject,int statusId,int priorityId,int impactId,int changeTypeId,String description){
+        Log.d("ediChange",Constants.URL + "servicedesk/change/"+changeId+"?&token=" + token + "&requester=" + from + "&subject=" + subject + "&status_id=" + statusId
+                + "&priority_id=" + priorityId + "&change_type_id=" +changeTypeId+"&impact_id=" + impactId + "&description=" + description);
+        String result = new HTTPConnection().hTTPResponsePatch(Constants.URL + "servicedesk/change/"+changeId+"?&token=" + token + "&requester=" + from + "&subject=" + subject + "&status_id=" + statusId
+                + "&priority_id=" + priorityId + "&change_type_id=" +changeTypeId+"&impact_id=" + impactId + "&description=" + description, null);
+        if (result != null && result.equals("tokenRefreshed")) {
+            return new HTTPConnection().hTTPResponsePatch(Constants.URL + "servicedesk/change/"+changeId+"?&token=" + token + "&requester=" + from + "&subject=" + subject + "&status_id=" + statusId
+                    + "&priority_id=" + priorityId + "&change_type_id=" +changeTypeId+"&impact_id=" + impactId + "&description=" + description, null);
+        }
+        return result;
+
+    }
+
     public String deleteProblem(int problemId) {
         Log.d("deleteProblem", Constants.URL + "servicedesk/problem/delete/" + problemId + "?token=" + token);
         String result = new HTTPConnection().hTTPResponseGet(Constants.URL + "servicedesk/problem/delete/" + problemId + "?token=" + token);
@@ -852,6 +865,18 @@ public class Helpdesk {
         String result = new HTTPConnection().hTTPResponsePost(Constants.URL + "servicedesk/attach/existing/problem?token=" + token + "&ticketid=" + ticketId + "&problemid=" + problemId, null);
         if (result != null && result.equals("tokenRefreshed")) {
             return new HTTPConnection().hTTPResponsePost(Constants.URL + "servicedesk/attach/existing/problem?token=" + token + "&ticketid=" + ticketId + "&problemid=" + problemId, null);
+        }
+        return result;
+    }
+
+    public String associateChangeWithProblem(int problemId,int from,String subject,int statusId,int priorityId,int impactId,int changeTypeId,String description){
+        Log.d("associateChangeProblem", Constants.URL + "servicedesk/problem/change/"+problemId+"?token=" + token + "&problemid=" + problemId+"&requester=" + from + "&subject=" + subject + "&status_id=" + statusId
+                + "&priority_id=" + priorityId + "&change_type_id=" +changeTypeId+"&impact_id=" + impactId + "&description=" + description);
+        String result = new HTTPConnection().hTTPResponsePost(Constants.URL + "servicedesk/problem/change/"+problemId+"?token=" + token + "&problemid=" + problemId+"&requester=" + from + "&subject=" + subject + "&status_id=" + statusId
+                + "&priority_id=" + priorityId + "&change_type_id=" +changeTypeId+"&impact_id=" + impactId + "&description=" + description, null);
+        if (result != null && result.equals("tokenRefreshed")) {
+            return new HTTPConnection().hTTPResponsePost(Constants.URL + "servicedesk/problem/change/"+problemId+"?token=" + token + "&problemid=" + problemId+"&requester=" + from + "&subject=" + subject + "&status_id=" + statusId
+                    + "&priority_id=" + priorityId + "&change_type_id=" +changeTypeId+"&impact_id=" + impactId + "&description=" + description, null);
         }
         return result;
     }

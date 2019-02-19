@@ -567,6 +567,8 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
                 @Override
                 public void onClick(View view) {
                     Intent intent=new Intent(ProblemViewPage.this,CreateChange.class);
+                    Prefs.putString("needToAttachChange","true");
+                    Prefs.putInt("problemId",problemId);
                     startActivity(intent);
                 }
             });
@@ -585,7 +587,7 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
     public class MyBottomSheetDialogShowingAttachedProblem extends BottomSheetDialog {
 
         Context context;
-
+        TextView textViewHeading;
         MyBottomSheetDialogShowingAttachedProblem(@NonNull Context context) {
             super(context);
             this.context = context;
@@ -595,6 +597,8 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
         public void createChange() {
             View bottomSheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_attached_problem, null);
             setContentView(bottomSheetView);
+            textViewHeading=bottomSheetView.findViewById(R.id.heading);
+            textViewHeading.setText("Associated change :");
             BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from((View) bottomSheetView.getParent());
             BottomSheetBehavior.BottomSheetCallback bottomSheetCallback = new BottomSheetBehavior.BottomSheetCallback() {
                 @Override
@@ -830,7 +834,7 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
                             else{
                                 email=jsonObject2.getString("requester");
                             }
-                            String createdDate=jsonObject2.getString("created_at");
+                            String createdDate=jsonObject2.getString("updated_at");
                             String priority=jsonObject2.getString("priority");
                             ProblemModel problemModel=new ProblemModel(email,subject,createdDate,id,priority);
                             problemList.add(problemModel);
@@ -920,7 +924,7 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
                         email=jsonObject2.getString("requester");
                     }
 
-                    String createdDate=jsonObject2.getString("created_at");
+                    String createdDate=jsonObject2.getString("updated_at");
                     String priority=jsonObject2.getString("priority");
                     ProblemModel problemModel=new ProblemModel(email,subject,createdDate,id,priority);
                     problemList.add(problemModel);
