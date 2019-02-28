@@ -264,6 +264,7 @@ public class RegisterUser extends AppCompatActivity {
                 Toasty.error(RegisterUser.this, getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
                 return;
             }
+
 //            String state=Prefs.getString("403",null);
 //                if (message1.contains("The ticket id field is required.")){
 //                    Toasty.warning(TicketDetailActivity.this, getString(R.string.please_select_ticket), Toast.LENGTH_LONG).show();
@@ -304,7 +305,7 @@ public class RegisterUser extends AppCompatActivity {
                 for (int i=0;i<jsonArray.length();i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
                     String message=jsonObject.getString("message");
-                    JSONObject jsonObject2=jsonObject.getJSONObject("User");
+                    JSONObject jsonObject2=jsonObject.getJSONObject("user");
                     email=jsonObject2.getString("email");
 
                     if (message.contains("Activate your account! Click on the link that we've sent to your mail")){

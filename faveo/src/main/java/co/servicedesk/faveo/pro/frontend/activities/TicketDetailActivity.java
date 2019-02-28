@@ -379,26 +379,15 @@ public class TicketDetailActivity extends AppCompatActivity implements
         textviewAgentName = (TextView) mAppBarLayout.findViewById(R.id.agentassigned);
         //textViewTitle = (LoaderTextView) mAppBarLayout.findViewById(R.id.title);
         textViewDepartment= (LoaderTextView) mAppBarLayout.findViewById(R.id.department);
-        textViewSubject = (LoaderTextView) mAppBarLayout.findViewById(R.id.subject);
+        textViewSubject = (LoaderTextView) mAppBarLayout.findViewById(R.id.title);
         imgaeviewBack= (ImageView) mToolbar.findViewById(R.id.imageViewBackTicketDetail);
         //viewpriority=mToolbar.findViewById(R.id.viewPriority);
         viewCollapsePriority=mAppBarLayout.findViewById(R.id.viewPriority1);
         //viewCollapsePriority.setBackgroundColor(Color.parseColor("#FF0000"));
-        textViewDemo=findViewById(R.id.subject);
+        textViewDemo=findViewById(R.id.ticketsubject);
         dialog1= new SpotsDialog(TicketDetailActivity.this);
         mToolbar.inflateMenu(R.menu.menu_main_new);
         isShowing=true;
-        //Log.d("came into ticket detail","true");
-        //mToolbar.getMenu().getItem(0).setEnabled(false);
-//        imageView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Prefs.putString("cameFromTicket","true");
-//                Intent intent=new Intent(TicketDetailActivity.this,CollaboratorAdd.class);
-//                startActivity(intent);
-//                finish();
-//            }
-//        });
         Prefs.putString("cameFromTicket","false");
         mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = false;
@@ -2040,6 +2029,7 @@ public class MyBottomSheetDialogReply extends BottomSheetDialog {
                 String ticketNumber=jsonObject2.getString("ticket_number");
                 String statusName=jsonObject2.getString("status_name");
                 String subject=jsonObject2.getString("title");
+                Log.d("checkingForSubject",subject);
                 String department=jsonObject2.getString("dept_name");
                 String priorityColor=jsonObject2.getString("priority_color");
                 String source=jsonObject2.getString("source_name");
@@ -2127,13 +2117,11 @@ public class MyBottomSheetDialogReply extends BottomSheetDialog {
                     textViewSubject.setText(newTitle2);
                     textViewDemo.setText(ticketNumber);
                 }
-                else if (!subject.equals("null")){
+                else{
                     textViewSubject.setText(subject);
                     textViewDemo.setText(ticketNumber);
                 }
-                else if (subject.equals("null")){
-                    textViewDemo.setText(ticketNumber);
-                }
+
                 if (!department.equals("")||!department.equals("null")){
                     textViewDepartment.setText(department);
                 }

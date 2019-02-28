@@ -93,8 +93,6 @@ public class CreateChange extends AppCompatActivity {
         }catch (NullPointerException e){
             e.printStackTrace();
         }
-
-
         impactSpinner=findViewById(R.id.impact);
         prioritySpinner=findViewById(R.id.spinner_pri);
         statusSpinner=findViewById(R.id.spinner_status);

@@ -137,11 +137,13 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
         textViewSubject=mAppBarLayout.findViewById(R.id.title);
         final Intent intent = getIntent();
         problemId= intent.getIntExtra("problemId",0);
+        Prefs.putInt("PROBLEM_ID",problemId);
+        Log.d("problemId",""+problemId);
         ticketId=intent.getStringExtra("ticket_id");
         problemTitle=intent.getStringExtra("problemTitle");
         textViewTicketTitle.setText("#PRB-"+""+problemId);
         imageViewBack=findViewById(R.id.imageViewBackTicketDetail);
-        textViewSubject.setText(problemTitle);
+
 
         if (InternetReceiver.isConnected()){
             new AttachedChange(problemId).execute();
@@ -248,6 +250,8 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
                 JSONObject jsonObject=new JSONObject(result);
                 JSONObject jsonObject1=jsonObject.getJSONObject("data");
                 JSONObject jsonObject3=jsonObject1.getJSONObject("department");
+                String subject=jsonObject1.getString("subject");
+                textViewSubject.setText(subject);
                 String name=jsonObject3.getString("name");
                 String from=jsonObject1.getString("from");
                 JSONObject jsonObject4=jsonObject1.getJSONObject("status_type_id");
@@ -710,7 +714,7 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
                 @Override
                 public void onClick(View view) {
                     Intent intent=new Intent(ProblemViewPage.this,ChangeViewPage.class);
-                    //intent.putExtra("changeId", changeId);
+                    intent.putExtra("changeId", movie.getId());
                     //intent.putExtra("changeTitle", changeTitle);
                     Log.d("subject",movie.getSubject());
                     Prefs.putString("cameFromMain","False");
@@ -792,7 +796,6 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
             textViewTitle=bottomSheetView.findViewById(R.id.title_bottom_sheet);
             textViewTitle.setText(R.string.existing_changes);
             final ProgressBar progressBar=bottomSheetView.findViewById(R.id.progressbarExisting);
-            progressBar.setProgressTintList(ColorStateList.valueOf(getResources().getColor(R.color.faveo)));
             progressBar.setVisibility(View.VISIBLE);
             recyclerView.setHasFixedSize(true);
             class FetchExistingProblem extends AsyncTask<String, Void, String> {
@@ -815,8 +818,6 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
 
                     if (result == null) {
                         Toasty.error(ProblemViewPage.this, getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
-//                Data data=new Data(0,"No recipients");
-//                stringArrayList.add(data);
                         return;
                     }
 
@@ -1014,7 +1015,7 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
                 public void onClick(View view) {
                     problemId=movie.getId();
                     new BottomDialog.Builder(context)
-                            .setTitle(R.string.associating)
+                            .setTitle(R.string.associatingWithProb)
                             .setContent(R.string.problem_with_change)
                             .setPositiveText("YES")
                             .setNegativeText("NO")
@@ -1031,7 +1032,8 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
                                             dialog1= new SpotsDialog(context, "Associating change..");
                                             dialog1.show();
                                             Log.d("changeId",""+movie.getId());
-                                            new AttachChange(movie.getId()).execute();
+                                            Log.d("problemId",""+problemId);
+                                            new AttachChange(Prefs.getInt("PROBLEM_ID",0),movie.getId()).execute();
 
 
                                         }
@@ -1060,16 +1062,17 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
 
     public class AttachChange extends AsyncTask<String,Void,String>{
 
-        int changeId;
+        int problemId,changeId;
 
-        public AttachChange(int changeId){
+        public AttachChange(int problemId,int changeId){
+            this.problemId=problemId;
             this.changeId=changeId;
         }
 
 
         @Override
         protected String doInBackground(String... strings) {
-            return new Helpdesk().existingChangeAndAttach(changeId);
+            return new Helpdesk().existingChangeAndAttach(problemId,changeId);
         }
 
         @Override
@@ -1088,8 +1091,6 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
                     Toasty.success(ProblemViewPage.this,"Successfully attached to the problem",Toast.LENGTH_SHORT).show();
                     finish();
                     startActivity(getIntent());
-//                    Intent intent=new Intent(TicketDetailActivity.this,MainActivity.class);
-//                    startActivity(intent);
 
                 }
 

@@ -487,6 +487,7 @@
     <string name="description">Description</string>
     <string name="addAsset">Attach asset</string>
     <string name="associating">associating with the ticket</string>
+    <string name="associatingWithProb">associating with the problem</string>
     <string name="associatingWithProblem">associating with the problem</string>
     <string name="no_problems_found">No problems found</string>
     <string name="selectUser">Please select a user to create the problem</string>

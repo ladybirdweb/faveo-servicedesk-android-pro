@@ -203,7 +203,7 @@ public class Helpdesk {
 
 
     public String postEditTicket(int ticketID, String subject, int helpTopic,
-                                 int ticketSource, int ticketPriority, int ticketType, int staff) {
+                                 int ticketSource, int ticketPriority, int staff) {
         Log.d("EditTicketAPI", Constants.URL + "helpdesk/edit?" +
                 "api_key=" + apiKey +
                 "&ip=" + IP +
@@ -213,7 +213,7 @@ public class Helpdesk {
                 "&help_topic=" + helpTopic +
                 "&ticket_source=" + ticketSource +
                 "&ticket_priority=" + ticketPriority +
-                "&ticket_type=" + ticketType + "&assigned="
+                "&assigned="
                 + staff
         );
         String result = new HTTPConnection().hTTPResponsePost(Constants.URL + "helpdesk/edit?" +
@@ -225,7 +225,7 @@ public class Helpdesk {
                 "&help_topic=" + helpTopic +
                 "&ticket_source=" + ticketSource +
                 "&ticket_priority=" + ticketPriority +
-                "&ticket_type=" + ticketType + "&assigned="
+                "&assigned="
                 + staff, null);
 
         if (result != null && result.equals("tokenRefreshed"))
@@ -238,7 +238,7 @@ public class Helpdesk {
                     "&help_topic=" + helpTopic +
                     "&ticket_source=" + ticketSource +
                     "&ticket_priority=" + ticketPriority +
-                    "&ticket_type=" + ticketType + "&assigned="
+                    "&assigned="
                     + staff, null);
         return result;
     }
@@ -660,10 +660,10 @@ public class Helpdesk {
 
     public String saveCustomerDetails(String userid, String firstname, String lastname,
                                       String email, String username) {
-        Log.d("editCustomerApi", newurl + "api/v2/helpdesk/User-edit/" + userid + "?api_key=" + apiKey + "&token=" + token + "&first_name=" + firstname + "&last_name=" + lastname + "&email=" + email + "&user_name=" + username);
-        String result = new HTTPConnection().hTTPResponsePatch(newurl + "api/v2/helpdesk/User-edit/" + userid + "?api_key=" + apiKey + "&token=" + token + "&first_name=" + firstname + "&last_name=" + lastname + "&email=" + email + "&user_name=" + username, null);
+        Log.d("editCustomerApi", newurl + "api/v2/helpdesk/user-edit/" + userid + "?api_key=" + apiKey + "&token=" + token + "&first_name=" + firstname + "&last_name=" + lastname + "&email=" + email + "&user_name=" + username);
+        String result = new HTTPConnection().hTTPResponsePatch(newurl + "api/v2/helpdesk/user-edit/" + userid + "?api_key=" + apiKey + "&token=" + token + "&first_name=" + firstname + "&last_name=" + lastname + "&email=" + email + "&user_name=" + username, null);
         if (result != null && result.equals("tokenRefreshed"))
-            return new HTTPConnection().hTTPResponsePatch(newurl + "api/v2/helpdesk/User-edit/" + userid + "?api_key=" + apiKey + "&token=" + token + "&first_name=" + firstname + "&last_name=" + lastname + "&email=" + email + "&user_name=" + username, null);
+            return new HTTPConnection().hTTPResponsePatch(newurl + "api/v2/helpdesk/user-edit/" + userid + "?api_key=" + apiKey + "&token=" + token + "&first_name=" + firstname + "&last_name=" + lastname + "&email=" + email + "&user_name=" + username, null);
         return result;
 
     }
@@ -926,16 +926,15 @@ public class Helpdesk {
 
     }
 
-    public String existingChangeAndAttach(int changeId){
-        Log.d("attachingChange",Constants.URL+"servicedesk/problem/change/attach/"+changeId+"?&token="+token+"&change="+changeId);
-        String result=new HTTPConnection().hTTPResponsePost(Constants.URL+"servicedesk/problem/change/attach/"+changeId+"?&token="+token+"&change="+changeId,null);
+    public String existingChangeAndAttach(int problemId,int changeId){
+        Log.d("attachingChange",Constants.URL+"servicedesk/problem/change/attach/"+problemId+"?token="+token+"&change="+changeId);
+        String result=new HTTPConnection().hTTPResponsePost(Constants.URL+"servicedesk/problem/change/attach/"+problemId+"?token="+token+"&change="+changeId,null);
         if (result!=null&&result.equals("tokenRefreshed")){
-            return new HTTPConnection().hTTPResponsePost(Constants.URL+"servicedesk/problem/change/attach/"+changeId+"?&token="+token+"&change="+changeId,null);
+            return new HTTPConnection().hTTPResponsePost(Constants.URL+"servicedesk/problem/change/attach/"+problemId+"?token="+token+"&change="+changeId,null);
         }
         return result;
 
     }
-
     public String attachedChangeWithProblem(int problemId){
         Log.d("gettingAttachedChange",Constants.URL+"servicedesk/get/attached/change/"+problemId+"?token="+token+"&problemid="+problemId);
         String result=new HTTPConnection().hTTPResponseGet(Constants.URL+"servicedesk/get/attached/change/"+problemId+"?token="+token+"&problemid="+problemId);

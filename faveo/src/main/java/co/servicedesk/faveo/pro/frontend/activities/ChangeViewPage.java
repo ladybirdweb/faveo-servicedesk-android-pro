@@ -107,7 +107,6 @@ public class ChangeViewPage extends AppCompatActivity implements ChangeDescripti
         changeId= intent.getIntExtra("changeId",0);
         Log.d("changeId",""+changeId);
         changeTitle=intent.getStringExtra("changeTitle");
-        textViewTicketTitle.setText(changeTitle);
         textViewChangeID.setText("#CHN-"+changeId);
 
         bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottomMenu);
@@ -201,17 +200,17 @@ public class ChangeViewPage extends AppCompatActivity implements ChangeDescripti
     }
     private class DeleteProblem extends AsyncTask<String,Void,String>{
 
-        int problemId;
+        int changeId;
 
-        public DeleteProblem(int problemId){
-            this.problemId=problemId;
+        public DeleteProblem(int changeId){
+            this.changeId=changeId;
         }
 
 
 
         @Override
         protected String doInBackground(String... strings) {
-            return new Helpdesk().deleteProblem(problemId);
+            return new Helpdesk().deleteChange(changeId);
         }
 
         @Override
@@ -223,9 +222,9 @@ public class ChangeViewPage extends AppCompatActivity implements ChangeDescripti
             try {
                 JSONObject jsonObject=new JSONObject(s);
                 String data=jsonObject.getString("data");
-                if (data.equals("Problem Deleted Successfully.")){
-                    Toasty.success(ChangeViewPage.this, getString(R.string.problem_deleted), Toast.LENGTH_LONG).show();
-                    Intent intent=new Intent(ChangeViewPage.this,ExistingProblems.class);
+                if (data.equals("Changes Deleted.")){
+                    Toasty.success(ChangeViewPage.this, "Changes Deleted.", Toast.LENGTH_LONG).show();
+                    Intent intent=new Intent(ChangeViewPage.this,ExistingChanges.class);
                     startActivity(intent);
                 }
             } catch (JSONException e) {
@@ -633,6 +632,8 @@ public class ChangeViewPage extends AppCompatActivity implements ChangeDescripti
             try {
                 JSONObject jsonObject=new JSONObject(result);
                 JSONObject jsonObject1=jsonObject.getJSONObject("data");
+                String subject=jsonObject1.getString("subject");
+                textViewTicketTitle.setText(subject);
                 JSONObject jsonObject2=jsonObject1.getJSONObject("status");
                 String statusName=jsonObject2.getString("name");
                 JSONObject jsonObject3=jsonObject1.getJSONObject("priority");

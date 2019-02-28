@@ -18,7 +18,7 @@
     android:layout_margin="5dp"
     android:padding="10dp"
     android:background="@drawable/rectanglenew"
-    android:backgroundTint="@color/grey_200">
+    android:backgroundTint="#f2f2f2">
 
     <ImageView
         android:id="@+id/imageView_collaborator"
@@ -68,7 +68,6 @@
         android:layout_centerVertical="true"
         android:layout_gravity="center"
         android:layout_marginEnd="11dp"
-        android:backgroundTint="@color/grey_500"
         android:button="@null"
         android:foregroundGravity="center"
         android:scaleX="0.70"

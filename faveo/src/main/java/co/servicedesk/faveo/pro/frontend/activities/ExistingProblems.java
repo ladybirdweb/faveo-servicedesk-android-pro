@@ -388,10 +388,8 @@ public class ExistingProblems extends AppCompatActivity {
         public void onBindViewHolder(final MyViewHolder holder, int position) {
              final ProblemModel movie = moviesList.get(position);
              holder.options.setColorFilter(getColor(R.color.faveo));
-             holder.options.setImageDrawable(getDrawable(R.drawable.menudot));
-
+             holder.options.setImageDrawable(getDrawable(R.drawable.ic_expand_more_black_24dp));
              holder.textViewId.setText("#PRB-"+movie.getId());
-
             if (!movie.getEmail().equals("")) {
                 Log.d("cameHere","true");
                 //holder.email.setText("From :  " +movie.getEmail());

@@ -85,7 +85,6 @@
                     android:layout_marginEnd="224dp"
                     android:fontFamily="@font/hintedlainesansregular"
                     android:maxLines="1"
-                    android:text="Open"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold"
@@ -122,7 +121,7 @@
                     android:fontFamily="@font/hintedlainesansregular"
                     android:maxLines="1"
                     android:textStyle="bold"
-                    android:text="Johnny English Strikes Again"
+                    android:text=""
                     android:textColor="@color/black"
                     android:textSize="15sp"
                     app:use_gradient="true" />
@@ -230,13 +229,12 @@
                         android:tint="@color/colorAccent"
                         android:src="@drawable/ic_arrow_back_black_24dp" />
                     <com.elyeproj.loaderviewlibrary.LoaderTextView
-                        android:id="@+id/subject"
+                        android:id="@+id/ticketsubject"
                         android:layout_width="200dp"
                         android:layout_height="30dp"
                         android:layout_alignTop="@+id/imageViewBackTicketDetail"
                         android:layout_marginStart="22dp"
                         android:layout_toEndOf="@+id/imageViewBackTicketDetail"
-                        android:text="@string/aaaa_0001_0000001"
                         android:textColor="@color/colorAccent"
                         android:textSize="18sp"
                         android:fontFamily="@font/hintedlainesansregular"

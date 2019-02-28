@@ -297,7 +297,7 @@ public class TicketSaveActivity extends AppCompatActivity {
                                                         URLEncoder.encode(subject.trim(), "utf-8"),
                                                         helpTopic.ID,
                                                         source.ID,
-                                                        priority.ID, type.ID,id1)
+                                                        priority.ID,id1)
                                                         .execute();
                                             } catch (UnsupportedEncodingException e) {
                                                 e.printStackTrace();
@@ -368,11 +368,9 @@ public class TicketSaveActivity extends AppCompatActivity {
         int helpTopic;
         int ticketSource;
         int ticketPriority;
-        int ticketStatus;
-        int ticketType;
         int staff;
 
-        SaveTicket(int ticketNumber, String subject, int helpTopic, int ticketSource, int ticketPriority, int ticketType,int staff) {
+        SaveTicket(int ticketNumber, String subject, int helpTopic, int ticketSource, int ticketPriority,int staff) {
             this.ticketNumber = ticketNumber;
             this.subject = subject;
             // this.slaPlan = slaPlan;
@@ -380,7 +378,6 @@ public class TicketSaveActivity extends AppCompatActivity {
             this.ticketSource = ticketSource;
             this.ticketPriority = ticketPriority;
             // this.ticketStatus = ticketStatus;
-            this.ticketType = ticketType;
             this.staff=staff;
         }
 
@@ -388,7 +385,7 @@ public class TicketSaveActivity extends AppCompatActivity {
             if (subject.equals("Not available"))
                 subject = "";
             return new Helpdesk().postEditTicket(ticketNumber, subject,
-                    helpTopic, ticketSource, ticketPriority, ticketType,staff);
+                    helpTopic, ticketSource, ticketPriority,staff);
         }
 
         protected void onPostExecute(String result) {

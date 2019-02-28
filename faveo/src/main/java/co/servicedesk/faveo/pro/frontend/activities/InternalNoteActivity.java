@@ -171,7 +171,6 @@ public class InternalNoteActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             if (result == null) {
-                //Toasty.error(getActivity(), getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
                 return;
             }
             try {
@@ -179,10 +178,10 @@ public class InternalNoteActivity extends AppCompatActivity {
                 Log.d("ticketThreadReply",jsonObject.toString());
                 Prefs.putString("ticketThread",jsonObject.toString());
                 Toasty.success(InternalNoteActivity.this, getString(R.string.internal_notes_posted), Toast.LENGTH_LONG).show();
-                Intent intent=new Intent(InternalNoteActivity.this,TicketDetailActivity.class);
+                editTextInternalNote.setText("");
+                Intent intent=new Intent(InternalNoteActivity.this,MainActivity.class);
                 Prefs.putString("cameFromNewProblem","true");
                 startActivity(intent);
-                editTextInternalNote.getText().clear();
             } catch (JSONException e) {
                 e.printStackTrace();
             }

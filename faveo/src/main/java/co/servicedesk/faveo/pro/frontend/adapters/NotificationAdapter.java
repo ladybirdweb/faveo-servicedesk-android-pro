@@ -83,13 +83,12 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 viewHolder.card.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
             } else {
                 //viewHolder.textSub.setTypeface(null, Typeface.BOLD);
-                viewHolder.card.setCardBackgroundColor(Color.parseColor("#f7f7f7"));
+                viewHolder.card.setCardBackgroundColor(Color.parseColor("#F5F5F5"));
             }
             viewHolder.card.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     new UpdateNotificationSeen(notiThread.getNotiid()).execute();
-
 
                     if (notiThread.getNotiscenario().equals("tickets")) {
 
