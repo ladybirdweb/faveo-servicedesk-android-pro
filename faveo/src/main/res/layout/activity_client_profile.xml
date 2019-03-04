@@ -232,6 +232,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/createticketicon"
         app:fabSize="normal"
+        android:backgroundTint="@color/toolbarColor"
         android:tint="@color/colorAccent"
         android:layout_gravity="bottom|end"
         android:layout_marginBottom="20dp"
