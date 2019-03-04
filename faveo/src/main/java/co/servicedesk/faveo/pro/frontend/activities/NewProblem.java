@@ -1136,7 +1136,7 @@ public class NewProblem extends AppCompatActivity implements PermissionCallback,
                 String success=jsonObject1.getString("success");
                 if (success.equals("Problem Created Successfully.")){
                     Toasty.success(NewProblem.this,getString(R.string.problemCreation),Toast.LENGTH_SHORT).show();
-                    Intent intent=new Intent(NewProblem.this,NewProblem.class);
+                    Intent intent=new Intent(NewProblem.this,MainActivity.class);
                     finish();
                     startActivity(intent);
                 }
@@ -1205,7 +1205,8 @@ public class NewProblem extends AppCompatActivity implements PermissionCallback,
                 String data=jsonObject.getString("data");
                 if (data.equals("Created new problem and attached to this ticket")){
                     Toasty.success(NewProblem.this,getString(R.string.createAndAttach),Toast.LENGTH_SHORT).show();
-                    Intent intent=new Intent(NewProblem.this,TicketDetailActivity.class);
+                    Intent intent=new Intent(NewProblem.this,MainActivity.class);
+                    intent.putExtra("ticket_id", Prefs.getString("TICKETid", null));
                     Prefs.putString("cameFromNewProblem","true");
                     startActivity(intent);
 

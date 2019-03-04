@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:text="Update :"
+        android:text="Attach change :"
         android:textSize="15sp"
         android:fontFamily="@font/hintedlainesansregular"
         android:background="@color/colorAccent"
@@ -37,7 +37,6 @@
         android:layout_below="@+id/heading"
         android:fontFamily="@font/hintedlainesansregular"
         android:padding="5dp"
-        android:layout_marginTop="10dp"
         android:text="New Change"
         android:textSize="16sp" />
 

@@ -64,7 +64,7 @@ public class ExistingChanges extends AppCompatActivity {
     public int ticketId;
     int changeId;
     String changeTitle;
-    TextView totalCount;
+    TextView noInternetView,emptyView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,8 +77,9 @@ public class ExistingChanges extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         swipeRefresh = findViewById(R.id.swipeRefresh);
-        totalCount=findViewById(R.id.totalcountChange);
         button = findViewById(R.id.createNewChange);
+        noInternetView=findViewById(R.id.noiternet_view);
+        emptyView=findViewById(R.id.empty_view);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,11 +95,17 @@ public class ExistingChanges extends AppCompatActivity {
             dialog1.show();
             new FetchExistingChanges().execute();
         }
+        else{
+            recyclerView.setVisibility(View.GONE);
+            swipeRefresh.setRefreshing(false);
+            noInternetView.setVisibility(View.VISIBLE);
+        }
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                Intent intent=new Intent(ExistingChanges.this,MainActivity.class);
+                startActivity(intent);
             }
 
         });
@@ -120,6 +127,7 @@ public class ExistingChanges extends AppCompatActivity {
                 } else {
                     recyclerView.setVisibility(View.INVISIBLE);
                     swipeRefresh.setRefreshing(false);
+                    noInternetView.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -173,7 +181,6 @@ public class ExistingChanges extends AppCompatActivity {
                     ChangeModel problemModel = new ChangeModel(subject, createdDate,email,priority,id);
                     problemList.add(problemModel);
                 }
-                totalCount.setText(total+" changes");
                 recyclerView.setHasFixedSize(false);
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
                 final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ExistingChanges.this);
@@ -204,6 +211,9 @@ public class ExistingChanges extends AppCompatActivity {
                 });
                 mAdapter = new ProblemAdpter(ExistingChanges.this, problemList);
                 recyclerView.setAdapter(mAdapter);
+                if (mAdapter.getItemCount()==0){
+                    emptyView.setVisibility(View.VISIBLE);
+                } else emptyView.setVisibility(View.GONE);
                 //recyclerView.getAdapter().notifyDataSetChanged();
             } catch (JSONException e1) {
                 e1.printStackTrace();

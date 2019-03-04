@@ -355,10 +355,11 @@ public class TicketDetailActivity extends AppCompatActivity implements
         Log.d("ticketDetailOnCreate","True");
         final Intent intent = getIntent();
         ticketID=intent.getStringExtra("ticket_id");
+        Log.d("ticketID",ticketID);
         Prefs.putString("TICKETid",ticketID);
         try {
             if (InternetReceiver.isConnected()) {
-                new FetchAttachedProblem(Integer.parseInt(ticketID)).execute();
+                new FetchAttachedProblem(Integer.parseInt(Prefs.getString("TICKETid",null))).execute();
             }
         }catch (NumberFormatException e){
             e.printStackTrace();
@@ -723,6 +724,7 @@ public class TicketDetailActivity extends AppCompatActivity implements
                 @Override
                 public void onClick(View view) {
                     new BottomDialog.Builder(TicketDetailActivity.this)
+                            .setTitle("Detaching problem")
                             .setContent("Are you sure you want to detach the problem?")
                             .setPositiveText("YES")
                             .setNegativeText("NO")
@@ -761,6 +763,7 @@ public class TicketDetailActivity extends AppCompatActivity implements
                     intent.putExtra("ticket_id",ticketID);
                     Log.d("subject",movie.getSubject());
                     Prefs.putString("cameFromMain","False");
+                    Prefs.putString("cameFromTicketDetail","true");
                     intent.putExtra("problemTitle",movie.getSubject());
                     startActivity(intent);
                 }

@@ -125,10 +125,10 @@ public class Detail extends Fragment {
             }
         });
         // progressDialog.show();
-        if (InternetReceiver.isConnected()) {
-            task = new FetchTicketDetail(Prefs.getString("TICKETid", null));
-            task.execute();
-        }
+//        if (InternetReceiver.isConnected()) {
+//            task = new FetchTicketDetail(Prefs.getString("TICKETid", null));
+//            task.execute();
+//        }
 
 
 //        buttonSave.setOnClickListener(new View.OnClickListener() {

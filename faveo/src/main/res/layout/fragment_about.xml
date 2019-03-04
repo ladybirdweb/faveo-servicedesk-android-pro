@@ -24,7 +24,7 @@
             android:layout_marginBottom="12dp"
             android:alpha="0.8"
             android:fontFamily="@font/hintedlainesansregular"
-            android:text="@string/faveo_helpdesk"
+            android:text="@string/faveo_servicedesk"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold" />

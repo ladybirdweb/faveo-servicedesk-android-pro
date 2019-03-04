@@ -163,7 +163,13 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
         imageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                if (Prefs.getString("cameFromTicketDetail",null).equals("true")){
+                    finish();
+                }
+                else{
+                    Intent intent1=new Intent(ProblemViewPage.this,ExistingProblems.class);
+                    startActivity(intent1);
+                }
             }
         });
 
@@ -294,6 +300,17 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
                 e.printStackTrace();
             }
 
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (Prefs.getString("cameFromTicketDetail",null).equals("true")){
+            finish();
+        }
+        else{
+            Intent intent1=new Intent(ProblemViewPage.this,ExistingProblems.class);
+            startActivity(intent1);
         }
     }
 

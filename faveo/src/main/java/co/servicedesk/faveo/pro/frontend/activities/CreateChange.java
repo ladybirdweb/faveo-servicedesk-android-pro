@@ -202,6 +202,10 @@ public class CreateChange extends AppCompatActivity {
                     Toasty.warning(CreateChange.this, getString(R.string.sub_must_not_be_empty), Toast.LENGTH_SHORT).show();
                     allCorrect = false;
                 }
+                if (editTextSubject.getText().toString().length()>=50){
+                    Toasty.warning(CreateChange.this,getString(R.string.changeSubject),Toast.LENGTH_LONG).show();
+                    allCorrect=false;
+                }
                 if (priority.ID==0){
                     Toasty.warning(CreateChange.this, getString(R.string.please_select_some_priority), Toast.LENGTH_SHORT).show();
                     allCorrect = false;
@@ -222,6 +226,7 @@ public class CreateChange extends AppCompatActivity {
                     Toasty.warning(CreateChange.this, getString(R.string.descriptionEmpty), Toast.LENGTH_SHORT).show();
                     allCorrect = false;
                 }
+
 
                 String assetList=assetItem.getText().toString();
                 String[] values = new String[0];
@@ -654,7 +659,7 @@ public class CreateChange extends AppCompatActivity {
                 String data=jsonObject.getString("data");
                 if (data.equals("Changes Created.")){
                     Toasty.success(CreateChange.this,"Change created successfully",Toast.LENGTH_SHORT).show();
-                    Intent intent=new Intent(CreateChange.this,ExistingChanges.class);
+                    Intent intent=new Intent(CreateChange.this,MainActivity.class);
                     startActivity(intent);
                 }
             } catch (JSONException e) {

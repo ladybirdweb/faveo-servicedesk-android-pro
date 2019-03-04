@@ -78,7 +78,7 @@ public class ExistingProblems extends AppCompatActivity {
     int problemId;
     String problemTitle;
     int total;
-    TextView textView;
+    TextView noInternetView,emptyView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,8 +102,10 @@ public class ExistingProblems extends AppCompatActivity {
             e.printStackTrace();
         }
         swipeRefresh=findViewById(R.id.swipeRefresh);
-        textView=findViewById(R.id.totalcount);
         button=findViewById(R.id.createNewProblem);
+
+        noInternetView=findViewById(R.id.noiternet_view);
+        emptyView=findViewById(R.id.empty_view);
         MyBottomSheetDialog myBottomSheetDialog = new MyBottomSheetDialog(ExistingProblems.this);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,6 +120,11 @@ public class ExistingProblems extends AppCompatActivity {
             dialog1 = new SpotsDialog(ExistingProblems.this, getString(R.string.pleasewait));
             dialog1.show();
             new FetchExistingProblem().execute();
+        }
+        else{
+            recyclerView.setVisibility(View.GONE);
+            swipeRefresh.setRefreshing(false);
+            noInternetView.setVisibility(View.VISIBLE);
         }
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,9 +142,9 @@ public class ExistingProblems extends AppCompatActivity {
                     loading = true;
 
                     try {
-                            swipeRefresh.setRefreshing(true);
-                            //progressDialog.show();
-                            new FetchExistingProblem().execute();
+                        swipeRefresh.setRefreshing(true);
+                        //progressDialog.show();
+                        new FetchExistingProblem().execute();
 
                     }catch (NullPointerException e){
                         e.printStackTrace();
@@ -145,6 +152,7 @@ public class ExistingProblems extends AppCompatActivity {
                 }else {
                     recyclerView.setVisibility(View.INVISIBLE);
                     swipeRefresh.setRefreshing(false);
+                    noInternetView.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -273,8 +281,10 @@ public class ExistingProblems extends AppCompatActivity {
                 mAdapter = new ProblemAdpter(ExistingProblems.this,problemList);
                 runLayoutAnimation(recyclerView);
                     recyclerView.setAdapter(mAdapter);
-                textView.setText("" + total + " problems");
-                    //recyclerView.getAdapter().notifyDataSetChanged();
+                if (mAdapter.getItemCount()==0){
+                    emptyView.setVisibility(View.VISIBLE);
+                } else emptyView.setVisibility(View.GONE);
+                //recyclerView.getAdapter().notifyDataSetChanged();
                 } catch (JSONException e1) {
                 e1.printStackTrace();
             }
@@ -469,6 +479,7 @@ public class ExistingProblems extends AppCompatActivity {
                     Intent intent=new Intent(ExistingProblems.this,ProblemViewPage.class);
                                     intent.putExtra("problemId",problemId);
                                     intent.putExtra("problemTitle",problemTitle);
+                    Prefs.putString("cameFromTicketDetail","false");
                                     startActivity(intent);
                 }
             });
