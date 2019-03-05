@@ -158,7 +158,6 @@ public class TicketFragment extends Fragment {
                             Log.d("QUERRY","No Querry");
                             recyclerView.setVisibility(View.GONE);
                             empty_view.setVisibility(View.VISIBLE);
-                            empty_view.setText(getString(R.string.noTicket));
                             swipeRefresh.setRefreshing(false);
                         }
                         else{
@@ -270,11 +269,11 @@ public class TicketFragment extends Fragment {
 //                    String ticketNumber = jsonObject2.getString("ticket_number");
 //                    String assignedto=jsonObject2.getString("assigned_to");
 //                    String ID = jsonObject2.getString("id");
-//                    JSONObject user=jsonObject2.getJSONObject("user");
-//                    String firstName = user.getString("first_name");
-//                    String lastName = user.getString("last_name");
-//                    String username = user.getString("user_name");
-//                    String profilePic = user.getString("profile_pic");
+//                    JSONObject User=jsonObject2.getJSONObject("User");
+//                    String firstName = User.getString("first_name");
+//                    String lastName = User.getString("last_name");
+//                    String username = User.getString("user_name");
+//                    String profilePic = User.getString("profile_pic");
 //                    if (assignedto.equals("null")){
 //                        agentName="Unassigned";
 //                    }
@@ -292,7 +291,7 @@ public class TicketFragment extends Fragment {
 //                    String priorityColor = priority.getString("priority_color");
 //                    Log.d("PriorityColor",priorityColor);
 
-                    //ID,first name ,last name,user name,profile pic,agent name,title,ticket status name,priority color,ticket number.
+                    //ID,first name ,last name,User name,profile pic,agent name,title,ticket status name,priority color,ticket number.
                     //Log.d("ticket status name",ticketStatusName);
 //                    for (int i1=0;i<jsonArray1.length();i1++){
 //

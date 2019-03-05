@@ -14,7 +14,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
-                android:background="#f2f2f2">
+                android:background="@color/colorAccent">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -26,7 +26,8 @@
                     android:layout_marginLeft="17dp"
                     android:layout_marginStart="17dp"
                     android:text="@string/from"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/hintedlainesansregular"
                     android:textStyle="bold" />
 
             </RelativeLayout>
@@ -51,14 +52,23 @@
                     android:nextFocusForward="@+id/editText_firstname"
                     android:textCursorDrawable="@drawable/color_cursor"
                     android:textSize="16sp"
+                    android:fontFamily="@font/hintedlainesansregular"
                     />
 
             </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/grey_500"
+                android:alpha=".3">
 
+            </View>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
-                android:background="#f2f2f2">
+                android:background="@color/colorAccent">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -70,7 +80,8 @@
                     android:layout_marginLeft="17dp"
                     android:layout_marginStart="17dp"
                     android:text="@string/subject"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/hintedlainesansregular"
                     android:textStyle="bold" />
 
             </RelativeLayout>
@@ -93,13 +104,22 @@
                     android:nextFocusForward="@+id/msg_edittext"
                     android:nextFocusDown="@+id/spinner_pri"
                     android:textCursorDrawable="@drawable/color_cursor"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:fontFamily="@font/hintedlainesansregular"/>
             </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/grey_500"
+                android:alpha=".3">
 
+            </View>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
-                android:background="#f2f2f2">
+                android:background="@color/colorAccent">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -111,7 +131,8 @@
                     android:layout_marginLeft="17dp"
                     android:layout_marginStart="17dp"
                     android:text="@string/priority"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/hintedlainesansregular"
                     android:textStyle="bold" />
             </RelativeLayout>
 
@@ -129,8 +150,17 @@
                     android:background="@null"
                     android:nextFocusForward="@+id/spinner_help"
                     android:hint="@string/SelectPriority"/>
-            </LinearLayout>
 
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/grey_500"
+                android:alpha=".3">
+
+            </View>
             <!--<RelativeLayout-->
             <!--android:layout_width="match_parent"-->
             <!--android:layout_height="36dp"-->
@@ -178,7 +208,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
-                android:background="#f2f2f2">
+                android:background="@color/colorAccent">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -190,7 +220,8 @@
                     android:layout_marginLeft="17dp"
                     android:layout_marginStart="17dp"
                     android:text="@string/status"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/hintedlainesansregular"
                     android:textStyle="bold" />
 
             </RelativeLayout>
@@ -209,10 +240,19 @@
                     android:nextFocusForward="@+id/msg_edittext"
                     android:hint="@string/SelectHelptopic"/>
             </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/grey_500"
+                android:alpha=".3">
+
+            </View>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
-                android:background="#f2f2f2">
+                android:background="@color/colorAccent">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -224,7 +264,8 @@
                     android:layout_marginLeft="17dp"
                     android:layout_marginStart="17dp"
                     android:text="@string/Impact"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/hintedlainesansregular"
                     android:textStyle="bold" />
 
             </RelativeLayout>
@@ -243,10 +284,20 @@
                     android:nextFocusForward="@+id/msg_edittext"
                     android:hint="@string/SelectHelptopic"/>
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/grey_500"
+                android:alpha=".3">
+
+            </View>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
-                android:background="#f2f2f2">
+                android:background="@color/colorAccent">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -258,7 +309,8 @@
                     android:layout_marginLeft="17dp"
                     android:layout_marginStart="17dp"
                     android:text="@string/department"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/hintedlainesansregular"
                     android:textStyle="bold" />
             </RelativeLayout>
 
@@ -276,7 +328,15 @@
                     android:nextFocusForward="@+id/msg_edittext"
                     android:hint="@string/SelectHelptopic"/>
             </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/grey_500"
+                android:alpha=".3">
 
+            </View>
             <!--<RelativeLayout-->
             <!--android:layout_width="match_parent"-->
             <!--android:layout_height="36dp"-->
@@ -314,7 +374,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
-                android:background="#f2f2f2">
+                android:background="@color/colorAccent">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -326,7 +386,8 @@
                     android:layout_marginLeft="17dp"
                     android:layout_marginStart="17dp"
                     android:text="@string/assignedto"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/hintedlainesansregular"
                     android:textStyle="bold" />
                 />
             </RelativeLayout>
@@ -389,10 +450,19 @@
             <!--android:textSize="14sp" />-->
 
             <!--</LinearLayout>-->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/grey_500"
+                android:alpha=".3">
+
+            </View>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
-                android:background="#f2f2f2">
+                android:background="@color/colorAccent">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -404,7 +474,8 @@
                     android:layout_marginLeft="17dp"
                     android:layout_marginStart="17dp"
                     android:text="@string/addAsset"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/hintedlainesansregular"
                     android:textStyle="bold" />
             </RelativeLayout>
 
@@ -420,6 +491,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginLeft="16dp"
+                    android:fontFamily="@font/hintedlainesansregular"
                     android:layout_marginRight="16dp"
                     android:background="@android:color/transparent"
                     android:cursorVisible="true"
@@ -431,10 +503,19 @@
                     />
 
             </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/grey_500"
+                android:alpha=".3">
+
+            </View>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
-                android:background="#f2f2f2">
+                android:background="@color/colorAccent">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -446,7 +527,8 @@
                     android:layout_marginLeft="17dp"
                     android:layout_marginStart="17dp"
                     android:text="@string/description"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/hintedlainesansregular"
                     android:textStyle="bold" />
             </RelativeLayout>
 
@@ -472,10 +554,19 @@
                     android:isScrollContainer="true"
                     android:maxLines="14"
                     android:minLines="8"
+                    android:fontFamily="@font/hintedlainesansregular"
                     android:textCursorDrawable="@drawable/color_cursor"
                     android:textSize="16sp" />
             </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/grey_500"
+                android:alpha=".3">
 
+            </View>
 
             <RelativeLayout
                 android:id="@+id/attachment_layout"

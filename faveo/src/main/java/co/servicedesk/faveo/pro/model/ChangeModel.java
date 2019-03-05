@@ -2,12 +2,14 @@ package co.servicedesk.faveo.pro.model;
 
 public class ChangeModel {
 
-    private String subject,createdDate;
+    private String subject,createdDate,priority,email;
     private int id;
 
-    public ChangeModel(String subject, String createdDate, int id) {
+    public ChangeModel(String subject, String createdDate, String priority, String email, int id) {
         this.subject = subject;
         this.createdDate = createdDate;
+        this.priority = priority;
+        this.email = email;
         this.id = id;
     }
 
@@ -25,6 +27,22 @@ public class ChangeModel {
 
     public void setCreatedDate(String createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public String getPriority() {
+        return priority;
+    }
+
+    public void setPriority(String priority) {
+        this.priority = priority;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public int getId() {

@@ -29,7 +29,7 @@ ImageView imageView;
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
 // finally change the color
-        window.setStatusBarColor(ContextCompat.getColor(Dashboard.this,R.color.faveo));
+        window.setStatusBarColor(ContextCompat.getColor(Dashboard.this,R.color.mainActivityTopBar));
         textView= (TextView) findViewById(R.id.dashboardcreate);
         imageView= (ImageView) findViewById(R.id.imageViewBack);
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -38,7 +38,7 @@ ImageView imageView;
                 finish();
             }
         });
-        content="<b>Requestor/email id</b>: You can enter the mail id if the account already exists in Faveo. If you are a new user then click on the “+” button to create a new account. \n" +
+        content="<b>Requestor/email id</b>: You can enter the mail id if the account already exists in Faveo. If you are a new User then click on the “+” button to create a new account. \n" +
                 "You can enter the Requestor <b>maid id</b>, <b>First name</b>, <b>Last Name</b> and <b>Phone number</b> when you are creating a new account.<br />" +
                 "<b>CC</b>: You can add collaborator by entering the name of the agents.<br />" +
                 "<b>First Name</b>: Enter the first name.<br />" +

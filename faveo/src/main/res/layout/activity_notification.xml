@@ -6,27 +6,34 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:background="@color/colorAccent"
-    tools:context="co.helpdesk.faveo.pro.frontend.activities.NotificationActivity">
+    tools:context=".frontend.activities.NotificationActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:elevation="4dp"
-        android:theme="@style/AppThemeOverlay.ActionBar">
+        android:backgroundTint="#154c66">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="60dp"
             android:background="?attr/colorPrimary"
+            android:backgroundTint="#154c66"
             app:layout_scrollFlags="scroll|enterAlways|snap"
-            app:popupTheme="@style/AppThemeOverlay.ActionBar" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@color/faveo">
+            app:theme="@style/myToolbarTheme">
 
-        </View>
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textAllCaps="false"
+                android:gravity="center_vertical"
+                android:textColor="@color/colorAccent"
+                android:textSize="16sp"
+                android:fontFamily="@font/hintedlainesansregular"
+                android:textStyle="bold" />
+        </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
 

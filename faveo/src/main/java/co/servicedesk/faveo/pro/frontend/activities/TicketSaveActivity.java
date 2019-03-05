@@ -1,6 +1,7 @@
 package co.servicedesk.faveo.pro.frontend.activities;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -83,12 +85,13 @@ public class TicketSaveActivity extends AppCompatActivity {
 
 // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(TicketSaveActivity.this,R.color.faveo));
+        window.setStatusBarColor(ContextCompat.getColor(TicketSaveActivity.this,R.color.mainActivityTopBar));
         //final NiftyDialogBuilder dialogBuilder=NiftyDialogBuilder.getInstance(TicketSaveActivity.this);
         StrictMode.setThreadPolicy(policy);
         if (InternetReceiver.isConnected()){
             new FetchDependency().execute();
         }
+
 
         option=Prefs.getString("cameFromNotification", null);
         switch (option) {
@@ -184,24 +187,51 @@ public class TicketSaveActivity extends AppCompatActivity {
                 id1=0;
             }
         });
-        spinnerSource.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                buttonsave.setVisibility(View.VISIBLE);
-                return false;
-            }
-        });
         spinnerHelpTopics.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 buttonsave.setVisibility(View.VISIBLE);
+                InputMethodManager imm=(InputMethodManager)getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(edittextsubject.getWindowToken(), 0);
                 return false;
             }
         });
+
+        spinnerPriority.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                buttonsave.setVisibility(View.VISIBLE);
+                InputMethodManager imm=(InputMethodManager)getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(edittextsubject.getWindowToken(), 0);
+                return false;
+            }
+        });
+        spinnerSource.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                buttonsave.setVisibility(View.VISIBLE);
+                InputMethodManager imm=(InputMethodManager)getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(edittextsubject.getWindowToken(), 0);
+                return false;
+            }
+        });
+
         autoCompleteTextViewstaff.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 buttonsave.setVisibility(View.VISIBLE);
+                InputMethodManager imm=(InputMethodManager)getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(edittextsubject.getWindowToken(), 0);
+                return false;
+            }
+        });
+
+        spinnerType.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                buttonsave.setVisibility(View.VISIBLE);
+                InputMethodManager imm=(InputMethodManager)getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(edittextsubject.getWindowToken(), 0);
                 return false;
             }
         });
@@ -267,7 +297,7 @@ public class TicketSaveActivity extends AppCompatActivity {
                                                         URLEncoder.encode(subject.trim(), "utf-8"),
                                                         helpTopic.ID,
                                                         source.ID,
-                                                        priority.ID, type.ID,id1)
+                                                        priority.ID,id1)
                                                         .execute();
                                             } catch (UnsupportedEncodingException e) {
                                                 e.printStackTrace();
@@ -295,42 +325,6 @@ public class TicketSaveActivity extends AppCompatActivity {
 //            new FetchTicketDetail(Prefs.getString("TICKETid",null)).execute();
 //        }
 //    }
-    private class FetchTicketDetail1 extends AsyncTask<String, Void, String> {
-        String ticketID;
-        String agentName;
-        String title;
-        FetchTicketDetail1(String ticketID) {
-
-            this.ticketID = ticketID;
-        }
-
-        protected String doInBackground(String... urls) {
-            return new Helpdesk().getTicketDetail(ticketID);
-        }
-
-        protected void onPostExecute(String result) {
-           dialog1.dismiss();
-            if (isCancelled()) return;
-//            if (progressDialog.isShowing())
-//                progressDialog.dismiss();
-
-            if (result == null) {
-                //Toasty.error(TicketDetailActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
-                return;
-            }
-
-            JSONObject jsonObject = null;
-            try {
-                jsonObject = new JSONObject(result);
-                Prefs.putString("TicketRelated",jsonObject.toString());
-                Toasty.success(TicketSaveActivity.this, getString(R.string.update_success), Toast.LENGTH_LONG).show();
-                Intent intent=new Intent(TicketSaveActivity.this, MainActivity.class);
-                startActivity(intent);
-                } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-    }
     private class SaveTicket extends AsyncTask<String, Void, String> {
         int ticketNumber;
         String subject;
@@ -338,11 +332,9 @@ public class TicketSaveActivity extends AppCompatActivity {
         int helpTopic;
         int ticketSource;
         int ticketPriority;
-        int ticketStatus;
-        int ticketType;
         int staff;
 
-        SaveTicket(int ticketNumber, String subject, int helpTopic, int ticketSource, int ticketPriority, int ticketType,int staff) {
+        SaveTicket(int ticketNumber, String subject, int helpTopic, int ticketSource, int ticketPriority,int staff) {
             this.ticketNumber = ticketNumber;
             this.subject = subject;
             // this.slaPlan = slaPlan;
@@ -350,7 +342,6 @@ public class TicketSaveActivity extends AppCompatActivity {
             this.ticketSource = ticketSource;
             this.ticketPriority = ticketPriority;
             // this.ticketStatus = ticketStatus;
-            this.ticketType = ticketType;
             this.staff=staff;
         }
 
@@ -358,7 +349,7 @@ public class TicketSaveActivity extends AppCompatActivity {
             if (subject.equals("Not available"))
                 subject = "";
             return new Helpdesk().postEditTicket(ticketNumber, subject,
-                    helpTopic, ticketSource, ticketPriority, ticketType,staff);
+                    helpTopic, ticketSource, ticketPriority,staff);
         }
 
         protected void onPostExecute(String result) {
@@ -396,6 +387,7 @@ public class TicketSaveActivity extends AppCompatActivity {
                 Toasty.success(TicketSaveActivity.this, getString(R.string.update_success), Toast.LENGTH_LONG).show();
                 Prefs.putString("cameFromNewProblem","true");
                 Intent intent=new Intent(TicketSaveActivity.this, TicketDetailActivity.class);
+                intent.putExtra("ticket_id", Prefs.getString("TICKETid",null));
                 startActivity(intent);
                 //new FetchTicketDetail1(Prefs.getString("TICKETid",null)).execute();
 

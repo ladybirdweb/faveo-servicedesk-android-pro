@@ -29,6 +29,7 @@ import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
 import com.github.javiersantos.bottomdialogs.BottomDialog;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -63,7 +64,7 @@ public class ExistingChanges extends AppCompatActivity {
     public int ticketId;
     int changeId;
     String changeTitle;
-
+    TextView noInternetView,emptyView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,17 +72,19 @@ public class ExistingChanges extends AppCompatActivity {
         Window window = ExistingChanges.this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(ExistingChanges.this, R.color.faveo));
+        window.setStatusBarColor(ContextCompat.getColor(ExistingChanges.this, R.color.mainActivityTopBar));
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         swipeRefresh = findViewById(R.id.swipeRefresh);
         button = findViewById(R.id.createNewChange);
+        noInternetView=findViewById(R.id.noiternet_view);
+        emptyView=findViewById(R.id.empty_view);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent1 = new Intent(ExistingChanges.this, NewProblem.class);
+                Intent intent1 = new Intent(ExistingChanges.this, CreateChange.class);
+                Prefs.putString("needToAttachChange","false");
                 startActivity(intent1);
             }
         });
@@ -92,11 +95,17 @@ public class ExistingChanges extends AppCompatActivity {
             dialog1.show();
             new FetchExistingChanges().execute();
         }
+        else{
+            recyclerView.setVisibility(View.GONE);
+            swipeRefresh.setRefreshing(false);
+            noInternetView.setVisibility(View.VISIBLE);
+        }
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                Intent intent=new Intent(ExistingChanges.this,MainActivity.class);
+                startActivity(intent);
             }
 
         });
@@ -118,6 +127,7 @@ public class ExistingChanges extends AppCompatActivity {
                 } else {
                     recyclerView.setVisibility(View.INVISIBLE);
                     swipeRefresh.setRefreshing(false);
+                    noInternetView.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -136,6 +146,7 @@ public class ExistingChanges extends AppCompatActivity {
         }
 
         protected void onPostExecute(String result) {
+            String email;
             if (dialog1 != null && dialog1.isShowing()) {
                 dialog1.dismiss();
             }
@@ -152,14 +163,22 @@ public class ExistingChanges extends AppCompatActivity {
 
             try {
                 JSONObject jsonObject = new JSONObject(result);
+                String total=jsonObject.getString("total");
                 nextPageURL = jsonObject.getString("next_page_url");
                 JSONArray jsonArray = jsonObject.getJSONArray("data");
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject2 = jsonArray.getJSONObject(i);
                     int id = jsonObject2.getInt("id");
                     String subject = jsonObject2.getString("subject");
-                    String createdDate = jsonObject2.getString("created_at");
-                    ChangeModel problemModel = new ChangeModel(subject, createdDate, id);
+                    String createdDate = jsonObject2.getString("updated_at");
+                    if (jsonObject2.isNull("requester")){
+                        email=getString(R.string.not_available);
+                    }
+                    else{
+                        email=jsonObject2.getString("requester");
+                    }
+                    String priority=jsonObject2.getString("priority");
+                    ChangeModel problemModel = new ChangeModel(subject, createdDate,email,priority,id);
                     problemList.add(problemModel);
                 }
                 recyclerView.setHasFixedSize(false);
@@ -192,6 +211,9 @@ public class ExistingChanges extends AppCompatActivity {
                 });
                 mAdapter = new ProblemAdpter(ExistingChanges.this, problemList);
                 recyclerView.setAdapter(mAdapter);
+                if (mAdapter.getItemCount()==0){
+                    emptyView.setVisibility(View.VISIBLE);
+                } else emptyView.setVisibility(View.GONE);
                 //recyclerView.getAdapter().notifyDataSetChanged();
             } catch (JSONException e1) {
                 e1.printStackTrace();
@@ -209,6 +231,7 @@ public class ExistingChanges extends AppCompatActivity {
         }
 
         protected String doInBackground(String... urls) {
+            String email;
             if (nextPageURL.equals("null")) {
                 return "all done";
             }
@@ -226,10 +249,16 @@ public class ExistingChanges extends AppCompatActivity {
                     JSONObject jsonObject2 = jsonArray.getJSONObject(i);
                     int id = jsonObject2.getInt("id");
                     String subject = jsonObject2.getString("subject");
-                    String email = jsonObject2.getString("from");
-                    String createdDate = jsonObject2.getString("created_at");
-                    ChangeModel changeModel = new ChangeModel(subject, createdDate, id);
-                    problemList.add(changeModel);
+                    if (jsonObject2.isNull("requester")){
+                        email=getString(R.string.not_available);
+                    }
+                    else{
+                        email=jsonObject2.getString("requester");
+                    }
+                    String createdDate = jsonObject2.getString("updated_at");
+                    String priority=jsonObject2.getString("priority");
+                    ChangeModel problemModel = new ChangeModel(subject, createdDate,email,priority,id);
+                    problemList.add(problemModel);
 
                 }
             } catch (JSONException e) {
@@ -246,7 +275,7 @@ public class ExistingChanges extends AppCompatActivity {
                 return;
             }
             if (result.equals("all done")) {
-                Toasty.info(context, getString(R.string.all_problem_loaded), Toast.LENGTH_SHORT).show();
+                Toasty.info(context, getString(R.string.all_changes_are_loaded), Toast.LENGTH_SHORT).show();
                 return;
             }
             mAdapter.notifyDataSetChanged();
@@ -265,15 +294,18 @@ public class ExistingChanges extends AppCompatActivity {
             ImageView options;
             RelativeTimeTextView relativeTimeTextView;
             RelativeLayout relativeLayout;
+            TextView priorityText;
+            TextView textViewId;
 
             public MyViewHolder(View view) {
                 super(view);
-                email = view.findViewById(R.id.textView_client_email);
-                subject = view.findViewById(R.id.collaboratorname);
+                email = view.findViewById(R.id.textViewChangeuser);
+                subject = view.findViewById(R.id.messageChange);
                 options = view.findViewById(R.id.textViewOptions);
                 relativeTimeTextView = view.findViewById(R.id.textView_ticket_time);
                 relativeLayout = view.findViewById(R.id.problemList);
-
+                priorityText=view.findViewById(R.id.priorityChange);
+                textViewId=view.findViewById(R.id.changeId);
 
             }
         }
@@ -295,10 +327,25 @@ public class ExistingChanges extends AppCompatActivity {
         public void onBindViewHolder(final ProblemAdpter.MyViewHolder holder, int position) {
             final ChangeModel changeModel = moviesList.get(position);
 //             holder.options.setColorFilter(getColor(R.color.faveo));
-            holder.options.setImageDrawable(getDrawable(R.drawable.menudot));
+            holder.options.setImageDrawable(getDrawable(R.drawable.ic_expand_more_black_24dp));
+            holder.options.setColorFilter(Color.parseColor("#04aaf7"));
+            holder.textViewId.setText("#CHN-"+changeModel.getId());
+
+            if (!changeModel.getPriority().equals("")){
+                holder.priorityText.setText(changeModel.getPriority());
+            }
+
+            if (changeModel.getEmail().equals("")){
+                holder.email.setText(getString(R.string.not_available));
+
+            }
+            else{
+                holder.email.setText(changeModel.getEmail());
+            }
 
             if (changeModel.getSubject().equals("")) {
-                holder.subject.setVisibility(View.GONE);
+                holder.subject.setText(getString(R.string.not_available));
+                holder.subject.setVisibility(View.VISIBLE);
             } else {
                 holder.subject.setVisibility(View.VISIBLE);
                 holder.subject.setText(changeModel.getSubject());
@@ -367,7 +414,8 @@ public class ExistingChanges extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     new BottomDialog.Builder(ExistingChanges.this)
-                            .setContent("Deleting Change?")
+                            .setTitle("Deleting Change")
+                            .setContent("Are you sure you want to delete this change?")
                             .setPositiveText("YES")
                             .setNegativeText("NO")
                             .setPositiveBackgroundColorResource(R.color.white)

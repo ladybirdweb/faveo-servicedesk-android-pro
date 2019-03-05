@@ -1,22 +1,29 @@
 package co.servicedesk.faveo.pro;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.os.Build;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
+import android.support.v4.app.NotificationCompat;
 
 import com.pixplicity.easyprefs.library.Prefs;
 
 import java.io.File;
 
+import co.servicedesk.faveo.pro.frontend.activities.MainActivity;
 import co.servicedesk.faveo.pro.frontend.receivers.InternetReceiver;
 
 /**
  * In this class we are adding fabric to our application.
  * This is for crash reporting ,whenever we will have any issue in
- * the user system this will give the error message for the issue
+ * the User system this will give the error message for the issue
  * to us.
  */
 public class FaveoApplication extends MultiDexApplication {
@@ -98,14 +105,40 @@ public class FaveoApplication extends MultiDexApplication {
         return instance;
         // or return instance.getApplicationContext();
     }
+    void createNotificationChannel() {
 
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.app_name);
+            String description = "Android Channel";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("default", name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            mNotificationManager = getSystemService(NotificationManager.class);
+            mNotificationManager.createNotificationChannel(channel);
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext(), "default")
+                    .setSmallIcon(R.mipmap.ic_launcher) // notification icon
+                    .setContentTitle("Test") // title for notification
+                    .setContentText("Testing for Oreo")// message for notification// set alarm sound for notification
+                    .setAutoCancel(true); // clear notification after click
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            PendingIntent pi = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            mBuilder.setContentIntent(pi);
+            mNotificationManager.notify(0, mBuilder.build());
+        }
+    }
     public static synchronized FaveoApplication getInstance() {
         return instance;
     }
 
 
     /**
-     * Deleting the user data while logging out from app.
+     * Deleting the User data while logging out from app.
      */
     public void clearApplicationData() {
         File cache = getCacheDir();

@@ -22,14 +22,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,8 +35,6 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.elyeproj.loaderviewlibrary.LoaderTextView;
 import com.github.javiersantos.bottomdialogs.BottomDialog;
-import com.google.gson.JsonObject;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -51,10 +47,8 @@ import java.util.List;
 
 import co.servicedesk.faveo.pro.R;
 import co.servicedesk.faveo.pro.backend.api.v1.Helpdesk;
-import co.servicedesk.faveo.pro.frontend.fragments.ChangeDescription;
-import co.servicedesk.faveo.pro.frontend.fragments.ChangeSpecific;
-import co.servicedesk.faveo.pro.frontend.fragments.ProblemDescription;
-import co.servicedesk.faveo.pro.frontend.fragments.ProblemSpecific;
+import co.servicedesk.faveo.pro.frontend.fragments.change.ChangeDescription;
+import co.servicedesk.faveo.pro.frontend.fragments.change.ChangeSpecific;
 import co.servicedesk.faveo.pro.frontend.receivers.InternetReceiver;
 import dmax.dialog.SpotsDialog;
 import es.dmoral.toasty.Toasty;
@@ -63,12 +57,13 @@ public class ChangeViewPage extends AppCompatActivity implements ChangeDescripti
     Context context;
     ViewPager vpPager;
     TabLayout tabLayout;
-    TextView textViewTicketTitle;
-    LoaderTextView loaderTextViewImpact,loaderTextViewRequester,loaderTextViewstatus;
+    TextView textViewTicketTitle,textViewChangeID;
+    TextView loaderTextViewRequester,loaderTextViewstatus;
+    LoaderTextView loaderTextViewPriority;
     int changeId;
     String changeTitle;
     SpotsDialog dialog1;
-    ImageView imageViewEdit;
+    ImageView imageViewEdit,imageViewBack;
     AHBottomNavigation bottomNavigation;
     String table="sd_changes";
     String parameterName="";
@@ -87,7 +82,7 @@ public class ChangeViewPage extends AppCompatActivity implements ChangeDescripti
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
 // finally change the color
-        window.setStatusBarColor(ContextCompat.getColor(ChangeViewPage.this, R.color.faveo));
+        window.setStatusBarColor(ContextCompat.getColor(ChangeViewPage.this, R.color.mainActivityTopBar));
         context = this;
         vpPager = (ViewPager) findViewById(R.id.viewpager);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -95,34 +90,38 @@ public class ChangeViewPage extends AppCompatActivity implements ChangeDescripti
                 ContextCompat.getColor(this, R.color.white),
                 ContextCompat.getColor(this, R.color.white)
         );
+
+
         tabLayout.setSelectedTabIndicatorHeight(0);
         tabLayout.setupWithViewPager(vpPager);
         setupViewPager(vpPager);
-        textViewTicketTitle=findViewById(R.id.changeTitleView);
+        textViewTicketTitle=findViewById(R.id.title);
+        imageViewBack=findViewById(R.id.imageViewBackTicketDetail);
         AppBarLayout mAppBarLayout = (AppBarLayout) findViewById(R.id.appbarProblem);
-        loaderTextViewImpact=mAppBarLayout.findViewById(R.id.changeImpact);
-        loaderTextViewRequester=mAppBarLayout.findViewById(R.id.changeRequester);
-        loaderTextViewstatus=mAppBarLayout.findViewById(R.id.statusChange);
+        loaderTextViewRequester=findViewById(R.id.agentassigned);
+        loaderTextViewstatus=mAppBarLayout.findViewById(R.id.status);
+        textViewChangeID=findViewById(R.id.subject);
         imageViewEdit=findViewById(R.id.editChange);
+        loaderTextViewPriority=findViewById(R.id.department);
         final Intent intent = getIntent();
         changeId= intent.getIntExtra("changeId",0);
+        Log.d("changeId",""+changeId);
         changeTitle=intent.getStringExtra("changeTitle");
-        textViewTicketTitle.setText(changeTitle);
+        textViewChangeID.setText("#CHN-"+changeId);
+
         bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottomMenu);
-
-
         AHBottomNavigationItem item1 = new AHBottomNavigationItem("Update", R.drawable.ic_update_black_24dp, R.color.white);
         AHBottomNavigationItem item2=new AHBottomNavigationItem("Release",R.drawable.ic_new_releases_black_24dp,R.color.white);
         AHBottomNavigationItem item3 = new AHBottomNavigationItem("Delete", R.drawable.ic_delete_black_24dp, R.color.white);
 
 // Add items
         bottomNavigation.addItem(item1);
-        bottomNavigation.addItem(item2);
+        //bottomNavigation.addItem(item2);
         bottomNavigation.addItem(item3);
         bottomNavigation.setAccentColor(getResources().getColor(R.color.white));
         bottomNavigation.setInactiveColor(getResources().getColor(R.color.white));
 
-        bottomNavigation.setDefaultBackgroundColor(getResources().getColor(R.color.faveo));
+        bottomNavigation.setDefaultBackgroundColor(getResources().getColor(R.color.toolbarColor));
         bottomNavigation.setNotificationBackgroundColor(Color.parseColor("#F63D2B"));
         imageViewEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,6 +129,13 @@ public class ChangeViewPage extends AppCompatActivity implements ChangeDescripti
                 Intent intent1=new Intent(ChangeViewPage.this,EditAndViewChange.class);
                 intent1.putExtra("changeId",changeId);
                 startActivity(intent1);
+            }
+        });
+
+        imageViewBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
 
@@ -149,13 +155,14 @@ public class ChangeViewPage extends AppCompatActivity implements ChangeDescripti
                     MyBottomSheetDialogUpdate myBottomSheetDialog = new MyBottomSheetDialogUpdate(ChangeViewPage.this);
                     myBottomSheetDialog.show();
                 }
-                if (position == 1) {
-                    MyBottomSheetDialogRelease myBottomSheetDialog = new MyBottomSheetDialogRelease(ChangeViewPage.this);
-                    myBottomSheetDialog.show();
-                }
-                if (position==2){
+//                if (position == 1) {
+//                    MyBottomSheetDialogRelease myBottomSheetDialog = new MyBottomSheetDialogRelease(ChangeViewPage.this);
+//                    myBottomSheetDialog.show();
+//                }
+                if (position==1){
                     new BottomDialog.Builder(ChangeViewPage.this)
-                            .setContent("Deleting Problem?")
+                            .setTitle("Deleting change")
+                            .setContent("Are you sure you want to delete this change?")
                             .setPositiveText("YES")
                             .setNegativeText("NO")
                             .setPositiveBackgroundColorResource(R.color.white)
@@ -168,7 +175,7 @@ public class ChangeViewPage extends AppCompatActivity implements ChangeDescripti
                                 public void onClick(BottomDialog dialog) {
                                     if (InternetReceiver.isConnected()){
                                         if (InternetReceiver.isConnected()){
-                                            dialog1= new SpotsDialog(ChangeViewPage.this,"Deleting Problem...");
+                                            dialog1= new SpotsDialog(ChangeViewPage.this,"Deleting change");
                                             dialog1.show();
                                             new DeleteProblem(changeId).execute();
 
@@ -193,17 +200,17 @@ public class ChangeViewPage extends AppCompatActivity implements ChangeDescripti
     }
     private class DeleteProblem extends AsyncTask<String,Void,String>{
 
-        int problemId;
+        int changeId;
 
-        public DeleteProblem(int problemId){
-            this.problemId=problemId;
+        public DeleteProblem(int changeId){
+            this.changeId=changeId;
         }
 
 
 
         @Override
         protected String doInBackground(String... strings) {
-            return new Helpdesk().deleteProblem(problemId);
+            return new Helpdesk().deleteChange(changeId);
         }
 
         @Override
@@ -215,9 +222,9 @@ public class ChangeViewPage extends AppCompatActivity implements ChangeDescripti
             try {
                 JSONObject jsonObject=new JSONObject(s);
                 String data=jsonObject.getString("data");
-                if (data.equals("Problem Deleted Successfully.")){
-                    Toasty.success(ChangeViewPage.this, getString(R.string.problem_deleted), Toast.LENGTH_LONG).show();
-                    Intent intent=new Intent(ChangeViewPage.this,ExistingProblems.class);
+                if (data.equals("Changes Deleted.")){
+                    Toasty.success(ChangeViewPage.this, "Changes Deleted.", Toast.LENGTH_LONG).show();
+                    Intent intent=new Intent(ChangeViewPage.this,ExistingChanges.class);
                     startActivity(intent);
                 }
             } catch (JSONException e) {
@@ -347,7 +354,7 @@ public class ChangeViewPage extends AppCompatActivity implements ChangeDescripti
             setContentView(R.layout.custom_dialog_reason);
             yes = (Button) findViewById(R.id.btn_yes);
             no = (Button) findViewById(R.id.btn_no);
-            editTextRootCause=findViewById(R.id.rootCause);
+            editTextRootCause=findViewById(R.id.reason);
             yes.setOnClickListener(this);
             no.setOnClickListener(this);
 
@@ -408,7 +415,7 @@ public class ChangeViewPage extends AppCompatActivity implements ChangeDescripti
             setContentView(R.layout.custom_dialogimpact);
             yes = (Button) findViewById(R.id.btn_yes);
             no = (Button) findViewById(R.id.btn_no);
-            editTextRootCause=findViewById(R.id.rootCause);
+            editTextRootCause=findViewById(R.id.impactEdit);
             yes.setOnClickListener(this);
             no.setOnClickListener(this);
 
@@ -468,7 +475,7 @@ public class ChangeViewPage extends AppCompatActivity implements ChangeDescripti
             setContentView(R.layout.custom_dialog_rolloutplan);
             yes = (Button) findViewById(R.id.btn_yes);
             no = (Button) findViewById(R.id.btn_no);
-            editTextRootCause=findViewById(R.id.rootCause);
+            editTextRootCause=findViewById(R.id.rollout_plan);
             yes.setOnClickListener(this);
             no.setOnClickListener(this);
 
@@ -529,7 +536,7 @@ public class ChangeViewPage extends AppCompatActivity implements ChangeDescripti
             setContentView(R.layout.custom_dialog_backoutplan);
             yes = (Button) findViewById(R.id.btn_yes);
             no = (Button) findViewById(R.id.btn_no);
-            editTextRootCause=findViewById(R.id.rootCause);
+            editTextRootCause=findViewById(R.id.backout_plan);
             yes.setOnClickListener(this);
             no.setOnClickListener(this);
 
@@ -550,8 +557,8 @@ public class ChangeViewPage extends AppCompatActivity implements ChangeDescripti
                         } catch (UnsupportedEncodingException e) {
                             e.printStackTrace();
                         }
-                        identifier="backout-plan ";
-                        parameterName="backout-plan ";
+                        identifier="backout-plan";
+                        parameterName="backout-plan";
                         progressDialog = new ProgressDialog(ChangeViewPage.this);
                         progressDialog.setMessage(getString(R.string.pleasewait));
                         progressDialog.show();
@@ -625,15 +632,31 @@ public class ChangeViewPage extends AppCompatActivity implements ChangeDescripti
             try {
                 JSONObject jsonObject=new JSONObject(result);
                 JSONObject jsonObject1=jsonObject.getJSONObject("data");
+                String subject=jsonObject1.getString("subject");
+                textViewTicketTitle.setText(subject);
                 JSONObject jsonObject2=jsonObject1.getJSONObject("status");
                 String statusName=jsonObject2.getString("name");
-                JSONObject jsonObject3=jsonObject1.getJSONObject("impactType");
-                String impactName=jsonObject3.getString("name");
-                loaderTextViewImpact.setText(impactName);
+                JSONObject jsonObject3=jsonObject1.getJSONObject("priority");
+                String priorityName=jsonObject3.getString("name");
+                loaderTextViewPriority.setText(priorityName);
                 loaderTextViewstatus.setText(statusName);
-                JSONObject jsonObject4 =jsonObject2.getJSONObject("requester");
+                JSONArray jsonArray =jsonObject1.getJSONArray("requester");
+                String requester="";
+                if (jsonArray.length()==0){
+                    requester=getString(R.string.not_available);
+                }
+                else{
+                    JSONObject jsonObject4=jsonArray.getJSONObject(0);
+                    String first_name=jsonObject4.getString("first_name");
+                    String last_name=jsonObject4.getString("last_name");
+                    String user_name=jsonObject4.getString("user_name");
+                    requester=first_name+" "+last_name;
+                }
 
-                //loaderTextViewstatus.setText(name);
+                Log.d("Name",requester);
+
+                loaderTextViewRequester.setText(requester);
+
 
                 } catch (JSONException | NullPointerException e) {
                 e.printStackTrace();

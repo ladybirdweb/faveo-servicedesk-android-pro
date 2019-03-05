@@ -29,11 +29,11 @@ String text;
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
 // finally change the color
-        window.setStatusBarColor(ContextCompat.getColor(CustomerFiltration.this,R.color.faveo));
+        window.setStatusBarColor(ContextCompat.getColor(CustomerFiltration.this,R.color.mainActivityTopBar));
         imageView= (ImageView) findViewById(R.id.imageViewBack);
         textView= (TextView) findViewById(R.id.filterCustomers);
         text="To filter customers and agents on your helpdesk you have to click on the filter option in the client list page and you will get some option to filter the customers like" +
-                "<b>active users</b>,<b>inactive users</b>,<b>banned users</b>,<b>deleted users</b> and also by the <b>role</b> such as <b>admin</b>,<b>agent</b> and <b>user.</b>";
+                "<b>active users</b>,<b>inactive users</b>,<b>banned users</b>,<b>deleted users</b> and also by the <b>role</b> such as <b>admin</b>,<b>agent</b> and <b>User.</b>";
         textView.setText(Html.fromHtml(text));
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override

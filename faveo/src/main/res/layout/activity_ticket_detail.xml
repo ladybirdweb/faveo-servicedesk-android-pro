@@ -20,17 +20,15 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="180dp"
         android:theme="@style/AppThemeOverlay.ActionBar">
+
         <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            android:background="#F5F5F5"
             app:contentScrim="?attr/colorPrimary"
-            app:theme="@style/ToolbarColoredBackArrow"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            app:layout_scrollFlags="scroll|enterAlways|snap">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -38,169 +36,227 @@
                 app:layout_collapseMode="parallax"
                 app:layout_collapseParallaxMultiplier="0.7"
                 >
+
                 <View
                     android:id="@+id/viewPriority1"
                     android:layout_width="5dp"
                     android:layout_height="match_parent"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
                     android:background="@color/faveo">
                 </View>
 
-                <com.elyeproj.loaderviewlibrary.LoaderTextView
-                    android:id="@+id/subject"
-                    android:layout_width="290dp"
+                <ImageView
+                    android:id="@+id/imageView_default_profile"
+                    android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_alignStart="@+id/textViewagentName"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginStart="-2dp"
-                    android:layout_marginTop="54dp"
-                    android:maxLines="1"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    tools:ignore="RelativeOverlap" />
+                    android:layout_above="@+id/department"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="3dp"
+                    android:tint="@color/faveo"
+                    android:transitionName="@string/blue_name"
+                    android:visibility="visible" />
 
                 <com.elyeproj.loaderviewlibrary.LoaderTextView
                     android:id="@+id/textViewagentName"
-                    android:layout_width="76dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginBottom="8dp"
-                    android:background="@drawable/rectangle1"
+                    android:layout_marginEnd="-96dp"
+                    android:layout_marginBottom="62dp"
+                    android:layout_toStartOf="@+id/department"
+                    android:fontFamily="@font/hintedlainesansregular"
                     android:gravity="center"
-                    android:backgroundTint="@color/faveo"
                     android:maxLines="1"
-                    android:textColor="@color/white"
-                    android:textSize="12sp" />
+                    android:visibility="gone"
+                    android:text="Roger Federer"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:use_gradient="true" />
 
                 <com.elyeproj.loaderviewlibrary.LoaderTextView
                     android:id="@+id/status"
                     android:layout_width="76dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/textViewagentName"
-                    android:layout_marginStart="3dp"
-                    android:layout_toEndOf="@+id/department"
-                    android:background="@drawable/rectangle1"
-                    android:gravity="center"
-                    android:textColor="@color/white"
-                    android:textSize="12sp" />
+                    android:layout_alignTop="@+id/imageView_default_profile"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="224dp"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:maxLines="1"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:use_gradient="true" />
 
                 <com.elyeproj.loaderviewlibrary.LoaderTextView
                     android:id="@+id/department"
                     android:layout_width="76dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/textViewagentName"
-                    android:layout_marginStart="3dp"
-                    android:layout_marginTop="0dp"
-                    android:layout_toEndOf="@+id/textViewagentName"
+                    android:layout_height="24dp"
+                    android:layout_alignStart="@+id/status"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="-1dp"
+                    android:layout_marginBottom="60dp"
+                    android:alpha=".7"
                     android:background="@drawable/rectangle1"
+                    android:backgroundTint="@color/grey_200"
+                    android:fontFamily="monospace"
                     android:gravity="center"
-                    android:textColor="@color/white"
+                    android:maxLines="1"
+                    android:text=""
+                    android:textColor="@color/black"
                     android:textSize="12sp"
-                    tools:ignore="RelativeOverlap" />
+                    app:use_gradient="true" />
 
-                <!--<com.elyeproj.loaderviewlibrary.LoaderTextView-->
-                    <!--android:id="@+id/title"-->
-                    <!--android:layout_width="170dp"-->
-                    <!--android:layout_height="25dp"-->
-                    <!--android:layout_alignStart="@+id/textViewagentName"-->
-                    <!--android:layout_below="@+id/status"-->
-                    <!--android:layout_gravity="start"-->
-                    <!--android:layout_marginTop="13dp"-->
-                    <!--android:maxLines="1"-->
-                    <!--android:textColor="@color/black"-->
-                    <!--android:textSize="15sp"-->
-                    <!--android:visibility="visible"-->
-                    <!--/>-->
+                <com.elyeproj.loaderviewlibrary.LoaderTextView
+                    android:id="@+id/title"
+                    android:layout_width="250dp"
+                    android:layout_height="25dp"
+                    android:layout_alignStart="@+id/textViewagentName"
+                    android:layout_alignParentBottom="true"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="60dp"
+                    android:layout_marginBottom="26dp"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:maxLines="1"
+                    android:textStyle="bold"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    app:use_gradient="true" />
 
                 <ImageView
                     android:id="@+id/collaboratorview"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:layout_alignBottom="@+id/textViewagentName"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignTop="@+id/title"
                     android:layout_gravity="start"
-                    android:layout_marginLeft="89dp"
-                    android:layout_toRightOf="@id/status"
+                    android:layout_marginEnd="17dp"
                     android:background="@drawable/ic_group_black_24dp"
                     android:backgroundTint="@color/faveo"
-                    android:contentDescription="TODO"
-                    android:visibility="visible" />
+                    android:visibility="gone"
+                    />
 
-                <!--<ProgressBar-->
-                    <!--android:id="@+id/TicketDetailProgressbar"-->
-                    <!--android:layout_width="20dp"-->
-                    <!--android:layout_height="20dp"-->
-                    <!--android:layout_alignParentEnd="true"-->
-                    <!--android:layout_toEndOf="@+id/title"-->
-                    <!--android:layout_alignTop="@+id/title"-->
-                    <!--android:layout_marginEnd="162dp"-->
-                    <!--android:visibility="gone" />-->
-
-            </RelativeLayout>
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbarTicketDetail"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@color/faveo"
-            app:contentInsetStart="0dp"
-            app:layout_collapseMode="pin"
-            app:contentInsetLeft="0dp"
-            app:theme="@style/ToolbarColoredBackArrow"
-            >
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize">
-                <!--<View-->
-                    <!--android:id="@+id/viewPriority"-->
-                    <!--android:layout_width="7dp"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:visibility="visible"-->
-                    <!--android:layout_alignParentStart="true"-->
-                    <!--android:layout_alignParentTop="true"-->
-                    <!--android:background="@color/faveo">-->
-                <!--</View>-->
-
-                <TextView
-                    android:id="@+id/ticketNumberDemo"
-                    android:layout_width="170dp"
-                    android:layout_height="25dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="start"
-                    android:layout_marginStart="61dp"
-                    android:maxLines="1"
-                    android:textStyle="bold"
-                    android:textAllCaps="true"
-                    android:textColor="@color/white"
-                    android:textSize="18sp" />
-                <ImageView
-                    android:id="@+id/imageViewBackTicketDetail"
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_above="@+id/title"
+                    android:layout_alignStart="@+id/status"
+                    android:layout_marginStart="83dp"
+                    android:layout_marginBottom="9dp"
+                    android:alpha=".7"
+                    android:background="@drawable/rectangle3"
+                    android:backgroundTint="@color/grey_200">
+
+                    <ImageView
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:layout_alignBottom="@+id/agentassigned"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:src="@drawable/ic_person_outline_black_24dp" />
+
+
+                    <TextView
+                        android:id="@+id/agentassigned"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/rectangle3"
+                        android:backgroundTint="@color/grey_200"
+                        android:fontFamily="monospace"
+                        android:singleLine="true"
+                        android:text=""
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
                     android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="21dp"
-                    android:src="@drawable/ic_arrow_back_black_24dp"
-                    android:tint="@color/white" />
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="0dp"
+                    android:alpha=".2"
+                    android:background="@color/grey_500" />
+                <!--<ProgressBar-->
+                <!--android:id="@+id/TicketDetailProgressbar"-->
+                <!--android:layout_width="20dp"-->
+                <!--android:layout_height="20dp"-->
+                <!--android:layout_alignParentEnd="true"-->
+                <!--android:layout_toEndOf="@+id/title"-->
+                <!--android:layout_alignTop="@+id/title"-->
+                <!--android:layout_marginEnd="162dp"-->
+                <!--android:visibility="gone" />-->
 
             </RelativeLayout>
 
-        </android.support.v7.widget.Toolbar>
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbarTicketDetail"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="#154c66"
+                app:contentInsetStart="0dp"
+                app:layout_collapseMode="pin"
+                app:contentInsetLeft="0dp"
+                android:theme="@style/MyMaterialTheme.AppBarOverlay"
+                app:layout_scrollFlags="scroll|enterAlways|snap"
+                >
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize">
+                    <View
+                        android:id="@+id/viewPriority"
+                        android:layout_width="5dp"
+                        android:layout_height="match_parent"
+                        android:visibility="gone"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:background="@color/faveo">
+                    </View>
+                    <ImageView
+                        android:id="@+id/imageViewBackTicketDetail"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="21dp"
+                        android:tint="@color/colorAccent"
+                        android:src="@drawable/ic_arrow_back_black_24dp" />
+                    <com.elyeproj.loaderviewlibrary.LoaderTextView
+                        android:id="@+id/ticketsubject"
+                        android:layout_width="200dp"
+                        android:layout_height="30dp"
+                        android:layout_alignTop="@+id/imageViewBackTicketDetail"
+                        android:layout_marginStart="22dp"
+                        android:layout_toEndOf="@+id/imageViewBackTicketDetail"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/hintedlainesansregular"
+                        android:maxLines="1"
+                        tools:ignore="RelativeOverlap"
+                        app:use_gradient="true"/>
 
+                </RelativeLayout>
+
+            </android.support.v7.widget.Toolbar>
         </android.support.design.widget.CollapsingToolbarLayout>
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"
-            android:background="#F5F5F5"
             android:layout_width="match_parent"
             android:layout_height="5dp"
+            android:background="#F5F5F5"
+            android:visibility="visible"
             app:tabGravity="fill"
             app:tabIndicatorColor="@color/faveo"
-            app:tabMode="fixed"
-            android:visibility="visible">
+            app:tabMode="fixed">
+
         </android.support.design.widget.TabLayout>
 
     </android.support.design.widget.AppBarLayout>
@@ -211,264 +267,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-    <!--<View-->
-        <!--android:id="@+id/overlay"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="600dp"-->
-        <!--android:clickable="true"-->
-        <!--/>-->
-
-
-    <!--<io.codetail.widget.RevealLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:layout_gravity="bottom"-->
-        <!--&gt;-->
-
-        <!--<LinearLayout-->
-            <!--android:id="@+id/reveal"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:background="@color/grey_200"-->
-            <!--android:clickable="true"-->
-            <!--android:orientation="vertical"-->
-            <!--android:paddingLeft="24dp"-->
-            <!--android:paddingRight="24dp"-->
-            <!--android:paddingTop="24dp"-->
-            <!--android:visibility="gone">-->
-
-            <!--<LinearLayout-->
-                <!--android:id="@+id/section_internal_note"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginBottom="12dp"-->
-                <!--android:orientation="vertical">-->
-
-                <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginBottom="8dp"-->
-                    <!--android:text="@string/internal_note"-->
-                    <!--android:textColor="@color/black"-->
-                    <!--android:textSize="14sp"-->
-                    <!--android:textStyle="bold" />-->
-
-                <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:alpha="0.3"-->
-                    <!--android:text="@string/message"-->
-                    <!--android:textColor="@color/black"-->
-                    <!--android:textSize="14sp"-->
-                    <!--android:textStyle="bold" />-->
-
-                <!--<EditText-->
-                    <!--android:id="@+id/editText_internal_note"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:background="@drawable/edittext_modified_states"-->
-                    <!--android:imeOptions="actionDone"-->
-                    <!--android:inputType="textMultiLine"-->
-                    <!--android:isScrollContainer="true"-->
-                    <!--android:maxLength="2000"-->
-                    <!--android:maxLines="10"-->
-                    <!--android:paddingBottom="16dp"-->
-                    <!--android:paddingTop="16dp"-->
-                    <!--android:textCursorDrawable="@drawable/color_cursor"-->
-                    <!--android:textSize="14sp" />-->
-
-                <!--<Button-->
-                    <!--android:id="@+id/button_create"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="end"-->
-                    <!--android:layout_margin="12dp"-->
-                    <!--android:background="@color/faveo"-->
-                    <!--android:text="@string/create"-->
-                    <!--android:textAllCaps="false"-->
-                    <!--android:textColor="@color/white" />-->
-
-            <!--</LinearLayout>-->
-
-            <!--<LinearLayout-->
-                <!--android:id="@+id/section_reply"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:orientation="vertical">-->
-                <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginBottom="8dp"-->
-                    <!--android:text="@string/reply"-->
-                    <!--android:textColor="@color/black"-->
-                    <!--android:textSize="14sp"-->
-                    <!--android:textStyle="bold" />-->
-                <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginTop="8dp"-->
-                    <!--android:alpha="0.3"-->
-                    <!--android:text="@string/message"-->
-                    <!--android:textColor="@color/black"-->
-                    <!--android:textSize="14sp"-->
-                    <!--android:textStyle="bold" />-->
-                <!--<EditText-->
-                    <!--android:id="@+id/editText_reply_message"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:background="@drawable/edittext_modified_states"-->
-                    <!--android:imeOptions="actionDone"-->
-                    <!--android:inputType="textMultiLine"-->
-                    <!--android:isScrollContainer="true"-->
-                    <!--android:maxLength="2000"-->
-                    <!--android:maxLines="10"-->
-                    <!--android:paddingBottom="16dp"-->
-                    <!--android:paddingTop="16dp"-->
-                    <!--android:textCursorDrawable="@drawable/color_cursor"-->
-                    <!--android:textSize="14sp" />-->
-                <!--<TextView-->
-                    <!--android:id="@+id/addcc"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="Add CC"-->
-                    <!--android:textColor="@color/faveo"-->
-                    <!--android:textSize="18sp"-->
-                    <!--android:textStyle="bold"-->
-                    <!--android:visibility="visible"-->
-                    <!--android:layout_marginRight="50dp"/>-->
-
-                <!--<Button-->
-                    <!--android:id="@+id/button_send"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="end"-->
-                    <!--android:layout_margin="12dp"-->
-                    <!--android:background="@color/faveo"-->
-                    <!--android:text="@string/send"-->
-                    <!--android:textAllCaps="false"-->
-                    <!--android:textColor="@color/white" />-->
-
-
-            <!--</LinearLayout>-->
-
-        <!--</LinearLayout>-->
-
-    <!--</io.codetail.widget.RevealLinearLayout>-->
-
-
-
-
-        <!--&lt;!&ndash; Your FAB implementation &ndash;&gt;-->
-        <!--<co.helpdesk.faveo.pro.frontend.views.Fab-->
-            <!--android:id="@+id/fab"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentBottom="true"-->
-            <!--android:layout_alignParentEnd="true"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_gravity="bottom|end"-->
-            <!--android:layout_margin="16dp"-->
-            <!--android:background="?attr/selectableItemBackgroundBorderless"-->
-            <!--android:clickable="true"-->
-            <!--android:src="@drawable/ic_add_black_24dp"-->
-            <!--android:tint="@color/colorPrimary"-->
-            <!--app:background="@color/faveo" />-->
-
-        <!--&lt;!&ndash; Overlay that dims the screen &ndash;&gt;-->
-        <!--<com.gordonwong.materialsheetfab.DimOverlayFrameLayout-->
-            <!--android:id="@+id/overlay1"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent" />-->
-
-        <!--&lt;!&ndash; Circular reveal container for the sheet &ndash;&gt;-->
-        <!--<io.codetail.widget.RevealLinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:gravity="end|bottom"-->
-            <!--android:orientation="vertical">-->
-
-            <!--&lt;!&ndash; Sheet that contains your items &ndash;&gt;-->
-            <!--<android.support.v7.widget.CardView-->
-                <!--android:id="@+id/fab_sheet"-->
-                <!--android:layout_width="200dp"-->
-                <!--android:layout_height="170dp">-->
-
-                <!--&lt;!&ndash; Sheet items &ndash;&gt;-->
-                <!--<LinearLayout-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:orientation="vertical">-->
-                    <!--&lt;!&ndash; Reply &ndash;&gt;-->
-                    <!--<LinearLayout-->
-
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:background="@color/white">-->
-
-                        <!--<TextView-->
-                            <!--android:id="@+id/fab_sheet_item_reply"-->
-                            <!--style="@style/TextAppearance.MaterialSheetFab.Sheet.Item"-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:background="?attr/selectableItemBackground"-->
-                            <!--android:drawableLeft="@drawable/ic_reply_black_24dp"-->
-                            <!--android:drawableStart="@drawable/ic_reply_black_24dp"-->
-                            <!--android:drawableTint="@color/faveo"-->
-                            <!--android:text="@string/reply" />-->
-                    <!--</LinearLayout>-->
-
-                    <!--&lt;!&ndash; Note &ndash;&gt;-->
-                    <!--<LinearLayout-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:background="@color/white">-->
-
-                        <!--<TextView-->
-                            <!--android:id="@+id/fab_sheet_item_note"-->
-                            <!--style="@style/TextAppearance.MaterialSheetFab.Sheet.Item"-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:background="?attr/selectableItemBackground"-->
-                            <!--android:drawableLeft="@drawable/ic_note_black_24dp"-->
-                            <!--android:drawableStart="@drawable/ic_note_black_24dp"-->
-                            <!--android:drawableTint="@color/faveo"-->
-                            <!--android:text="@string/internal_note" />-->
-                    <!--</LinearLayout>-->
-                    <!--<LinearLayout-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:background="@color/white">-->
-
-                        <!--<TextView-->
-                            <!--android:id="@+id/fab_sheet_exit"-->
-                            <!--style="@style/TextAppearance.MaterialSheetFab.Sheet.Item"-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:background="?attr/selectableItemBackground"-->
-                            <!--android:drawableLeft="@drawable/ic_exit_to_app_black_24dp"-->
-                            <!--android:drawableStart="@drawable/ic_exit_to_app_black_24dp"-->
-                            <!--android:drawableTint="@color/faveo"-->
-                            <!--android:text="@string/exit" />-->
-                    <!--</LinearLayout>-->
-
-                    <!--&lt;!&ndash; Note &ndash;&gt;-->
-                    <!--&lt;!&ndash;<TextView&ndash;&gt;-->
-                    <!--&lt;!&ndash;android:id="@+id/closeFab"&ndash;&gt;-->
-                    <!--&lt;!&ndash;style="@style/TextAppearance.MaterialSheetFab.Sheet.Item"&ndash;&gt;-->
-                    <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
-                    <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
-                    <!--&lt;!&ndash;android:background="?attr/selectableItemBackground"&ndash;&gt;-->
-                    <!--&lt;!&ndash;android:drawableLeft="@drawable/ic_exit_to_app_black_24dp"&ndash;&gt;-->
-                    <!--&lt;!&ndash;android:drawableStart="@drawable/ic_exit_to_app_black_24dp"&ndash;&gt;-->
-                    <!--&lt;!&ndash;android:drawableTint="@color/faveo"&ndash;&gt;-->
-                    <!--&lt;!&ndash;android:text="@string/closeFab" />&ndash;&gt;-->
-
-
-                <!--</LinearLayout>-->
-            <!--</android.support.v7.widget.CardView>-->
-        <!--</io.codetail.widget.RevealLinearLayout>-->
 
 
 
@@ -481,6 +279,7 @@
         app:menu="@menu/bottom_navigation_main"
         android:background="@color/faveo"
         android:id="@+id/bottomMenu"
+        android:visibility="gone"
         >
     </com.aurelhubert.ahbottomnavigation.AHBottomNavigation>
 
@@ -492,13 +291,14 @@
         app:fabGravity="bottom_end"
         app:fabMenu="@menu/fab_menu"
         app:itemTextAppearance="@style/MenuItems"
-        app:miniFabBackgroundTint="@color/faveo"
+        app:fabBackgroundTint="@color/toolbarColor"
+        app:miniFabBackgroundTint="@color/toolbarColor"
         app:miniFabDrawableTint="@color/white"
-        app:miniFabTitleBackgroundTint="@color/faveo"
+        app:miniFabTitleBackgroundTint="@color/toolbarColor"
         app:miniFabTitleTextColor="@color/white"
         app:touchGuardDrawable="#7FFFFFFF"
-        android:visibility="visible"
-        android:layout_marginBottom="60dp"/>
+        android:visibility="gone"
+        android:layout_marginBottom="20dp"/>
 
     <!--<com.roughike.bottombar.BottomBar-->
         <!--android:id="@+id/bottomBar"-->

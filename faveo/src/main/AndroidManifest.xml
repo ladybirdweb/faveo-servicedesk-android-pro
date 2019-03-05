@@ -27,8 +27,10 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/MyMaterialTheme"
-        tools:replace="allowBackup, label">
-
+        tools:replace="allowBackup, label"
+        tools:ignore="GoogleAppIndexingWarning">
+        <meta-data android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
         <!-- <provider -->
         <!-- android:name="android.support.v4.content.FileProvider" -->
         <!-- android:authorities="${applicationId}.provider" -->
@@ -72,6 +74,14 @@
                 android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
         </activity>
+
+        <activity android:name=".frontend.activities.ExistingChanges">
+
+        </activity>
+
+        <activity android:name=".frontend.activities.CreateChange">
+
+        </activity>
         <activity
             android:name=".frontend.activities.ClientDetailActivity"
             android:label="@string/title_activity_client_profile"
@@ -82,6 +92,14 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+        </activity>
+
+        <activity android:name=".frontend.activities.EditAndViewChange">
+
+        </activity>
+
+        <activity android:name=".frontend.activities.ChangeViewPage">
+
         </activity>
         <!-- <activity -->
         <!-- android:name=".frontend.activities.ForgotPasswordActivity" -->
@@ -101,7 +119,7 @@
         <activity
             android:name=".frontend.activities.TicketDetailActivity"
             android:label="@string/title_activity_ticket_detail"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/MyMaterialTheme"
             android:windowSoftInputMode="adjustPan">
@@ -188,10 +206,9 @@
         <activity
             android:name=".frontend.activities.RegisterUser"
             android:label="@string/title_activity_register_user"
-            android:theme="@style/MyMaterialTheme"
-            android:noHistory="true"/>
+            android:theme="@style/MyMaterialTheme" />
         <activity
-            android:name=".frontend.activities.collaboratorAdd"
+            android:name=".frontend.activities.CollaboratorAdd"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".frontend.activities.TicketFilter" />
         <activity android:name=".frontend.activities.EditCustomer" />
@@ -237,12 +254,14 @@
         <activity android:name=".frontend.activities.InternalNoteActivity" />
         <activity android:name=".frontend.activities.ShowingAttachment" />
         <activity android:name=".frontend.activities.HelpingActivity" />
-        <activity android:name=".frontend.activities.collaboratorcreate" />
         <activity android:name=".frontend.activities.ExistingProblems" />
-        <activity android:name=".frontend.activities.NewProblem" />
-        <activity android:name=".frontend.activities.AssociatedProblem" />
-        <activity android:name=".frontend.activities.EditAndViewProblem" />
-        <activity android:name=".frontend.activities.ProblemViewPage"></activity>
+        <activity android:name=".frontend.activities.NewProblem"
+            android:launchMode="singleTask"/>
+        <activity android:name=".frontend.activities.EditAndViewProblem"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".frontend.activities.ProblemViewPage" />
     </application>
 
 </manifest>

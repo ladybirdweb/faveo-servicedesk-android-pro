@@ -227,7 +227,7 @@ public class TicketThreadAdapter extends RecyclerView.Adapter<TicketThreadAdapte
         TicketViewHolder(View v) {
             super(v);
             thread = (RelativeLayout) v.findViewById(R.id.thread);
-            view=v.findViewById(R.id.attachmentSeparation);
+            //view=v.findViewById(R.id.attachmentSeparation);
             roundedImageViewProfilePic = (ImageView) v.findViewById(R.id.imageView_default_profile);
             textViewClientName = (TextView) v.findViewById(R.id.textView_client_name);
             textViewMessageTime = (RelativeTimeTextView) v.findViewById(R.id.textView_ticket_time);
@@ -236,8 +236,8 @@ public class TicketThreadAdapter extends RecyclerView.Adapter<TicketThreadAdapte
             textViewType = (TextView) v.findViewById(R.id.textView_type);
             webView = (WebView) v.findViewById(R.id.webView);
             textViewShowingSome= (TextView) v.findViewById(R.id.showingSome);
-            relativeLayout= (RelativeLayout) v.findViewById(R.id.attachmentlayout);
-            textView= (TextView) v.findViewById(R.id.textView7);
+            //relativeLayout= (RelativeLayout) v.findViewById(R.id.attachmentlayout);
+            //textView= (TextView) v.findViewById(R.id.textView7);
             reportAndReply= (TextView) v.findViewById(R.id.reported);
             linearLayout= (LinearLayout) v.findViewById(R.id.linearWebView);
         }

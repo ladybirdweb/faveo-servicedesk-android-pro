@@ -71,11 +71,11 @@ import es.dmoral.toasty.Toasty;
 
 /**
  * This log in activity is for verifying the url and and
- * checking the credentials provided by the user.Here we are using view flipper
- * we will check first if the url provided by the user is registered or not
- * if it is correct then we are going to load the view pager where user will give
- * the user name and the password.If it is right then we are going to load the
- * inbox page to the user.We have used verify url,verify billing url and sign in async task.
+ * checking the credentials provided by the User.Here we are using view flipper
+ * we will check first if the url provided by the User is registered or not
+ * if it is correct then we are going to load the view pager where User will give
+ * the User name and the password.If it is right then we are going to load the
+ * inbox page to the User.We have used verify url,verify billing url and sign in async task.
  */
 public class LoginActivity extends AppCompatActivity {
 
@@ -141,7 +141,7 @@ public class LoginActivity extends AppCompatActivity {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
 // finally change the color
-        window.setStatusBarColor(ContextCompat.getColor(LoginActivity.this,R.color.faveo));
+        window.setStatusBarColor(ContextCompat.getColor(LoginActivity.this,R.color.mainActivityTopBar));
 
         ButterKnife.bind(this);
         try {
@@ -210,13 +210,13 @@ public class LoginActivity extends AppCompatActivity {
                     });
             builder.create();
             builder.show();
-            //this will open auto start screen where user can enable permission for your app
+            //this will open auto start screen where User can enable permission for your app
 
         }
 
         /**
          * This button is handling the situation
-         * where user can go from sign in page to URL
+         * where User can go from sign in page to URL
          * page.
          */
         imageBackButton.setOnClickListener(new View.OnClickListener() {
@@ -231,10 +231,10 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         /**
-         * This button is for getting the url from the user
+         * This button is for getting the url from the User
          * and it will check if it is a registered url or not.
          * Here we are using input method manager for hiding the
-         * soft keyboard from the user.Implemented thread here
+         * soft keyboard from the User.Implemented thread here
          * for showing the error message for specific period of time.
          */
         buttonVerifyURL.setOnClickListener(new View.OnClickListener() {
@@ -337,7 +337,7 @@ public class LoginActivity extends AppCompatActivity {
                     return;
 
                     //usernameEdittext.setError();
-                    //Toasty.warning(LoginActivity.this, "Please provide user name", Toast.LENGTH_LONG).show();
+                    //Toasty.warning(LoginActivity.this, "Please provide User name", Toast.LENGTH_LONG).show();
                 }
                 else if (username!=null&&password.equals("")){
                     userNameError.setVisibility(View.GONE);
@@ -716,7 +716,7 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      * This button will work after the url is been verified
-     * it will take the user name and password and it will check
+     * it will take the User name and password and it will check
      * it is valid or not.
      */
 
@@ -736,7 +736,7 @@ public class LoginActivity extends AppCompatActivity {
 //    }
 
     /**
-     * Post the user credentials to server. This will execute after the
+     * Post the User credentials to server. This will execute after the
      * verify url is being verified.
      */
     private class SignIn extends AsyncTask<String, Void, String> {
@@ -765,108 +765,36 @@ public class LoginActivity extends AppCompatActivity {
                 Toasty.error(LoginActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
                 return;
             }
-// else {
-//                try {
-//                    String unauthorized=Prefs.getString("unauthorized",null);
-//                    if (unauthorized.equals("true")){
-//                        Prefs.putString("unauthorized","false");
-//                        textInputLayoutUsername.setEnabled(true);
-//                        textInputLayoutPass.setEnabled(true);
-//                        buttonSignIn.setText(getString(R.string.sign_in));
-//                        //Toast.makeText(LoginActivity.this, "Wrong Credentials", Toast.LENGTH_SHORT).show();
-//                        userNameError.setVisibility(View.VISIBLE);
-//                        userNameError.setText("Please check your password and email");
-//                        userNameError.setTextColor(Color.parseColor("#ff0000"));
-//                        userNameError.postDelayed(new Runnable() {
-//                            public void run() {
-//                                userNameError.setVisibility(View.INVISIBLE);
-//                            }
-//                        }, 5000);
-//                        //StyleableToast st = new StyleableToast(LoginActivity.this, getString(R.string.wrong_credentials), Toast.LENGTH_LONG);
-//                        passwordEdittext.startAnimation(animation);
-//                        usernameEdittext.startAnimation(animation);
-//                    }
-//                    return;
-////                    JSONObject jsonObject = new JSONObject(result);
-////                    String error = jsonObject.getString("status_code");
-////                    String statusCode=jsonObject.getString("status_code");
-////                    if (error.equals("invalid_credentials")||statusCode.equals("401")) {
-////                        textInputLayoutUsername.setEnabled(true);
-////                        textInputLayoutPass.setEnabled(true);
-////                        buttonSignIn.setText(getString(R.string.sign_in));
-////                        //Toast.makeText(LoginActivity.this, "Wrong Credentials", Toast.LENGTH_SHORT).show();
-////                        userNameError.setVisibility(View.VISIBLE);
-////                        userNameError.setText("Please check your password and email");
-////                        userNameError.setTextColor(Color.parseColor("#ff0000"));
-////                        userNameError.postDelayed(new Runnable() {
-////                            public void run() {
-////                                userNameError.setVisibility(View.INVISIBLE);
-////                            }
-////                        }, 5000);
-////                        //StyleableToast st = new StyleableToast(LoginActivity.this, getString(R.string.wrong_credentials), Toast.LENGTH_LONG);
-////                        passwordEdittext.startAnimation(animation);
-////                        usernameEdittext.startAnimation(animation);
-////                        st.setBackgroundColor(Color.parseColor("#3da6d7"));
-////                        st.setBoldText();
-////                        st.setTextColor(Color.WHITE);
-////                        st.setCornerRadius(7);
-////                        st.show();
-////                        return;
-////                    }
-//                } catch (NullPointerException e) {
-//                    e.printStackTrace();
-//                }
-//            }
             try{
-                apiDisabled = Prefs.getString("403", null);
-                if (apiDisabled.equals("403")){
-                    Prefs.putString("400", "true");
+                apiDisabled = Prefs.getString("unauthorized", null);
+                if (apiDisabled.equals("true")){
+                    Prefs.putString("unauthorized","false");
                     textInputLayoutUsername.setEnabled(true);
                     textInputLayoutPass.setEnabled(true);
                     buttonSignIn.setText(getString(R.string.sign_in));
-                    //Toast.makeText(LoginActivity.this, "Wrong Credentials", Toast.LENGTH_SHORT).show();
-                    //StyleableToast st = new StyleableToast(LoginActivity.this, getString(R.string.wrong_credentials), Toast.LENGTH_LONG);
-                    passwordEdittext.startAnimation(animation);
-                    usernameEdittext.startAnimation(animation);
+                    Toasty.info(context, getString(R.string.apiDisabled), Toast.LENGTH_LONG).show();
                     textInputLayoutUsername.setEnabled(true);
                     textInputLayoutPass.setEnabled(true);
-
-                    //progressBar.setVisibility(View.GONE);
-                    Toasty.info(context, getString(R.string.bannedOrdeactivated), Toast.LENGTH_LONG).show();
                     return;
                 }
-            }catch (NullPointerException e){
 
+            }catch (NullPointerException e){
+                e.printStackTrace();
             }
 
             try{
-                apiDisabled = Prefs.getString("409", null);
-                if (apiDisabled.equals("409")){
-                    Prefs.putString("409", "true");
-                    textInputLayoutUsername.setEnabled(true);
-                    textInputLayoutPass.setEnabled(true);
-
-                    //progressBar.setVisibility(View.GONE);
-                    Toasty.info(context, getString(R.string.inactiveagent), Toast.LENGTH_LONG).show();
-                    return;
-                }
-            }catch (NullPointerException e){
-                e.printStackTrace();
-            }
-
-            try {
-                apiDisabled = Prefs.getString("400", null);
-                if (apiDisabled.equals("badRequest")) {
-
-                    Prefs.putString("400", "null");
+                apiDisabled = Prefs.getString("403", null);
+                if (apiDisabled.equals("403")){
+                    Prefs.putString("403","false");
+                    Toasty.info(context, getString(R.string.bannedOrdeactivated), Toast.LENGTH_LONG).show();
                     textInputLayoutUsername.setEnabled(true);
                     textInputLayoutPass.setEnabled(true);
                     //progressBar.setVisibility(View.GONE);
-                    Toasty.info(context, getString(R.string.apiDisabled), Toast.LENGTH_LONG).show();
+                    buttonSignIn.setText(getString(R.string.sign_in));
                     return;
                 }
             }catch (NullPointerException e){
-                e.printStackTrace();
+
             }
 
             try {
@@ -880,11 +808,11 @@ public class LoginActivity extends AppCompatActivity {
                 Prefs.putString("profilePicture",profile_pic);
                 String role = jsonObject2.getString("role");
                 Log.d("ROLE",role);
-                if (role.equals("user")){
+                if (role.equals("User")){
                     textInputLayoutUsername.setEnabled(true);
                     textInputLayoutPass.setEnabled(true);
                     buttonSignIn.setText(getString(R.string.sign_in));
-                    Toasty.warning(getApplicationContext(), getString(R.string.userLogIn), Toast.LENGTH_SHORT).show();
+                    Toasty.warning(getApplicationContext(), getString(R.string.userLogIn), Toast.LENGTH_LONG).show();
                     return;
 
                 }
@@ -930,7 +858,6 @@ public class LoginActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 textInputLayoutUsername.setEnabled(true);
                 textInputLayoutPass.setEnabled(true);
-                buttonSignIn.setText(getString(R.string.sign_in));
                 buttonSignIn.setText(getString(R.string.sign_in));
                 //Toast.makeText(LoginActivity.this, "Wrong Credentials", Toast.LENGTH_SHORT).show();
                 userNameError.setVisibility(View.VISIBLE);
@@ -1152,7 +1079,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /**
-     * For checking if the user related fields
+     * For checking if the User related fields
      * are empty or not.
      */
     void checkFieldsForEmptyValues() {

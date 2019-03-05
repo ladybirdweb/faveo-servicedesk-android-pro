@@ -53,7 +53,7 @@ public class InternalNoteActivity extends AppCompatActivity {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
 // finally change the color
-        window.setStatusBarColor(ContextCompat.getColor(InternalNoteActivity.this,R.color.faveo));
+        window.setStatusBarColor(ContextCompat.getColor(InternalNoteActivity.this,R.color.mainActivityTopBar));
 //        final Handler handler = new Handler();
 //        Runnable runnable = new Runnable() {
 //            public void run() {
@@ -64,9 +64,9 @@ public class InternalNoteActivity extends AppCompatActivity {
 //                try {
 //                    JSONObject jsonObject = new JSONObject(result);
 //                    JSONObject jsonObject1=jsonObject.getJSONObject("data");
-//                    JSONObject jsonObject2=jsonObject1.getJSONObject("user");
+//                    JSONObject jsonObject2=jsonObject1.getJSONObject("User");
 //                    String role1=jsonObject2.getString("role");
-//                    if (role1.equals("user")){
+//                    if (role1.equals("User")){
 //                        Prefs.clear();
 //                        //Prefs.putString("role",role);
 //                        Intent intent=new Intent(InternalNoteActivity.this,LoginActivity.class);
@@ -171,7 +171,6 @@ public class InternalNoteActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             if (result == null) {
-                //Toasty.error(getActivity(), getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
                 return;
             }
             try {
@@ -179,10 +178,10 @@ public class InternalNoteActivity extends AppCompatActivity {
                 Log.d("ticketThreadReply",jsonObject.toString());
                 Prefs.putString("ticketThread",jsonObject.toString());
                 Toasty.success(InternalNoteActivity.this, getString(R.string.internal_notes_posted), Toast.LENGTH_LONG).show();
-                Intent intent=new Intent(InternalNoteActivity.this,TicketDetailActivity.class);
+                editTextInternalNote.setText("");
+                Intent intent=new Intent(InternalNoteActivity.this,MainActivity.class);
                 Prefs.putString("cameFromNewProblem","true");
                 startActivity(intent);
-                editTextInternalNote.getText().clear();
             } catch (JSONException e) {
                 e.printStackTrace();
             }

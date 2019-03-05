@@ -2,12 +2,11 @@ package co.servicedesk.faveo.pro.model;
 
 public class ProblemAssociatedAssets {
     int id;
-    String title,assetnumber;
+    String title;
 
-    public ProblemAssociatedAssets(int id, String title, String assetnumber) {
+    public ProblemAssociatedAssets(int id, String title) {
         this.id = id;
         this.title = title;
-        this.assetnumber = assetnumber;
     }
 
     public int getId() {
@@ -24,13 +23,5 @@ public class ProblemAssociatedAssets {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getTicketnumber() {
-        return assetnumber;
-    }
-
-    public void setTicketnumber(String ticketnumber) {
-        this.assetnumber = assetnumber;
     }
 }

@@ -77,6 +77,8 @@ public class ExistingProblems extends AppCompatActivity {
     public int ticketId;
     int problemId;
     String problemTitle;
+    int total;
+    TextView noInternetView,emptyView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,7 +92,7 @@ public class ExistingProblems extends AppCompatActivity {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
 // finally change the color
-        window.setStatusBarColor(ContextCompat.getColor(ExistingProblems.this,R.color.faveo));
+        window.setStatusBarColor(ContextCompat.getColor(ExistingProblems.this,R.color.mainActivityTopBar));
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -101,6 +103,9 @@ public class ExistingProblems extends AppCompatActivity {
         }
         swipeRefresh=findViewById(R.id.swipeRefresh);
         button=findViewById(R.id.createNewProblem);
+
+        noInternetView=findViewById(R.id.noiternet_view);
+        emptyView=findViewById(R.id.empty_view);
         MyBottomSheetDialog myBottomSheetDialog = new MyBottomSheetDialog(ExistingProblems.this);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,10 +121,16 @@ public class ExistingProblems extends AppCompatActivity {
             dialog1.show();
             new FetchExistingProblem().execute();
         }
+        else{
+            recyclerView.setVisibility(View.GONE);
+            swipeRefresh.setRefreshing(false);
+            noInternetView.setVisibility(View.VISIBLE);
+        }
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                Intent intent=new Intent(ExistingProblems.this,MainActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -131,9 +142,9 @@ public class ExistingProblems extends AppCompatActivity {
                     loading = true;
 
                     try {
-                            swipeRefresh.setRefreshing(true);
-                            //progressDialog.show();
-                            new FetchExistingProblem().execute();
+                        swipeRefresh.setRefreshing(true);
+                        //progressDialog.show();
+                        new FetchExistingProblem().execute();
 
                     }catch (NullPointerException e){
                         e.printStackTrace();
@@ -141,6 +152,7 @@ public class ExistingProblems extends AppCompatActivity {
                 }else {
                     recyclerView.setVisibility(View.INVISIBLE);
                     swipeRefresh.setRefreshing(false);
+                    noInternetView.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -224,6 +236,7 @@ public class ExistingProblems extends AppCompatActivity {
             try {
                 JSONObject jsonObject = new JSONObject(result);
                 nextPageURL = jsonObject.getString("next_page_url");
+                total=jsonObject.getInt("total");
                         JSONArray jsonArray=jsonObject.getJSONArray("data");
                         for (int i=0;i<jsonArray.length();i++){
                             JSONObject jsonObject2=jsonArray.getJSONObject(i);
@@ -231,8 +244,9 @@ public class ExistingProblems extends AppCompatActivity {
                             String subject=jsonObject2.getString("subject");
                             String email=jsonObject2.getString("from");
                             Log.d("email",email);
-                            String createdDate=jsonObject2.getString("created_at");
-                            ProblemModel problemModel=new ProblemModel(email,subject,createdDate,id);
+                            String createdDate=jsonObject2.getString("updated_at");
+                            String priority=jsonObject2.getString("priority");
+                            ProblemModel problemModel=new ProblemModel(email,subject,createdDate,id,priority);
                             problemList.add(problemModel);
                         }
 
@@ -265,8 +279,12 @@ public class ExistingProblems extends AppCompatActivity {
                     }
                 });
                 mAdapter = new ProblemAdpter(ExistingProblems.this,problemList);
+                runLayoutAnimation(recyclerView);
                     recyclerView.setAdapter(mAdapter);
-                    //recyclerView.getAdapter().notifyDataSetChanged();
+                if (mAdapter.getItemCount()==0){
+                    emptyView.setVisibility(View.VISIBLE);
+                } else emptyView.setVisibility(View.GONE);
+                //recyclerView.getAdapter().notifyDataSetChanged();
                 } catch (JSONException e1) {
                 e1.printStackTrace();
             }
@@ -300,8 +318,9 @@ public class ExistingProblems extends AppCompatActivity {
                     int id=jsonObject2.getInt("id");
                     String subject=jsonObject2.getString("subject");
                     String email=jsonObject2.getString("from");
-                    String createdDate=jsonObject2.getString("created_at");
-                    ProblemModel problemModel=new ProblemModel(email,subject,createdDate,id);
+                    String createdDate=jsonObject2.getString("updated_at");
+                    String priority=jsonObject2.getString("priority");
+                    ProblemModel problemModel=new ProblemModel(email,subject,createdDate,id,priority);
                     problemList.add(problemModel);
 
                 }
@@ -326,7 +345,15 @@ public class ExistingProblems extends AppCompatActivity {
             loading = true;
         }
     }
+    private void runLayoutAnimation(final RecyclerView recyclerView) {
+        final Context context = recyclerView.getContext();
+        final LayoutAnimationController controller =
+                AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_from_bottom);
 
+        recyclerView.setLayoutAnimation(controller);
+        mAdapter.notifyDataSetChanged();
+        recyclerView.scheduleLayoutAnimation();
+    }
 
 
 
@@ -340,6 +367,8 @@ public class ExistingProblems extends AppCompatActivity {
             ImageView options;
             RelativeTimeTextView relativeTimeTextView;
             RelativeLayout relativeLayout;
+            TextView textViewPriority;
+            TextView textViewId;
             public MyViewHolder(View view) {
                 super(view);
                 email = view.findViewById(R.id.textView_client_email);
@@ -347,7 +376,8 @@ public class ExistingProblems extends AppCompatActivity {
                 options=view.findViewById(R.id.textViewOptions);
                 relativeTimeTextView=view.findViewById(R.id.textView_ticket_time);
                 relativeLayout=view.findViewById(R.id.problemList);
-
+                textViewId=view.findViewById(R.id.problemId);
+                textViewPriority=view.findViewById(R.id.priority);
 
             }
         }
@@ -367,8 +397,9 @@ public class ExistingProblems extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final MyViewHolder holder, int position) {
              final ProblemModel movie = moviesList.get(position);
-//             holder.options.setColorFilter(getColor(R.color.faveo));
-             holder.options.setImageDrawable(getDrawable(R.drawable.menudot));
+             holder.options.setColorFilter(getColor(R.color.faveo));
+             holder.options.setImageDrawable(getDrawable(R.drawable.ic_expand_more_black_24dp));
+             holder.textViewId.setText("#PRB-"+movie.getId());
             if (!movie.getEmail().equals("")) {
                 Log.d("cameHere","true");
                 //holder.email.setText("From :  " +movie.getEmail());
@@ -384,6 +415,10 @@ public class ExistingProblems extends AppCompatActivity {
             }
 
             holder.relativeTimeTextView.setReferenceTime(Helper.relativeTime(movie.getCreatedDate()));
+
+            if (!movie.getPriority().equals("")){
+                holder.textViewPriority.setText(movie.getPriority());
+            }
 
             holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -406,7 +441,8 @@ public class ExistingProblems extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        finish();
+        Intent intent=new Intent(ExistingProblems.this,MainActivity.class);
+        startActivity(intent);
     }
     public class MyBottomSheetDialog extends BottomSheetDialog implements View.OnClickListener {
 
@@ -443,6 +479,7 @@ public class ExistingProblems extends AppCompatActivity {
                     Intent intent=new Intent(ExistingProblems.this,ProblemViewPage.class);
                                     intent.putExtra("problemId",problemId);
                                     intent.putExtra("problemTitle",problemTitle);
+                    Prefs.putString("cameFromTicketDetail","false");
                                     startActivity(intent);
                 }
             });
@@ -485,6 +522,7 @@ public class ExistingProblems extends AppCompatActivity {
                 public void onClick(View view) {
                     Intent intent1=new Intent(ExistingProblems.this,EditAndViewProblem.class);
                     intent1.putExtra("problemId",problemId);
+
                     startActivity(intent1);
                 }
             });

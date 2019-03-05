@@ -153,7 +153,7 @@ public class NewProblem extends AppCompatActivity implements PermissionCallback,
         Window window = NewProblem.this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(NewProblem.this,R.color.faveo));
+        window.setStatusBarColor(ContextCompat.getColor(NewProblem.this,R.color.mainActivityTopBar));
         bottomSheet= (BottomSheetLayout) findViewById(R.id.bottomsheet);
         ImageButton imageButton= (ImageButton) findViewById( R.id.attachment_close);
         button= (Button) findViewById(R.id.attachment);
@@ -166,7 +166,6 @@ public class NewProblem extends AppCompatActivity implements PermissionCallback,
         emailHint=new ArrayList<>();
         getStaffItems = new ArrayList<>();
         arrayAdapterCC=new CollaboratorAdapter(this,emailHint);
-        //arrayAdapterCC=new ArrayAdapter<Data>(CreateTicketActivity.this,android.R.layout.simple_dropdown_item_1line,emailHint);
         editTextEmail.addTextChangedListener(passwordWatcheredittextSubject);
         imageBack=findViewById(R.id.imageViewBack);
         staffautocompletetextview=findViewById(R.id.autocompletetext);
@@ -249,11 +248,23 @@ public class NewProblem extends AppCompatActivity implements PermissionCallback,
                         Log.d("email1",email1);
                         editTextEmail.setText(email1);
                     }
-                    else{
-                        email1="";
-                    }
                 }
 
+            }
+        });
+        editTextDescription.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                view.getParent().requestDisallowInterceptTouchEvent(true);
+                switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
+                    case MotionEvent.ACTION_SCROLL:
+                        view.getParent().requestDisallowInterceptTouchEvent(false);
+                        return true;
+                    case MotionEvent.ACTION_BUTTON_PRESS:
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.showSoftInput(editTextDescription, InputMethodManager.SHOW_IMPLICIT);
+                }
+                return false;
             }
         });
 //        button.setOnClickListener(new View.OnClickListener() {
@@ -342,9 +353,16 @@ public class NewProblem extends AppCompatActivity implements PermissionCallback,
                 final Data status = (Data) statusSpinner.getSelectedItem();
                 final Data department = (Data) departmentSpinner.getSelectedItem();
                 final Data staff= (Data) staffautocompletetextview.getSelectedItem();
+                String email2=editTextEmail.getText().toString();
+                if (email2.equals(email1)){
+                    email2=email1;
+                }
+                else{
+                    email2="";
+                }
                 allCorrect = true;
 
-                if (email1.equals("")){
+                if (email2.equals("")){
                     Toasty.warning(NewProblem.this, getString(R.string.user_not_found), Toast.LENGTH_SHORT).show();
                     allCorrect = false;
                 }
@@ -395,7 +413,7 @@ public class NewProblem extends AppCompatActivity implements PermissionCallback,
                         if (assetList.equals("")){
 
                             if (condition.equals("True")){
-                                String email=email1;
+                                String email=email2;
                                 String subjec=editTextsubject.getText().toString();
                                 String descrition=editTextDescription.getText().toString();
 
@@ -441,7 +459,7 @@ public class NewProblem extends AppCompatActivity implements PermissionCallback,
                                         .show();
                             }
                             else{
-                                String email=email1;
+                                String email=email2;
                                 String subjec=editTextsubject.getText().toString();
                                 String descrition=editTextDescription.getText().toString();
 
@@ -527,7 +545,7 @@ public class NewProblem extends AppCompatActivity implements PermissionCallback,
                                     }
 
 
-                                String email=email1;
+                                String email=email2;
                                 String subjec=editTextsubject.getText().toString();
                                 String descrition=editTextDescription.getText().toString();
 
@@ -607,7 +625,7 @@ public class NewProblem extends AppCompatActivity implements PermissionCallback,
 
                                 }
 
-                                String email=email1;
+                                String email=email2;
                                 String subjec=editTextsubject.getText().toString();
                                 String descrition=editTextDescription.getText().toString();
 
@@ -696,7 +714,7 @@ public class NewProblem extends AppCompatActivity implements PermissionCallback,
                                 }
 
 
-                                String email=email1;
+                                String email=email2;
                                 String subjec=editTextsubject.getText().toString();
                                 String descrition=editTextDescription.getText().toString();
 
@@ -777,7 +795,7 @@ public class NewProblem extends AppCompatActivity implements PermissionCallback,
 
                                 }
 
-                                String email=email1;
+                                String email=email2;
                                 String subjec=editTextsubject.getText().toString();
                                 String descrition=editTextDescription.getText().toString();
 
@@ -833,12 +851,6 @@ public class NewProblem extends AppCompatActivity implements PermissionCallback,
         });
 
     }
-
-
-
-
-
-
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -1093,7 +1105,7 @@ public class NewProblem extends AppCompatActivity implements PermissionCallback,
         protected String doInBackground(File... params) {
 
 
-            return new Helpdesk().createProblem(from, subject,status, priority,impact,dept,staff,description +sb1.toString());
+            return new Helpdesk().createProblem(from,subject,status, priority,impact,dept,staff,description +sb1.toString());
         }
 
         protected void onPostExecute(String result) {
@@ -1124,7 +1136,8 @@ public class NewProblem extends AppCompatActivity implements PermissionCallback,
                 String success=jsonObject1.getString("success");
                 if (success.equals("Problem Created Successfully.")){
                     Toasty.success(NewProblem.this,getString(R.string.problemCreation),Toast.LENGTH_SHORT).show();
-                    Intent intent=new Intent(NewProblem.this,ExistingProblems.class);
+                    Intent intent=new Intent(NewProblem.this,MainActivity.class);
+                    finish();
                     startActivity(intent);
                 }
             } catch (JSONException e) {
@@ -1136,9 +1149,6 @@ public class NewProblem extends AppCompatActivity implements PermissionCallback,
 
 
     }
-
-
-
     private class CreateAndAttach extends AsyncTask<File, Void, String> {
         int ticketId;
         String from;
@@ -1163,11 +1173,6 @@ public class NewProblem extends AppCompatActivity implements PermissionCallback,
 
         }
 
-//        protected String doInBackground(String... urls) {
-//
-        //return new Helpdesk().postCreateTicket(userID, subject, body, helpTopic, priority, fname, lname, phone, email, code, staff, mobile+ collaborators, new File[]{new File(result)});
-//        }
-
         @Override
         protected String doInBackground(File... files) {
 
@@ -1176,7 +1181,6 @@ public class NewProblem extends AppCompatActivity implements PermissionCallback,
         }
 
         protected void onPostExecute(String result) {
-            //Toast.makeText(CreateTicketActivity.this, "api called", Toast.LENGTH_SHORT).show();
 
             dialog1.dismiss();
             try{
@@ -1201,7 +1205,8 @@ public class NewProblem extends AppCompatActivity implements PermissionCallback,
                 String data=jsonObject.getString("data");
                 if (data.equals("Created new problem and attached to this ticket")){
                     Toasty.success(NewProblem.this,getString(R.string.createAndAttach),Toast.LENGTH_SHORT).show();
-                    Intent intent=new Intent(NewProblem.this,TicketDetailActivity.class);
+                    Intent intent=new Intent(NewProblem.this,MainActivity.class);
+                    intent.putExtra("ticket_id", Prefs.getString("TICKETid", null));
                     Prefs.putString("cameFromNewProblem","true");
                     startActivity(intent);
 
@@ -1370,7 +1375,7 @@ public class NewProblem extends AppCompatActivity implements PermissionCallback,
 //                progressDialog.dismiss();
 
 //            if (result == null) {
-//                Toasty.error(collaboratorAdd.this, getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
+//                Toasty.error(CollaboratorAdd.this, getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
 //                return;
 //            }
 

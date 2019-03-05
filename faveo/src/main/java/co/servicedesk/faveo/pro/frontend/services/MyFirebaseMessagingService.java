@@ -1,6 +1,7 @@
 package co.servicedesk.faveo.pro.frontend.services;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -14,7 +15,9 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -41,6 +44,9 @@ import co.servicedesk.faveo.pro.frontend.activities.TicketDetailActivity;
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "MyFirebaseMsgService";
     String by;
+    NotificationChannel mChannel;
+    NotificationManager notifManager;
+    Bitmap bitmap1;
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
@@ -105,7 +111,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      * @param profilePic
      */
     private void sendNotificationClient(String messageBody, String ID, String noti_tittle, String profilePic) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel notificationChannel = new NotificationChannel("3" , "new name", NotificationManager.IMPORTANCE_HIGH);
+            notificationChannel.enableLights(true);
+            notificationChannel.enableVibration(true);
+            notifManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            notifManager.createNotificationChannel(notificationChannel);
 
+        }
         Intent intent = new Intent(this, ClientDetailActivity.class);
 //        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
 //                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -124,7 +137,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 );
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this,"3");
         notificationBuilder.setSmallIcon(R.mipmap.ic_stat_f1);
         Bitmap bitmap=getBitmapFromURL(profilePic);
         Bitmap bitmap1=getCircleBitmap(bitmap);
@@ -150,10 +163,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             notificationBuilder.setDefaults(Notification.DEFAULT_SOUND);
             Log.e("ringtone", "setDefault");
         }
-        NotificationManager notificationManager =
+        notifManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        notificationManager.notify(id, notificationBuilder.build());
+        notifManager.notify(id, notificationBuilder.build());
         Log.d("stackadded", "notification arrived");
 
     }
@@ -168,8 +181,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      * @param profilePic
      */
     private void sendNotificationTicket(String messageBody, String ID, String noti_tittle, String profilePic) {
-        //Prefs.putString("TICKETid", ID);
-        //Prefs.putString("cameFromNotification","true");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel notificationChannel = new NotificationChannel("3" , "new name", NotificationManager.IMPORTANCE_HIGH);
+            notificationChannel.enableLights(true);
+            notificationChannel.enableVibration(true);
+            notifManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            notifManager.createNotificationChannel(notificationChannel);
+
+        }
         Intent intent = new Intent(this, TicketDetailActivity.class);
 //        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
 //                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -189,7 +208,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 );
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this,"3");
         notificationBuilder.setSmallIcon(R.mipmap.ic_stat_f1);
         Bitmap bitmap=getBitmapFromURL(profilePic);
         //Bitmap bitmap1=getCircleBitmap(bitmap);
@@ -213,10 +232,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             notificationBuilder.setDefaults(Notification.DEFAULT_SOUND);
             Log.e("ringtone", "setDefault");
         }
-        NotificationManager notificationManager =
+        notifManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        notificationManager.notify(id, notificationBuilder.build());
+        notifManager.notify(id, notificationBuilder.build());
         Log.d("stackadded", "notification arrived");
 
     }

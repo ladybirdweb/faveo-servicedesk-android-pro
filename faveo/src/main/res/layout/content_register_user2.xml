@@ -3,309 +3,301 @@
     android:layout_height="match_parent"
     android:overScrollMode="never"
     android:orientation="vertical"
+    android:padding="6dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <RelativeLayout
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:background="#EEEEEE">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center"
-            android:layout_marginLeft="17dp"
-            android:layout_marginStart="17dp"
-            android:text="@string/email"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:text="@string/required"
-            android:textSize="12sp" />
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:orientation="horizontal">
-
-        <EditText
-            android:id="@+id/email_edittextUser"
+        android:layout_height="match_parent">
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:background="@android:color/transparent"
-            android:cursorVisible="true"
-            android:imeOptions="actionNext"
-            android:inputType="textEmailAddress"
-            android:nextFocusForward="@+id/editText_firstname"
-            android:textCursorDrawable="@drawable/color_cursor"
-            android:textSize="16sp" />
+            android:layout_height="36dp"
+            android:background="@color/colorAccent">
 
+            <TextView
+                android:id="@+id/requesterheader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginLeft="17dp"
+                android:layout_marginStart="17dp"
+                android:text="@string/email"
+                android:textSize="12sp"
+                android:fontFamily="@font/hintedlainesansregular"
+                android:textStyle="bold" />
 
-    </LinearLayout>
+            <ImageView
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_alignTop="@+id/requesterheader"
+                android:layout_toEndOf="@+id/requesterheader"
+                android:fontFamily="@font/hintedlainesansregular"
+                android:src="@drawable/ic_star_black_24dp"
+                android:text="@string/required"
+                android:textSize="12sp" />
+        </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:background="#EEEEEE">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center"
-            android:layout_marginLeft="17dp"
-            android:layout_marginStart="17dp"
-            android:text="@string/firstName"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:text="@string/required"
-            android:textSize="12sp" />
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:focusable="true"
-        android:focusableInTouchMode="true">
-
-        <EditText
-            android:id="@+id/fname_edittextUser"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:background="@android:color/transparent"
-            android:imeOptions="actionNext"
-            android:inputType="textPersonName"
-            android:nextFocusForward="@+id/lname_edittext"
-            android:textCursorDrawable="@drawable/color_cursor"
-            android:textSize="16sp"
-            />
-    </LinearLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:background="#EEEEEE">
-
-        <TextView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center"
-            android:layout_marginLeft="17dp"
-            android:layout_marginStart="17dp"
-            android:text="@string/lastName"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:focusable="true"
+            android:background="@color/colorAccent"
+            android:focusableInTouchMode="true"
+            android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:text="@string/required"
-            android:textSize="12sp" />
-    </RelativeLayout>
+            <EditText
+                android:id="@+id/email_edittextUser"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@color/colorAccent"
+                android:cursorVisible="true"
+                android:imeOptions="actionNext"
+                android:fontFamily="@font/hintedlainesansregular"
+                android:inputType="textEmailAddress"
+                android:nextFocusForward="@+id/editText_firstname"
+                android:textCursorDrawable="@drawable/color_cursor"
+                android:textSize="16sp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:focusable="true"
-        android:focusableInTouchMode="true">
 
-        <EditText
-            android:id="@+id/lastname_edittext"
+        </LinearLayout>
+        <View
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:background="@android:color/transparent"
-            android:imeOptions="actionNext"
-            android:inputType="textPersonName"
-            android:nextFocusForward="@+id/phone_edittextUser"
-            android:textCursorDrawable="@drawable/color_cursor"
-            android:textSize="16sp"
-            />
-    </LinearLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:background="#EEEEEE">
+            android:layout_height="2dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/grey_500"
+            android:alpha=".3">
 
-        <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentEnd="true"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_centerVertical="true"-->
-        <!--android:layout_marginEnd="8dp"-->
-        <!--android:layout_marginRight="8dp"-->
-        <!--android:text="Required"-->
-        <!--android:textSize="12sp" />-->
+        </View>
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:background="@color/colorAccent">
+
+            <TextView
+                android:id="@+id/firstnameheader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginLeft="17dp"
+                android:layout_marginStart="17dp"
+                android:text="@string/firstName"
+                android:textSize="12sp"
+                android:fontFamily="@font/hintedlainesansregular"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_alignTop="@+id/firstnameheader"
+                android:layout_toEndOf="@+id/firstnameheader"
+                android:fontFamily="@font/hintedlainesansregular"
+                android:src="@drawable/ic_star_black_24dp"
+                android:text="@string/required"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:text="@string/mobile"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-    </RelativeLayout>
+            android:focusable="true"
+            android:background="@color/colorAccent"
+            android:focusableInTouchMode="true">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:orientation="horizontal">
+            <EditText
+                android:id="@+id/fname_edittextUser"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@android:color/transparent"
+                android:imeOptions="actionNext"
+                android:inputType="textPersonName"
+                android:nextFocusForward="@+id/lname_edittext"
+                android:textCursorDrawable="@drawable/color_cursor"
+                android:textSize="16sp"
+                />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/grey_500"
+            android:alpha=".3">
 
-        <com.hbb20.CountryCodePicker
-            android:layout_width="90dp"
-            android:layout_height="50dp"
-            android:id="@+id/countrycoode"
-            >
-        </com.hbb20.CountryCodePicker>
+        </View>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:background="@color/colorAccent">
 
+            <TextView
+                android:id="@+id/lastnameheader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginLeft="17dp"
+                android:layout_marginStart="17dp"
+                android:text="@string/lastName"
+                android:textSize="12sp"
+                android:fontFamily="@font/hintedlainesansregular"
+                android:textStyle="bold" />
 
-        <!--<com.toptoche.searchablespinnerlibrary.SearchableSpinner-->
-        <!--android:id="@+id/spinner_code"-->
-        <!--android:layout_width="60dp"-->
-        <!--android:layout_height="50dp"-->
-        <!--android:layout_marginLeft="16dp"-->
-        <!--android:layout_marginRight="16dp"-->
-        <!--android:background="@android:color/transparent"-->
-        <!--android:drawSelectorOnTop="true"-->
-        <!--android:entries="@array/codes"-->
-        <!--android:imeOptions="actionNext"-->
-        <!--android:textSize="14sp" />-->
-        <!--<com.hbb20.CountryCodePicker-->
+            <ImageView
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_alignTop="@+id/lastnameheader"
+                android:layout_toEndOf="@+id/lastnameheader"
+                android:fontFamily="@font/hintedlainesansregular"
+                android:src="@drawable/ic_star_black_24dp"
+                android:text="@string/required"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:background="@color/colorAccent"
+            android:focusableInTouchMode="true">
+
+            <EditText
+                android:id="@+id/lastname_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@android:color/transparent"
+                android:imeOptions="actionNext"
+                android:inputType="textPersonName"
+                android:nextFocusForward="@+id/phone_edittextUser"
+                android:textCursorDrawable="@drawable/color_cursor"
+                android:textSize="16sp"
+                />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/grey_500"
+            android:alpha=".3"></View>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:background="@color/colorAccent">
+
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentEnd="true"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginEnd="8dp"-->
+            <!--android:layout_marginRight="8dp"-->
+            <!--android:text="Required"-->
+            <!--android:textSize="12sp" />-->
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:text="@string/mobile"
+                android:textSize="12sp"
+                android:fontFamily="@font/hintedlainesansregular"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:background="@color/colorAccent"
+            android:focusableInTouchMode="true"
+            android:orientation="horizontal">
+
+            <!--<com.toptoche.searchablespinnerlibrary.SearchableSpinner-->
+            <!--android:id="@+id/spinner_code"-->
+            <!--android:layout_width="60dp"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:layout_marginLeft="16dp"-->
+            <!--android:layout_marginRight="16dp"-->
+            <!--android:background="@android:color/transparent"-->
+            <!--android:drawSelectorOnTop="true"-->
+            <!--android:entries="@array/codes"-->
+            <!--android:imeOptions="actionNext"-->
+            <!--android:textSize="14sp" />-->
+            <!--<com.hbb20.CountryCodePicker-->
             <!--android:layout_width="90dp"-->
             <!--android:layout_height="50dp"-->
             <!--android:id="@+id/countrycoodeUser"-->
             <!--&gt;-->
 
-        <!--</com.hbb20.CountryCodePicker>-->
+            <!--</com.hbb20.CountryCodePicker>-->
+            <com.hbb20.CountryCodePicker
+                android:layout_width="90dp"
+                android:layout_height="50dp"
+                android:id="@+id/countrycoode"
 
-        <EditText
-            android:id="@+id/phone_edittextUser"
+                >
+            </com.hbb20.CountryCodePicker>
+
+            <EditText
+                android:id="@+id/phone_edittextUser"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@android:color/transparent"
+                android:digits="0123456789"
+                android:fontFamily="@font/hintedlainesansregular"
+                android:imeOptions="actionNext"
+                android:inputType="phone"
+                android:nextFocusForward="@+id/phone_edittext10"
+                android:textCursorDrawable="@drawable/color_cursor"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/grey_200"
+            >
+
+        </View>
+        <Button
+            android:id="@+id/buttonCreateUser"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:background="@android:color/transparent"
-            android:digits="0123456789"
-            android:imeOptions="actionNext"
-            android:inputType="phone"
-            android:nextFocusForward="@+id/phone_edittext10"
-            android:textCursorDrawable="@drawable/color_cursor"
-            android:textSize="16sp" />
+            android:layout_alignTop="@id/titlesave"
+            android:layout_margin="7dp"
+            android:fontFamily="@font/hintedlainesansregular"
+            android:background="@drawable/rectangle3"
+            android:textColor="#ffffff"
+            android:textSize="14sp"
+            android:text="create user"
+            />
+
     </LinearLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:background="#EEEEEE">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center"
-            android:layout_marginLeft="17dp"
-            android:layout_marginStart="17dp"
-            android:text="@string/companyName"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:text="@string/required"
-            android:textSize="12sp"
-            android:visibility="gone"/>
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:focusable="true"
-        android:focusableInTouchMode="true">
-
-        <EditText
-            android:id="@+id/company_edittextUser"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:background="@android:color/transparent"
-            android:imeOptions="actionNext"
-            android:inputType="textPersonName"
-            android:nextFocusForward="@+id/lname_edittext"
-            android:textCursorDrawable="@drawable/color_cursor"
-            android:textSize="16sp" />
-    </LinearLayout>
-    <!--<view-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="50dp"-->
-        <!--android:background="#ffffff"-->
-        <!--&gt;-->
-
-    <!--</view>-->
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginLeft="20dp"
-        android:text="@string/additionalDetails"
-        android:textSize="18sp" />
-</LinearLayout>
-    </ScrollView>
+</ScrollView>
 
 

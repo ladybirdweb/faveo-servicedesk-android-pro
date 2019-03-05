@@ -1,17 +1,23 @@
 package co.servicedesk.faveo.pro.frontend.fragments;
 
+import android.app.Activity;
 import android.app.ActivityOptions;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -22,6 +28,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -60,6 +72,8 @@ import co.servicedesk.faveo.pro.frontend.receivers.InternetReceiver;
 import co.servicedesk.faveo.pro.model.ClientOverview;
 import dmax.dialog.SpotsDialog;
 import es.dmoral.toasty.Toasty;
+
+import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public class ClientList extends Fragment implements View.OnClickListener {
     private static final String ARG_PARAM1 = "param1";
@@ -163,7 +177,7 @@ public class ClientList extends Fragment implements View.OnClickListener {
             else if (heading.equals("agent")){
                 toolbarTextview.setText(getString(R.string.roleAgent));
             }
-            else if (heading.equals("user")){
+            else if (heading.equals("User")){
                 toolbarTextview.setText(getString(R.string.roleUser));
             }
             else{
@@ -256,9 +270,9 @@ public class ClientList extends Fragment implements View.OnClickListener {
                         return true;
                     }
                     if (item.getItemId() == R.id.user) {
-                        Prefs.putString("filtercustomer","user");
+                        Prefs.putString("filtercustomer","User");
                         Prefs.putString("normalclientlist","false");
-                        url="role=user";
+                        url="role=User";
                         Prefs.putString("customerfilter",url);
                         title = getString(R.string.client_list);
                         fragmentController(title);
@@ -363,6 +377,17 @@ public class ClientList extends Fragment implements View.OnClickListener {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         getActivity().getMenuInflater().inflate(R.menu.search_menu, menu);
 
+        final MenuItem menuItem = menu.findItem(R.id.action_noti);
+
+        View actionView = MenuItemCompat.getActionView(menuItem);
+
+        actionView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onOptionsItemSelected(menuItem);
+            }
+        });
+
     }
 
     @Override
@@ -379,14 +404,15 @@ public class ClientList extends Fragment implements View.OnClickListener {
             Intent intent=new Intent(getActivity(),NotificationActivity.class);
             startActivity(intent);
         }
-        else if (id==R.id.action_add){
-            Intent intent=new Intent(getActivity(),RegisterUser.class);
-            startActivity(intent);
-        }
 
         return super.onOptionsItemSelected(item);
     }
-
+    public void replaceFragment(Fragment someFragment) {
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.container_body, someFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
     private class FetchClients extends AsyncTask<String, Void, String> {
         Context context;
 
@@ -648,7 +674,6 @@ public class ClientList extends Fragment implements View.OnClickListener {
             loading = true;
         }
     }
-
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);

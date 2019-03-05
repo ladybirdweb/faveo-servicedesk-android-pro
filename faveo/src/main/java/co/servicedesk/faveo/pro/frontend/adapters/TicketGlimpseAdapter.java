@@ -41,11 +41,9 @@ public class TicketGlimpseAdapter extends RecyclerView.Adapter<TicketGlimpseAdap
         ticketViewHolder.textViewTicketID.setText(ticketGlimpse.ticketID + "");
         ticketViewHolder.textViewTicketNumber.setText(ticketGlimpse.ticketNumber);
         ticketViewHolder.textViewSubject.setText(ticketGlimpse.ticketSubject);
-        if (ticketGlimpse.isTicketOpen)
-            ticketViewHolder.color.setBackgroundColor(Color.parseColor("#4CD964"));
-        else
-            ticketViewHolder.color.setBackgroundColor(Color.parseColor("#d50000"));
-
+        if (!ticketGlimpse.status.equals("")){
+            ticketViewHolder.textViewStatus.setText(ticketGlimpse.getStatus());
+        }
         ticketViewHolder.ticket.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,16 +72,15 @@ public class TicketGlimpseAdapter extends RecyclerView.Adapter<TicketGlimpseAdap
         TextView textViewTicketID;
         TextView textViewTicketNumber;
         TextView textViewSubject;
-        View color;
         protected View ticket;
-
+        TextView textViewStatus;
         TicketViewHolder(View v, final String clientName) {
             super(v);
             textViewTicketID = (TextView) v.findViewById(R.id.textView_ticket_id);
             textViewTicketNumber = (TextView) v.findViewById(R.id.textView_ticket_number);
             textViewSubject = (TextView) v.findViewById(R.id.textView_ticket_subject);
-            color = v.findViewById(R.id.color);
             ticket=v.findViewById(R.id.ticket);
+            textViewStatus=v.findViewById(R.id.textViewstatusname);
 //            v.setOnClickListener(new View.OnClickListener() {
 //                @Override
 //                public void onClick(View v) {

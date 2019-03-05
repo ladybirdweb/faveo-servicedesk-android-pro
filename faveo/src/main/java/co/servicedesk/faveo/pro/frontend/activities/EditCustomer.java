@@ -97,7 +97,7 @@ public class EditCustomer extends AppCompatActivity implements PermissionCallbac
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
 // finally change the color
-        window.setStatusBarColor(ContextCompat.getColor(EditCustomer.this, R.color.faveo));
+        window.setStatusBarColor(ContextCompat.getColor(EditCustomer.this, R.color.mainActivityTopBar));
         GetCountryZipCode();
         countryCodePicker = (CountryCodePicker) findViewById(R.id.countrycoode);
         imageViewCallMobile = (ImageView) findViewById(R.id.forCalling);
@@ -545,7 +545,7 @@ public class EditCustomer extends AppCompatActivity implements PermissionCallbac
                                     // here to request the missing permissions, and then overriding
                                     //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
                                     //                                          int[] grantResults)
-                                    // to handle the case where the user grants the permission. See the documentation
+                                    // to handle the case where the User grants the permission. See the documentation
                                     // for ActivityCompat#requestPermissions for more details.
                                     return;
                                 }

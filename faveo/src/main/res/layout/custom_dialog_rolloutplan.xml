@@ -29,10 +29,11 @@
                 android:padding="5dp"
                 android:text="Rollout Plan"
                 android:textSize="16sp"
+                android:fontFamily="@font/hintedlainesansregular"
                 android:textStyle="bold" />
 
             <View
-                android:layout_width="100dp"
+                android:layout_width="115dp"
                 android:layout_height="3dp"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/title"
@@ -41,7 +42,7 @@
         </RelativeLayout>
 
         <EditText
-            android:id="@+id/rootCause"
+            android:id="@+id/rollout_plan"
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:layout_alignParentStart="true"
@@ -50,6 +51,7 @@
             android:cursorVisible="true"
             android:hint="describe here"
             android:gravity="bottom"
+            android:fontFamily="@font/hintedlainesansregular"
             android:padding="8dp"
             />
 
@@ -66,8 +68,9 @@
                 android:layout_alignParentTop="true"
                 android:layout_gravity="left"
                 android:layout_marginEnd="19dp"
-                android:background="@drawable/rectangle3"
+                android:background="@drawable/rectanglereachout"
                 android:text="Save"
+                android:fontFamily="@font/hintedlainesansregular"
                 android:textAllCaps="false"
                 android:textColor="@color/colorAccent" />
 
@@ -79,8 +82,9 @@
                 android:layout_alignParentTop="true"
                 android:layout_gravity="left"
                 android:layout_marginStart="21dp"
-                android:background="@drawable/rectangle3"
+                android:background="@drawable/rectanglereachout"
                 android:text="Exit"
+                android:fontFamily="@font/hintedlainesansregular"
                 android:textAllCaps="false"
                 android:textColor="@color/colorAccent" />
         </RelativeLayout>

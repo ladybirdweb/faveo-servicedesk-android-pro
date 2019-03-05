@@ -64,16 +64,12 @@ public class Detail extends Fragment {
     TextView textViewTicketNumber, textViewErrorSubject;
     int paddingTop, paddingBottom;
     EditText editTextSubject, editTextFirstName, editTextEmail,
-            editTextLastMessage, editTextDueDate, editTextCreatedDate, editTextLastResponseDate;
+            editTextLastMessage, editTextDueDate, editTextCreatedDate, editTextLastResponseDate,
+            editTextPriority,editTextTickettype,editTextHelptopic,editTextSource,editTextStaffs;
 
     Spinner spinnerSLAPlans, spinnerType, spinnerStatus, spinnerSource,
             spinnerPriority, spinnerHelpTopics;
-    ProgressDialog progressDialog;
-    ArrayList<Data> helptopicItems, priorityItems, typeItems, sourceItems,staffItems;
-    ArrayAdapter<Data> spinnerPriArrayAdapter, spinnerHelpArrayAdapter, spinnerTypeArrayAdapter, spinnerSourceArrayAdapter,staffArrayAdapter;
     Animation animation;
-    @BindView(R.id.spinner_staffs)
-    Spinner spinnerStaffs;
     String ticketId;
     public String mParam1;
     public String mParam2;
@@ -117,17 +113,22 @@ public class Detail extends Fragment {
         setUpViews(rootView);
         ticketId=Prefs.getString("TICKETid",null);
         animation= AnimationUtils.loadAnimation(getActivity(),R.anim.shake_error);
-        spinnerStaffs.setOnTouchListener(new View.OnTouchListener() {
+        editTextPriority=rootView.findViewById(R.id.spinner_priority);
+        editTextHelptopic=rootView.findViewById(R.id.spinner_help_topics);
+        editTextSource=rootView.findViewById(R.id.spinner_source);
+        editTextTickettype=rootView.findViewById(R.id.spinner_type);
+        editTextStaffs=rootView.findViewById(R.id.spinner_staffs);
+        editTextStaffs.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 return true;
             }
         });
         // progressDialog.show();
-        if (InternetReceiver.isConnected()) {
-            task = new FetchTicketDetail(Prefs.getString("TICKETid", null));
-            task.execute();
-        }
+//        if (InternetReceiver.isConnected()) {
+//            task = new FetchTicketDetail(Prefs.getString("TICKETid", null));
+//            task.execute();
+//        }
 
 
 //        buttonSave.setOnClickListener(new View.OnClickListener() {
@@ -211,7 +212,7 @@ public class Detail extends Fragment {
             return new Helpdesk().getTicketDetail(ticketID);
         }
 
-        @SuppressLint("SetTextI18n")
+        @SuppressLint({"SetTextI18n", "ClickableViewAccessibility"})
         protected void onPostExecute(String result) {
             if (isCancelled()) return;
 //            if (progressDialog.isShowing())
@@ -244,24 +245,22 @@ public class Detail extends Fragment {
                 //editTextSubject.setText(title);
                 String statusName=jsonObject2.getString("status_name");
                 String ticketNumber = jsonObject2.getString("ticket_number");
-                String assignee=jsonObject2.getString("assignee");
                 JSONObject jsonObject4=jsonObject2.getJSONObject("from");
+
+                String name;
+                String assignee=jsonObject2.getString("assignee");
                 if (assignee.equals(null)||assignee.equals("null")||assignee.equals("")){
-                    spinnerStaffs.setSelection(0);
+                    editTextStaffs.setText(getString(R.string.not_available));
                 }
                 else{
                     JSONObject jsonObject3=jsonObject2.getJSONObject("assignee");
                     try {
                         if (jsonObject3.getString("first_name") != null&&jsonObject3.getString("last_name") != null) {
                             //spinnerHelpTopics.setSelection(getIndex(spinnerHelpTopics, jsonObject1.getString("helptopic_name")));
-                            for (int j=0;j<spinnerStaffs.getCount();j++){
-                                if (spinnerStaffs.getItemAtPosition(j).toString().equalsIgnoreCase(jsonObject3.getString("first_name")+" "+jsonObject3.getString("last_name"))) {
-                                    spinnerStaffs.setSelection(j);
-                                }
-
-                            }
+                            editTextStaffs.setText(jsonObject3.getString("first_name")+" "+jsonObject3.getString("last_name"));
                             //spinnerStaffs.setSelection(staffItems.indexOf("assignee_email"));
                         }
+
                         //spinnerHelpTopics.setSelection(Integer.parseInt(jsonObject1.getString("helptopic_id")));
                     } catch (ArrayIndexOutOfBoundsException e){
                         e.printStackTrace();
@@ -271,6 +270,35 @@ public class Detail extends Fragment {
                         e.printStackTrace();
                     }
                 }
+
+
+
+
+//                if (assignee.equals(null)||assignee.equals("null")||assignee.equals("")){
+//                    spinnerStaffs.setSelection(0);
+//                }
+//                else{
+//                    JSONObject jsonObject3=jsonObject2.getJSONObject("assignee");
+//                    try {
+//                        if (jsonObject3.getString("first_name") != null&&jsonObject3.getString("last_name") != null) {
+//                            //spinnerHelpTopics.setSelection(getIndex(spinnerHelpTopics, jsonObject1.getString("helptopic_name")));
+//                            for (int j=0;j<spinnerStaffs.getCount();j++){
+//                                if (spinnerStaffs.getItemAtPosition(j).toString().equalsIgnoreCase(jsonObject3.getString("first_name")+" "+jsonObject3.getString("last_name"))) {
+//                                    spinnerStaffs.setSelection(j);
+//                                }
+//
+//                            }
+//                            //spinnerStaffs.setSelection(staffItems.indexOf("assignee_email"));
+//                        }
+//                        //spinnerHelpTopics.setSelection(Integer.parseInt(jsonObject1.getString("helptopic_id")));
+//                    } catch (ArrayIndexOutOfBoundsException e){
+//                        e.printStackTrace();
+//                    } catch (Exception e) {
+////                    spinnerHelpTopics.setVisibility(View.GONE);
+////                    tv_helpTopic.setVisibility(View.GONE);
+//                        e.printStackTrace();
+//                    }
+//                }
 
 
 //                String name=jsonObject4.getString("first_name ")+jsonObject4.getString("last_name");
@@ -315,9 +343,8 @@ public class Detail extends Fragment {
                 try {
                     if (jsonObject2.getString("priority_name") != null) {
                         // spinnerPriority.setSelection(Integer.parseInt(jsonObject1.getString("priority_id")) - 1);
-
-                        spinnerPriority.setSelection(getIndex(spinnerPriority, jsonObject2.getString("priority_name")));
-                        spinnerPriority.setOnTouchListener(new View.OnTouchListener() {
+                        editTextPriority.setText(jsonObject2.getString("priority_name"));
+                        editTextPriority.setOnTouchListener(new View.OnTouchListener() {
                             @Override
                             public boolean onTouch(View view, MotionEvent motionEvent) {
                                 return true;
@@ -329,47 +356,49 @@ public class Detail extends Fragment {
                 } catch (JSONException | NumberFormatException e) {
                     e.printStackTrace();
                 }
-                catch (ArrayIndexOutOfBoundsException e){
-                    e.printStackTrace();
-                }
+
 
                 try {
-                    if (jsonObject2.getString("type_name") != null) {
-                        // spinnerDepartment.setSelection(Integer.parseInt(jsonObject1.getString("dept_id")) - 1);
-                        spinnerType.setSelection(getIndex(spinnerType, jsonObject2.getString("type_name")));
-                        spinnerType.setOnTouchListener(new View.OnTouchListener() {
-                            @Override
-                            public boolean onTouch(View view, MotionEvent motionEvent) {
-                                return true;
-                            }
-                        });
-                        //spinnerType.setSelection(Integer.parseInt(jsonObject1.getString("type")));
+                    if (jsonObject2.getString("type_name").equals("null")||jsonObject2.getString("type_name").equals("")) {
+                        editTextTickettype.setText(getString(R.string.not_available));
                     }
+                    else{
+                        editTextTickettype.setText(jsonObject2.getString("type_name"));
+                    }
+
+                    editTextTickettype.setOnTouchListener(new View.OnTouchListener() {
+                        @Override
+                        public boolean onTouch(View view, MotionEvent motionEvent) {
+                            return true;
+                        }
+                    });
+                    // spinnerDepartment.setSelection(Integer.parseInt(jsonObject1.getString("dept_id")) - 1);
+
+
+
+                    //spinnerType.setSelection(Integer.parseInt(jsonObject1.getString("type")));
                 } catch (JSONException | NumberFormatException e) {
-                    e.printStackTrace();
-                }
-                catch (ArrayIndexOutOfBoundsException e){
                     e.printStackTrace();
                 }
                 try {
                     if (jsonObject2.getString("helptopic_name") != null)
+
+                        editTextHelptopic.setText(jsonObject2.getString("helptopic_name"));
                         //spinnerHelpTopics.setSelection(getIndex(spinnerHelpTopics, jsonObject1.getString("helptopic_name")));
 //                    for (int j=0;j<spinnerHelpTopics.getCount();j++){
 //                        if (spinnerHelpTopics.getItemAtPosition(j).toString().equalsIgnoreCase(jsonObject1.getString("helptopic_id"))){
 //                            spinnerHelpTopics.setSelection(j);
 //                        }
 //                    }
-                        spinnerHelpTopics.setSelection(getIndex(spinnerHelpTopics, jsonObject2.getString("helptopic_name")));
 
 
-                    spinnerHelpTopics.setOnTouchListener(new View.OnTouchListener() {
+
+                    editTextHelptopic.setOnTouchListener(new View.OnTouchListener() {
                         @Override
                         public boolean onTouch(View view, MotionEvent motionEvent) {
                             return true;
                         }
                     });
-                } catch (ArrayIndexOutOfBoundsException e){
-                    e.printStackTrace();
                 } catch (Exception e) {
 
                     e.printStackTrace();
@@ -381,9 +410,9 @@ public class Detail extends Fragment {
                 try {
                     if (jsonObject2.getString("source_name") != null)
                         //spinnerSource.setSelection(Integer.parseInt(jsonObject1.getString("source")) - 1);
+                        editTextSource.setText(jsonObject2.getString("source_name"));
 
-                        spinnerSource.setSelection(getIndex(spinnerSource, jsonObject2.getString("source_name")));
-                    spinnerSource.setOnTouchListener(new View.OnTouchListener() {
+                    editTextSource.setOnTouchListener(new View.OnTouchListener() {
                         @Override
                         public boolean onTouch(View view, MotionEvent motionEvent) {
                             return true;
@@ -392,9 +421,7 @@ public class Detail extends Fragment {
                 } catch (JSONException | NumberFormatException e) {
                     e.printStackTrace();
                 }
-                catch (ArrayIndexOutOfBoundsException e){
-                    e.printStackTrace();
-                }
+
                 if (jsonObject2.getString("duedate").equals("") || jsonObject2.getString("duedate") == null) {
                     editTextDueDate.setText(getString(R.string.not_available));
                 } else {
@@ -424,14 +451,6 @@ public class Detail extends Fragment {
                     editTextFirstName.setText(jsonObject4.getString("first_name")+" "+jsonObject4.getString("last_name"));
 
 
-
-
-//                if (jsonObject1.getString("last_message").equals("null")) {
-//                    editTextLastMessage.setText("Not available");
-//                } else
-//                    editTextLastMessage.setText(jsonObject1.getString("last_message"));
-
-
             } catch (JSONException | IllegalStateException e) {
                 e.printStackTrace();
             }
@@ -455,54 +474,54 @@ public class Detail extends Fragment {
     private void setUpViews(View rootView) {
         Prefs.getString("keyStaff", null);
 
-        JSONObject jsonObject;
-        String json = Prefs.getString("DEPENDENCY", "");
-        try {
-            staffItems=new ArrayList<>();
-            jsonObject=new JSONObject(json);
-            staffItems.add(new Data(0, "--"));
-            JSONArray jsonArrayStaffs=jsonObject.getJSONArray("staffs");
-            for (int i=0;i<jsonArrayStaffs.length();i++){
-                Data data=new Data(Integer.parseInt(jsonArrayStaffs.getJSONObject(i).getString("id")),jsonArrayStaffs.getJSONObject(i).getString("first_name")+" "+jsonArrayStaffs.getJSONObject(i).getString("last_name"));
-                staffItems.add(data);
-            }
-            helptopicItems = new ArrayList<>();
-            helptopicItems.add(new Data(0, "--"));
-            jsonObject = new JSONObject(json);
-            JSONArray jsonArrayHelpTopics = jsonObject.getJSONArray("helptopics");
-            for (int i = 0; i < jsonArrayHelpTopics.length(); i++) {
-                Data data = new Data(Integer.parseInt(jsonArrayHelpTopics.getJSONObject(i).getString("id")), jsonArrayHelpTopics.getJSONObject(i).getString("topic"));
-                helptopicItems.add(data);
-            }
-
-            JSONArray jsonArrayPriorities = jsonObject.getJSONArray("priorities");
-            priorityItems = new ArrayList<>();
-            priorityItems.add(new Data(0, "--"));
-            for (int i = 0; i < jsonArrayPriorities.length(); i++) {
-                Data data = new Data(Integer.parseInt(jsonArrayPriorities.getJSONObject(i).getString("priority_id")), jsonArrayPriorities.getJSONObject(i).getString("priority"));
-                priorityItems.add(data);
-            }
-
-            JSONArray jsonArrayType = jsonObject.getJSONArray("type");
-            typeItems = new ArrayList<>();
-            typeItems.add(new Data(0, "--"));
-            for (int i = 0; i < jsonArrayType.length(); i++) {
-                Data data = new Data(Integer.parseInt(jsonArrayType.getJSONObject(i).getString("id")), jsonArrayType.getJSONObject(i).getString("name"));
-                typeItems.add(data);
-
-            }
-
-            JSONArray jsonArraySources = jsonObject.getJSONArray("sources");
-            sourceItems = new ArrayList<>();
-            sourceItems.add(new Data(0, "--"));
-            for (int i = 0; i < jsonArraySources.length(); i++) {
-                Data data = new Data(Integer.parseInt(jsonArraySources.getJSONObject(i).getString("id")), jsonArraySources.getJSONObject(i).getString("name"));
-                sourceItems.add(data);
-            }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+//        JSONObject jsonObject;
+//        String json = Prefs.getString("DEPENDENCY", "");
+//        try {
+//            staffItems=new ArrayList<>();
+//            jsonObject=new JSONObject(json);
+//            staffItems.add(new Data(0, "--"));
+//            JSONArray jsonArrayStaffs=jsonObject.getJSONArray("staffs");
+//            for (int i=0;i<jsonArrayStaffs.length();i++){
+//                Data data=new Data(Integer.parseInt(jsonArrayStaffs.getJSONObject(i).getString("id")),jsonArrayStaffs.getJSONObject(i).getString("first_name")+" "+jsonArrayStaffs.getJSONObject(i).getString("last_name"));
+//                staffItems.add(data);
+//            }
+//            helptopicItems = new ArrayList<>();
+//            helptopicItems.add(new Data(0, "--"));
+//            jsonObject = new JSONObject(json);
+//            JSONArray jsonArrayHelpTopics = jsonObject.getJSONArray("helptopics");
+//            for (int i = 0; i < jsonArrayHelpTopics.length(); i++) {
+//                Data data = new Data(Integer.parseInt(jsonArrayHelpTopics.getJSONObject(i).getString("id")), jsonArrayHelpTopics.getJSONObject(i).getString("topic"));
+//                helptopicItems.add(data);
+//            }
+//
+//            JSONArray jsonArrayPriorities = jsonObject.getJSONArray("priorities");
+//            priorityItems = new ArrayList<>();
+//            priorityItems.add(new Data(0, "--"));
+//            for (int i = 0; i < jsonArrayPriorities.length(); i++) {
+//                Data data = new Data(Integer.parseInt(jsonArrayPriorities.getJSONObject(i).getString("priority_id")), jsonArrayPriorities.getJSONObject(i).getString("priority"));
+//                priorityItems.add(data);
+//            }
+//
+//            JSONArray jsonArrayType = jsonObject.getJSONArray("type");
+//            typeItems = new ArrayList<>();
+//            typeItems.add(new Data(0, "--"));
+//            for (int i = 0; i < jsonArrayType.length(); i++) {
+//                Data data = new Data(Integer.parseInt(jsonArrayType.getJSONObject(i).getString("id")), jsonArrayType.getJSONObject(i).getString("name"));
+//                typeItems.add(data);
+//
+//            }
+//
+//            JSONArray jsonArraySources = jsonObject.getJSONArray("sources");
+//            sourceItems = new ArrayList<>();
+//            sourceItems.add(new Data(0, "--"));
+//            for (int i = 0; i < jsonArraySources.length(); i++) {
+//                Data data = new Data(Integer.parseInt(jsonArraySources.getJSONObject(i).getString("id")), jsonArraySources.getJSONObject(i).getString("name"));
+//                sourceItems.add(data);
+//            }
+//
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
 
 
 
@@ -513,7 +532,7 @@ public class Detail extends Fragment {
         editTextSubject = (EditText) rootView.findViewById(R.id.editText_subject);
         //editTextSubject.setText(TicketDetailActivity.ticketSubject);
         textViewErrorSubject = (TextView) rootView.findViewById(R.id.textView_error_subject);
-
+        editTextFirstName=rootView.findViewById(R.id.editText_ticketDetail_firstname);
 //        spinnerSLAPlans = (Spinner) rootView.findViewById(R.id.spinner_sla_plans);
 //        spinnerSlaArrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, Utils.removeDuplicates(Prefs.getString("valueSLA", "").split(","))); //selected item will look like a spinner set from XML
 //        spinnerSlaArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -524,61 +543,61 @@ public class Detail extends Fragment {
 //        spinnerStatusArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 //        spinnerStatus.setAdapter(spinnerStatusArrayAdapter);
 
-        spinnerPriority = (Spinner) rootView.findViewById(R.id.spinner_priority);
-        spinnerPriArrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, priorityItems); //selected item will look like a spinner set from XML
-        spinnerPriArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerPriority.setAdapter(spinnerPriArrayAdapter);
-
-        spinnerType = (Spinner) rootView.findViewById(R.id.spinner_type);
-        spinnerTypeArrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, typeItems); //selected item will look like a spinner set from XML
-        spinnerTypeArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerType.setAdapter(spinnerTypeArrayAdapter);
-
-        spinnerHelpTopics = (Spinner) rootView.findViewById(R.id.spinner_help_topics);
-        spinnerHelpArrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, helptopicItems); //selected item will look like a spinner set from XML
-        spinnerHelpArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerHelpTopics.setAdapter(spinnerHelpArrayAdapter);
-
-        spinnerStaffs= (Spinner) rootView.findViewById(R.id.spinner_staffs);
-        staffArrayAdapter=new ArrayAdapter<>(getActivity(),android.R.layout.simple_spinner_item,staffItems);
-        staffArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerStaffs.setAdapter(staffArrayAdapter);
-
-        editTextFirstName = (EditText) rootView.findViewById(R.id.editText_ticketDetail_firstname);
-        //editTextLastName = (EditText) rootView.findViewById(R.id.editText_ticketDetail_lastname);
-        editTextEmail = (EditText) rootView.findViewById(R.id.editText_email);
-
-        spinnerSource = (Spinner) rootView.findViewById(R.id.spinner_source);
-        spinnerSourceArrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, sourceItems); //selected item will look like a spinner set from XML
-        spinnerSourceArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerSource.setAdapter(spinnerSourceArrayAdapter);
+//        spinnerPriority = (Spinner) rootView.findViewById(R.id.spinner_priority);
+//        spinnerPriArrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, priorityItems); //selected item will look like a spinner set from XML
+//        spinnerPriArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spinnerPriority.setAdapter(spinnerPriArrayAdapter);
+//
+//        spinnerType = (Spinner) rootView.findViewById(R.id.spinner_type);
+//        spinnerTypeArrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, typeItems); //selected item will look like a spinner set from XML
+//        spinnerTypeArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spinnerType.setAdapter(spinnerTypeArrayAdapter);
+//
+//        spinnerHelpTopics = (Spinner) rootView.findViewById(R.id.spinner_help_topics);
+//        spinnerHelpArrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, helptopicItems); //selected item will look like a spinner set from XML
+//        spinnerHelpArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spinnerHelpTopics.setAdapter(spinnerHelpArrayAdapter);
+//
+//        spinnerStaffs= (Spinner) rootView.findViewById(R.id.spinner_staffs);
+//        staffArrayAdapter=new ArrayAdapter<>(getActivity(),android.R.layout.simple_spinner_item,staffItems);
+//        staffArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spinnerStaffs.setAdapter(staffArrayAdapter);
+//
+//        editTextFirstName = (EditText) rootView.findViewById(R.id.editText_ticketDetail_firstname);
+//        //editTextLastName = (EditText) rootView.findViewById(R.id.editText_ticketDetail_lastname);
+//        editTextEmail = (EditText) rootView.findViewById(R.id.editText_email);
+//
+//        spinnerSource = (Spinner) rootView.findViewById(R.id.spinner_source);
+//        spinnerSourceArrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, sourceItems); //selected item will look like a spinner set from XML
+//        spinnerSourceArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spinnerSource.setAdapter(spinnerSourceArrayAdapter);
 
         //editTextLastMessage = (EditText) rootView.findViewById(R.id.editText_last_message);
         editTextDueDate = (EditText) rootView.findViewById(R.id.editText_due_date);
         editTextCreatedDate = (EditText) rootView.findViewById(R.id.editText_created_date);
         editTextLastResponseDate = (EditText) rootView.findViewById(R.id.editText_last_response_date);
         //spinnerAssignTo = (Spinner) rootView.findViewById(R.id.spinner_staffs);
-
+        editTextEmail=rootView.findViewById(R.id.editText_email);
 //        buttonSave = (Button) rootView.findViewById(R.id.button_save);
         //tv_dept = (TextView) rootView.findViewById(R.id.tv_dept);
         tv_helpTopic = (TextView) rootView.findViewById(R.id.tv_helpTopic);
 
-        paddingTop = editTextEmail.getPaddingTop();
-        paddingBottom = editTextEmail.getPaddingBottom();
-        editTextSubject.setFilters(new InputFilter[]{
-                new InputFilter() {
-                    public CharSequence filter(CharSequence src, int start,
-                                               int end, Spanned dst, int dstart, int dend) {
-                        if (src.equals("")) { // for backspace
-                            return src;
-                        }
-                        if (src.toString().matches("[\\x00-\\x7F]+")) {
-                            return src;
-                        }
-                        return "";
-                    }
-                }
-        });
+//        paddingTop = editTextEmail.getPaddingTop();
+//        paddingBottom = editTextEmail.getPaddingBottom();
+//        editTextSubject.setFilters(new InputFilter[]{
+//                new InputFilter() {
+//                    public CharSequence filter(CharSequence src, int start,
+//                                               int end, Spanned dst, int dstart, int dend) {
+//                        if (src.equals("")) { // for backspace
+//                            return src;
+//                        }
+//                        if (src.toString().matches("[\\x00-\\x7F]+")) {
+//                            return src;
+//                        }
+//                        return "";
+//                    }
+//                }
+//        });
     }
 
     private void resetViews() {

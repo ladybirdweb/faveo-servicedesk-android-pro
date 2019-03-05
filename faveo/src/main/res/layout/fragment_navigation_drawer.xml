@@ -23,20 +23,21 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/faveo">
+        android:layout_height="220dp"
+        android:background="@color/toolbarColor">
 
         <ImageView
             android:id="@+id/imageView_default_profile"
             android:layout_width="72dp"
             android:layout_height="72dp"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="54dp"
-            android:background="@drawable/rounded_textview"/>
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="43dp"
+            android:background="@drawable/rounded_textview"
+            android:backgroundTint="@color/colorAccent" />
 
         <TextView
             android:id="@+id/usernametv"
@@ -46,6 +47,7 @@
             android:layout_alignStart="@+id/imageView_default_profile"
             android:layout_below="@+id/imageView_default_profile"
             android:layout_marginTop="8dp"
+            android:fontFamily="@font/hintedlaineansedium"
             android:text="Roger Federer"
             android:textSize="16sp"
             android:textColor="@color/white"/>
@@ -59,7 +61,8 @@
             android:layout_below="@+id/usernametv"
             android:layout_marginBottom="16dp"
             android:layout_marginTop="4dp"
-            android:text="faveohelpdesk.co.in"
+            android:fontFamily="@font/hintedlaineansedium"
+            android:text="http://faveo-mobileappstk/helpdeskMobile/public"
             android:textSize="14sp"
             android:textColor="@color/white"/>
 
@@ -71,6 +74,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignTop="@+id/imageView_default_profile"
             android:layout_marginEnd="16dp"
+            android:fontFamily="@font/hintedlaineansedium"
             android:layout_marginRight="16dp"
             android:textAllCaps="true"
             android:text="Agent"
@@ -107,15 +111,17 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_margin="22dp"
-                    android:src="@drawable/create_ticket" />
-
+                    android:tint="@color/grey_500"
+                    android:src="@drawable/createticketicon"
+                    />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:fontFamily="sans-serif-bold"
+                    android:fontFamily="@font/hintedlaineansedium"
                     android:gravity="center"
                     android:text="@string/create_ticket"
                     android:textColor="@color/black"
+                    android:alpha=".7"
                     android:textSize="14sp" />
 
             </LinearLayout>
@@ -135,16 +141,18 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_margin="22dp"
-                    android:src="@drawable/ticket_list" />
+                    android:src="@drawable/ticket_list"
+                    android:tint="@color/grey_500"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:fontFamily="sans-serif-bold"
+                    android:fontFamily="@font/hintedlaineansedium"
                     android:gravity="center"
                     android:text="@string/ticket_list"
                     android:textColor="@color/black"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:alpha=".7"/>
 
             </LinearLayout>
             <View
@@ -209,19 +217,22 @@
                     android:layout_height="20dp"
                     android:layout_margin="22dp"
                     android:src="@drawable/problems"
-                    android:tint="@color/faveo"/>
+                    android:tint="@color/grey_500"
+                    />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:fontFamily="sans-serif-bold"
+                    android:fontFamily="@font/hintedlaineansedium"
                     android:gravity="center"
                     android:text="@string/problems"
+                    android:alpha=".7"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
 
             </LinearLayout>
             <View
+                android:id="@+id/problemView"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/grey_200" />
@@ -238,12 +249,9 @@
                 tools:ignore="NestedScrolling">
             </ListView>
         </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/grey_200" />
+
             <LinearLayout
-                android:id="@+id/changesModule"
+                android:id="@+id/change"
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
                 android:background="@color/colorAccent">
@@ -252,20 +260,23 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_margin="22dp"
-                    android:src="@drawable/ic_refresh_black_24dp"
-                    android:tint="@color/faveo"/>
+                    android:src="@drawable/change"
+                    android:tint="@color/grey_500"
+                    />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:fontFamily="sans-serif-bold"
+                    android:fontFamily="@font/hintedlaineansedium"
                     android:gravity="center"
                     android:text="@string/changes"
+                    android:alpha=".7"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
 
             </LinearLayout>
             <View
+                android:id="@+id/changeView"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/grey_200" />
@@ -275,8 +286,8 @@
                 android:orientation="vertical">
                 <ListView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/listviewChanges"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/listviewchange"
                     android:nestedScrollingEnabled="true"
                     android:visibility="gone"
                     tools:ignore="NestedScrolling">
@@ -286,316 +297,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/grey_200" />
-            <!--<LinearLayout-->
-                <!--android:id="@+id/changes"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="64dp"-->
-                <!--android:background="@color/colorAccent">-->
-
-                <!--<ImageView-->
-                    <!--android:layout_width="20dp"-->
-                    <!--android:layout_height="20dp"-->
-                    <!--android:layout_margin="22dp"-->
-                    <!--android:src="@drawable/changes"-->
-                    <!--android:tint="@color/faveo"/>-->
-
-                <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:fontFamily="sans-serif-bold"-->
-                    <!--android:gravity="center"-->
-                    <!--android:text="@string/changes"-->
-                    <!--android:textColor="@color/black"-->
-                    <!--android:textSize="14sp" />-->
-
-            <!--</LinearLayout>-->
-            <!--<View-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="1dp"-->
-                <!--android:background="@color/grey_200" />-->
-            <!--<LinearLayout-->
-                <!--android:id="@+id/release"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="64dp"-->
-                <!--android:background="@color/colorAccent">-->
-
-                <!--<ImageView-->
-                    <!--android:layout_width="20dp"-->
-                    <!--android:layout_height="20dp"-->
-                    <!--android:layout_margin="22dp"-->
-                    <!--android:src="@drawable/release"-->
-                    <!--android:tint="@color/faveo"/>-->
-
-                <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:fontFamily="sans-serif-bold"-->
-                    <!--android:gravity="center"-->
-                    <!--android:text="@string/release"-->
-                    <!--android:textColor="@color/black"-->
-                    <!--android:textSize="14sp" />-->
-
-            <!--</LinearLayout>-->
-
-            <!--<RelativeLayout-->
-            <!--android:id="@+id/inbox_tickets"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="64dp"-->
-            <!--android:background="@color/colorAccent">-->
-
-            <!--<ImageView-->
-            <!--android:id="@+id/imageView2"-->
-            <!--android:layout_width="20dp"-->
-            <!--android:layout_height="20dp"-->
-            <!--android:layout_marginBottom="22dp"-->
-            <!--android:layout_marginLeft="38dp"-->
-            <!--android:layout_marginRight="22dp"-->
-            <!--android:layout_marginTop="22dp"-->
-            <!--android:maxLines="2"-->
-            <!--android:src="@drawable/inbox_tickets" />-->
-
-            <!--<TextView-->
-            <!--android:id="@+id/inbox_count"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignBaseline="@+id/inboxtv"-->
-            <!--android:layout_alignBottom="@+id/inboxtv"-->
-            <!--android:layout_alignParentEnd="true"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_gravity=""-->
-            <!--android:layout_marginEnd="16dp"-->
-            <!--android:layout_marginRight="16dp"-->
-            <!--android:background="@drawable/rounded_textview"-->
-            <!--android:gravity="center"-->
-            <!--android:padding="4dp"-->
-            <!--android:text="0"-->
-            <!--android:textColor="@android:color/white"-->
-            <!--android:textSize="14sp"-->
-            <!--tools:ignore="HardcodedText" />-->
-
-            <!--<TextView-->
-            <!--android:id="@+id/inboxtv"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_alignParentTop="true"-->
-            <!--android:layout_toEndOf="@+id/imageView2"-->
-            <!--android:layout_toLeftOf="@+id/inbox_count"-->
-            <!--android:layout_toRightOf="@+id/imageView2"-->
-            <!--android:layout_toStartOf="@+id/inbox_count"-->
-            <!--android:fontFamily="sans-serif-bold"-->
-            <!--android:gravity="center|start"-->
-            <!--android:text="@string/inbox"-->
-            <!--android:textColor="@color/black"-->
-            <!--android:textSize="16sp" />-->
-
-            <!--</RelativeLayout>-->
-
-            <!--<RelativeLayout-->
-            <!--android:id="@+id/my_tickets"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="64dp"-->
-            <!--android:background="@color/colorAccent">-->
-
-            <!--<ImageView-->
-            <!--android:id="@+id/imageView3"-->
-            <!--android:layout_width="20dp"-->
-            <!--android:layout_height="20dp"-->
-            <!--android:layout_marginBottom="22dp"-->
-            <!--android:layout_marginLeft="38dp"-->
-            <!--android:layout_marginRight="22dp"-->
-            <!--android:layout_marginTop="22dp"-->
-            <!--android:src="@drawable/my_ticket" />-->
-
-            <!--<TextView-->
-            <!--android:id="@+id/my_tickets_count"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignBaseline="@+id/my_ticketstv"-->
-            <!--android:layout_alignBottom="@+id/my_ticketstv"-->
-            <!--android:layout_alignParentEnd="true"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_gravity=""-->
-            <!--android:layout_marginEnd="16dp"-->
-            <!--android:layout_marginRight="16dp"-->
-            <!--android:background="@drawable/rounded_textview"-->
-            <!--android:gravity="center"-->
-            <!--android:padding="4dp"-->
-            <!--android:text="0"-->
-            <!--android:textColor="@android:color/white"-->
-            <!--android:textSize="14sp"-->
-            <!--tools:ignore="HardcodedText" />-->
-
-            <!--<TextView-->
-            <!--android:id="@+id/my_ticketstv"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_alignParentTop="true"-->
-            <!--android:layout_toEndOf="@+id/imageView3"-->
-            <!--android:layout_toLeftOf="@+id/my_tickets_count"-->
-            <!--android:layout_toRightOf="@+id/imageView3"-->
-            <!--android:layout_toStartOf="@+id/my_tickets_count"-->
-            <!--android:fontFamily="sans-serif-bold"-->
-            <!--android:gravity="center|start"-->
-            <!--android:text="@string/my_tickets"-->
-            <!--android:textColor="@color/black"-->
-            <!--android:textSize="16sp" />-->
-            <!--</RelativeLayout>-->
-
-            <!--<RelativeLayout-->
-            <!--android:id="@+id/unassigned_tickets"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="64dp"-->
-            <!--android:background="@color/colorAccent">-->
-
-            <!--<ImageView-->
-            <!--android:id="@+id/imageView4"-->
-            <!--android:layout_width="20dp"-->
-            <!--android:layout_height="20dp"-->
-            <!--android:layout_marginBottom="22dp"-->
-            <!--android:layout_marginEnd="22dp"-->
-            <!--android:layout_marginLeft="38dp"-->
-            <!--android:layout_marginRight="22dp"-->
-            <!--android:layout_marginStart="38dp"-->
-            <!--android:layout_marginTop="22dp"-->
-            <!--android:src="@drawable/unassigned_ticket" />-->
-
-            <!--<TextView-->
-            <!--android:id="@+id/unassigned_ticketstv"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_alignParentTop="true"-->
-            <!--android:layout_toEndOf="@+id/imageView4"-->
-            <!--android:layout_toLeftOf="@+id/unassigned_tickets_count"-->
-            <!--android:layout_toRightOf="@+id/imageView4"-->
-            <!--android:layout_toStartOf="@+id/unassigned_tickets_count"-->
-            <!--android:fontFamily="sans-serif-bold"-->
-            <!--android:gravity="center|start"-->
-            <!--android:text="@string/unassigned_tickets"-->
-            <!--android:textColor="@color/black"-->
-            <!--android:textSize="16sp" />-->
-
-            <!--<TextView-->
-            <!--android:id="@+id/unassigned_tickets_count"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignBaseline="@+id/unassigned_ticketstv"-->
-            <!--android:layout_alignBottom="@+id/unassigned_ticketstv"-->
-            <!--android:layout_alignParentEnd="true"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_gravity=""-->
-            <!--android:layout_marginEnd="16dp"-->
-            <!--android:layout_marginRight="16dp"-->
-            <!--android:background="@drawable/rounded_textview"-->
-            <!--android:gravity="center"-->
-            <!--android:padding="4dp"-->
-            <!--android:text="0"-->
-            <!--android:textColor="@android:color/white"-->
-            <!--android:textSize="14sp"-->
-            <!--tools:ignore="HardcodedText" />-->
-            <!--</RelativeLayout>-->
-
-            <!--<RelativeLayout-->
-            <!--android:id="@+id/closed_tickets"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="64dp"-->
-            <!--android:background="@color/colorAccent">-->
-
-            <!--<ImageView-->
-            <!--android:id="@+id/imageView5"-->
-            <!--android:layout_width="20dp"-->
-            <!--android:layout_height="20dp"-->
-            <!--android:layout_marginBottom="22dp"-->
-            <!--android:layout_marginLeft="38dp"-->
-            <!--android:layout_marginRight="22dp"-->
-            <!--android:layout_marginTop="22dp"-->
-            <!--android:src="@drawable/closed_ticket" />-->
-
-            <!--<TextView-->
-            <!--android:id="@+id/closed_tickets_count"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignBaseline="@+id/closed_ticketstv"-->
-            <!--android:layout_alignBottom="@+id/closed_ticketstv"-->
-            <!--android:layout_alignParentEnd="true"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_gravity=""-->
-            <!--android:layout_marginEnd="16dp"-->
-            <!--android:layout_marginRight="16dp"-->
-            <!--android:background="@drawable/rounded_textview"-->
-            <!--android:gravity="center"-->
-            <!--android:padding="4dp"-->
-            <!--android:text="0"-->
-            <!--android:textColor="@android:color/white"-->
-            <!--android:textSize="14sp"-->
-            <!--tools:ignore="HardcodedText" />-->
-
-            <!--<TextView-->
-            <!--android:id="@+id/closed_ticketstv"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_toEndOf="@+id/imageView5"-->
-            <!--android:layout_toLeftOf="@+id/closed_tickets_count"-->
-            <!--android:layout_toRightOf="@+id/imageView5"-->
-            <!--android:layout_toStartOf="@+id/closed_tickets_count"-->
-            <!--android:fontFamily="sans-serif-bold"-->
-            <!--android:gravity="center|start"-->
-            <!--android:text="@string/closed_tickets"-->
-            <!--android:textColor="@color/black"-->
-            <!--android:textSize="16sp" />-->
-
-            <!--</RelativeLayout>-->
-
-            <!--<RelativeLayout-->
-            <!--android:id="@+id/trash_tickets"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="64dp"-->
-            <!--android:background="@color/colorAccent">-->
-
-            <!--<TextView-->
-            <!--android:id="@+id/trash_tickets_count"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignBaseline="@+id/trashtv"-->
-            <!--android:layout_alignBottom="@+id/trashtv"-->
-            <!--android:layout_alignParentEnd="true"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_gravity=""-->
-            <!--android:layout_marginEnd="16dp"-->
-            <!--android:layout_marginRight="16dp"-->
-            <!--android:background="@drawable/rounded_textview"-->
-            <!--android:gravity="center"-->
-            <!--android:padding="4dp"-->
-            <!--android:text="0"-->
-            <!--android:textColor="@android:color/white"-->
-            <!--android:textSize="14sp"-->
-            <!--tools:ignore="HardcodedText" />-->
-
-            <!--<ImageView-->
-            <!--android:id="@+id/imageView6"-->
-            <!--android:layout_width="20dp"-->
-            <!--android:layout_height="20dp"-->
-            <!--android:layout_marginBottom="22dp"-->
-            <!--android:layout_marginLeft="38dp"-->
-            <!--android:layout_marginRight="22dp"-->
-            <!--android:layout_marginTop="22dp"-->
-            <!--android:src="@drawable/trash_ticket" />-->
-
-            <!--<TextView-->
-            <!--android:id="@+id/trashtv"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_alignParentTop="true"-->
-            <!--android:layout_toEndOf="@+id/imageView6"-->
-            <!--android:layout_toLeftOf="@+id/trash_tickets_count"-->
-            <!--android:layout_toRightOf="@+id/imageView6"-->
-            <!--android:layout_toStartOf="@+id/trash_tickets_count"-->
-            <!--android:fontFamily="sans-serif-bold"-->
-            <!--android:gravity="center|start"-->
-            <!--android:text="@string/trash"-->
-            <!--android:textColor="@color/black"-->
-            <!--android:textSize="16sp" />-->
-
-            <!--</RelativeLayout>-->
 
             <LinearLayout
                 android:id="@+id/client_list"
@@ -607,50 +308,20 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_margin="22dp"
-                    android:src="@drawable/client_list" />
+                    android:src="@drawable/client_list"
+                    android:tint="@color/grey_500"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:fontFamily="sans-serif-bold"
+                    android:fontFamily="@font/hintedlaineansedium"
                     android:gravity="center"
                     android:text="@string/client_list"
+                    android:alpha=".7"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
 
             </LinearLayout>
-
-            <!--<View-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="1dp"-->
-            <!--android:background="@color/grey_200" />-->
-            <!--<LinearLayout-->
-                <!--android:id="@+id/supportHelpSection"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="64dp"-->
-                <!--android:background="@color/colorAccent">-->
-
-                <!--<ImageView-->
-                    <!--android:layout_width="20dp"-->
-                    <!--android:layout_height="20dp"-->
-                    <!--android:layout_margin="22dp"-->
-                    <!--android:src="@drawable/helpsection"-->
-                    <!--android:tint="@color/faveo"-->
-                    <!--android:id="@+id/imageView5" />-->
-
-                <!--<TextView-->
-
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:layout_alignParentTop="true"-->
-                    <!--android:layout_toEndOf="@+id/imageView5"-->
-                    <!--android:fontFamily="sans-serif-bold"-->
-                    <!--android:gravity="center"-->
-                    <!--android:text="@string/helpsection"-->
-                    <!--android:textColor="@color/black"-->
-                    <!--android:textSize="14sp" />-->
-
-            <!--</LinearLayout>-->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -665,13 +336,15 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_margin="22dp"
-                    android:src="@drawable/settings" />
+                    android:src="@drawable/settings"
+                    android:tint="@color/grey_500"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:fontFamily="sans-serif-bold"
+                    android:fontFamily="@font/hintedlaineansedium"
                     android:gravity="center"
+                    android:alpha=".7"
                     android:text="@string/settingsAndInAppHelpSection"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
@@ -690,14 +363,16 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_margin="22dp"
-                    android:src="@drawable/about" />
+                    android:src="@drawable/about"
+                    android:tint="@color/grey_500"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:fontFamily="sans-serif-bold"
+                    android:fontFamily="@font/hintedlaineansedium"
                     android:gravity="center"
                     android:text="@string/about"
+                    android:alpha=".7"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
 
@@ -718,16 +393,18 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_margin="22dp"
-                    android:src="@drawable/organisation_list" />
+                    android:src="@drawable/organisation_list"
+                    android:tint="@color/grey_500"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:fontFamily="sans-serif-bold"
+                    android:fontFamily="@font/hintedlaineansedium"
                     android:gravity="center"
                     android:text="@string/logout"
                     android:textColor="@color/black"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:alpha=".7"/>
 
             </LinearLayout>
 

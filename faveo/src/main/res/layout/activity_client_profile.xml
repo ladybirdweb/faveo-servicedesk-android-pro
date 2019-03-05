@@ -1,20 +1,26 @@
+<!--<layout xmlns:app="http://schemas.android.com/apk/res-auto">-->
+
+    <!--<data>-->
+
+        <!--<variable-->
+            <!--name="user"-->
+            <!--type="co.servicedesk.faveo.pro.model.User" />-->
+    <!--</data>-->
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".frontend.activities.ClientDetailActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorAccent">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="4dp"
-        android:background="@color/faveo"
+        android:background="#154c66"
         android:theme="@style/AppThemeOverlay.ActionBar">
 
         <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:contentScrim="?attr/colorPrimary"
@@ -25,13 +31,14 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="#154c66"
                 android:orientation="vertical">
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:background="@color/faveo"
+                    android:background="#154c66"
                     app:layout_collapseMode="pin"
                     app:layout_scrollFlags="scroll|enterAlways"
                     app:popupTheme="@style/AppThemeOverlay.ActionBar.Client">
@@ -42,8 +49,8 @@
 
                         <ImageView
                             android:id="@+id/imageViewBackClient"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
                             android:layout_alignParentStart="true"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="11dp"
@@ -59,20 +66,22 @@
                             android:layout_gravity="left"
                             android:layout_marginStart="65dp"
                             android:gravity="center"
+                            android:fontFamily="monospace"
                             android:text="@string/profile"
                             android:textColor="@color/white"
                             android:textSize="18sp"
+                            android:visibility="gone"
                             android:textStyle="bold" />
 
                         <co.servicedesk.faveo.pro.SquareImageView
                             android:id="@+id/clientedit"
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:background="@drawable/imageview_corner"
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
                             android:layout_marginEnd="16dp"
-                            android:tint="@color/white"
+                            android:tint="#154c66"
                             android:src="@drawable/ic_edit_black_24dp" />
                     </RelativeLayout>
                 </android.support.v7.widget.Toolbar>
@@ -81,32 +90,34 @@
                     android:id="@+id/client4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/faveo"
                     >
 
                     <ImageView
                         android:id="@+id/imageView_default_profile"
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:layout_alignParentTop="true"
+                        android:layout_width="84dp"
+                        android:layout_height="84dp"
                         android:layout_centerHorizontal="true"
-                        android:background="@drawable/rounded_textview"
-                        android:backgroundTint="@color/white" />
+                        android:transitionName="@string/blue_name"
+                        android:backgroundTint="@color/white"
+                        android:background="@drawable/rounded_textview"/>
 
-                    <TextView
+
+
+                    <com.elyeproj.loaderviewlibrary.LoaderTextView
                         android:id="@+id/textView_client_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/imageView_default_profile"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="8dp"
-                        android:fontFamily="sans-serif-bold"
+                        android:fontFamily="monospace"
                         android:maxLines="1"
-                        android:text="@string/dummy_name"
+                        android:text=""
                         android:textColor="@color/white"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        app:use_gradient="true"/>
 
-                    <TextView
+                    <com.elyeproj.loaderviewlibrary.LoaderTextView
                         android:id="@+id/textView_client_email"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -116,59 +127,51 @@
                         android:drawableLeft="@drawable/emailenvelope"
                         android:drawableTint="@color/white"
                         android:drawablePadding="8dp"
-                        android:fontFamily="sans-serif-medium"
+                        android:fontFamily="monospace"
                         android:maxLines="1"
-                        android:text="@string/dummy_mail_id"
+                        android:visibility="visible"
+                        android:text=""
                         android:textColor="@color/white"
-                        android:textSize="16sp" />
-<!--// android:alpha=".54"-->
-                    <!--<TextView-->
-                        <!--android:id="@+id/textView_client_phone"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_below="@+id/textView_client_email"-->
-                        <!--android:layout_centerHorizontal="true"-->
-                        <!--android:layout_marginTop="6dp"-->
-                        <!--android:drawableLeft="@drawable/landphone"-->
-                        <!--android:drawablePadding="8dp"-->
-                        <!--android:fontFamily="sans-serif-medium"-->
-                        <!--android:maxLines="1"-->
-                        <!--android:drawableTint="@color/white"-->
-                        <!--android:text="@string/dummy_num"-->
-                        <!--android:textColor="@color/white"-->
-                        <!--android:textSize="16sp"-->
-                        <!--android:visibility="visible"-->
-                       <!--/>-->
-                    <!--<TextView-->
-                        <!--android:id="@+id/textView_client_mobile"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_below="@+id/textView_client_phone"-->
-                        <!--android:layout_centerHorizontal="true"-->
-                        <!--android:layout_marginTop="6dp"-->
-                        <!--android:drawableLeft="@drawable/mobile"-->
-                        <!--android:drawableTint="@color/white"-->
-                        <!--android:drawablePadding="8dp"-->
-                        <!--android:fontFamily="sans-serif-medium"-->
-                        <!--android:maxLines="1"-->
-                        <!--android:text="@string/dummy_num"-->
-                        <!--android:textColor="@color/white"-->
-                        <!--android:textSize="16sp"-->
-                        <!--android:visibility="visible"-->
-                        <!--/>-->
-
-                    <TextView
-                        android:id="@+id/textView_client_status"
-                        android:layout_width="80dp"
+                        android:textSize="16sp"
+                        app:use_gradient="true"/>
+                    <com.elyeproj.loaderviewlibrary.LoaderTextView
+                        android:id="@+id/textView_client_phone"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginEnd="14dp"
-                        android:text="@string/status"
+                        android:layout_below="@+id/textView_client_email"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="6dp"
+                        android:drawableLeft="@drawable/landphone"
+                        android:drawablePadding="8dp"
+                        android:fontFamily="monospace"
+                        android:maxLines="1"
+                        android:drawableTint="@color/white"
+                        android:text="@string/dummy_num"
                         android:textColor="@color/white"
-                        android:textSize="14sp"
-                        android:gravity="end"
-                        android:textStyle="bold" />
+                        android:textSize="16sp"
+                        android:visibility="gone"
+                        app:use_gradient="true"
+                        />
+                    <com.elyeproj.loaderviewlibrary.LoaderTextView
+                        android:id="@+id/textView_client_mobile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/textView_client_phone"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="6dp"
+                        android:drawableLeft="@drawable/mobile"
+                        android:drawableTint="@color/white"
+                        android:drawablePadding="8dp"
+                        android:fontFamily="monospace"
+                        android:maxLines="1"
+                        android:text="@string/dummy_num"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:visibility="gone"
+                        app:use_gradient="true"
+                        />
+
+
 
 
                 </RelativeLayout>
@@ -179,11 +182,21 @@
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
                     android:paddingTop="4dp"
-                    android:background="@color/faveo"
                     android:orientation="horizontal">
 
 
-
+                    <TextView
+                        android:id="@+id/textView_client_status"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentTop="true"
+                        android:gravity="end"
+                        android:text="@string/status"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:layout_marginBottom="3dp"
+                        android:textStyle="bold" />
 
 
 
@@ -197,11 +210,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:tabGravity="fill"
-            app:tabTextColor="#808080"
+            app:tabTextColor="@color/grey_500"
             app:tabMode="fixed"
-            android:background="@color/faveo"
-            app:tabSelectedTextColor="@color/white"/>
-        //app:tabIndicatorColor="@color/faveo"
+            android:background="@color/toolbarColor"
+            app:tabIndicatorColor="@color/faveo"
+            app:tabIndicatorHeight="2dp"
+            app:tabSelectedTextColor="@color/colorAccent"/>
+        <!--app:tabIndicatorColor="@color/faveo"-->
 
     </android.support.design.widget.AppBarLayout>
 
@@ -211,7 +226,17 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-
-
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/create_ticket"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/createticketicon"
+        app:fabSize="normal"
+        android:backgroundTint="@color/toolbarColor"
+        android:tint="@color/colorAccent"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp"/>
 
 </android.support.design.widget.CoordinatorLayout>
+<!--</layout>-->

@@ -41,7 +41,7 @@ public class RegisterUser extends AppCompatActivity {
 
     ImageView imageViewBack;
     Button submit;
-    EditText editTextEmail,editTextFirstName,editTextPhone,editTextCompany,editTextLastName;
+    EditText editTextEmail,editTextFirstName,editTextPhone,editTextLastName;
     boolean allCorect;
     ProgressDialog progressDialog;
     SpotsDialog dialog1;
@@ -64,7 +64,7 @@ public class RegisterUser extends AppCompatActivity {
 
 // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(RegisterUser.this,R.color.faveo));
+        window.setStatusBarColor(ContextCompat.getColor(RegisterUser.this,R.color.mainActivityTopBar));
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         submit= (Button) findViewById(R.id.buttonCreateUser);
@@ -72,7 +72,6 @@ public class RegisterUser extends AppCompatActivity {
         editTextFirstName= (EditText) findViewById(R.id.fname_edittextUser);
         editTextLastName= (EditText) findViewById(R.id.lastname_edittext);
         editTextPhone= (EditText) findViewById(R.id.phone_edittextUser);
-        editTextCompany= (EditText) findViewById(R.id.company_edittextUser);
         imageViewBack= (ImageView) findViewById(R.id.imageViewBack);
         imageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,8 +83,6 @@ public class RegisterUser extends AppCompatActivity {
         countryCodePicker.setOnCountryChangeListener(new CountryCodePicker.OnCountryChangeListener() {
             @Override
             public void onCountrySelected() {
-                //Toast.makeText(MainActivity.this, "code :"+countryCodePicker.getSelectedCountryCode(), Toast.LENGTH_SHORT).show();
-
                 countrycode=countryCodePicker.getSelectedCountryCode();
             }
         });
@@ -97,7 +94,6 @@ public class RegisterUser extends AppCompatActivity {
                 String firstname=editTextFirstName.getText().toString();
                 String lastname=editTextLastName.getText().toString();
                 String phone=editTextPhone.getText().toString();
-                String company=editTextCompany.getText().toString();
 
 
                 //countrycode=countryCodePicker.getSelectedCountryCode();
@@ -143,7 +139,6 @@ public class RegisterUser extends AppCompatActivity {
                             lastname=URLEncoder.encode(lastname,"utf-8");
                             email = URLEncoder.encode(email.trim(), "utf-8");
                             phone = URLEncoder.encode(phone.trim(), "utf-8");
-                            company=URLEncoder.encode(company,"utf-8");
 
 
 
@@ -155,7 +150,6 @@ public class RegisterUser extends AppCompatActivity {
                         final String finalLastname = lastname;
                         final String finalEmail = email;
                         final String finalPhone = phone;
-                        final String finalCompany = company;
                         new BottomDialog.Builder(RegisterUser.this)
                                 .setTitle(getString(R.string.registerUser))
                                 .setContent(getString(R.string.userConfirmation))
@@ -172,7 +166,7 @@ public class RegisterUser extends AppCompatActivity {
                                         if (InternetReceiver.isConnected()){
                                             dialog1= new SpotsDialog(RegisterUser.this, getString(R.string.UserCreating));
                                             dialog1.show();
-                                            new RegisterUserNew(finalFirstname, finalLastname, finalEmail, finalPhone, finalCompany,countrycode).execute();
+                                            new RegisterUserNew(finalFirstname, finalLastname, finalEmail, finalPhone,countrycode).execute();
                                         }
                                     }
                                 }).onNegative(new BottomDialog.ButtonCallback() {
@@ -247,21 +241,20 @@ public class RegisterUser extends AppCompatActivity {
     }
 
     private class RegisterUserNew extends AsyncTask<String, Void, String> {
-        String firstname,email,mobile,company,lastname,code;
+        String firstname,email,mobile,lastname,code;
 
-        RegisterUserNew(String firstname,String lastname,String email,String mobile,String company,String code) {
+        RegisterUserNew(String firstname,String lastname,String email,String mobile,String code) {
 
             this.firstname=firstname;
             this.email=email;
             this.mobile=mobile;
-            this.company=company;
             this.lastname=lastname;
             this.code=code;
 
         }
 
         protected String doInBackground(String... urls) {
-            return new Helpdesk().postRegisterUser(email,firstname,lastname,mobile,company,code);
+            return new Helpdesk().postRegisterUser(email,firstname,lastname,mobile,code);
         }
 
         protected void onPostExecute(String result) {
@@ -271,6 +264,7 @@ public class RegisterUser extends AppCompatActivity {
                 Toasty.error(RegisterUser.this, getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
                 return;
             }
+
 //            String state=Prefs.getString("403",null);
 //                if (message1.contains("The ticket id field is required.")){
 //                    Toasty.warning(TicketDetailActivity.this, getString(R.string.please_select_ticket), Toast.LENGTH_LONG).show();

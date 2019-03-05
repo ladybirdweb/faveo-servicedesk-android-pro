@@ -2,7 +2,7 @@ package co.servicedesk.faveo.pro.model;
 
 /**
  * Created by narendra on 20/03/17.
- * Model class for posting the message event to the user.
+ * Model class for posting the message event to the User.
  */
 public class MessageEvent {
 

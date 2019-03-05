@@ -10,5 +10,4 @@ public class Constants {
     public static final String API_KEY = "9p41T2XFZ34YRZJUNQAdmM7iV0Rr1CjN";
     public static String URL1="https://www.faveohelpdesk.com/demo/api/v2/";
     public static final String BILLING_URL = "https://billing.faveohelpdesk.com/api/check-url";
-
 }

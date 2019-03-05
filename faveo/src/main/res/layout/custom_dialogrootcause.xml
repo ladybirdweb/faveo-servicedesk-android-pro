@@ -27,12 +27,13 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="11dp"
             android:padding="5dp"
+            android:fontFamily="@font/hintedlainesansregular"
             android:text="Root Cause"
             android:textSize="16sp"
             android:textStyle="bold" />
 
         <View
-            android:layout_width="97dp"
+            android:layout_width="110dp"
             android:layout_height="3dp"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/title"
@@ -49,6 +50,7 @@
         android:overScrollMode="ifContentScrolls"
         android:cursorVisible="true"
         android:hint="describe here"
+        android:fontFamily="@font/hintedlainesansregular"
         android:gravity="bottom"
         android:padding="8dp"
         />
@@ -66,8 +68,9 @@
                 android:layout_alignParentTop="true"
                 android:layout_gravity="left"
                 android:layout_marginEnd="19dp"
-                android:background="@drawable/rectangle3"
+                android:background="@drawable/rectanglereachout"
                 android:text="Save"
+                android:fontFamily="@font/hintedlainesansregular"
                 android:textAllCaps="false"
                 android:textColor="@color/colorAccent" />
 
@@ -79,8 +82,9 @@
                 android:layout_alignParentTop="true"
                 android:layout_gravity="left"
                 android:layout_marginStart="21dp"
-                android:background="@drawable/rectangle3"
+                android:background="@drawable/rectanglereachout"
                 android:text="Exit"
+                android:fontFamily="@font/hintedlainesansregular"
                 android:textAllCaps="false"
                 android:textColor="@color/colorAccent" />
         </RelativeLayout>

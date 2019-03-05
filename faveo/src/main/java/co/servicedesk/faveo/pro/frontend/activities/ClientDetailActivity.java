@@ -3,12 +3,14 @@ package co.servicedesk.faveo.pro.frontend.activities;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -35,6 +37,7 @@ import com.squareup.picasso.Picasso;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.jetbrains.annotations.Nullable;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,31 +51,35 @@ import co.servicedesk.faveo.pro.CircleTransform;
 import co.servicedesk.faveo.pro.Constants;
 import co.servicedesk.faveo.pro.R;
 import co.servicedesk.faveo.pro.backend.api.v1.Helpdesk;
-import co.servicedesk.faveo.pro.frontend.fragments.client.ClosedTickets;
-import co.servicedesk.faveo.pro.frontend.fragments.client.OpenTickets;
+import co.servicedesk.faveo.pro.databinding.ActivityClientProfileBinding;
+import co.servicedesk.faveo.pro.frontend.fragments.client.Profile;
+import co.servicedesk.faveo.pro.frontend.fragments.client.Tickets;
 import co.servicedesk.faveo.pro.frontend.receivers.InternetReceiver;
 import co.servicedesk.faveo.pro.model.MessageEvent;
 import co.servicedesk.faveo.pro.model.TicketGlimpse;
+import co.servicedesk.faveo.pro.model.User;
 import dmax.dialog.SpotsDialog;
 import es.dmoral.toasty.Toasty;
 
 /**
- * In this activity we are showing the client details to the user.
+ * In this activity we are showing the client details to the User.
  * We have used view pager for showing the open and closed tickets
  * so we are loading the view pager here.
  */
 public class ClientDetailActivity extends AppCompatActivity implements
-        OpenTickets.OnFragmentInteractionListener,
-        ClosedTickets.OnFragmentInteractionListener {
+        Tickets.OnFragmentInteractionListener,
+        Profile.OnFragmentInteractionListener {
 
 
     AsyncTask<String, Void, String> task;
+
+    @Nullable
     @BindView(R.id.imageView_default_profile)
     ImageView imageViewClientPicture;
-
+    @Nullable
     @BindView(R.id.textView_client_name)
     TextView textViewClientName;
-
+    @Nullable
     @BindView(R.id.textView_client_email)
     TextView textViewClientEmail;
 
@@ -81,23 +88,28 @@ public class ClientDetailActivity extends AppCompatActivity implements
 //
 //    @BindView(R.id.textView_client_mobile)
 //    TextView textViewClientMobile;
-
+    @Nullable
     @BindView(R.id.textView_client_status)
     TextView textViewClientStatus;
 
-
+    @Nullable
     @BindView(R.id.viewpager)
     ViewPager viewPager;
 
+    User user;
+
     ViewPagerAdapter adapter;
-    OpenTickets fragmentOpenTickets;
-    ClosedTickets fragmentClosedTickets;
+    Tickets fragmentOpenTickets;
+    Profile fragmentClosedTickets;
     public String clientID, clientName;
     List<TicketGlimpse> listTicketGlimpse;
     ProgressDialog progressDialog;
     ImageView imageViewClientEdit;
     ImageView imageViewBack;
     SpotsDialog dialog;
+    FloatingActionButton floatingActionButton;
+    ActivityClientProfileBinding activityClientProfileBinding;
+
     @Override
     public void onPause() {
         if (task != null && task.getStatus() == AsyncTask.Status.RUNNING) {
@@ -114,8 +126,12 @@ public class ClientDetailActivity extends AppCompatActivity implements
 //        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 //                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_client_profile);
-        Window window = ClientDetailActivity.this.getWindow();
 
+        //activityClientProfileBinding=DataBindingUtil.setContentView(this, R.layout.activity_client_profile);
+
+
+
+        Window window = ClientDetailActivity.this.getWindow();
 // clear FLAG_TRANSLUCENT_STATUS flag:
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
@@ -123,36 +139,40 @@ public class ClientDetailActivity extends AppCompatActivity implements
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
 // finally change the color
-        window.setStatusBarColor(ContextCompat.getColor(ClientDetailActivity.this,R.color.faveo));
+        window.setStatusBarColor(ContextCompat.getColor(ClientDetailActivity.this,R.color.mainActivityTopBar));
         ButterKnife.bind(this);
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         StrictMode.setThreadPolicy(policy);
-
-        imageViewBack= (ImageView) findViewById(R.id.imageViewBackClient);
+        floatingActionButton=findViewById(R.id.create_ticket);
+        //imageViewBack= activityClientProfileBinding.imageViewBackClient;
+        imageViewBack=findViewById(R.id.imageViewBackClient);
         imageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
-        imageViewClientEdit= (ImageView) findViewById(R.id.clientedit);
+        //imageViewClientEdit= activityClientProfileBinding.clientedit;
+        imageViewClientEdit=findViewById(R.id.clientedit);
         Constants.URL = Prefs.getString("COMPANY_URL", "");
-        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar mToolbar=findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
+        //setSupportActionBar(activityClientProfileBinding.toolbar);
 //        if (getSupportActionBar() != null) {
 //            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 //            getSupportActionBar().setDisplayShowHomeEnabled(true);
 //            getSupportActionBar().setDisplayShowTitleEnabled(false);
 //        }
-        TextView mTitle = (TextView) mToolbar.findViewById(R.id.title);
+        //TextView mTitle =activityClientProfileBinding.title;
+        TextView mTitle=mToolbar.findViewById(R.id.title);
         mTitle.setText(R.string.profile);
 
         setUpViews();
 
 
-        textViewClientStatus= (TextView) findViewById(R.id.textView_client_status);
+        textViewClientStatus=findViewById(R.id.textView_client_status);
         final Intent intent = getIntent();
         clientID = intent.getStringExtra("CLIENT_ID");
 
@@ -163,7 +183,13 @@ public class ClientDetailActivity extends AppCompatActivity implements
             startActivity(intent1);
             }
         });
-
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1=new Intent(ClientDetailActivity.this,CreateTicketActivity.class);
+                startActivity(intent1);
+            }
+        });
         if (InternetReceiver.isConnected()) {
 
             dialog.show();
@@ -282,6 +308,7 @@ public class ClientDetailActivity extends AppCompatActivity implements
                 String firstname = requester.getString("first_name");
                 String lastName = requester.getString("last_name");
                 String username = requester.getString("user_name");
+                String email=requester.getString("email");
                 String clientname;
                 String letter="A";
                 if (firstname.equals("")&&lastName.equals("")){
@@ -290,6 +317,8 @@ public class ClientDetailActivity extends AppCompatActivity implements
                 else{
                     letter= String.valueOf(firstname.toUpperCase().charAt(0));
                 }
+
+
 
 //                try {
 //                    letter = String.valueOf(firstname.charAt(0)).toUpperCase();
@@ -301,11 +330,23 @@ public class ClientDetailActivity extends AppCompatActivity implements
                 else
                     clientname = firstname + " " + lastName;
 
+//                user=new User(clientname,email);
+//                activityClientProfileBinding.setUser(user);
+
+
                 textViewClientName.setText(clientname);
                 textViewClientEmail.setText(requester.getString("email"));
 
                 String phone = "";
                 String mobile="";
+
+
+                if (!mobile.equals("Not available")){
+                    Prefs.putString("firstusermobile",mobile);
+                }
+                else{
+                    Prefs.putString("firstusermobile",mobile);
+                }
 //                if (requester.getString("mobile") == null || requester.getString("mobile").equals(""))
 //                    textViewClientPhone.setVisibility(View.INVISIBLE);
 //
@@ -360,6 +401,10 @@ public class ClientDetailActivity extends AppCompatActivity implements
 //                IImageLoader imageLoader = new PicassoLoader();
 //                imageLoader.loadImage(imageViewClientPicture, clientPictureUrl, clientname);
 
+                Prefs.putString("firstusername",firstname);
+                Prefs.putString("lastusername",lastName);
+                Prefs.putString("firstuseremail",email);
+
                 JSONArray jsonArray = jsonObject.getJSONArray("tickets");
                 for (int i = 0; i < jsonArray.length(); i++) {
                     int ticketID = Integer.parseInt(jsonArray.getJSONObject(i).getString("id"));
@@ -368,15 +413,10 @@ public class ClientDetailActivity extends AppCompatActivity implements
                     String ticketSubject = jsonArray.getJSONObject(i).getString("title");
                     String status=jsonArray.getJSONObject(i).getString("ticket_status_name");
                     try {
-                        isOpen = jsonArray.getJSONObject(i).getString("ticket_status_name").equals("Open");
-                        if (isOpen)
-                            listOpenTicketGlimpse.add(new TicketGlimpse(ticketID, ticketNumber, ticketSubject, true,status));
-                        else
-                            listClosedTicketGlimpse.add(new TicketGlimpse(ticketID, ticketNumber, ticketSubject, false,status));
-                    } catch (Exception e) {
+                        //isOpen = jsonArray.getJSONObject(i).getString("ticket_status_name").equals("Open");
                         listOpenTicketGlimpse.add(new TicketGlimpse(ticketID, ticketNumber, ticketSubject, true,status));
+                    } catch (Exception e) {
                     }
-                    listTicketGlimpse.add(new TicketGlimpse(ticketID, ticketNumber, ticketSubject, isOpen,status));
                 }
             } catch (JSONException e) {
                 Toasty.error(ClientDetailActivity.this, getString(R.string.unexpected_error), Toast.LENGTH_LONG).show();
@@ -384,7 +424,6 @@ public class ClientDetailActivity extends AppCompatActivity implements
             }
 
             fragmentOpenTickets.populateData(listOpenTicketGlimpse, clientName);
-            fragmentClosedTickets.populateData(listClosedTicketGlimpse, clientName);
         }
     }
 
@@ -396,10 +435,10 @@ public class ClientDetailActivity extends AppCompatActivity implements
      */
     private void setupViewPager() {
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        fragmentOpenTickets = new OpenTickets();
-        fragmentClosedTickets = new ClosedTickets();
-        adapter.addFragment(fragmentOpenTickets, getString(R.string.open_ticket));
-        adapter.addFragment(fragmentClosedTickets, getString(R.string.closed_ticket));
+        fragmentOpenTickets = new Tickets();
+        fragmentClosedTickets = new Profile();
+        adapter.addFragment(fragmentOpenTickets, getString(R.string.tickets));
+        adapter.addFragment(fragmentClosedTickets, getString(R.string.profile));
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(onPageChangeListener);
     }
