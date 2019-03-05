@@ -629,7 +629,7 @@ public class CreateChange extends AppCompatActivity {
         protected String doInBackground(File... params) {
 
 
-            return new Helpdesk().createChange(idForequester, subject,status, priority,changeTypes,impact,description);
+            return new Helpdesk().createChange(from,subject,status, priority,changeTypes,impact,description);
         }
 
         protected void onPostExecute(String result) {
@@ -695,7 +695,7 @@ public class CreateChange extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... strings) {
-            return new Helpdesk().associateChangeWithProblem(problemId,idForequester, subject,status, priority,changeTypes,impact,description);
+            return new Helpdesk().associateChangeWithProblem(problemId,from,subject,status, priority,changeTypes,impact,description);
 
         }
 

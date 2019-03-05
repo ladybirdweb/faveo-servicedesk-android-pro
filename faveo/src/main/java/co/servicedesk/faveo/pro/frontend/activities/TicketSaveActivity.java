@@ -325,42 +325,6 @@ public class TicketSaveActivity extends AppCompatActivity {
 //            new FetchTicketDetail(Prefs.getString("TICKETid",null)).execute();
 //        }
 //    }
-    private class FetchTicketDetail1 extends AsyncTask<String, Void, String> {
-        String ticketID;
-        String agentName;
-        String title;
-        FetchTicketDetail1(String ticketID) {
-
-            this.ticketID = ticketID;
-        }
-
-        protected String doInBackground(String... urls) {
-            return new Helpdesk().getTicketDetail(ticketID);
-        }
-
-        protected void onPostExecute(String result) {
-           dialog1.dismiss();
-            if (isCancelled()) return;
-//            if (progressDialog.isShowing())
-//                progressDialog.dismiss();
-
-            if (result == null) {
-                //Toasty.error(TicketDetailActivity.this, getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
-                return;
-            }
-
-            JSONObject jsonObject = null;
-            try {
-                jsonObject = new JSONObject(result);
-                Prefs.putString("TicketRelated",jsonObject.toString());
-                Toasty.success(TicketSaveActivity.this, getString(R.string.update_success), Toast.LENGTH_LONG).show();
-                Intent intent=new Intent(TicketSaveActivity.this, MainActivity.class);
-                startActivity(intent);
-                } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-    }
     private class SaveTicket extends AsyncTask<String, Void, String> {
         int ticketNumber;
         String subject;
@@ -423,6 +387,7 @@ public class TicketSaveActivity extends AppCompatActivity {
                 Toasty.success(TicketSaveActivity.this, getString(R.string.update_success), Toast.LENGTH_LONG).show();
                 Prefs.putString("cameFromNewProblem","true");
                 Intent intent=new Intent(TicketSaveActivity.this, TicketDetailActivity.class);
+                intent.putExtra("ticket_id", Prefs.getString("TICKETid",null));
                 startActivity(intent);
                 //new FetchTicketDetail1(Prefs.getString("TICKETid",null)).execute();
 

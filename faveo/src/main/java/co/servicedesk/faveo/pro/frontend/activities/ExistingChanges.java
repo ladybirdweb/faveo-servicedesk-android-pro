@@ -414,7 +414,8 @@ public class ExistingChanges extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     new BottomDialog.Builder(ExistingChanges.this)
-                            .setContent("Deleting Change?")
+                            .setTitle("Deleting Change")
+                            .setContent("Are you sure you want to delete this change?")
                             .setPositiveText("YES")
                             .setNegativeText("NO")
                             .setPositiveBackgroundColorResource(R.color.white)

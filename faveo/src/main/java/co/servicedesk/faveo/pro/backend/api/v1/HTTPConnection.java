@@ -443,10 +443,10 @@ class HTTPConnection{
                     case HttpURLConnection.HTTP_UNAUTHORIZED:
                         Log.e("Response code: ", "401-UNAUTHORIZED!");
                         //ret="HTTP_UNAUTHORIZED";
-//                        if (refreshToken() == null)
-//                            return null;
-//                        new Helpdesk();
-//                        new Authenticate();
+                        if (refreshToken() == null)
+                            return null;
+                        new Helpdesk();
+                        new Authenticate();
                         return "tokenRefreshed";
                     case HttpURLConnection.HTTP_NOT_FOUND:
                         Log.e("Response code: ", "NotFound-404!");

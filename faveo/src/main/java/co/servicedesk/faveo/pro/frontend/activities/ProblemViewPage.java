@@ -1134,8 +1134,6 @@ public class ProblemViewPage extends AppCompatActivity implements ProblemDescrip
 
         @Override
         protected void onPostExecute(String s) {
-
-            Log.d("response",s);
             try {
                 JSONObject jsonObject=new JSONObject(s);
                 String message=jsonObject.getString("message");

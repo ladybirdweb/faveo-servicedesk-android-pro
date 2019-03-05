@@ -1105,7 +1105,7 @@ public class NewProblem extends AppCompatActivity implements PermissionCallback,
         protected String doInBackground(File... params) {
 
 
-            return new Helpdesk().createProblem(from, subject,status, priority,impact,dept,staff,description +sb1.toString());
+            return new Helpdesk().createProblem(from,subject,status, priority,impact,dept,staff,description +sb1.toString());
         }
 
         protected void onPostExecute(String result) {

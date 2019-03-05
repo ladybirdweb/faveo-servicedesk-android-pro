@@ -355,7 +355,7 @@ public class TicketDetailActivity extends AppCompatActivity implements
         Log.d("ticketDetailOnCreate","True");
         final Intent intent = getIntent();
         ticketID=intent.getStringExtra("ticket_id");
-        Log.d("ticketID",ticketID);
+
         Prefs.putString("TICKETid",ticketID);
         try {
             if (InternetReceiver.isConnected()) {
@@ -432,7 +432,8 @@ public class TicketDetailActivity extends AppCompatActivity implements
                     }
                     case "none": {
                         //finish();
-                        finish();
+                        Intent intent1=new Intent(TicketDetailActivity.this,MainActivity.class);
+                        startActivity(intent1);
                         break;
                     }
                     case "false": {
@@ -444,35 +445,6 @@ public class TicketDetailActivity extends AppCompatActivity implements
                         break;
                     }
                 }
-//                if (Prefs.getString("cameFromNotification",null).equals("true")){
-//                    Intent intent = new Intent(TicketDetailActivity.this, NotificationActivity.class);
-//                    startActivity(intent);
-//                }
-//               if (Prefs.getString("cameFromNotification",null).equals("false")){
-//                    Intent intent1=new Intent(TicketDetailActivity.this,MainActivity.class);
-//                    startActivity(intent1);
-//                }if (Prefs.getString("cameFromnotification", null).equals("none")){
-//                    Intent intent = new Intent(TicketDetailActivity.this, SearchActivity.class);
-//                    startActivity(intent);
-//                }
-//
-//                else{
-//                    Intent intent1=new Intent(TicketDetailActivity.this,MainActivity.class);
-//                    startActivity(intent1);
-//                }
-////                switch (Prefs.getString("cameFromNotification", null)) {
-////                    case "true":
-////                        Intent intent = new Intent(TicketDetailActivity.this, NotificationActivity.class);
-////                        startActivity(intent);
-////                        break;
-////                    case "false":
-////                        Intent intent1=new Intent(TicketDetailActivity.this,MainActivity.class);
-////                        startActivity(intent1);
-////                        break;
-////                    default:
-////                        finish();
-////                        break;
-////                }
               }
 
 
@@ -1858,7 +1830,31 @@ public class MyBottomSheetDialogReply extends BottomSheetDialog {
      */
     @Override
     public void onBackPressed() {
-        finish();
+        Log.d("cameFromnotification",Prefs.getString("cameFromNotification",null));
+        String option=Prefs.getString("cameFromNotification",null);
+
+        switch (option) {
+            case "true": {
+//                        Intent intent = new Intent(TicketDetailActivity.this, NotificationActivity.class);
+//                        startActivity(intent);
+                finish();
+                break;
+            }
+            case "none": {
+                //finish();
+                Intent intent1=new Intent(TicketDetailActivity.this,MainActivity.class);
+                startActivity(intent1);
+                break;
+            }
+            case "false": {
+                finish();
+                break;
+            }
+            default: {
+                finish();
+                break;
+            }
+        }
 //        if(mDrawerLayout.isDrawerOpen(GravityCompat.END)) {
 //            //drawer is open
 //            mDrawerLayout.closeDrawers();

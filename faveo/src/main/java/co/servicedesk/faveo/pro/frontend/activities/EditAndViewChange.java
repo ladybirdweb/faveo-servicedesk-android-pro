@@ -152,7 +152,6 @@ public class EditAndViewChange extends AppCompatActivity {
                         CollaboratorSuggestion data2=emailHint.get(i1);
                         email1=data2.getEmail();
                         idForequester=data2.getId();
-                        Log.d("email1",email1);
                         editTextEmail.setText(email1);
                     }
                     else{
@@ -168,12 +167,12 @@ public class EditAndViewChange extends AppCompatActivity {
         buttonsubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 final Data priority= (Data) prioritySpinner.getSelectedItem();
                 final Data status= (Data) statusSpinner.getSelectedItem();
                 final Data impact= (Data) impactSpinner.getSelectedItem();
                 final Data changeTypes= (Data) changeTypeSpinner.getSelectedItem();
                 allCorrect = true;
+
 
                 if (editTextSubject.getText().toString().equals("")){
                     Toasty.warning(EditAndViewChange.this, getString(R.string.sub_must_not_be_empty), Toast.LENGTH_SHORT).show();
@@ -454,13 +453,30 @@ public class EditAndViewChange extends AppCompatActivity {
         protected String doInBackground(File... params) {
 
 
-            return new Helpdesk().editChange(changeID,idForequester,subject,status,priority,changeTypes,impact,description);
+            return new Helpdesk().editChange(changeID,from,subject,status,priority,changeTypes,impact,description);
         }
 
         protected void onPostExecute(String result) {
             //Toast.makeText(CreateTicketActivity.this, "api called", Toast.LENGTH_SHORT).show();
             dialog1.dismiss();
             Log.d("result",result);
+
+            try{
+                JSONObject jsonObject=new JSONObject(result);
+                JSONObject jsonObject1=jsonObject.getJSONObject("error");
+                JSONArray jsonArray=jsonObject1.getJSONArray("subject");
+                for (int i=0;i<jsonArray.length();i++){
+                    String message=jsonArray.getString(i);
+                    if (message.equals("The subject should be less than 50 characters.")){
+                        Toasty.warning(EditAndViewChange.this,"The subject should be less than 50 characters.",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                }
+
+            }catch (JSONException e){
+                e.printStackTrace();
+            }
             try{
                 JSONObject jsonObject=new JSONObject(result);
                 Log.d("jsonResponse",jsonObject.toString());
@@ -607,6 +623,8 @@ public class EditAndViewChange extends AppCompatActivity {
 
 
     }
+
+
     private class FetchCollaborator extends AsyncTask<String, Void, String> {
         String term;
 
@@ -659,6 +677,8 @@ public class EditAndViewChange extends AppCompatActivity {
 
         }
     }
+
+
     @SuppressLint("StaticFieldLeak")
     private class FetchChangeDetail extends AsyncTask<String,Void,String>{
         int changeId;
@@ -679,10 +699,12 @@ public class EditAndViewChange extends AppCompatActivity {
                 JSONArray requester=jsonObject1.getJSONArray("requester");
                 if (requester.isNull(0)){
                     editTextEmail.setText("");
+                    idForequester=0;
                 }
                 else{
                     JSONObject jsonObject2=requester.getJSONObject(0);
                     String email=jsonObject2.getString("email");
+                    idForequester=jsonObject2.getInt("id");
                     editTextEmail.setText(email);
 
 
@@ -793,18 +815,11 @@ public class EditAndViewChange extends AppCompatActivity {
             String term = editTextEmail.getText().toString();
             if (InternetReceiver.isConnected()) {
                 if (!term.equals("")&&term.length()==3){
-
-                    //progressBar.setVisibility(View.VISIBLE);
-//                    refresh.startAnimation();
                     refresh.startAnimation(rotation);
                     String newTerm=term;
                     arrayAdapterCC=new CollaboratorAdapter(EditAndViewChange.this,emailHint);
                     //arrayAdapterCC = new ArrayAdapter<Data>(CreateTicketActivity.this, android.R.layout.simple_dropdown_item_1line, emailHint);
                     new FetchCollaborator(newTerm.trim()).execute();
-
-                    //stringArrayAdapterCC.notifyDataSetChanged();
-//                autoCompleteTextViewCC.setThreshold(0);
-//                autoCompleteTextViewCC.setDropDownWidth(1000);
 
                 }
 

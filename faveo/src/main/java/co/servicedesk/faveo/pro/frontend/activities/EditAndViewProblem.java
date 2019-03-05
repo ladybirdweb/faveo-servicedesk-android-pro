@@ -638,7 +638,7 @@ public class EditAndViewProblem extends AppCompatActivity implements PermissionC
         protected String doInBackground(File... files) {
 
 
-            return new Helpdesk().editProblem(problemId,from, subject,status, priority,impact,dept,staff,description);
+            return new Helpdesk().editProblem(problemId,from,subject,status, priority,impact,dept,staff,description);
         }
 
         protected void onPostExecute(String result) {
