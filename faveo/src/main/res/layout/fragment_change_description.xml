@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:id="@+id/scrollChangeDescription"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fillViewport="true"
+    android:overScrollMode="never"
+    android:nestedScrollingEnabled="true"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        tools:context=".frontend.activities.ProblemViewPage"
+        android:isScrollContainer="true"
+        android:padding="5dp">
+
+        <!-- TODO: Update blank fragment layout -->
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/reasonForChangeCard"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="7dp"
+            android:layout_marginTop="7dp"
+            android:visibility="visible"
+            app:cardBackgroundColor="@color/grey_200"
+            app:cardCornerRadius="5dp"
+            android:padding="5dp">
+
+            <RelativeLayout
+                android:id="@+id/reasonForChange"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:background="@color/white"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/rootCauseHeading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:layout_alignBaseline="@+id/rootCauseDescrip"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="19dp"
+                    android:text="Reason"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/reasonForChangeDescrip"
+                    android:layout_width="200dp"
+                    android:layout_height="115dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:background="@drawable/rectangle"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:hint="update reason here"
+                    android:lineSpacingExtra="5dp"
+                    android:maxLines="6"
+                    android:padding="3dp"
+                    android:scrollbars="vertical"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/editReasonForChange"
+                    android:layout_width="50dp"
+                    android:layout_height="20dp"
+                    android:layout_alignEnd="@+id/reasonForChangeDescrip"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="-1dp"
+                    android:layout_marginBottom="2dp"
+                    android:background="@drawable/rectangle3"
+                    android:gravity="center"
+                    android:textSize="10sp"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:text="@string/edit"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/deleteReasonForChange"
+                    android:layout_width="50dp"
+                    android:layout_height="20dp"
+                    android:layout_alignStart="@+id/reasonForChangeDescrip"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginBottom="2dp"
+                    android:background="@drawable/rectangle3"
+                    android:gravity="center"
+                    android:text="@string/delete"
+                    android:textSize="10sp"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:textColor="@color/white" />
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            app:cardBackgroundColor="@color/grey_200"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="7dp"
+            android:layout_marginTop="7dp"
+            android:visibility="visible"
+            android:id="@+id/impactCard"
+            android:padding="5dp"
+            >
+            <RelativeLayout
+                android:id="@+id/impactlayout"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/rootcause"
+                android:padding="5dp"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:layout_marginTop="5dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="19dp"
+                    android:text="@string/Impact"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/impact"
+                    android:layout_width="200dp"
+                    android:layout_height="115dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:background="@drawable/rectangle"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:hint="update impact here"
+                    android:lineSpacingExtra="5dp"
+                    android:maxLines="6"
+                    android:padding="3dp"
+                    android:scrollbars="vertical"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/editImpact"
+                    android:layout_width="50dp"
+                    android:layout_height="20dp"
+                    android:layout_alignEnd="@+id/impact"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginBottom="2dp"
+                    android:background="@drawable/rectangle3"
+                    android:gravity="center"
+                    android:text="@string/edit"
+                    android:textSize="10sp"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/deleteImpact"
+                    android:layout_width="50dp"
+                    android:layout_height="20dp"
+                    android:layout_alignStart="@+id/impact"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginBottom="2dp"
+                    android:background="@drawable/rectangle3"
+                    android:gravity="center"
+                    android:text="@string/delete"
+                    android:textSize="10sp"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:textColor="@color/white" />
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            app:cardBackgroundColor="@color/grey_200"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="7dp"
+            android:layout_marginTop="7dp"
+            android:visibility="visible"
+            android:id="@+id/rolloutPlan"
+            android:padding="5dp"
+            >
+
+            <RelativeLayout
+                android:id="@+id/rolloutlayout"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:padding="5dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/rolloutlayout"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="17dp"
+                    android:layout_marginTop="5dp"
+                    android:text="Rollout plan"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/rolloutplandetails"
+                    android:layout_width="200dp"
+                    android:layout_height="115dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:background="@drawable/rectangle"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:hint="update rollout plan here"
+                    android:lineSpacingExtra="5dp"
+                    android:maxLines="6"
+                    android:padding="3dp"
+                    android:scrollbars="vertical"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/editRolloutPlan"
+                    android:layout_width="50dp"
+                    android:layout_height="20dp"
+                    android:layout_alignEnd="@+id/rolloutplandetails"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginBottom="2dp"
+                    android:background="@drawable/rectangle3"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:gravity="center"
+                    android:text="@string/edit"
+                    android:textColor="@color/white"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/deleteRolloutPlan"
+                    android:layout_width="50dp"
+                    android:layout_height="20dp"
+                    android:layout_alignStart="@+id/rolloutplandetails"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:background="@drawable/rectangle3"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:gravity="center"
+                    android:src="@drawable/ic_delete_black_24dp"
+                    android:text="@string/delete"
+                    android:textColor="@color/white"
+                    android:textSize="10sp"
+                    android:tint="@color/grey_500" />
+
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            app:cardBackgroundColor="@color/grey_200"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="7dp"
+            android:layout_marginTop="7dp"
+            android:visibility="visible"
+            android:id="@+id/backoutplan"
+            android:padding="5dp"
+            >
+
+            <RelativeLayout
+                android:id="@+id/backoutlayout"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:padding="5dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/impactlayout"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="17dp"
+                    android:layout_marginTop="5dp"
+                    android:text="Backout plan"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+
+                <TextView
+                    android:id="@+id/backoutplantext"
+                    android:layout_width="200dp"
+                    android:layout_height="115dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:background="@drawable/rectangle"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:hint="update symptoms here"
+                    android:lineSpacingExtra="5dp"
+                    android:maxLines="6"
+                    android:padding="3dp"
+                    android:scrollbars="vertical"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/editBackoutPlan"
+                    android:layout_width="50dp"
+                    android:layout_height="20dp"
+                    android:layout_alignEnd="@+id/backoutplantext"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="-2dp"
+                    android:layout_marginBottom="3dp"
+                    android:background="@drawable/rectangle3"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:gravity="center"
+                    android:text="@string/edit"
+                    android:textColor="@color/white"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/deleteBackoutPlan"
+                    android:layout_width="50dp"
+                    android:layout_height="20dp"
+                    android:layout_alignStart="@+id/backoutplantext"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginBottom="3dp"
+                    android:background="@drawable/rectangle3"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:gravity="center"
+                    android:src="@drawable/ic_delete_black_24dp"
+                    android:text="@string/delete"
+                    android:textColor="@color/white"
+                    android:textSize="10sp"
+                    android:tint="@color/grey_500" />
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+
+    </LinearLayout>
+</ScrollView>

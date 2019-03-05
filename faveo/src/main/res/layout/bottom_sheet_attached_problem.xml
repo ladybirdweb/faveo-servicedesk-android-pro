@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="6dp"
+    android:background="@color/colorAccent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+
+    <TextView
+        android:id="@+id/heading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Associated problem :"
+        android:textSize="15sp"
+        android:fontFamily="@font/hintedlainesansregular"
+        android:layout_marginLeft="5dp"
+        android:textStyle="bold"
+        android:background="@color/colorAccent"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/grey_500"
+        android:alpha=".3">
+
+    </View>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/listAttached"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="8"
+        android:visibility="visible"
+        />
+
+
+</LinearLayout>

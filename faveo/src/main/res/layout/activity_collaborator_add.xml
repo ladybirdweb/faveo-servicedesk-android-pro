@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/colorAccent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:theme="@style/AppThemeOverlay.ActionBar">
+
+        <Toolbar
+            android:id="@+id/toolbarCollaborator"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="#154c66"
+            app:popupTheme="@style/AppThemeOverlay.ActionBar">
+
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Create Ticket"-->
+            <!--android:textColor="@color/faveo"-->
+            <!--android:textSize="16sp"-->
+            <!--android:textStyle="bold"-->
+            <!--android:layout_marginLeft="20dp"/>-->
+
+            <!--<Button-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="30dp"-->
+            <!--android:layout_marginLeft="40dp"-->
+            <!--android:text="submit"-->
+            <!--android:background="@color/faveo"-->
+            <!--android:id="@+id/buttonSubmit"-->
+            <!--android:textSize="12sp"-->
+            <!--android:textColor="#ffffff"/>-->
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize">
+
+                <ImageView
+                    android:id="@+id/imageViewBack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:backgroundTint="@color/colorAccent"
+                    android:background="@drawable/ic_arrow_back_black_24dp" />
+
+                <TextView
+                    android:id="@+id/titlesave"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_alignTop="@+id/imageViewBack"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_toEndOf="@+id/imageViewBack"
+                    android:layout_toRightOf="@+id/imageViewBack"
+                    android:text="@string/collaboratorAdd"
+                    android:textAllCaps="true"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/buttonSearchUser"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="13dp"
+                    android:background="@drawable/ic_action_done"
+                    android:textAllCaps="false"
+                    android:textColor="#ffffff"
+                    android:backgroundTint="@color/colorAccent"
+                    android:visibility="visible" />
+
+                <Button
+                    android:id="@+id/buttonDeleteUser"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="45dp"
+                    android:background="@drawable/ic_delete_black_24dp"
+                    android:padding="10dp"
+                    android:backgroundTint="@color/colorAccent"
+                    android:textAllCaps="false"
+                    android:textColor="#ffffff"
+                    android:visibility="gone" />
+
+                <ProgressBar
+                    android:id="@+id/collaboratorProgressBarReply"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:backgroundTint="@color/colorAccent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="81dp"
+                    android:visibility="gone"
+                    android:indeterminate="true"
+                    android:indeterminateTintMode="src_atop"
+                    android:indeterminateTint="@color/colorAccent"/>
+
+            </RelativeLayout>
+        </Toolbar>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/faveo">
+
+        </View>
+
+    </android.support.design.widget.AppBarLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:background="@color/colorAccent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginLeft="17dp"
+                android:layout_marginStart="17dp"
+                android:text="@string/addcolla"
+                android:textSize="12sp"
+                android:fontFamily="@font/hintedlainesansregular"
+                android:textStyle="bold" />
+            />
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/grey_500"
+            android:alpha=".3">
+
+        </View>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+            <android.support.v7.widget.AppCompatAutoCompleteTextView
+                android:id="@+id/appCompatAutoCompleteTextView"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@android:color/transparent"
+                android:cursorVisible="true"
+                android:imeOptions="actionNext"
+                android:fontFamily="@font/hintedlainesansregular"
+                android:inputType="textEmailAddress"
+                android:textCursorDrawable="@drawable/color_cursor"
+                android:textSize="16sp"
+                android:hint="@string/search"/>
+
+            <ImageButton
+                android:id="@+id/collaboratorAdd"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/rounded_button"
+                android:src="@drawable/ic_add_black_24dp"
+                android:tint="@color/faveo"
+                android:visibility="visible" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/appCompatAutoCompleteTextView"
+                android:background="@color/grey_500"
+                >
+
+            </View>
+
+        </RelativeLayout>
+
+        <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="36dp"-->
+        <!--android:background="#EEEEEE"-->
+        <!--android:id="@+id/recipients"-->
+        <!--android:visibility="visible">-->
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:layout_marginLeft="17dp"-->
+        <!--android:layout_marginStart="17dp"-->
+        <!--android:text="@string/show"-->
+        <!--android:textSize="16sp"-->
+        <!--android:textStyle="bold" />-->
+        <!--/>-->
+        <!--</RelativeLayout>-->
+
+        <!--<Spinner-->
+        <!--android:id="@+id/spinnerRecipients"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:entries="@array/spinnerAssignTo"-->
+        <!--android:hint="@string/SelectPriority"-->
+        <!--android:layout_gravity="end"-->
+        <!--android:visibility="visible"-->
+        <!--/>-->
+
+    </LinearLayout>
+</LinearLayout>

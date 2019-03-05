@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    android:id="@+id/ticket"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="140dp"
+    android:elevation="3dp"
+    android:layout_margin="7dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    card_view:cardCornerRadius="6dp"
+    card_view:cardElevation="5dp"
+    card_view:contentPadding="1dp"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <RelativeLayout
+        android:id="@+id/problemList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+        >
+
+        <!--<TextView-->
+        <!--android:id="@+id/textView_ticket_bubble"-->
+        <!--android:layout_width="24dp"-->
+        <!--android:layout_height="24dp"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_below="@+id/textView_ticket_time"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_marginLeft="18dp"-->
+        <!--android:layout_marginTop="4dp"-->
+        <!--android:fontFamily="sans-serif-medium"-->
+        <!--android:gravity="center"-->
+        <!--android:text="12"-->
+        <!--android:textColor="@color/white"-->
+        <!--android:textSize="12sp"-->
+        <!--android:visibility="visible" />-->
+
+        <TextView
+            android:id="@+id/problemId"
+            android:layout_width="50dp"
+            android:layout_height="20dp"
+            android:layout_alignStart="@+id/textView_client_email"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="0dp"
+            android:fontFamily="@font/hintedlainesansregular"
+            android:text="#PRB-10"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="10sp"
+            android:background="@drawable/rectangle1"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="62dp"
+            android:alpha=".54"
+            android:fontFamily="@font/hintedlainesansregular"
+            android:maxLines="1"
+            android:text="Impact"
+            android:visibility="gone"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <!--<TextView-->
+        <!--android:id="@+id/textViewagentName"-->
+        <!--android:layout_width="76dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/textView_ticket_number"-->
+        <!--android:layout_marginTop="7dp"-->
+        <!--android:layout_marginEnd="-74dp"-->
+        <!--android:layout_toStartOf="@+id/agentassigned"-->
+        <!--android:fontFamily="sans-serif-bold"-->
+        <!--android:maxLines="1"-->
+        <!--android:paddingLeft="3dp"-->
+        <!--android:text="Support"-->
+        <!--android:textColor="@color/black"-->
+        <!--android:textSize="15sp"-->
+        <!--android:textStyle="bold"-->
+        <!--android:alpha=".68"/>-->
+
+        <TextView
+            android:id="@+id/collaboratorname"
+            android:layout_width="270dp"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/textView_ticket_number"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="25dp"
+            android:alpha=".7"
+            android:ellipsize="end"
+            android:fontFamily="@font/hintedlainesansregular"
+            android:maxLines="1"
+            android:text="Using full width cards"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/textView_client_email"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/collaboratorname"
+            android:layout_alignTop="@+id/collaboratorname"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="29dp"
+            android:alpha=".68"
+            android:ellipsize="end"
+            android:fontFamily="@font/hintedlainesansregular"
+            android:maxLines="1"
+            android:text="Matthias Robbers"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="2dp">
+
+            <RelativeLayout
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="7dp"
+                android:layout_marginTop="-2dp"
+                android:layout_toStartOf="@+id/user"
+                android:alpha=".7"
+                android:background="@drawable/rectangle3"
+                android:backgroundTint="@color/grey_200">
+
+                <TextView
+                    android:id="@+id/impact"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginEnd="4dp"
+                    android:backgroundTint="@color/grey_200"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:paddingTop="1dp"
+                    android:text="Emergency"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+
+            <ImageView
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="235dp"
+                android:layout_marginBottom="4dp"
+                android:src="@drawable/icons8newmoon24"
+                android:tint="@color/grey_500" />
+
+            <TextView
+                android:id="@+id/textViewDepartmentName"
+                android:layout_width="90dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="125dp"
+                android:layout_marginTop="0dp"
+                android:alpha=".7"
+                android:background="@drawable/rectangle3"
+                android:backgroundTint="@color/grey_200"
+                android:fontFamily="@font/hintedlainesansregular"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="Support"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+            <ImageView
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="96dp"
+                android:layout_marginBottom="4dp"
+                android:src="@drawable/icons8newmoon24"
+                android:tint="@color/grey_500" />
+
+            <RelativeLayout
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/textViewagentName"
+                android:layout_marginLeft="262dp"
+                android:layout_marginTop="-1dp"
+                android:alpha=".7"
+                android:background="@drawable/rectangle3"
+                android:backgroundTint="@color/grey_200">
+
+                <TextView
+                    android:id="@+id/statusView"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="9dp"
+                    android:layout_marginBottom="2dp"
+                    android:background="@drawable/rectangle3"
+                    android:backgroundTint="@color/grey_200"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="Open"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/collaboratorname"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="38dp"
+            android:alpha=".2"
+            android:background="@color/grey_500" />
+
+        <ImageButton
+            android:id="@+id/detach"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignBottom="@+id/collaboratorname"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="12dp"
+            android:background="@drawable/rounded_button"
+            android:src="@drawable/ic_close_black_24dp"
+            android:tint="@color/faveo" />
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

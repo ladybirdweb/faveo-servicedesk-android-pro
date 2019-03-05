@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView android:layout_width="match_parent"
+    android:layout_height="200dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
+    android:elevation="10dp"
+    app:cardCornerRadius="8dp"
+    card_view:cardElevation="4dp">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:orientation="vertical"
+        android:background="@drawable/rectanglenew"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="11dp"
+                android:padding="5dp"
+                android:text="@string/Impact"
+                android:fontFamily="@font/hintedlainesansregular"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="70dp"
+                android:layout_height="3dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/title"
+                android:layout_marginStart="10dp"
+                android:background="@color/faveo" />
+        </RelativeLayout>
+
+        <EditText
+            android:id="@+id/impactEdit"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:overScrollMode="ifContentScrolls"
+            android:cursorVisible="true"
+            android:hint="describe here"
+            android:gravity="bottom"
+            android:fontFamily="@font/hintedlainesansregular"
+            android:padding="8dp"
+            />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp">
+
+            <Button
+                android:id="@+id/btn_yes"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_gravity="left"
+                android:layout_marginEnd="19dp"
+                android:background="@drawable/rectanglereachout"
+                android:text="Save"
+                android:fontFamily="@font/hintedlainesansregular"
+                android:textAllCaps="false"
+                android:textColor="@color/colorAccent" />
+
+            <Button
+                android:id="@+id/btn_no"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_gravity="left"
+                android:layout_marginStart="21dp"
+                android:background="@drawable/rectanglereachout"
+                android:text="Exit"
+                android:fontFamily="@font/hintedlainesansregular"
+                android:textAllCaps="false"
+                android:textColor="@color/colorAccent" />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>

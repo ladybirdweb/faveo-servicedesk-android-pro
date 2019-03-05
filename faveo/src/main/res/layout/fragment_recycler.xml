@@ -1,0 +1,232 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorAccent"
+    android:orientation="vertical">
+
+    <!--<ProgressBar-->
+    <!--android:id="@+id/progress_bar"-->
+    <!--style="@style/Widget.AppCompat.ProgressBar"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="center_horizontal"-->
+    <!--android:layout_marginTop="54dp"-->
+    <!--android:visibility="gone" />-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal"
+        android:id="@+id/toolbarview"
+        android:visibility="gone"
+        >
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbarfilteration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppThemeOverlay.ActionBar"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            android:visibility="gone"
+            android:overScrollMode="always"
+            android:layout_weight="1"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/filter"
+                    android:textColor="#808080"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:gravity="center_vertical"
+                    />
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginEnd="22dp"
+                    android:background="@drawable/ic_if_filter_383135"
+                    android:foregroundGravity="clip_vertical" />
+            </RelativeLayout>
+        </android.support.v7.widget.Toolbar>
+        <View
+            android:id="@+id/separationView"
+            android:layout_width="1dp"
+            android:visibility="gone"
+            android:background="@color/faveo"
+            android:layout_height="match_parent"
+            >
+        </View>
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar2"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppThemeOverlay.ActionBar"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            android:visibility="gone"
+            android:overScrollMode="always"
+            android:layout_weight="1">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp">
+
+                <TextView
+                    android:id="@+id/toolbartextview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginTop="13dp"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:gravity="center_vertical"
+                    android:text="@string/sort_by"
+                    android:textColor="#808080"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+        </android.support.v7.widget.Toolbar>
+
+    </LinearLayout>
+    <View
+        android:id="@+id/separationview"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#DCDCDC"
+        />
+    <TextView
+        android:id="@+id/noiternet_view"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:drawableTint="@color/dark_translucent"
+        android:drawableTop="@drawable/nowifi"
+        android:text="@string/no_internet_connection"
+        android:textColor="@color/dark_translucent"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:layout_marginTop="200dp"
+        android:fontFamily="@font/hintedlainesansregular"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/empty_view"
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="200dp"
+        android:drawableTint="@color/dark_translucent"
+        android:drawableTop="@drawable/norecords"
+        android:text="@string/no_tickets"
+        android:fontFamily="@font/hintedlainesansregular"
+        android:textColor="@color/dark_translucent"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+
+
+    <!--<android.support.design.widget.AppBarLayout-->
+    <!--android:id="@+id/appBarLayout"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:elevation="4dp"-->
+    <!--android:theme="@style/AppThemeOverlay.ActionBar">-->
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:orientation="vertical">-->
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="7"
+        android:clickable="true"
+        android:padding="1dp"
+        android:visibility="visible"
+        >
+
+        <com.cooltechworks.views.shimmer.ShimmerRecyclerView
+            android:id="@+id/cardList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:demo_child_count="10"
+            android:layoutAnimation="@anim/layout_animation_fall_down"
+            app:demo_layout="@layout/card_ticket_shimmer" />
+
+
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@+id/totalcount"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/grey_500" />
+
+    <TextView
+        android:id="@+id/totalcount"
+        android:layout_width="380dp"
+        android:layout_height="50dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:fontFamily="@font/hintedlainesansregular"
+        android:gravity="center"
+        android:text="Total Count"
+        android:textColor="@color/faveo"
+        android:visibility="visible" />
+
+    <!--<RelativeLayout-->
+    <!--android:id="@+id/sort_view"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="36dp"-->
+    <!--android:layout_alignParentLeft="true"-->
+    <!--android:layout_alignParentStart="true"-->
+    <!--android:layout_alignParentTop="true"-->
+    <!--android:alpha=".6"-->
+    <!--android:background="@color/faveo"-->
+    <!--android:clickable="true"-->
+    <!--android:elevation="4dp"-->
+    <!--android:visibility="visible">-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/sorting_type_textview"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentEnd="true"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:layout_centerVertical="true"-->
+    <!--android:layout_marginRight="18dp"-->
+    <!--android:text="Sorting type"-->
+    <!--android:textColor="@color/shade_white"-->
+    <!--android:textStyle="bold" />-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentLeft="true"-->
+    <!--android:layout_alignParentStart="true"-->
+    <!--android:layout_centerVertical="true"-->
+    <!--android:layout_marginLeft="18dp"-->
+    <!--android:text="Sort"-->
+    <!--android:textColor="@color/shade_white"-->
+    <!--android:textStyle="bold" />-->
+    <!--</RelativeLayout>-->
+
+</LinearLayout>
+
+
+    <!--</LinearLayout>-->

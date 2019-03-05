@@ -1,0 +1,128 @@
+<resources>
+
+    <style name="MyMaterialTheme" parent="MyMaterialTheme.Base">
+
+    </style>
+    <style name="ToolbarColoredBackArrow" parent="AppTheme">
+        <item name="android:textColorSecondary">@color/faveo</item>
+    </style>
+    <style name="DrawerArrowStyle" parent="@style/Widget.AppCompat.DrawerArrowToggle">
+        <item name="color">@color/colorAccent</item>
+
+    </style>
+    <style name="MyMaterialTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/faveo_blue</item>
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+        <item name="actionBarTheme">@style/AppThemeOverlay.ActionBar</item>
+        <item name="android:actionButtonStyle">@style/myActionButtonStyle</item>
+        <item name="actionButtonStyle">@style/myActionButtonStyle</item>
+
+
+    </style>
+    <style name="MenuItems" parent="AppTheme">
+        <item name="android:textSize">30sp</item>
+        <item name="android:fontFamily">@font/hintedlainesansregular</item>
+    </style>
+    <style name="myActionButtonStyle" parent="Widget.AppCompat.ActionButton">
+        <item name="android:minWidth">24dp</item>
+        <item name="android:maxWidth">40dp</item>
+        <item name="android:width">40dp</item>
+    </style>
+    <style name="myToolbarTheme"  parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="colorControlNormal">@color/colorAccent</item>
+    </style>
+    <style name="AppThemes" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">#f2f2f2</item>
+        <item name="colorPrimaryDark">#f2f2f2</item>
+        <item name="colorAccent">#f2f2f2</item>
+        <item name="actionModeBackground">@color/test_color</item>
+        <item name="actionModeCloseDrawable">@drawable/ic_arrow_back_black_24dp</item>
+        <item name="android:actionButtonStyle">@style/myActionButtonStyle</item>
+        <item name="actionButtonStyle">@style/myActionButtonStyle</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+    </style>
+
+    <style name="SwitchStyle">
+        <item name="colorControlNormal">@color/blue</item>
+        <item name="colorControlActivated">@color/blue</item>
+        <item name="colorControlHighlight">@color/blue</item>
+        <item name="colorButtonNormal">@color/blue</item>
+        <item name="colorSwitchThumbNormal">@color/blue</item>
+    </style>
+
+    <style name="MyMaterialTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="actionOverflowButtonStyle">@style/MyOverflowButtonStyle</item>/>
+    </style>
+
+    <style name="MyOverflowButtonStyle" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:tint">@color/colorAccent</item>
+    </style>
+
+    <style name="MyMaterialTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+
+    <!--<style name="AppThemeOverlay.ActionBar" parent="ThemeOverlay.AppCompat.ActionBar">-->
+    <!--<item name="colorControlNormal">@color/colorAccent</item>-->
+    <!--<item name="android:textColorPrimary">@color/colorAccent</item>-->
+    <!--<item name="android:textColorSecondary">@color/colorAccent</item>-->
+    <!--<item name="windowActionModeOverlay">true</item>-->
+    <!--<item name="windowActionBar">false</item>-->
+    <!--<item name="windowNoTitle">true</item>-->
+    <!--<item name="actionModeCloseDrawable">@color/white</item>-->
+    <!--<item name="actionModeCloseButtonStyle">@style/Widget.AppCompat.ActionMode</item>-->
+    <!--</style>-->
+
+    <style name="AppThemeOverlay.ActionBarMainActivity" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="colorControlNormal">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@color/faveo</item>
+        <item name="android:textColorSecondary">@color/faveo</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="actionModeCloseDrawable">@color/white</item>
+        <item name="actionModeCloseButtonStyle">@style/Widget.AppCompat.ActionMode</item>
+        <item name="android:actionButtonStyle">@style/myActionButtonStyle</item>
+        <item name="actionButtonStyle">@style/myActionButtonStyle</item>
+    </style>
+    <style name="AppThemeOverlay.ActionBar" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="colorControlNormal">@color/faveo</item>
+        <item name="android:textColorPrimary">@color/faveo</item>
+        <item name="android:textColorSecondary">@color/faveo</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="actionModeCloseDrawable">@color/white</item>
+        <item name="android:actionButtonStyle">@style/myActionButtonStyle</item>
+        <item name="actionButtonStyle">@style/myActionButtonStyle</item>
+        <item name="actionModeCloseButtonStyle">@style/Widget.AppCompat.ActionMode</item>
+    </style>
+    <style name="AppTheme.Toolbar" parent="AppTheme">
+        <!--This line changes the color of text in Toolbar-->
+        <item name="android:textColorPrimary">@color/colorAccent</item>
+        <item name="android:background">@color/grey_200</item>
+        <!--This line changes the color of icons in toolbar (back, overflow menu icons)-->
+        <item name="android:textColorSecondary">@color/colorAccent</item>
+    </style>
+    <style name="AppThemeOverlay.ActionBar.Client" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="android:colorControlNormal">@color/white</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/white</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="actionModeCloseDrawable">@color/white</item>
+        <item name="actionModeCloseButtonStyle">@style/Widget.AppCompat.ActionMode</item>
+    </style>
+
+    <style name="MyDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+</resources>

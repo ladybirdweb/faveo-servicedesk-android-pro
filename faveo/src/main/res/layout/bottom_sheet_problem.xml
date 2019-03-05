@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="6dp"
+    android:background="@color/colorAccent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+
+    <TextView
+        android:id="@+id/heading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Problems :"
+        android:textSize="15sp"
+        android:fontFamily="@font/hintedlainesansregular"
+        android:layout_marginLeft="5dp"
+        android:textStyle="bold"
+        android:background="@color/colorAccent"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/grey_500"
+        android:alpha=".3">
+
+    </View>
+    <TextView
+        android:id="@+id/associate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/heading"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/hintedlainesansregular"
+        android:padding="5dp"
+        android:text="New problems"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/viewproblem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/deleteproblem"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/hintedlainesansregular"
+        android:padding="5dp"
+        android:text="Existing problems"
+        android:textSize="16sp" />
+
+
+</LinearLayout>

@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="6dp"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".frontend.activities.EditCustomer"
+    tools:showIn="@layout/activity_edit_customer">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:overScrollMode="never">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/windowBackground"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:background="@color/colorAccent">
+
+                <TextView
+                    android:id="@+id/usernameheader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="17dp"
+                    android:layout_marginStart="17dp"
+                    android:text="@string/user_name"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_alignTop="@+id/usernameheader"
+                    android:layout_toEndOf="@+id/usernameheader"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:src="@drawable/ic_star_black_24dp"
+                    android:text="@string/required"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/username"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:background="@android:color/transparent"
+                    android:cursorVisible="true"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:imeOptions="actionNext"
+                    android:inputType="textPersonName"
+                    android:nextFocusForward="@+id/editText_firstname"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:textSize="16sp" />
+
+
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/grey_500"
+                android:alpha=".3"></View>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:background="@color/colorAccent">
+
+                <TextView
+                    android:id="@+id/firstnameheader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="17dp"
+                    android:layout_marginStart="17dp"
+                    android:text="@string/first_name"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:textStyle="bold" />
+                <ImageView
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_alignTop="@+id/firstnameheader"
+                    android:layout_toEndOf="@+id/firstnameheader"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:src="@drawable/ic_star_black_24dp"
+                    android:text="@string/required"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true">
+
+                <EditText
+                    android:id="@+id/firstname"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:background="@android:color/transparent"
+                    android:imeOptions="actionNext"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:inputType="textPersonName"
+                    android:nextFocusForward="@+id/fname_edittext"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:textSize="16sp"
+                    />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/grey_500"
+                android:alpha=".3"></View>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:background="@color/colorAccent">
+
+                <TextView
+                    android:id="@+id/lastnameheader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="17dp"
+                    android:layout_marginStart="17dp"
+                    android:text="@string/last_name"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    />
+
+                <ImageView
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_alignTop="@+id/lastnameheader"
+                    android:layout_toEndOf="@+id/lastnameheader"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:src="@drawable/ic_star_black_24dp"
+                    android:text="@string/required"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true">
+
+                <EditText
+                    android:id="@+id/lastname"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:background="@android:color/transparent"
+                    android:imeOptions="actionNext"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:inputType="textPersonName"
+                    android:nextFocusForward="@+id/lname_edittext"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:textSize="16sp"
+                    />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/grey_500"
+                android:alpha=".3"></View>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:background="@color/colorAccent">
+
+                <TextView
+                    android:id="@+id/emailheader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="17dp"
+                    android:layout_marginStart="17dp"
+                    android:text="@string/email1"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:textStyle="bold" />
+                <ImageView
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_alignTop="@+id/emailheader"
+                    android:layout_toEndOf="@+id/emailheader"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:src="@drawable/ic_star_black_24dp"
+                    android:text="@string/required"
+                    android:textSize="12sp" />
+
+                <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentEnd="true"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_marginEnd="8dp"-->
+                <!--android:layout_marginRight="8dp"-->
+                <!--android:text="@string/required"-->
+                <!--android:textSize="12sp" />-->
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true">
+
+                <EditText
+                    android:id="@+id/email"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:background="@android:color/transparent"
+                    android:imeOptions="actionNext"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:nextFocusForward="@+id/phone_edittext"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/grey_500"
+                android:alpha=".3"></View>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:background="@color/colorAccent">
+
+                <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentEnd="true"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_marginEnd="8dp"-->
+                <!--android:layout_marginRight="8dp"-->
+                <!--android:text="Required"-->
+                <!--android:textSize="12sp" />-->
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
+                    android:text="@string/mobile"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="horizontal">
+                <com.hbb20.CountryCodePicker
+                    android:layout_width="90dp"
+                    android:layout_height="50dp"
+                    android:id="@+id/countrycoode"
+                    app:ccp_textSize="14sp"
+                    >
+
+                </com.hbb20.CountryCodePicker>
+
+                <!--<com.toptoche.searchablespinnerlibrary.SearchableSpinner-->
+                <!--android:id="@+id/spinner_code"-->
+                <!--android:layout_width="60dp"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:layout_marginLeft="16dp"-->
+                <!--android:layout_marginRight="16dp"-->
+                <!--android:background="@android:color/transparent"-->
+                <!--android:drawSelectorOnTop="true"-->
+                <!--android:entries="@array/codes"-->
+                <!--android:imeOptions="actionNext"-->
+                <!--android:textSize="14sp" />-->
+                <EditText
+                    android:id="@+id/mobile"
+                    android:layout_width="180dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:background="@android:color/transparent"
+                    android:digits="0123456789"
+                    android:imeOptions="actionNext"
+                    android:inputType="phone"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:nextFocusForward="@+id/phone_edittext10"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/forCalling"
+                    android:layout_width="30dp"
+                    android:autoLink="phone"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/formobile"
+                    android:tint="@color/faveo"
+                    />
+            </LinearLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:background="@color/colorAccent">
+
+                <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentEnd="true"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_marginEnd="8dp"-->
+                <!--android:layout_marginRight="8dp"-->
+                <!--android:text="Required"-->
+                <!--android:textSize="12sp" />-->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/grey_500"
+                    android:alpha=".3"></View>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
+                    android:text="@string/phone"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="horizontal">
+
+                <!--<com.toptoche.searchablespinnerlibrary.SearchableSpinner-->
+                <!--android:id="@+id/spinner_code"-->
+                <!--android:layout_width="60dp"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:layout_marginLeft="16dp"-->
+                <!--android:layout_marginRight="16dp"-->
+                <!--android:background="@android:color/transparent"-->
+                <!--android:drawSelectorOnTop="true"-->
+                <!--android:entries="@array/codes"-->
+                <!--android:imeOptions="actionNext"-->
+                <!--android:textSize="14sp" />-->
+                <EditText
+                    android:id="@+id/phone"
+                    android:layout_width="270dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:background="@android:color/transparent"
+                    android:digits="0123456789"
+                    android:imeOptions="actionNext"
+                    android:inputType="phone"
+                    android:fontFamily="@font/hintedlainesansregular"
+                    android:nextFocusForward="@+id/phone_edittext10"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/forCallingPhone"
+                    android:layout_width="30dp"
+                    android:autoLink="phone"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/forcall"
+                    android:tint="@color/faveo" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/grey_500"
+                android:alpha=".3"></View>
+            <Button
+                android:id="@+id/buttonSubmit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignTop="@+id/titlesave"
+                android:gravity="center"
+                android:textColor="@color/colorAccent"
+                android:text="@string/save"
+                android:background="@drawable/rectangle3"
+                android:textSize="12sp"
+                android:visibility="visible"/>
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

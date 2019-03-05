@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/colorAccent"
+    tools:context=".frontend.activities.NotificationActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:elevation="4dp"
+        android:backgroundTint="#154c66">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="?attr/colorPrimary"
+            android:backgroundTint="#154c66"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            app:theme="@style/myToolbarTheme">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textAllCaps="false"
+                android:gravity="center_vertical"
+                android:textColor="@color/colorAccent"
+                android:textSize="16sp"
+                android:fontFamily="@font/hintedlainesansregular"
+                android:textStyle="bold" />
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+
+    <include layout="@layout/content_notification" />
+
+</android.support.design.widget.CoordinatorLayout>

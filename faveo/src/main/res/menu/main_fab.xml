@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <menu xmlns:android="http://schemas.android.com/apk/res/android">
+        <item
+            android:id="@+id/fab_createTicket"
+            android:icon="@drawable/create_ticket"
+            android:title="Create Ticket"
+            />
+        <item
+            android:id="@+id/fab_createProblem"
+            android:icon="@drawable/problems"
+            android:title="Create Problem"
+            android:iconTint="@color/faveo"
+            />
+        <!--<item-->
+            <!--android:id="@+id/fab_addAsset"-->
+            <!--android:icon="@drawable/ic_add_black_24dp_colored"-->
+            <!--android:title="Add Asset"-->
+            <!--/>-->
+    </menu>
+

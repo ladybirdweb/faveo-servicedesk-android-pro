@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_view"
+    android:layout_gravity="center"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content"
+    card_view:cardCornerRadius="14dp"
+    android:elevation="10dp"
+    card_view:contentPadding="3dp"
+    >
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorAccent"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+        <LinearLayout android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/colorAccent"
+            >
+            <android.support.design.widget.AppBarLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:theme="@style/AppThemeOverlay.ActionBar">
+
+                <Toolbar
+                    android:id="@+id/toolbarCollaborator"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:background="@color/toolbarColor"
+                    app:popupTheme="@style/AppThemeOverlay.ActionBar">
+
+                    <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Create Ticket"-->
+                    <!--android:textColor="@color/faveo"-->
+                    <!--android:textSize="16sp"-->
+                    <!--android:textStyle="bold"-->
+                    <!--android:layout_marginLeft="20dp"/>-->
+
+                    <!--<Button-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="30dp"-->
+                    <!--android:layout_marginLeft="40dp"-->
+                    <!--android:text="submit"-->
+                    <!--android:background="@color/faveo"-->
+                    <!--android:id="@+id/buttonSubmit"-->
+                    <!--android:textSize="12sp"-->
+                    <!--android:textColor="#ffffff"/>-->
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize">
+
+                        <ImageView
+                            android:id="@+id/imageViewBackAddUser"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:backgroundTint="@color/colorAccent"
+                            android:background="@drawable/ic_arrow_back_black_24dp"
+                            android:visibility="gone"/>
+
+                        <TextView
+                            android:id="@+id/textviewtitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="25dp"
+                            android:layout_alignTop="@+id/imageViewBackAddUser"
+                            android:layout_marginStart="-1dp"
+                            android:layout_marginLeft="-1dp"
+                            android:layout_marginTop="21dp"
+                            android:layout_toEndOf="@+id/imageViewBackAddUser"
+                            android:layout_toRightOf="@+id/imageViewBackAddUser"
+                            android:text="@string/adduser"
+                            android:textAllCaps="true"
+                            android:fontFamily="@font/hintedlainesansregular"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <Button
+                            android:id="@+id/buttonAddUser"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_alignTop="@+id/textviewtitle"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginTop="0dp"
+                            android:layout_marginEnd="3dp"
+                            android:background="@drawable/ic_action_done"
+                            android:padding="10dp"
+                            android:backgroundTint="@color/colorAccent"
+                            android:textAllCaps="false"
+                            android:textColor="#ffffff"
+                            android:visibility="visible" />
+
+                        <Button
+                            android:id="@+id/buttonClose"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_alignTop="@+id/textviewtitle"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginTop="0dp"
+                            android:backgroundTint="@color/colorAccent"
+                            android:layout_marginEnd="29dp"
+                            android:background="@drawable/ic_close_black_24dp"
+                            android:padding="10dp"
+                            android:textAllCaps="false"
+                            android:textColor="#ffffff"
+                            android:visibility="visible" />
+
+                    </RelativeLayout>
+                </Toolbar>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/faveo">
+
+                </View>
+
+            </android.support.design.widget.AppBarLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:background="@color/colorAccent">
+
+                    <TextView
+                        android:id="@+id/requesterview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="17dp"
+                        android:layout_marginStart="17dp"
+                        android:text="@string/email"
+                        android:textSize="12sp"
+                        android:fontFamily="@font/hintedlainesansregular"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:layout_alignTop="@+id/requesterview"
+                        android:layout_toEndOf="@+id/requesterview"
+                        android:fontFamily="@font/hintedlainesansregular"
+                        android:src="@drawable/ic_star_black_24dp"
+                        android:text="@string/required"
+                        android:textSize="12sp" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/email_edittextUser"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:background="@android:color/transparent"
+                        android:cursorVisible="true"
+                        android:imeOptions="actionNext"
+                        android:fontFamily="@font/hintedlainesansregular"
+                        android:inputType="textEmailAddress"
+                        android:nextFocusForward="@+id/editText_firstname"
+                        android:textCursorDrawable="@drawable/color_cursor"
+                        android:textSize="16sp" />
+
+
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/grey_500"
+                    android:alpha=".3">
+                </View>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:background="@color/colorAccent">
+
+                    <TextView
+                        android:id="@+id/firstnameview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="17dp"
+                        android:layout_marginStart="17dp"
+                        android:text="@string/firstName"
+                        android:textSize="12sp"
+                        android:fontFamily="@font/hintedlainesansregular"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:layout_alignTop="@+id/firstnameview"
+                        android:layout_toEndOf="@+id/firstnameview"
+                        android:fontFamily="@font/hintedlainesansregular"
+                        android:src="@drawable/ic_star_black_24dp"
+                        android:text="@string/required"
+                        android:textSize="12sp" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true">
+
+                    <EditText
+                        android:id="@+id/fname_edittextUser"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:background="@android:color/transparent"
+                        android:imeOptions="actionNext"
+                        android:fontFamily="@font/hintedlainesansregular"
+                        android:inputType="textPersonName"
+                        android:nextFocusForward="@+id/lname_edittext"
+                        android:textCursorDrawable="@drawable/color_cursor"
+                        android:textSize="16sp"
+                        />
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/grey_500"
+                    android:alpha=".3">
+                </View>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:background="@color/colorAccent">
+
+                    <TextView
+                        android:id="@+id/lastnameview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="17dp"
+                        android:layout_marginStart="17dp"
+                        android:text="@string/lastName"
+                        android:textSize="12sp"
+                        android:fontFamily="@font/hintedlainesansregular"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:layout_alignTop="@+id/lastnameview"
+                        android:layout_toEndOf="@+id/lastnameview"
+                        android:fontFamily="@font/hintedlainesansregular"
+                        android:src="@drawable/ic_star_black_24dp"
+                        android:text="@string/required"
+                        android:textSize="12sp" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true">
+
+                    <EditText
+                        android:id="@+id/lastname_edittext"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:background="@android:color/transparent"
+                        android:imeOptions="actionNext"
+                        android:inputType="textPersonName"
+                        android:nextFocusForward="@+id/phone_edittextUser"
+                        android:textCursorDrawable="@drawable/color_cursor"
+                        android:textSize="16sp"
+                        />
+                </LinearLayout>
+
+                <!--<View-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="2dp"-->
+                <!--android:background="@color/grey_500">-->
+
+                <!--</View>-->
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</android.support.v7.widget.CardView>

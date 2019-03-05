@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/colorAccent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:theme="@style/AppThemeOverlay.ActionBar">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@color/toolbarColor"
+                app:popupTheme="@style/AppThemeOverlay.ActionBar">
+
+                <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Create Ticket"-->
+                <!--android:textColor="@color/faveo"-->
+                <!--android:textSize="16sp"-->
+                <!--android:textStyle="bold"-->
+                <!--android:layout_marginLeft="20dp"/>-->
+
+                <!--<Button-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="30dp"-->
+                <!--android:layout_marginLeft="40dp"-->
+                <!--android:text="submit"-->
+                <!--android:background="@color/faveo"-->
+                <!--android:id="@+id/buttonSubmit"-->
+                <!--android:textSize="12sp"-->
+                <!--android:textColor="#ffffff"/>-->
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize">
+
+                    <ImageView
+                        android:id="@+id/imageViewBack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/ic_arrow_back_black_24dp" />
+
+                    <TextView
+                        android:id="@+id/titlesave"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_alignTop="@+id/imageViewBack"
+                        android:layout_marginLeft="24dp"
+                        android:layout_marginStart="24dp"
+                         android:layout_toEndOf="@+id/imageViewBack"
+                        android:layout_toRightOf="@+id/imageViewBack"
+                        android:text="PROBLEMS"
+                        android:textAllCaps="true"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="15sp"
+                        android:fontFamily="@font/hintedlainesansregular"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/createNewProblem"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="15dp"
+                        android:background="@drawable/ic_add_black_24dp"
+                        android:backgroundTint="@color/colorAccent" />
+
+                </RelativeLayout>
+            </android.support.v7.widget.Toolbar>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/faveo">
+
+            </View>
+
+        </android.support.design.widget.AppBarLayout>
+    <TextView
+        android:id="@+id/noiternet_view"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:drawableTint="@color/dark_translucent"
+        android:drawableTop="@drawable/nowifi"
+        android:text="@string/no_internet_connection"
+        android:textColor="@color/dark_translucent"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:layout_marginTop="200dp"
+        android:fontFamily="@font/hintedlainesansregular"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/empty_view"
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="200dp"
+        android:drawableTint="@color/dark_translucent"
+        android:drawableTop="@drawable/norecords"
+        android:text="@string/no_tickets"
+        android:fontFamily="@font/hintedlainesansregular"
+        android:textColor="@color/dark_translucent"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="7"
+        android:clickable="true"
+        android:layout_marginTop="10dp"
+        >
+
+        <com.cooltechworks.views.shimmer.ShimmerRecyclerView
+            android:id="@+id/listExistingProblem"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:demo_child_count="10"
+            app:demo_layout="@layout/card_ticket_shimmer" />
+
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <!--<android.support.design.widget.FloatingActionButton-->
+        <!--android:id="@+id/fabProblem"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="bottom|end"-->
+        <!--android:layout_margin="@dimen/fab_margin"-->
+        <!--android:src="@drawable/ic_add_black_24dp"-->
+        <!--android:tint="@color/white"/>-->
+    </LinearLayout>
+
