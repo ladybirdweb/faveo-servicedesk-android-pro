@@ -51,7 +51,6 @@ import co.servicedesk.faveo.pro.CircleTransform;
 import co.servicedesk.faveo.pro.Constants;
 import co.servicedesk.faveo.pro.R;
 import co.servicedesk.faveo.pro.backend.api.v1.Helpdesk;
-import co.servicedesk.faveo.pro.databinding.ActivityClientProfileBinding;
 import co.servicedesk.faveo.pro.frontend.fragments.client.Profile;
 import co.servicedesk.faveo.pro.frontend.fragments.client.Tickets;
 import co.servicedesk.faveo.pro.frontend.receivers.InternetReceiver;
@@ -108,7 +107,6 @@ public class ClientDetailActivity extends AppCompatActivity implements
     ImageView imageViewBack;
     SpotsDialog dialog;
     FloatingActionButton floatingActionButton;
-    ActivityClientProfileBinding activityClientProfileBinding;
 
     @Override
     public void onPause() {

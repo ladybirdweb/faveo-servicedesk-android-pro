@@ -63,6 +63,7 @@
 -ignorewarnings
 -keep class * {
     public private *;
+    }
 
 
 ## ButterKnife

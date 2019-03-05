@@ -40,7 +40,6 @@ import android.widget.Toast;
 import com.github.javiersantos.bottomdialogs.BottomDialog;
 import com.gordonwong.materialsheetfab.DimOverlayFrameLayout;
 import com.pixplicity.easyprefs.library.Prefs;
-import com.squareup.haha.perflib.Main;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
