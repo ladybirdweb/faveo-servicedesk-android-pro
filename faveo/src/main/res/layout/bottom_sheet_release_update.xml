@@ -14,14 +14,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:text="Release :"
+        android:text="Update :"
         android:textSize="16sp"
-        android:background="@color/colorAccent"
-        android:paddingLeft="4dp"
         android:fontFamily="@font/hintedlainesansregular"
+        android:paddingLeft="4dp"
         android:textStyle="bold"
         android:layout_marginBottom="5dp"/>
-
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
@@ -31,27 +29,26 @@
     </View>
 
     <TextView
-        android:id="@+id/newRelease"
+        android:id="@+id/buildPlan"
         android:layout_width="368dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:fontFamily="@font/hintedlainesansregular"
         android:padding="5dp"
-        android:text="New release"
+        android:text="Build plan"
         android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/getexistingRelease"
+        android:id="@+id/testPlan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/deleteproblem"
         android:layout_centerHorizontal="true"
         android:fontFamily="@font/hintedlainesansregular"
-        android:text="Existing release"
+        android:text="Test plan"
         android:padding="5dp"
         android:textSize="16sp" />
-
 
 
 </LinearLayout>

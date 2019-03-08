@@ -9,7 +9,9 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
@@ -21,20 +23,29 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.elyeproj.loaderviewlibrary.LoaderTextView;
+import com.github.curioustechizen.ago.RelativeTimeTextView;
 import com.github.javiersantos.bottomdialogs.BottomDialog;
+import com.muddzdev.styleabletoastlibrary.StyleableToast;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,11 +56,16 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import co.servicedesk.faveo.pro.Helper;
 import co.servicedesk.faveo.pro.R;
 import co.servicedesk.faveo.pro.backend.api.v1.Helpdesk;
 import co.servicedesk.faveo.pro.frontend.fragments.change.ChangeDescription;
 import co.servicedesk.faveo.pro.frontend.fragments.change.ChangeSpecific;
 import co.servicedesk.faveo.pro.frontend.receivers.InternetReceiver;
+import co.servicedesk.faveo.pro.model.AttachedRelease;
+import co.servicedesk.faveo.pro.model.Attachedchange;
+import co.servicedesk.faveo.pro.model.ProblemModel;
+import co.servicedesk.faveo.pro.model.ReleaseModel;
 import dmax.dialog.SpotsDialog;
 import es.dmoral.toasty.Toasty;
 
@@ -69,6 +85,14 @@ public class ChangeViewPage extends AppCompatActivity implements ChangeDescripti
     String parameterName="";
     String identifier="";
     ProgressDialog progressDialog;
+    List<ReleaseModel> problemList = new ArrayList<>();
+    static String nextPageURL = "";
+    ProblemAdpter problemAdpter;
+    private boolean loading = true;
+    int pastVisibleItems, visibleItemCount, totalItemCount;
+    int releaseAvailableOrNot=2;
+    ProblemAdpterAttached problemAdpterAttached;
+    List<AttachedRelease> problemListAttached = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,6 +133,10 @@ public class ChangeViewPage extends AppCompatActivity implements ChangeDescripti
         changeTitle=intent.getStringExtra("changeTitle");
         textViewChangeID.setText("#CHN-"+changeId);
 
+        if (InternetReceiver.isConnected()){
+            new AttachedReleaseFetch(changeId).execute();
+        }
+
         bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottomMenu);
         AHBottomNavigationItem item1 = new AHBottomNavigationItem("Update", R.drawable.ic_update_black_24dp, R.color.white);
         AHBottomNavigationItem item2=new AHBottomNavigationItem("Release",R.drawable.ic_new_releases_black_24dp,R.color.white);
@@ -116,7 +144,7 @@ public class ChangeViewPage extends AppCompatActivity implements ChangeDescripti
 
 // Add items
         bottomNavigation.addItem(item1);
-        //bottomNavigation.addItem(item2);
+        bottomNavigation.addItem(item2);
         bottomNavigation.addItem(item3);
         bottomNavigation.setAccentColor(getResources().getColor(R.color.white));
         bottomNavigation.setInactiveColor(getResources().getColor(R.color.white));
@@ -147,6 +175,10 @@ public class ChangeViewPage extends AppCompatActivity implements ChangeDescripti
         }
 
 
+
+
+
+
         bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
             @Override
             public boolean onTabSelected(int position, boolean wasSelected) {
@@ -155,11 +187,18 @@ public class ChangeViewPage extends AppCompatActivity implements ChangeDescripti
                     MyBottomSheetDialogUpdate myBottomSheetDialog = new MyBottomSheetDialogUpdate(ChangeViewPage.this);
                     myBottomSheetDialog.show();
                 }
-//                if (position == 1) {
-//                    MyBottomSheetDialogRelease myBottomSheetDialog = new MyBottomSheetDialogRelease(ChangeViewPage.this);
-//                    myBottomSheetDialog.show();
-//                }
-                if (position==1){
+                if (position == 1) {
+                    if (releaseAvailableOrNot==0){
+                        MyBottomSheetDialogRelease myBottomSheetDialog = new MyBottomSheetDialogRelease(ChangeViewPage.this);
+                        myBottomSheetDialog.show();
+                    }
+                    else{
+                        MyBottomSheetDialogShowingAttachedRelease myBottomSheetDialogShowingAttachedRelease=new MyBottomSheetDialogShowingAttachedRelease(ChangeViewPage.this);
+                        myBottomSheetDialogShowingAttachedRelease.show();
+                    }
+
+                }
+                if (position==2){
                     new BottomDialog.Builder(ChangeViewPage.this)
                             .setTitle("Deleting change")
                             .setContent("Are you sure you want to delete this change?")
@@ -198,6 +237,111 @@ public class ChangeViewPage extends AppCompatActivity implements ChangeDescripti
 
 
     }
+    //API to check if there is any existing release is attached or not
+    public class AttachedReleaseFetch extends AsyncTask<String,Void,String>{
+        int changeId;
+
+        public AttachedReleaseFetch(int changeId){
+            this.changeId=changeId;
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            return new Helpdesk().attachedRelease(changeId);
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            try {
+                JSONObject jsonObject=new JSONObject(s);
+                String message=jsonObject.getString("message");
+                if (message.equals("error")){
+                    //changeAvailableOrNot=0;
+                }
+            } catch (JSONException e) {
+                releaseAvailableOrNot=0;
+                bottomNavigation.setNotification(0+"",1);
+                e.printStackTrace();
+            }
+
+
+            try{
+                JSONObject jsonObject=new JSONObject(s);
+                Log.d("jsonObject",jsonObject.toString());
+                releaseAvailableOrNot=1;
+                JSONArray jsonArray=jsonObject.getJSONArray("data");
+                JSONObject jsonObject1=jsonArray.getJSONObject(0);
+                int id=jsonObject1.getInt("id");
+                String subject=jsonObject1.getString("subject");
+                Log.d("id&subject",id+" "+subject);
+                JSONArray releaseType=jsonObject1.getJSONArray("releaseType");
+                JSONObject jsonObject2=releaseType.getJSONObject(0);
+                String typeName=jsonObject2.getString("name");
+
+                JSONArray priority=jsonObject1.getJSONArray("priority");
+                JSONObject jsonObject3=priority.getJSONObject(0);
+                String priorityName=jsonObject3.getString("name");
+                AttachedRelease attachedRelease=new AttachedRelease(id,subject,typeName,priorityName);
+                problemListAttached.add(attachedRelease);
+                bottomNavigation.setNotification(1+"",1);
+
+            }catch (JSONException e){
+                releaseAvailableOrNot=0;
+                bottomNavigation.setNotification(0+"",1);
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    //detaching release from the change
+
+    private class DetachChange extends AsyncTask<String,Void,String>{
+        int changeId;
+
+        public DetachChange(int changeId){
+            this.changeId=changeId;
+        }
+        @Override
+        protected String doInBackground(String... strings) {
+            return new Helpdesk().detachRelease(changeId);
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+
+            if (dialog1 != null && dialog1.isShowing()) {
+                dialog1.dismiss();
+            }
+
+            if (s.equals("")||s.equals(null)){
+                Toasty.error(ChangeViewPage.this, getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            try{
+                JSONObject jsonObject=new JSONObject(s);
+                String data=jsonObject.getString("data");
+                if (data.equals("Release Detached Successfully")){
+                    Toasty.success(ChangeViewPage.this,getString(R.string.release_detached),Toast.LENGTH_SHORT).show();
+                    finish();
+                    startActivity(getIntent());
+//                    Intent intent=new Intent(TicketDetailActivity.this,MainActivity.class);
+//                    startActivity(intent);
+
+                }
+
+            }catch (JSONException e){
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+
+
+
+
     private class DeleteProblem extends AsyncTask<String,Void,String>{
 
         int changeId;
@@ -232,6 +376,150 @@ public class ChangeViewPage extends AppCompatActivity implements ChangeDescripti
             }
 
         }
+    }
+
+
+    public class MyBottomSheetDialogShowingAttachedRelease extends BottomSheetDialog {
+
+        Context context;
+        TextView textViewHeading;
+        MyBottomSheetDialogShowingAttachedRelease(@NonNull Context context) {
+            super(context);
+            this.context = context;
+            createChange();
+        }
+
+        public void createChange() {
+            View bottomSheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_attached_problem, null);
+            setContentView(bottomSheetView);
+            textViewHeading=bottomSheetView.findViewById(R.id.heading);
+            textViewHeading.setText("Associated release :");
+            BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from((View) bottomSheetView.getParent());
+            BottomSheetBehavior.BottomSheetCallback bottomSheetCallback = new BottomSheetBehavior.BottomSheetCallback() {
+                @Override
+                public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                    // do something
+                }
+
+                @Override
+                public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+                    // do something
+                }
+            };
+            RecyclerView recyclerViewAttachedProblem;
+            recyclerViewAttachedProblem = (RecyclerView) bottomSheetView.findViewById(R.id.listAttached);
+            final LinearLayoutManager linearLayoutManager1= new LinearLayoutManager(ChangeViewPage.this);
+            linearLayoutManager1.setOrientation(LinearLayoutManager.VERTICAL);
+            recyclerViewAttachedProblem.setLayoutManager(linearLayoutManager1);
+            problemAdpterAttached = new ProblemAdpterAttached(ChangeViewPage.this,problemListAttached);
+            recyclerViewAttachedProblem.setAdapter(problemAdpterAttached);
+            //recyclerView.getAdapter().notifyDataSetChanged();
+            problemAdpterAttached.notifyDataSetChanged();
+
+
+        }
+
+    }
+    public class ProblemAdpterAttached extends RecyclerView.Adapter<ProblemAdpterAttached.MyViewHolder> {
+        private List<AttachedRelease> moviesList;
+        Context context;
+        public class MyViewHolder extends RecyclerView.ViewHolder {
+            public TextView email;
+            public TextView subject,impact;
+            RelativeLayout relativeLayout;
+            ImageView imageButton;
+            TextView problemIdView;
+            public MyViewHolder(View view) {
+                super(view);
+                email = (TextView) view.findViewById(R.id.textViewChangeuser);
+                subject= (TextView) view.findViewById(R.id.messageChange);
+                relativeLayout=view.findViewById(R.id.problemList);
+                imageButton=view.findViewById(R.id.textViewOptions);
+                problemIdView=view.findViewById(R.id.changeId);
+                impact=view.findViewById(R.id.priorityChange);
+
+            }
+        }
+
+        public ProblemAdpterAttached(Context context,List<AttachedRelease> moviesList) {
+            this.moviesList = moviesList;
+            this.context=context;
+        }
+
+        @Override
+        public ProblemAdpterAttached.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View itemView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.attached_release, parent, false);
+            return new ProblemAdpterAttached.MyViewHolder(itemView);
+        }
+
+        @Override
+        public void onBindViewHolder(final ProblemAdpterAttached.MyViewHolder holder, int position) {
+            final AttachedRelease movie = moviesList.get(position);
+            holder.imageButton.setImageResource(R.drawable.ic_close_black_24dp);
+            holder.problemIdView.setText("#REL-"+movie.getId());
+
+            holder.impact.setText(movie.getReleaseType());
+
+            holder.subject.setText(movie.getSubject());
+
+            holder.email.setText(movie.getPriority());
+            holder.imageButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    new BottomDialog.Builder(ChangeViewPage.this)
+                            .setTitle("Detaching release")
+                            .setContent("Are you sure you want to detach the release?")
+                            .setPositiveText("YES")
+                            .setNegativeText("NO")
+                            .setPositiveBackgroundColorResource(R.color.white)
+                            //.setPositiveBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary)
+                            .setPositiveTextColorResource(R.color.faveo)
+                            .setNegativeTextColor(R.color.black)
+                            //.setPositiveTextColor(ContextCompat.getColor(this, android.R.color.colorPrimary)
+                            .onPositive(new BottomDialog.ButtonCallback() {
+                                @Override
+                                public void onClick(BottomDialog dialog) {
+                                    if (InternetReceiver.isConnected()){
+                                        if (InternetReceiver.isConnected()){
+                                            dialog1= new SpotsDialog(ChangeViewPage.this, "Detaching Change");
+                                            dialog1.show();
+                                            new DetachChange(changeId).execute();
+
+                                        }
+                                    }
+                                }
+                            }).onNegative(new BottomDialog.ButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull BottomDialog bottomDialog) {
+                            bottomDialog.dismiss();
+                        }
+                    })
+                            .show();
+                }
+            });
+
+            holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent=new Intent(ChangeViewPage.this,ChangeViewPage.class);
+                    intent.putExtra("changeId", movie.getId());
+                    //intent.putExtra("changeTitle", changeTitle);
+                    Log.d("subject",movie.getSubject());
+                    Prefs.putString("cameFromMain","False");
+                    intent.putExtra("problemTitle",movie.getSubject());
+                    startActivity(intent);
+                }
+            });
+
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return moviesList.size();
+        }
+
     }
     public class MyBottomSheetDialogUpdate extends BottomSheetDialog {
 
@@ -329,9 +617,331 @@ public class ChangeViewPage extends AppCompatActivity implements ChangeDescripti
             newRelease=bottomSheetView.findViewById(R.id.newRelease);
             existingRelease=bottomSheetView.findViewById(R.id.getexistingRelease);
 
+            newRelease.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent=new Intent(ChangeViewPage.this,NewRelease.class);
+                    Prefs.putString("needToAttachRelease","true");
+                    Prefs.putInt("changeId",changeId);
+                    startActivity(intent);
+                }
+            });
+
+            existingRelease.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    MyBottomSheetDialogExistingReleases myBottomSheetDialogExistingReleases=new MyBottomSheetDialogExistingReleases(ChangeViewPage.this);
+                    myBottomSheetDialogExistingReleases.show();
+                }
+            });
+
 
         }
 
+    }
+
+    public class MyBottomSheetDialogExistingReleases extends BottomSheetDialog {
+
+        Context context;
+        TextView textViewTitle;
+        MyBottomSheetDialogExistingReleases(@NonNull Context context) {
+            super(context);
+            this.context = context;
+            createTickets();
+        }
+
+        public void createTickets() {
+            View bottomSheetView = getLayoutInflater().inflate(R.layout.bottom_sheetexisting_problem, null);
+            setContentView(bottomSheetView);
+            BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from((View) bottomSheetView.getParent());
+            final RecyclerView recyclerView = (RecyclerView) bottomSheetView.findViewById(R.id.recyclerViewExistingProblem);
+            textViewTitle=bottomSheetView.findViewById(R.id.title_bottom_sheet);
+            textViewTitle.setText(R.string.existing_releases);
+            final ProgressBar progressBar=bottomSheetView.findViewById(R.id.progressbarExisting);
+            progressBar.setVisibility(View.VISIBLE);
+            recyclerView.setHasFixedSize(true);
+            class FetchExistingProblem extends AsyncTask<String, Void, String> {
+
+
+                FetchExistingProblem() {
+                }
+
+                protected String doInBackground(String... urls) {
+                    return new Helpdesk().getExistingRelease();
+                }
+
+                protected void onPostExecute(String result) {
+                    String email;
+                    //dialog1.dismiss();
+                    problemList.clear();
+                    recyclerView.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.GONE);
+                    if (isCancelled()) return;
+
+                    if (result == null) {
+                        Toasty.error(ChangeViewPage.this, getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
+                        return;
+                    }
+
+                    try {
+                        JSONObject jsonObject = new JSONObject(result);
+                        nextPageURL = jsonObject.getString("next_page_url");
+                        JSONArray jsonArray=jsonObject.getJSONArray("data");
+                        for (int i=0;i<jsonArray.length();i++){
+                            JSONObject jsonObject2=jsonArray.getJSONObject(i);
+                            int id=jsonObject2.getInt("id");
+                            String subject=jsonObject2.getString("subject");
+                            String createdDate=jsonObject2.getString("updated_at");
+                            String priority=jsonObject2.getString("priority");
+                            ReleaseModel problemModel=new ReleaseModel(subject,priority,createdDate,id);
+                            problemList.add(problemModel);
+                        }
+                        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+                        final LinearLayoutManager linearLayoutManager= new LinearLayoutManager(ChangeViewPage.this);
+                        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                        recyclerView.setLayoutManager(linearLayoutManager);
+                        problemAdpter = new ProblemAdpter(ChangeViewPage.this,problemList);
+                        recyclerView.setAdapter(problemAdpter);
+                        //recyclerView.getAdapter().notifyDataSetChanged();
+
+                        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                            @Override
+                            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                                if (dy > 0) {
+                                    visibleItemCount = linearLayoutManager.getChildCount();
+                                    totalItemCount = linearLayoutManager.getItemCount();
+                                    pastVisibleItems = linearLayoutManager.findFirstVisibleItemPosition();
+                                    if (loading) {
+                                        if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
+                                            loading = false;
+                                            new FetchNextPage(ChangeViewPage.this).execute();
+                                            StyleableToast st = new StyleableToast(ChangeViewPage.this, getString(R.string.loading), Toast.LENGTH_SHORT);
+                                            st.setBackgroundColor(Color.parseColor("#3da6d7"));
+                                            st.setTextColor(Color.WHITE);
+                                            st.setIcon(R.drawable.ic_autorenew_black_24dp);
+                                            st.spinIcon();
+                                            st.setMaxAlpha();
+                                            st.show();
+
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                        problemAdpter.notifyDataSetChanged();
+
+                        //recyclerView.setHasFixedSize(false);
+
+                    } catch (JSONException e1) {
+                        e1.printStackTrace();
+                    }
+
+
+                }
+            }
+
+
+            if (InternetReceiver.isConnected()){
+                new FetchExistingProblem().execute();
+            }
+
+
+
+        }
+
+    }
+    class FetchNextPage extends AsyncTask<String, Void, String> {
+        Context context;
+
+        FetchNextPage(Context context) {
+            this.context = context;
+        }
+
+        protected String doInBackground(String... urls) {
+            String email;
+            if (nextPageURL.equals("null")) {
+                return "all done";
+            }
+            String result = new Helpdesk().nextPageURL(nextPageURL);
+            if (result == null)
+                return null;
+            try {
+                JSONObject jsonObject = new JSONObject(result);
+
+                nextPageURL = jsonObject.getString("next_page_url");
+                JSONArray jsonArray=jsonObject.getJSONArray("data");
+                for (int i=0;i<jsonArray.length();i++){
+                    JSONObject jsonObject2=jsonArray.getJSONObject(i);
+                    int id=jsonObject2.getInt("id");
+                    String subject=jsonObject2.getString("subject");
+
+                    String createdDate=jsonObject2.getString("updated_at");
+                    String priority=jsonObject2.getString("priority");
+                    ReleaseModel problemModel=new ReleaseModel(subject,priority,createdDate,id);
+                    problemList.add(problemModel);
+
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return "success";
+        }
+
+        protected void onPostExecute(String result) {
+
+            if (result == null) {
+                Toast.makeText(ChangeViewPage.this, "Something went wrong", Toast.LENGTH_LONG).show();
+                return;
+            }
+            if (result.equals("all done")) {
+                Toasty.info(context, getString(R.string.all_problem_loaded), Toast.LENGTH_SHORT).show();
+                return;
+            }
+            problemAdpter.notifyDataSetChanged();
+            loading = true;
+        }
+    }
+
+    //Adapter for existing changes
+    public class ProblemAdpter extends RecyclerView.Adapter<ProblemAdpter.MyViewHolder> {
+        private List<ReleaseModel> moviesList;
+        Context context;
+
+        public class MyViewHolder extends RecyclerView.ViewHolder {
+            public TextView email;
+            public TextView subject,changeID;
+            ImageView options;
+            RelativeTimeTextView relativeTimeTextView;
+            RelativeLayout relativeLayout;
+            public MyViewHolder(View view) {
+                super(view);
+                email = (TextView) view.findViewById(R.id.textView_client_email);
+                //relativeLayout= (RelativeLayout) view.findViewById(R.id.attachedCollaborator);
+                subject= (TextView) view.findViewById(R.id.collaboratorname);
+                options=view.findViewById(R.id.textViewOptions);
+                relativeTimeTextView=view.findViewById(R.id.textView_ticket_time);
+                relativeLayout=view.findViewById(R.id.problemList);
+                changeID=view.findViewById(R.id.problemId);
+            }
+        }
+
+        public ProblemAdpter(Context context,List<ReleaseModel> moviesList) {
+            this.moviesList = moviesList;
+            this.context=context;
+        }
+        @Override
+        public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View itemView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.listofreleases, parent, false);
+            return new ProblemAdpter.MyViewHolder(itemView);
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.M)
+        @Override
+        public void onBindViewHolder(final ProblemAdpter.MyViewHolder holder, int position) {
+            final ReleaseModel movie = moviesList.get(position);
+            holder.options.setColorFilter(getApplicationContext().getResources().getColor(R.color.faveo));
+            holder.options.setImageDrawable(getDrawable(R.drawable.addnew));
+            holder.changeID.setText("#CHN-"+movie.getId());
+
+            if (movie.getSubject().equals("")){
+                holder.subject.setVisibility(View.GONE);
+            }
+            else{
+                holder.subject.setVisibility(View.VISIBLE);
+                holder.subject.setText(movie.getSubject());
+            }
+
+            holder.relativeTimeTextView.setReferenceTime(Helper.relativeTime(movie.getCreatedDate()));
+
+
+            holder.options.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //problemId=movie.getId();
+                    new BottomDialog.Builder(context)
+                            .setTitle("Associating with change")
+                            .setContent("Are you sure you want to attach this release with the problem?")
+                            .setPositiveText("YES")
+                            .setNegativeText("NO")
+                            .setPositiveBackgroundColorResource(R.color.white)
+                            //.setPositiveBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary)
+                            .setPositiveTextColorResource(R.color.faveo)
+                            .setNegativeTextColor(R.color.black)
+                            //.setPositiveTextColor(ContextCompat.getColor(this, android.R.color.colorPrimary)
+                            .onPositive(new BottomDialog.ButtonCallback() {
+                                @Override
+                                public void onClick(BottomDialog dialog) {
+                                    if (InternetReceiver.isConnected()){
+                                        if (InternetReceiver.isConnected()){
+                                            dialog1= new SpotsDialog(context, "Associating release");
+                                            dialog1.show();
+                                            new AttachRelease(changeId,movie.getId()).execute();
+
+
+                                        }
+                                    }
+                                }
+                            }).onNegative(new BottomDialog.ButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull BottomDialog bottomDialog) {
+                            bottomDialog.dismiss();
+                        }
+                    })
+                            .show();
+                }
+            });
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return moviesList.size();
+        }
+
+    }
+
+
+    // API for attaching release with change
+    public class AttachRelease extends AsyncTask<String,Void,String>{
+
+        int changeId,releaseId;
+
+        public AttachRelease(int changeId,int releaseId){
+            this.changeId=changeId;
+            this.releaseId=releaseId;
+        }
+
+
+        @Override
+        protected String doInBackground(String... strings) {
+            return new Helpdesk().attachReleaseWithChange(changeId,releaseId);
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            dialog1.dismiss();
+            if (s.equals("")||s.equals(null)){
+                Toasty.error(ChangeViewPage.this, getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            try{
+                JSONObject jsonObject=new JSONObject(s);
+                JSONObject data=jsonObject.getJSONObject("data");
+                String success=data.getString("success");
+                if (success.equals("Release Updated Successfully.")){
+                    Toasty.success(ChangeViewPage.this,"Successfully attached to the problem",Toast.LENGTH_SHORT).show();
+                    finish();
+                    startActivity(getIntent());
+
+                }
+
+            }catch (JSONException e){
+                e.printStackTrace();
+            }
+
+        }
     }
     class CustomDialogClassReasonForChange extends Dialog implements
             android.view.View.OnClickListener {

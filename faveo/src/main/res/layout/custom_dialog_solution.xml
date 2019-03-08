@@ -33,13 +33,15 @@
                 android:textStyle="bold" />
 
             <View
-                android:layout_width="105dp"
-                android:layout_height="3dp"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
                 android:layout_below="@+id/title"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="13dp"
-                android:layout_marginTop="0dp"
-                android:background="@color/faveo" />
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:alpha=".3"
+                android:background="@color/grey_500">
+
+            </View>
         </RelativeLayout>
 
         <EditText

@@ -1883,7 +1883,7 @@ public class InboxTickets extends Fragment {
             return position;
         }
         @Override
-        public void onBindViewHolder(final TicketOverviewAdapter.TicketViewHolder ticketViewHolder, final int i) {
+        public void onBindViewHolder(@NonNull final TicketViewHolder ticketViewHolder, final int i) {
             try {
                 final TicketOverview ticketOverview = ticketOverviewList.get(i);
                 String letter = String.valueOf(ticketOverview.clientName.charAt(0)).toUpperCase();
@@ -2031,21 +2031,12 @@ public class InboxTickets extends Fragment {
                         break;
                 }
 
-//            if (checked_items.contains(id)){
-//                ticketViewHolder.ticket.setCardBackgroundColor(Color.parseColor("#d6d6d6"));
-//            }
-//            else{
-//                ticketViewHolder.ticket.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
-//            }
                 if (!ticketOverview.agentName.equals("Unassigned")) {
                     ticketViewHolder.agentAssigned.setText(ticketOverview.getAgentName());
                 } else {
                     ticketViewHolder.agentAssigned.setText("Unassigned");
                 }
                 if (checked_items.contains(id)) {
-//                AnimatorSet shrinkSet = (AnimatorSet) AnimatorInflater.loadAnimator(getActivity(), R.anim.grow_from_middle);
-//                shrinkSet.setTarget(ticketViewHolder.roundedImageViewProfilePic);
-//                shrinkSet.start();
                     ticketViewHolder.imageButtonSelected.setVisibility(View.VISIBLE);
                     ticketViewHolder.roundedImageViewProfilePic.setImageResource(R.drawable.ic_check_circle_black_24dp);
                     ticketViewHolder.ticket.setCardBackgroundColor(Color.parseColor("#ededed"));
@@ -2121,14 +2112,6 @@ public class InboxTickets extends Fragment {
                         if (mActionMode != null) {
                             onListItemSelect(i);
                         } else {
-
-                            if (ticketViewHolder.textViewduetoday.getVisibility() == View.VISIBLE) {
-
-                            } else if (ticketViewHolder.textViewOverdue.getVisibility() == View.VISIBLE) {
-
-                            } else {
-
-                            }
                             Intent intent = new Intent(v.getContext(), TicketDetailActivity.class);
                             Prefs.putString("cameFromNotification", "none");
                             Prefs.putString("ticketThread", "");
@@ -2156,7 +2139,6 @@ public class InboxTickets extends Fragment {
                         length++;
                         Log.d("noofitems", "" + length);
                         Prefs.putInt("NoOfItems", length);
-
                         return true;
                     }
                 });

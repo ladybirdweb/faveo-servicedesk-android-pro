@@ -542,6 +542,18 @@
     <string name="no_tickets">No records found!</string>
     <string name="existing_changes">Existing changes</string>
     <string name="changeSubject">The subject should be less than 50 characters.</string>
+    <string name="all_release">All releases</string>
+    <string name="new_release">New release</string>
+    <string name="release_type">Release type</string>
+    <string name="releaseType_required">please select release type</string>
+    <string name="edit_release">Edit RELEASE</string>
+    <string name="existing_releases">Existing releases</string>
+    <string name="release_detached">successfully detach the release from the change</string>
+    <string name="release_deleted">Release deleted successfully</string>
+    <string name="delete_release">Deleting release</string>
+    <string name="release_confirmation">Are you sure you want to delete the release?</string>
+    <string name="build_plan">Build plan</string>
+    <string name="test_paln">Test plan</string>
     <string-array name="CountryCodes">
 
         <item>93,AF</item>

@@ -550,21 +550,6 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
             }
         })
                 .show();
-//        if (doubleBackToExitPressedOnce) {
-//            super.onBackPressed();
-//            return;
-//        }
-//
-//        this.doubleBackToExitPressedOnce = true;
-//        Snackbar.make(findViewById(android.R.id.content), R.string.press_again_exit, Snackbar.LENGTH_SHORT).show();
-//
-//        new Handler().postDelayed(new Runnable() {
-//
-//            @Override
-//            public void run() {
-//                doubleBackToExitPressedOnce = false;
-//            }
-//        }, 2500);
     }
 
     // This method will be called when a MessageEvent is posted (in the UI thread for Toast)

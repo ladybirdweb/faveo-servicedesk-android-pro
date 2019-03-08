@@ -764,6 +764,15 @@ public class Helpdesk {
         return result;
     }
 
+    public String getExistingRelease(){
+        Log.d("getExistingRelease",Constants.URL + "servicedesk/all/releases?token="+ token);
+        String result =new HTTPConnection().hTTPResponseGet(Constants.URL + "servicedesk/all/releases?token="+ token);
+        if (result != null && result.equals("tokenRefreshed")) {
+            return new HTTPConnection().hTTPResponseGet(Constants.URL + "servicedesk/all/releases?token="+ token);
+        }
+        return result;
+    }
+
     public String createProblem(String from, String subject,
                                 int statusId, int priorityId, int impactId, int departmentId, int assignedId, String description) {
 
@@ -791,6 +800,81 @@ public class Helpdesk {
         return result;
     }
 
+    public String createRelease(String subject,String description,int statusId,int priorityId,int releaseTypeId,String startDate,String endDate){
+        Log.d("createRelease",Constants.URL + "servicedesk/release/create?token="+token+"&subject="+subject+"&description="+description
+        +"&status_id="+statusId+"&priority_id="+priorityId+"&release_type_id="+releaseTypeId+"&planned_start_date="+startDate+"&planned_end_date="+endDate);
+        String result=new HTTPConnection().hTTPResponsePost(Constants.URL + "servicedesk/release/create?token="+token+"&subject="+subject+"&description="+description
+                +"&status_id="+statusId+"&priority_id="+priorityId+"&release_type_id="+releaseTypeId+"&planned_start_date="+startDate+"&planned_end_date="+endDate,null);
+        if (result!=null&& result.equals("tokenRefreshed")){
+            return new HTTPConnection().hTTPResponsePost(Constants.URL + "servicedesk/release/create?token="+token+"&subject="+subject+"&description="+description
+                    +"&status_id="+statusId+"&priority_id="+priorityId+"&release_type_id="+releaseTypeId+"&planned_start_date="+startDate+"&planned_end_date="+endDate,null);
+        }
+        return result;
+
+    }
+
+    public String editRelease(int releaseId,String subject,String description,int statusId,int priorityId,int releaseTypeId,String startDate,String endDate){
+        Log.d("editRelease",Constants.URL + "servicedesk/release/"+releaseId+"?token="+token+"&subject="+subject+"&description="+description
+                +"&status_id="+statusId+"&priority_id="+priorityId+"&release_type_id="+releaseTypeId+"&planned_start_date="+startDate+"&planned_end_date="+endDate);
+        String result=new HTTPConnection().hTTPResponsePatch(Constants.URL + "servicedesk/release/"+releaseId+"?token="+token+"&subject="+subject+"&description="+description
+                +"&status_id="+statusId+"&priority_id="+priorityId+"&release_type_id="+releaseTypeId+"&planned_start_date="+startDate+"&planned_end_date="+endDate,null);
+        if (result!=null && result.equals("tokenRefreshed")){
+            return new HTTPConnection().hTTPResponsePatch(Constants.URL + "servicedesk/release/"+releaseId+"?token="+token+"&subject="+subject+"&description="+description
+                    +"&status_id="+statusId+"&priority_id="+priorityId+"&release_type_id="+releaseTypeId+"&planned_start_date="+startDate+"&planned_end_date="+endDate,null);
+
+        }
+        return result;
+    }
+
+    public String fetchReleaseDetail(int releaseId){
+        Log.d("fetchingRelease",Constants.URL + "servicedesk/release/editbind/"+releaseId+"?token="+token);
+        String result=new HTTPConnection().hTTPResponseGet(Constants.URL + "servicedesk/release/editbind/"+releaseId+"?token="+token);
+        if (result!=null && result.equals("tokenRefreshed")){
+            return new HTTPConnection().hTTPResponseGet(Constants.URL + "servicedesk/release/editbind/"+releaseId+"?token="+token);
+        }
+            return result;
+    }
+
+    public String attachReleaseWithChange(int changeId,int releaseId){
+        Log.d("attachReleaseWithChange",Constants.URL+"servicedesk/change/release/attach/"+changeId+"?token="+token+"&release="+releaseId);
+        String result=new HTTPConnection().hTTPResponsePost(Constants.URL+"servicedesk/change/release/attach/"+changeId+"?token="+token+"&release="+releaseId,null);
+        if (result!=null && result.equals("tokenRefreshed")){
+            return new HTTPConnection().hTTPResponsePost(Constants.URL+"servicedesk/change/release/attach/"+changeId+"?token="+token+"&release="+releaseId,null);
+
+        }
+        return result;
+    }
+
+    public String attachedRelease(int changeId){
+        Log.d("attachedRelease",Constants.URL+"servicedesk/get/attached/release/"+changeId+"?token="+token);
+        String result=new HTTPConnection().hTTPResponseGet(Constants.URL+"servicedesk/get/attached/release/"+changeId+"?token="+token);
+        if (result!=null && result.equals("tokenRefreshed")){
+            return new HTTPConnection().hTTPResponseGet(Constants.URL+"servicedesk/get/attached/release/"+changeId+"?token="+token);
+
+        }
+        return result;
+    }
+
+    public String detachRelease(int changeId){
+        Log.d("detachRelease",Constants.URL+"servicedesk/detach/release/change?token="+token+"&changeid="+changeId);
+        String result=new HTTPConnection().hTTPResponseGet(Constants.URL+"servicedesk/detach/release/change?token="+token+"&changeid="+changeId);
+        if (result!=null && result.equals("tokenRefreshed")){
+            return new HTTPConnection().hTTPResponseGet(Constants.URL+"servicedesk/detach/release/change?token="+token+"&changeid="+changeId);
+        }
+        return result;
+    }
+
+    public String newReleaseWithChange(int changeId,String subject,String description,int statusId,int priorityId,int releaseTypeId,String startDate,String endDate){
+        Log.d("newReleaseWithChange",Constants.URL+ "servicedesk/change/release/"+changeId+"?token="+token+"&subject="+subject+"&description="+description
+                +"&status_id="+statusId+"&priority_id="+priorityId+"&release_type_id="+releaseTypeId+"&planned_start_date="+startDate+"&planned_end_date="+endDate);
+        String result=new HTTPConnection().hTTPResponsePost(Constants.URL+ "servicedesk/change/release/"+changeId+"?token="+token+"&subject="+subject+"&description="+description
+                +"&status_id="+statusId+"&priority_id="+priorityId+"&release_type_id="+releaseTypeId+"&planned_start_date="+startDate+"&planned_end_date="+endDate,null);
+        if (result!=null && result.equals("tokenRefreshed")){
+            return new HTTPConnection().hTTPResponsePost(Constants.URL+ "servicedesk/change/release/"+changeId+"?token="+token+"&subject="+subject+"&description="+description
+                    +"&status_id="+statusId+"&priority_id="+priorityId+"&release_type_id="+releaseTypeId+"&planned_start_date="+startDate+"&planned_end_date="+endDate,null);
+        }
+        return result;
+    }
 
     public String fetchProblemDetail(int problemId) {
         Log.d("fetchProblemDetail", Constants.URL + "servicedesk/problem/editbind/" + problemId + "?token=" + token);
@@ -850,6 +934,24 @@ public class Helpdesk {
         return result;
     }
 
+    public String deleteRelease(int releaseId){
+        Log.d("deleteRelease",Constants.URL + "servicedesk/release/delete/"+releaseId+"?token="+token);
+        String result=new HTTPConnection().hTTPResponseGet(Constants.URL + "servicedesk/release/delete/"+releaseId+"?token="+token);
+        if (result!=null && result.equals("tokenRefreshed")){
+            return new HTTPConnection().hTTPResponseGet(Constants.URL + "servicedesk/release/delete/"+releaseId+"?token="+token);
+        }
+        return result;
+    }
+
+    public String getReleaseDetails(int releaseId){
+        Log.d("getReleaseDetails",Constants.URL + "servicedesk/release/editbind/"+ releaseId+"?token="+token);
+        String result=new HTTPConnection().hTTPResponseGet(Constants.URL + "servicedesk/release/editbind/"+ releaseId+"?token="+token);
+        if (result!=null && result.equals("tokenRefreshed")){
+            return new HTTPConnection().hTTPResponseGet(Constants.URL + "servicedesk/release/editbind/"+ releaseId+"?token="+token);
+        }
+        return result;
+    }
+
     public String deleteChange(int changeId){
         Log.d("changeProblem",Constants.URL + "servicedesk/change/delete/" + changeId +"?token="+token);
         String result = new HTTPConnection().hTTPResponseGet(Constants.URL + "servicedesk/change/delete/" + changeId + "?token=" + token);
@@ -880,6 +982,8 @@ public class Helpdesk {
         }
         return result;
     }
+
+
 
     public String attachedProblem(int ticketId) {
         Log.d("attachedProblem", Constants.URL + "servicedesk/attached/problem/details/" + ticketId + "?token=" + token);

@@ -61,9 +61,11 @@ import co.servicedesk.faveo.pro.frontend.activities.CreateChange;
 import co.servicedesk.faveo.pro.frontend.activities.CreateTicketActivity;
 import co.servicedesk.faveo.pro.frontend.activities.ExistingChanges;
 import co.servicedesk.faveo.pro.frontend.activities.ExistingProblems;
+import co.servicedesk.faveo.pro.frontend.activities.ExistingReleases;
 import co.servicedesk.faveo.pro.frontend.activities.LoginActivity;
 import co.servicedesk.faveo.pro.frontend.activities.MainActivity;
 import co.servicedesk.faveo.pro.frontend.activities.NewProblem;
+import co.servicedesk.faveo.pro.frontend.activities.NewRelease;
 import co.servicedesk.faveo.pro.frontend.activities.SettingsActivity;
 import co.servicedesk.faveo.pro.frontend.adapters.DrawerItemCustomAdapter;
 import co.servicedesk.faveo.pro.frontend.adapters.ProblemListAdapter;
@@ -95,7 +97,7 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
     View layout;
     Context context;
     DataModel[] drawerItem;
-    ServicedeskModule[] servicedeskModulesProblem,servicedeskModulesChanges;
+    ServicedeskModule[] servicedeskModulesProblem,servicedeskModulesChanges,servicedeskModulesRelease;
     DrawerItemCustomAdapter drawerItemCustomAdapter;
     ConfirmationDialog confirmationDialog;
     //int count=0;
@@ -125,13 +127,10 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
     ListView listView;
     @BindView(R.id.ticket_list)
     LinearLayout ticketList;
-    ListView listViewProblem;
-    ListView listViewChanges;
-    ListView listViewChange;
-    LinearLayout linearLayoutChange;
-    LinearLayout linearLayoutProblem;
-    View viewProblem,viewChange;
-    ProblemListAdapter problemListAdapter,changeListAdapter;
+    ListView listViewProblem,listViewChange,listViewRelease;
+    LinearLayout linearLayoutChange,linearLayoutProblem,linearLayoutRelease;
+    View viewProblem,viewChange,viewRelease;
+    ProblemListAdapter problemListAdapter,changeListAdapter,releaseListAdapter;
 
 
     public FragmentDrawer() {
@@ -167,11 +166,13 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
         listView= (ListView) layout.findViewById(R.id.listviewNavigation);
         listViewProblem=layout.findViewById(R.id.listviewProblems);
         listViewChange=layout.findViewById(R.id.listviewchange);
+        listViewRelease=layout.findViewById(R.id.listview_release);
         linearLayoutChange=layout.findViewById(R.id.change);
         linearLayoutProblem=layout.findViewById(R.id.problems);
+        linearLayoutRelease=layout.findViewById(R.id.release);
         viewProblem=layout.findViewById(R.id.problemView);
         viewChange=layout.findViewById(R.id.changeView);
-        //listViewChange=layout.findViewById(R.id.listviewChanges);
+        viewRelease=layout.findViewById(R.id.releaseView);
         layout.findViewById(R.id.create_ticket).setOnClickListener(this);
         layout.findViewById(R.id.client_list).setOnClickListener(this);
         layout.findViewById(R.id.settings).setOnClickListener(this);
@@ -182,12 +183,19 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
         drawerItem = new DataModel[5];
         servicedeskModulesProblem=new ServicedeskModule[2];
         servicedeskModulesChanges=new ServicedeskModule[2];
+        servicedeskModulesRelease=new ServicedeskModule[2];
+
         servicedeskModulesProblem[0]=new ServicedeskModule(R.drawable.circle_name,getString(R.string.all_prob));
         servicedeskModulesProblem[1]=new ServicedeskModule(R.drawable.circle_name,getString(R.string.new_prob));
         servicedeskModulesChanges[0]=new ServicedeskModule(R.drawable.circle_name,getString(R.string.all_change));
         servicedeskModulesChanges[1]=new ServicedeskModule(R.drawable.circle_name,getString(R.string.new_change));
+        servicedeskModulesRelease[0]=new ServicedeskModule(R.drawable.circle_name,getString(R.string.all_release));
+        servicedeskModulesRelease[1]=new ServicedeskModule(R.drawable.circle_name,getString(R.string.new_release));
         problemListAdapter =new ProblemListAdapter(getActivity(),R.layout.list_servicedesk_row,servicedeskModulesProblem);
         changeListAdapter=new ProblemListAdapter(getActivity(),R.layout.list_servicedesk_row,servicedeskModulesChanges);
+        releaseListAdapter=new ProblemListAdapter(getActivity(),R.layout.list_servicedesk_row,servicedeskModulesRelease);
+        listViewRelease.setAdapter(releaseListAdapter);
+        releaseListAdapter.notifyDataSetChanged();
         listViewChange.setAdapter(changeListAdapter);
         changeListAdapter.notifyDataSetChanged();
         listViewProblem.setAdapter(problemListAdapter);
@@ -216,6 +224,7 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
         //UIUtils.setListViewHeightBasedOnItems(listView);
         UiUtilsServicedesk.setListViewHeightBasedOnItems(listViewProblem);
         UiUtilsServicedesk.setListViewHeightBasedOnItems(listViewChange);
+        UiUtilsServicedesk.setListViewHeightBasedOnItems(listViewRelease);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -312,6 +321,17 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
             }
         });
 
+        linearLayoutRelease.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (listViewRelease.getVisibility()==View.VISIBLE){
+                    listViewRelease.setVisibility(View.GONE);
+                }else{
+                    listViewRelease.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
         linearLayoutChange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -324,6 +344,8 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
             }
         });
 
+
+
         listViewChange.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -335,6 +357,21 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
                     Intent intent1=new Intent(getContext(), CreateChange.class);
                     Prefs.putString("needToAttachChange","false");
                     startActivity(intent1);
+                }
+            }
+        });
+
+        listViewRelease.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i==0){
+                    Intent intent1=new Intent(getContext(), ExistingReleases.class);
+                    startActivity(intent1);
+                }else{
+                    Intent intent=new Intent(getContext(),NewRelease.class);
+                    Prefs.putString("needToAttachRelease","false");
+                    startActivity(intent);
+
                 }
             }
         });
@@ -386,14 +423,18 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
         if (Prefs.getString("activated",null).equals("True")){
             viewProblem.setVisibility(View.VISIBLE);
             viewChange.setVisibility(View.VISIBLE);
+            viewRelease.setVisibility(View.VISIBLE);
             linearLayoutProblem.setVisibility(View.VISIBLE);
             linearLayoutChange.setVisibility(View.VISIBLE);
+            linearLayoutRelease.setVisibility(View.VISIBLE);
 
         }else{
             viewProblem.setVisibility(View.GONE);
             viewChange.setVisibility(View.GONE);
+            viewRelease.setVisibility(View.GONE);
             linearLayoutProblem.setVisibility(View.GONE);
             linearLayoutChange.setVisibility(View.GONE);
+            linearLayoutRelease.setVisibility(View.GONE);
         }
     }
 
@@ -876,6 +917,14 @@ public class FragmentDrawer extends Fragment implements View.OnClickListener {
                 }
                 else{
                     listViewChange.setVisibility(View.VISIBLE);
+                }
+                break;
+
+            case R.id.release:
+                if (listViewRelease.getVisibility()==View.VISIBLE){
+                    listViewRelease.setVisibility(View.GONE);
+                }else{
+                    listViewRelease.setVisibility(View.VISIBLE);
                 }
                 break;
             case R.id.about:
