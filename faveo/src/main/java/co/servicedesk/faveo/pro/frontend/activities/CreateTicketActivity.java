@@ -1569,6 +1569,7 @@ public class CreateTicketActivity extends AppCompatActivity implements Permissio
                                                     String uploadId = UUID.randomUUID().toString();
                                                     new MultipartUploadRequest(CreateTicketActivity.this, uploadId, Constants.URL + "helpdesk/create?token=" + token)
                                                             .addFileToUpload(path, "media_attachment[]")
+
                                                             //Adding file
                                                             //.addParameter("token", token1)
                                                             //.addParameter("token",token)

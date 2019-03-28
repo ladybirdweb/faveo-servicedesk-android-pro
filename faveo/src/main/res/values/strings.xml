@@ -554,6 +554,8 @@
     <string name="release_confirmation">Are you sure you want to delete the release?</string>
     <string name="build_plan">Build plan</string>
     <string name="test_paln">Test plan</string>
+    <string name="editing_release">Editing release</string>
+    <string name="editing_release_confirmation">Are you sure you want to edit the release?</string>
     <string-array name="CountryCodes">
 
         <item>93,AF</item>

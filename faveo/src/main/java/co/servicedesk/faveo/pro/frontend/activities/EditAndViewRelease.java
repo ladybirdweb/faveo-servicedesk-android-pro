@@ -225,8 +225,8 @@ public class EditAndViewRelease extends AppCompatActivity {
                         final String finalSubjec2 = subjec;
                         final String finalDescrition1 = descrition;
                         new BottomDialog.Builder(EditAndViewRelease.this)
-                                .setTitle("Editing change")
-                                .setContent("Are you sure you want to edit the change?")
+                                .setTitle(R.string.editing_release)
+                                .setContent(R.string.editing_release_confirmation)
                                 .setPositiveText("YES")
                                 .setNegativeText("NO")
                                 .setPositiveBackgroundColorResource(R.color.white)
@@ -290,8 +290,8 @@ public class EditAndViewRelease extends AppCompatActivity {
                             final String finalSubjec1 = subjec;
                             final String finalDescrition1 = descrition;
                             new BottomDialog.Builder(EditAndViewRelease.this)
-                                    .setTitle("Editing change")
-                                    .setContent("Are you sure you want to edit the change?")
+                                    .setTitle(R.string.editing_release)
+                                    .setContent(R.string.editing_release_confirmation)
                                     .setPositiveText("YES")
                                     .setNegativeText("NO")
                                     .setPositiveBackgroundColorResource(R.color.white)

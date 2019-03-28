@@ -64,7 +64,7 @@
 
                 <com.elyeproj.loaderviewlibrary.LoaderTextView
                     android:id="@+id/title"
-                    android:layout_width="wrap_content"
+                    android:layout_width="350dp"
                     android:layout_height="25dp"
                     android:layout_alignStart="@+id/status"
                     android:layout_alignParentBottom="true"

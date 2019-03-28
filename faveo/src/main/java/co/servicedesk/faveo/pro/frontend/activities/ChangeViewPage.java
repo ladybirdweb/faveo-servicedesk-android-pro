@@ -502,12 +502,9 @@ public class ChangeViewPage extends AppCompatActivity implements ChangeDescripti
             holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent=new Intent(ChangeViewPage.this,ChangeViewPage.class);
-                    intent.putExtra("changeId", movie.getId());
-                    //intent.putExtra("changeTitle", changeTitle);
-                    Log.d("subject",movie.getSubject());
+                    Intent intent=new Intent(ChangeViewPage.this,ReleaseViewPage.class);
+                    intent.putExtra("releaseId", movie.getId());
                     Prefs.putString("cameFromMain","False");
-                    intent.putExtra("problemTitle",movie.getSubject());
                     startActivity(intent);
                 }
             });
